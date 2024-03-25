@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "mpu-9255.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
