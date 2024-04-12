@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "lptim.h"
 #include "spi.h"
 #include "usart.h"
 #include "gpio.h"
@@ -88,7 +89,13 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_SPI1_Init();
+  MX_LPTIM2_Init();
   /* USER CODE BEGIN 2 */
+
+  // Start LPTIM2 timer interrupt at 512 Hz and check for errors
+  if ( HAL_LPTIM_Counter_Start_IT( &hlptim2, 0x3F ) != HAL_OK )
+  	  Error_Handler();
+
 
   /* USER CODE END 2 */
 
