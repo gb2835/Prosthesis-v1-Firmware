@@ -205,7 +205,7 @@ void LPTIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN LPTIM2_IRQn 0 */
 
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
+	HAL_GPIO_TogglePin(Oscope_GPIO_Port, Oscope_Pin);
 
 
   /* USER CODE END LPTIM2_IRQn 0 */
