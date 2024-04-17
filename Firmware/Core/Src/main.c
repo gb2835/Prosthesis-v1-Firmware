@@ -26,6 +26,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "mcp25625.h"
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,6 +93,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   MX_LPTIM2_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
   // Start LPTIM2 timer interrupt at 512 Hz and check for errors
