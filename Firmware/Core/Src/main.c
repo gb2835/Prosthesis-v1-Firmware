@@ -127,6 +127,7 @@ int main(void)
   // Remove spikes from beginning (can we lose this??)
   for ( int jj = 1; jj < 1000; ++jj );
 
+  // Command motor to 10 N*m
   EPOS4_CST_apply_torque(CAN_ID,100);
 
 

@@ -41,20 +41,18 @@ void mcp25625_reset()
 	// Transmit message
 	setChipSelect();										// Enable CS pin
 	HAL_SPI_Transmit( &hspi2, &data, 1, HAL_MAX_DELAY );	// Transmit message
-//	LL_SPI_TransmitData8(SPI2, CMD_RESET);
-//	*((__IO uint8_t *)&hspi2.Instance->DR) = CMD_RESET;
-//    hspi2.Instance->DR = CMD_RESET;
 	while ((SPI2->SR & SPI_SR_BSY)); 						// Wait for status register to not be busy
 	clearChipSelect();										// Disable CS pin
 
-//	// clear receive fifo
-//	while ((SPI2->SR & SPI_SR_FRLVL)) {
-//		uint8_t dummy = SPI2->DR; 			// clear rx fifo from the receives.
-//		(void)dummy;						// suppress unused variable warning
-//	}
-//
-//	// reset requires a delay of 128 OSC1 clock cycles. That equals 12.8us.
-//	delay_us(50);
+	// clear receive fifo
+	while ((SPI2->SR & SPI_SR_FRLVL))
+	{
+		uint8_t dummy = SPI2->DR; 			// clear rx fifo from the receives.
+		(void)dummy;						// suppress unused variable warning
+	}
+
+	// reset requires a delay of 128 OSC1 clock cycles. That equals 12.8us.
+	delay_us(50);
 }
 
 /*
@@ -115,7 +113,6 @@ uint8_t mcp25625_readRegister (uint8_t reg)
 
 void mcp25625_loadTXB ( uint8_t reg, uint8_t length, uint8_t * data )
 {
-
 	setChipSelect();
 
 	HAL_SPI_Transmit( &hspi2, &reg, 1, HAL_MAX_DELAY );
