@@ -1,3 +1,4 @@
+"./Core/Src/EPOS4.o"
 "./Core/Src/gpio.o"
 "./Core/Src/lptim.o"
 "./Core/Src/main.o"

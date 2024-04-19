@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "mcp25625.h"
+#include "EPOS4.h"
 
 
 /* USER CODE END Includes */
@@ -38,6 +39,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+int CAN_ID = 0x601;	// Node ID for EPOS4
+#define Period 0x3F		// Period for LPTIM2
+
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -54,7 +60,16 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+// Can we lose this??
+static void delay_us(uint32_t us)
+{
+    uint32_t i,k;
+    for(k=0;k<us;k++)
+    {
+    	for(i=0;i<11;i++)
+         __NOP();  // Timed at 48 MHz clock
+    }
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -97,8 +112,22 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // Start LPTIM2 timer interrupt at 512 Hz and check for errors
-  if ( HAL_LPTIM_Counter_Start_IT( &hlptim2, 0x3F ) != HAL_OK )
+  if ( HAL_LPTIM_Counter_Start_IT( &hlptim2, 0x3F ) != HAL_OK )		// Timer frequency = Clock_Freq * Prescaler / Period
   	  Error_Handler();
+
+  // Configure devices for motor control
+  CAN_configure();							// Configure MCP25625
+  EPOS4_enable(CAN_ID);						// Enable EPOS4
+  EPOS4_set_operation_mode(CAN_ID, 0x0A);	// Set EPOS4 to torque mode
+  EPOS4_clear_errors(CAN_ID);				// Clear errors from EPOS4??
+  delay_us(1500);
+//  HAL_Delay(2);								// Can we lose this??
+  EPOS4_enable(CAN_ID);						// Why is this enabled again??
+
+  // Remove spikes from beginning (can we lose this??)
+  for ( int jj = 1; jj < 1000; ++jj );
+
+  EPOS4_CST_apply_torque(CAN_ID,100);
 
 
   /* USER CODE END 2 */

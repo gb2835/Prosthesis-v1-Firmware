@@ -8,8 +8,14 @@
 #ifndef INC_MCP25625_H_
 #define INC_MCP25625_H_
 
-#include "main.h"
-#include "stdlib.h"
+#include "stm32l4xx_hal.h"
+#include "string.h"					// Can we lose this??
+#include "spi.h"					// Can we lose this??
+//#include "main.h"
+//#include "stdlib.h"
+//#include "stm32l4xx_hal_spi.h"
+//#include "stm32l476xx.h"
+//#include "stdbool.h"
 
 #pragma pack(push, 1)
 
@@ -267,13 +273,13 @@ typedef struct {
 #define TXBCTRL_TXREQ				0x0B
 #define RXB0CTRL					0x60
 #define RXB1CTRL					0x70
-#define CNF3						0x28
-#define CNF2						0x29
-#define CNF1						0x2A
+#define CNF3						0x28	// Configuration 3
+#define CNF2						0x29	// Configuration 2
+#define CNF1						0x2A	// Configuration 1
 #define CANINTE						0x2B
 #define CANINTF						0x2C
 #define CANSTAT						0x0E
-#define CANCTRL						0x0F
+#define CANCTRL						0x0F	// CAN control
 
 
 void CAN_transmit(uint16_t CAN_ID, uint8_t length, uint8_t * message);
