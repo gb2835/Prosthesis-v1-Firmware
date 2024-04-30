@@ -9,50 +9,29 @@
 
 static mcp25625_t can_tranceiver;
 
-// Can we lose this??
-static void delay_us (uint32_t us)
-{
-    uint32_t i,k;
-    for(k=0;k<us;k++)
-    {
-    	for(i=0;i<11;i++)
-         __NOP();  // Timed at 48 MHz clock
-    }
-}
-
-// ??
-__STATIC_INLINE void LL_SPI_TransmitData8 ( SPI_TypeDef *SPIx, uint8_t TxData ) {
-  *((__IO uint8_t *)&SPIx->DR) = TxData; }
-
 // Disable CS pin (active low)
 __STATIC_INLINE void clearChipSelect() {
-	HAL_GPIO_WritePin( SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_SET ); }
+	LL_GPIO_SetOutputPin(SPI2_CS_GPIO_Port, SPI2_CS_Pin); }
 
 // Enable CS pin (active low)
 __STATIC_INLINE void setChipSelect() {
-	HAL_GPIO_WritePin( SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_RESET ); }
+	LL_GPIO_ResetOutputPin(SPI2_CS_GPIO_Port, SPI2_CS_Pin);}
 
 //
 void mcp25625_reset()
 {
-	// Declare variables
-	uint8_t data = CMD_RESET;
+	// Transmit reset command
+	setChipSelect();							// Enable CS pin
+	LL_SPI_TransmitData8( SPI2, CMD_RESET );	// Send reset command
+	while ( (SPI2->SR & SPI_SR_BSY) );			// Wait for status register to not be busy
+	clearChipSelect();							// Disable CS pin
 
-	// Transmit message
-	setChipSelect();										// Enable CS pin
-	HAL_SPI_Transmit( &hspi2, &data, 1, HAL_MAX_DELAY );	// Transmit message
-	while ((SPI2->SR & SPI_SR_BSY)); 						// Wait for status register to not be busy
-	clearChipSelect();										// Disable CS pin
-
-	// clear receive fifo
-	while ((SPI2->SR & SPI_SR_FRLVL))
+	// Clear Rx FIFO
+	while ( (SPI2->SR & SPI_SR_FRLVL) )		// Check status register for data in Rx
 	{
-		uint8_t dummy = SPI2->DR; 			// clear rx fifo from the receives.
-		(void)dummy;						// suppress unused variable warning
+		uint8_t dummy = SPI2->DR;			// Clear Rx FIFO from the receives
+		(void)dummy;						// Suppress unused variable warning
 	}
-
-	// reset requires a delay of 128 OSC1 clock cycles. That equals 12.8us.
-	delay_us(50);
 }
 
 /*
@@ -60,27 +39,20 @@ void mcp25625_reset()
  */
 void mcp25625_writeRegister ( uint8_t reg, uint8_t value )
 {
-	// Declare variables
-	uint8_t data = CMD_WRITE;
+	// Transmit value to register
+	setChipSelect();						// Enable CS
+	LL_SPI_TransmitData8(SPI2, CMD_WRITE);	// Send write command
+	LL_SPI_TransmitData8(SPI2, reg);		// Send register to write to
+	LL_SPI_TransmitData8(SPI2, value);		// Transmit value to register
+	while ( (SPI2->SR & SPI_SR_FTLVL) );	// Wait for Tx FIFO to be empty
+	while ( (SPI2->SR & SPI_SR_BSY) ); 		// Wait for Tx FIFO to not be busy
+	clearChipSelect();						// Disable CS
 
-	//
-	setChipSelect();
-
-	// 4 byte fifo, so this can all go through in one shot
-	HAL_SPI_Transmit( &hspi2, &data, 1, HAL_MAX_DELAY );
-	HAL_SPI_Transmit( &hspi2, &reg, 1, HAL_MAX_DELAY );
-	HAL_SPI_Transmit( &hspi2, &value, 1, HAL_MAX_DELAY );
-
-	// wait for completion
-	while ( (SPI2->SR & SPI_SR_FTLVL) );	// transmit fifo empty?
-	while ( (SPI2->SR & SPI_SR_BSY) ); 		// no longer busy
-	clearChipSelect();
-
-	// clear receive fifo
-	while ( (SPI2->SR & SPI_SR_FRLVL) )
+	// Clear Rx FIFO
+	while ( (SPI2->SR & SPI_SR_FRLVL) )		// Check status register for data in Rx
 	{
-		uint8_t dummy = SPI2->DR; 			// clear rx fifo from the receives.
-		(void)dummy;						// suppress unused variable warning
+		uint8_t dummy = SPI2->DR;			// Clear Rx FIFO from the receives
+		(void)dummy;						// Suppress unused variable warning
 	}
 }
 
@@ -89,25 +61,20 @@ void mcp25625_writeRegister ( uint8_t reg, uint8_t value )
  */
 uint8_t mcp25625_readRegister (uint8_t reg)
 {
-	uint8_t data   = CMD_READ;
-	uint8_t result = 0;
-	setChipSelect();
+	// Read register
+	setChipSelect();						// Enable CS
+	LL_SPI_TransmitData8(SPI2, CMD_READ);	// Send read command
+	LL_SPI_TransmitData8(SPI2, reg);		// Send register to read from
+	LL_SPI_TransmitData8(SPI2, 0x00);		// ??
+	while ( (SPI2->SR & SPI_SR_FTLVL) );	// Wait for Tx FIFO to be empty
+	while ( (SPI2->SR & SPI_SR_BSY) ); 		// Wait for Tx FIFO to not be busy
+	uint8_t dummy  = SPI2->DR; 				// First byte is from CMD transfer
+	dummy          = SPI2->DR;				// Second byte is from address
+	uint8_t result = SPI2->DR;				// Actual result value
+	clearChipSelect();						// Disable CS
+	(void)dummy;							// Suppress unused variable warning
 
-	// 4 byte fifo, so this can all go through in one shot
-	HAL_SPI_Transmit( &hspi2, &data, 1, HAL_MAX_DELAY );
-	HAL_SPI_Transmit( &hspi2, &reg, 1, HAL_MAX_DELAY );
-	HAL_SPI_Transmit( &hspi2, 0x00, 1, HAL_MAX_DELAY );	// dummy value to transfer the response
-
-	// wait for completion
-	while ( (SPI2->SR & SPI_SR_FTLVL) ); 	//transmit fifo empty?
-	while ( (SPI2->SR & SPI_SR_BSY) ); 		// no longer busy
-	uint8_t dummy = SPI2->DR; 				// first byte is from cmd transfer
-	dummy         = SPI2->DR;				// second byte is from address
-	result        = SPI2->DR;				// actual result value
-
-	clearChipSelect();
-
-	(void)dummy;						// suppress unused variable warning
+	// Return
 	return result;
 }
 
@@ -115,11 +82,11 @@ void mcp25625_loadTXB ( uint8_t reg, uint8_t length, uint8_t * data )
 {
 	setChipSelect();
 
-	HAL_SPI_Transmit( &hspi2, &reg, 1, HAL_MAX_DELAY );
+	LL_SPI_TransmitData8(SPI2, reg);
 	for ( uint8_t i = 0; i < length; i++)
 	{
 		while ( !(SPI2->SR & SPI_SR_TXE) );
-		HAL_SPI_Transmit( &hspi2, &data[i], 1, HAL_MAX_DELAY );
+		LL_SPI_TransmitData8(SPI2, data[i]);
 	}
 
 	// wait for completion

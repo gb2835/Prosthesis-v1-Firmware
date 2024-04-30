@@ -55,7 +55,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern LPTIM_HandleTypeDef hlptim2;
+
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -185,7 +185,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
+
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -205,11 +205,14 @@ void LPTIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN LPTIM2_IRQn 0 */
 
-	HAL_GPIO_TogglePin(Oscope_GPIO_Port, Oscope_Pin);
+	// Wait for auto reload match to occur
+	if(LL_LPTIM_IsActiveFlag_ARRM(LPTIM2) == 1)
+	{
+		LL_LPTIM_ClearFLAG_ARRM(LPTIM2);    		// Clear ARR interrupt flag
+	}
 
 
   /* USER CODE END LPTIM2_IRQn 0 */
-  HAL_LPTIM_IRQHandler(&hlptim2);
   /* USER CODE BEGIN LPTIM2_IRQn 1 */
 
   /* USER CODE END LPTIM2_IRQn 1 */

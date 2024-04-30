@@ -8,14 +8,8 @@
 #ifndef INC_MCP25625_H_
 #define INC_MCP25625_H_
 
-#include "stm32l4xx_hal.h"
-#include "string.h"					// Can we lose this??
-#include "spi.h"					// Can we lose this??
-//#include "main.h"
-//#include "stdlib.h"
-//#include "stm32l4xx_hal_spi.h"
-//#include "stm32l476xx.h"
-//#include "stdbool.h"
+#include "string.h"		// Can we lose this??
+#include "spi.h"		// Can we lose this??
 
 #pragma pack(push, 1)
 
@@ -23,12 +17,12 @@ typedef union {
 	uint8_t value;
 	struct {
 		uint8_t unused :1;
-		uint8_t ABTF :1; // message abort flag
+		uint8_t ABTF :1; 	// message abort flag
 		uint8_t MLOA :1; // message lost arbitration
 		uint8_t TXERR :1; // transmission error detected
 		uint8_t TXREQ :1; // message transmit request
 		uint8_t unused1 :1;
-		uint8_t TXP :2;	// transmit buffer priority
+		uint8_t TXP :2;			// transmit buffer priority
 	} bits;
 } txb_ctrl_t;
 

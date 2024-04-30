@@ -1,20 +1,23 @@
 /* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+
+/*******************************************************************************
+ *
+ * TITLE  : Prosthesis Knee Control
+ * AUTHOR : Greg Berkeley
+ * RELEASE: XX/XX/XXXX
+ *
+ * NOTES:
+ * 1. The below lines can be used to measure PB11 on oscilloscope:
+ *     - LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
+ *     - LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
+ *     - LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
+ *
+ * ABSTRACT:
+ * The below code XXX.
+ *
+ ******************************************************************************/
+
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -26,9 +29,15 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+/*******************************************************************************
+ * INCLUDES
+ ******************************************************************************/
+
 #include "EPOS4.h"
 #include "mcp25625.h"
 
+
+/******************************************************************************/
 
 /* USER CODE END Includes */
 
@@ -40,9 +49,15 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-#define EPOS4_Mode	0x0A	// Constant torque mode
-#define Period 		0x3F	// Period for LPTIM2
+/*******************************************************************************
+ * PRIVATE DEFINES
+ ******************************************************************************/
 
+#define EPOS4_Mode		0x0A	// Constant torque mode
+#define LPTIM2_Period	0x3F	// Period for LPTIM2
+
+
+/******************************************************************************/
 
 /* USER CODE END PD */
 
@@ -61,18 +76,6 @@
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
-// Can we lose this??
-static void delay_us(uint32_t us)
-{
-    uint32_t i,k;
-    for(k=0;k<us;k++)
-    {
-    	for(i=0;i<11;i++)
-         __NOP();  // Timed at 48 MHz clock
-    }
-}
-
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -88,16 +91,26 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-  // Declare variables
-  uint16_t CAN_ID = 0x601;	// Node ID for EPOS4
+/*******************************************************************************
+ * USER DEFINITIONS
+ ******************************************************************************/
 
+	// Declare variables
+	uint16_t CAN_ID = 0x601;	// CAN ID for EPOS4
+
+
+/******************************************************************************/
 
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+
+  /* System interrupt init*/
+  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   /* USER CODE BEGIN Init */
 
@@ -118,24 +131,35 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
-  // Start LPTIM2 timer interrupt at 512 Hz and check for errors
-  if ( HAL_LPTIM_Counter_Start_IT( &hlptim2, Period ) != HAL_OK )		// Timer frequency = Clock_Freq * Prescaler / Period
-  	  Error_Handler();
+/******************************************************************************
+* USER INITIALIZATIONS
+******************************************************************************/
 
-  // Configure devices for motor control
-  CAN_configure();									// Configure MCP25625
-  EPOS4_enable(CAN_ID);								// Enable EPOS4
-  EPOS4_set_operation_mode( CAN_ID, EPOS4_Mode );	// Set EPOS4 to torque mode
-  EPOS4_clear_errors(CAN_ID);						// Clear errors from EPOS4??
-  delay_us(1500);									// Can we lose this??
-  EPOS4_enable(CAN_ID);								// Why is this enabled again??
+	// Start LPTIM2 interrupt
+	LL_LPTIM_Enable(LPTIM2);												// Initially enable timer
+	LL_LPTIM_EnableIT_ARRM(LPTIM2);											// Enable timer interrupt mode
+	LL_LPTIM_SetAutoReload( LPTIM2, LPTIM2_Period );						// Set auto reload register with period
+	LL_LPTIM_StartCounter( LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS);		// Start counter
 
-  // Remove spikes from beginning (can we lose this??)
-  for ( int jj = 1; jj < 1000; ++jj );
+	// Enable peripherals
+	LL_SPI_Enable(SPI2);
 
-  // Command motor to 0.1 N*m
-  EPOS4_CST_apply_torque(CAN_ID,100);
+	// Configure devices
+	CAN_configure();									// Configure MCP25625
+	EPOS4_enable(CAN_ID);								// Enable EPOS4
+	EPOS4_set_operation_mode( CAN_ID, EPOS4_Mode );		// Set EPOS4 to torque mode
+	EPOS4_enable(CAN_ID);								// Why is this enabled again?? (it is needed at the moment)
 
+	// Remove spikes from beginning (can we do better??)
+	for ( int jj = 1; jj < 1000; ++jj );
+
+	// Command motor to 0.1 N*m
+	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
+	EPOS4_CST_apply_torque( CAN_ID, 100 );
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
+
+
+/******************************************************************************/
 
   /* USER CODE END 2 */
 
@@ -156,58 +180,54 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-  /** Configure the main internal regulator output voltage
-  */
-  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_4);
+  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_4)
   {
-    Error_Handler();
   }
+  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
+  LL_RCC_MSI_Enable();
 
-  /** Configure LSE Drive Capability
-  */
-  HAL_PWR_EnableBkUpAccess();
-  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
-
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE|RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_11;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
-  RCC_OscInitStruct.PLL.PLLM = 6;
-  RCC_OscInitStruct.PLL.PLLN = 40;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
-  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV4;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+   /* Wait till MSI is ready */
+  while(LL_RCC_MSI_IsReady() != 1)
   {
-    Error_Handler();
+
   }
+  LL_RCC_MSI_EnableRangeSelection();
+  LL_RCC_MSI_SetRange(LL_RCC_MSIRANGE_11);
+  LL_RCC_MSI_SetCalibTrimming(0);
+  LL_PWR_EnableBkUpAccess();
+  LL_RCC_LSE_SetDriveCapability(LL_RCC_LSEDRIVE_LOW);
+  LL_RCC_LSE_Enable();
 
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+   /* Wait till LSE is ready */
+  while(LL_RCC_LSE_IsReady() != 1)
   {
-    Error_Handler();
-  }
 
-  /** Enable MSI Auto calibration
-  */
-  HAL_RCCEx_EnableMSIPLLMode();
+  }
+  LL_RCC_MSI_EnablePLLMode();
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_MSI, LL_RCC_PLLM_DIV_6, 40, LL_RCC_PLLR_DIV_4);
+  LL_RCC_PLL_EnableDomain_SYS();
+  LL_RCC_PLL_Enable();
+
+   /* Wait till PLL is ready */
+  while(LL_RCC_PLL_IsReady() != 1)
+  {
+
+  }
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+
+   /* Wait till System clock is ready */
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+  {
+
+  }
+  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
+  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+
+  LL_Init1msTick(80000000);
+
+  LL_SetSystemCoreClock(80000000);
 }
 
 /* USER CODE BEGIN 4 */

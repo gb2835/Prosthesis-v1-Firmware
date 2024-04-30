@@ -1,4 +1,4 @@
-#include "stm32l4xx_hal.h"
+//#include "stm32l4xx_hal.h"
 #include "mcp25625.h"	// Can we lose this??
 //#include "sensor.h"
 //#include "CAN.h"

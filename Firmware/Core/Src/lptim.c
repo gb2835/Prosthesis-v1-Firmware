@@ -24,8 +24,6 @@
 
 /* USER CODE END 0 */
 
-LPTIM_HandleTypeDef hlptim2;
-
 /* LPTIM2 init function */
 void MX_LPTIM2_Init(void)
 {
@@ -34,76 +32,29 @@ void MX_LPTIM2_Init(void)
 
   /* USER CODE END LPTIM2_Init 0 */
 
+  LL_RCC_SetLPTIMClockSource(LL_RCC_LPTIM2_CLKSOURCE_LSE);
+
+  /* Peripheral clock enable */
+  LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_LPTIM2);
+
+  /* LPTIM2 interrupt Init */
+  NVIC_SetPriority(LPTIM2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_EnableIRQ(LPTIM2_IRQn);
+
   /* USER CODE BEGIN LPTIM2_Init 1 */
 
   /* USER CODE END LPTIM2_Init 1 */
-  hlptim2.Instance = LPTIM2;
-  hlptim2.Init.Clock.Source = LPTIM_CLOCKSOURCE_APBCLOCK_LPOSC;
-  hlptim2.Init.Clock.Prescaler = LPTIM_PRESCALER_DIV1;
-  hlptim2.Init.Trigger.Source = LPTIM_TRIGSOURCE_SOFTWARE;
-  hlptim2.Init.OutputPolarity = LPTIM_OUTPUTPOLARITY_HIGH;
-  hlptim2.Init.UpdateMode = LPTIM_UPDATE_IMMEDIATE;
-  hlptim2.Init.CounterSource = LPTIM_COUNTERSOURCE_INTERNAL;
-  hlptim2.Init.Input1Source = LPTIM_INPUT1SOURCE_GPIO;
-  hlptim2.Init.Input2Source = LPTIM_INPUT2SOURCE_GPIO;
-  if (HAL_LPTIM_Init(&hlptim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  LL_LPTIM_SetClockSource(LPTIM2, LL_LPTIM_CLK_SOURCE_INTERNAL);
+  LL_LPTIM_SetPrescaler(LPTIM2, LL_LPTIM_PRESCALER_DIV1);
+  LL_LPTIM_SetPolarity(LPTIM2, LL_LPTIM_OUTPUT_POLARITY_REGULAR);
+  LL_LPTIM_SetUpdateMode(LPTIM2, LL_LPTIM_UPDATE_MODE_IMMEDIATE);
+  LL_LPTIM_SetCounterMode(LPTIM2, LL_LPTIM_COUNTER_MODE_INTERNAL);
+  LL_LPTIM_TrigSw(LPTIM2);
+  LL_LPTIM_SetInput1Src(LPTIM2, LL_LPTIM_INPUT1_SRC_GPIO);
   /* USER CODE BEGIN LPTIM2_Init 2 */
 
   /* USER CODE END LPTIM2_Init 2 */
 
-}
-
-void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* lptimHandle)
-{
-
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-  if(lptimHandle->Instance==LPTIM2)
-  {
-  /* USER CODE BEGIN LPTIM2_MspInit 0 */
-
-  /* USER CODE END LPTIM2_MspInit 0 */
-
-  /** Initializes the peripherals clock
-  */
-    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPTIM2;
-    PeriphClkInit.Lptim2ClockSelection = RCC_LPTIM2CLKSOURCE_LSE;
-    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-    {
-      Error_Handler();
-    }
-
-    /* LPTIM2 clock enable */
-    __HAL_RCC_LPTIM2_CLK_ENABLE();
-
-    /* LPTIM2 interrupt Init */
-    HAL_NVIC_SetPriority(LPTIM2_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(LPTIM2_IRQn);
-  /* USER CODE BEGIN LPTIM2_MspInit 1 */
-
-  /* USER CODE END LPTIM2_MspInit 1 */
-  }
-}
-
-void HAL_LPTIM_MspDeInit(LPTIM_HandleTypeDef* lptimHandle)
-{
-
-  if(lptimHandle->Instance==LPTIM2)
-  {
-  /* USER CODE BEGIN LPTIM2_MspDeInit 0 */
-
-  /* USER CODE END LPTIM2_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_LPTIM2_CLK_DISABLE();
-
-    /* LPTIM2 interrupt Deinit */
-    HAL_NVIC_DisableIRQ(LPTIM2_IRQn);
-  /* USER CODE BEGIN LPTIM2_MspDeInit 1 */
-
-  /* USER CODE END LPTIM2_MspDeInit 1 */
-  }
 }
 
 /* USER CODE BEGIN 1 */
