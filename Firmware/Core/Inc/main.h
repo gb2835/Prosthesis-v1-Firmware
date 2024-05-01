@@ -84,12 +84,20 @@ void Error_Handler(void);
 #define Oscope_GPIO_Port GPIOB
 #define SPI2_CS_Pin LL_GPIO_PIN_12
 #define SPI2_CS_GPIO_Port GPIOB
+#define MagEnc_CSn_Pin LL_GPIO_PIN_6
+#define MagEnc_CSn_GPIO_Port GPIOC
+#define MagEnc_DO_Pin LL_GPIO_PIN_7
+#define MagEnc_DO_GPIO_Port GPIOC
+#define SPI1_CS_Pin LL_GPIO_PIN_8
+#define SPI1_CS_GPIO_Port GPIOA
 #define TMS_Pin LL_GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin LL_GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin LL_GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+#define MagEnc_CLK_Pin LL_GPIO_PIN_7
+#define MagEnc_CLK_GPIO_Port GPIOB
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */
