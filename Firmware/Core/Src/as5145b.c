@@ -32,7 +32,7 @@ uint16_t AS5145B_ReadPosition_Deg ( Enc_t *dev )
 	LL_GPIO_ResetOutputPin( dev->CSn_GPIOx, dev->CSn_Pin );
 //	delay_us(1);
 
-	// Get angular position in ADC (sensor feeds out position MSB first)
+	// Get angular position in ADC (device feeds out position MSB first, Figure 13 in DS)
 	for ( int i = DataPrecision - 1; i >= 0; i-- )
 	{
 		LL_GPIO_ResetOutputPin( dev->CLK_GPIOx, dev->CLK_Pin );						// Set clock low
@@ -43,7 +43,7 @@ uint16_t AS5145B_ReadPosition_Deg ( Enc_t *dev )
 		pos          |= (temp) << i;												// Assign and shift bit
 	}
 
-	// Read/clear status bits
+	// Read/clear remaining 6 status bits (Figure 13 in DS)
 	for ( int i = 0; i < 6; i++ )
 	{
 		LL_GPIO_ResetOutputPin( dev->CLK_GPIOx, dev->CLK_Pin );						// Set clock low

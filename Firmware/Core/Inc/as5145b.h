@@ -5,7 +5,10 @@
  * RELEASE: XX/XX/XXXX
  *
  * NOTES:
- * 1. None.
+ * 1. Unless otherwise specified, the following references are used:
+ * 		DS = Datasheet    (Product Document AS5145H/AS5145A/AS5145B,
+ *                         Document Number: N/A,
+ *                         Revision: v2-02)
  *
  ******************************************************************************/
 
