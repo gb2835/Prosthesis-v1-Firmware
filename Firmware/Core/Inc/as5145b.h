@@ -5,13 +5,7 @@
  * RELEASE: XX/XX/XXXX
  *
  * NOTES:
- * 1. Unless otherwise specified, the following references are used
- * 		DS = Datasheet    (TITLE,
- *                         Document Number: XXX,
- *                         Revision: X.X)
- * 		RM = Register Map (TITLE,
- *                         Document Number: XXX,
- *                         Revision: X.X)
+ * 1. None.
  *
  ******************************************************************************/
 
@@ -19,61 +13,38 @@
 #define INC_AS5145B_H_
 
 // Include header files
-// None
-
-
-/*******************************************************************************
- * ADDRESSES
- ******************************************************************************/
-
-// #define None
-
-
-/*******************************************************************************
- * IDENTIFIERS
- ******************************************************************************/
-
-// #define None
-
-
-/*******************************************************************************
- * REGISTERS (Section X of RM)
- ******************************************************************************/
-
-// #define None
+#include "stm32l4xx_ll_gpio.h"		// Needed for GPIO functionality
 
 
 /*******************************************************************************
  * DEFINITIONS
  ******************************************************************************/
 
-// #define None
+#define ADC2DEG	360/4096	// Convert angular position from ADC to degrees (12 bit device, 2^12 = 4096)
 
 
 /*******************************************************************************
  * STRUCTURES
  ******************************************************************************/
 
-//
+// Device typedef structure
 typedef struct
 {
-	I2C_HandleTypeDef	*i2cHandle;		// I2C handle
-	float				pos_deg;		// Angular position in degrees
-} AS5145B_t;
+	GPIO_TypeDef	*CSn_GPIOx;
+	GPIO_TypeDef	*CLK_GPIOx;
+	GPIO_TypeDef	*DO_GPIOx;
+	uint16_t		CSn_Pin;
+	uint16_t		CLK_Pin;
+	uint16_t		DO_Pin;
+} Enc_t;
 
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES
  ******************************************************************************/
 
-// Initialization Functions
-// None
-
-// Application Functions
-int AS5145B_GetPosition (void);		// Get angular position
-
-// Low-Level Functions
-// None
+// Application functions
+uint16_t AS5145B_ReadPosition_Deg ( Enc_t *dev );		// Get angular position in degrees
 
 
 /*******************************************************************************

@@ -11,6 +11,7 @@
  *     - LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
  *     - LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
  *     - LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
+ * 2. Test programs are provided prior to the main while loop.
  *
  * ABSTRACT:
  * The below code XXX.
@@ -50,16 +51,6 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-/*******************************************************************************
- * PRIVATE DEFINES
- ******************************************************************************/
-
-#define EPOS4_Mode		0x0A	// Constant torque mode
-#define LPTIM2_Period	0x3F	// Period for LPTIM2
-
-
-/******************************************************************************/
-
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -96,8 +87,23 @@ int main(void)
  * USER DEFINITIONS
  ******************************************************************************/
 
+	// Defines
+	#define EPOS4_Mode		0x0A	// Constant torque mode
+	#define LPTIM2_Period	0x3F	// Period for LPTIM2
+
 	// Declare variables
 	uint16_t CAN_ID = 0x601;	// CAN ID for EPOS4
+
+	// Handles
+	Enc_t enc;
+
+	// Assign magnetic encoder handle
+	enc.CSn_GPIOx = Enc_CSn_GPIO_Port;
+	enc.CSn_Pin   = Enc_CSn_Pin;
+	enc.CLK_GPIOx = Enc_CLK_GPIO_Port;
+	enc.CLK_Pin   = Enc_CLK_Pin;
+	enc.DO_GPIOx  = Enc_DO_GPIO_Port;
+	enc.DO_Pin    = Enc_DO_Pin;
 
 
 /******************************************************************************/
@@ -154,10 +160,22 @@ int main(void)
 	// Remove spikes from beginning (can we do better??)
 	for ( int jj = 1; jj < 1000; ++jj );
 
-	// Command motor to 0.1 N*m
-	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
-	EPOS4_CST_apply_torque( CAN_ID, 100 );
-	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
+
+/******************************************************************************
+* TEST PROGRAMS
+******************************************************************************/
+
+//	// Command motor to 0.1 N*m (100 = 100 mN*m = 0.1 N*m)
+//	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
+//	EPOS4_CST_apply_torque( CAN_ID, 100 );
+//	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
+
+	// Read magnetic encoder in degrees
+	while (1)
+	{
+		uint16_t pos = AS5145B_ReadPosition_Deg(&enc);	// Read angular position in degrees
+		(void) pos;										// Void unused warning at build
+	}
 
 
 /******************************************************************************/

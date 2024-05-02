@@ -5,7 +5,7 @@
  * RELEASE: XX/XX/XXXX
  *
  * NOTES:
- * 1. See header file for more information.
+ * 1. None.
  *
  ******************************************************************************/
 
@@ -17,65 +17,52 @@
 
 
 /*******************************************************************************
- * INITIALIZATION FUNCTIONS
- ******************************************************************************/
-
-// None
-
-
-/*******************************************************************************
  * APPLICATION FUNCTIONS
  ******************************************************************************/
 
-// None
-int AS5145B_GetPosition (void)
+// Get angular position in degrees
+uint16_t AS5145B_ReadPosition_Deg ( Enc_t *dev )
 {
-	int DataPrecision = 12;
-	int tempPosition  = 0;
-	int i             = 0;
-	uint8_t tempRead  = 0;
-	uint8_t Flags[6];
+	// Declare variables
+	uint8_t  DataPrecision = 12;	// 12 bit device
+	uint16_t pos           = 0;		// Angular position
+	uint8_t  Flags[6];				// ??
 
-	LL_GPIO_ResetOutputPin(MagEnc_CSn_GPIO_PORT, MagEnc_CSn_PIN);
-	delay_us(1);
-	// Sensor feeds out position MSB first
-	for (i = DataPrecision - 1; i >= 0; i--)
+	// Enable CSn pin
+	LL_GPIO_ResetOutputPin( dev->CSn_GPIOx, dev->CSn_Pin );
+//	delay_us(1);
+
+	// Get angular position in ADC (sensor feeds out position MSB first)
+	for ( int i = DataPrecision - 1; i >= 0; i-- )
 	{
-		LL_GPIO_ResetOutputPin(MagEnc_CLK_GPIO_PORT, MagEnc_CLK_PIN);
-		delay_us(1);
-
-		LL_GPIO_SetOutputPin(MagEnc_CLK_GPIO_PORT, MagEnc_CLK_PIN);
-		delay_us(1);
-
-		tempRead = LL_GPIO_IsInputPinSet(ENC2_DATA_GPIO_PORT, ENC2_DATA_PIN)
-				& 0x01;
-		tempPosition |= (tempRead) << i;
+		LL_GPIO_ResetOutputPin( dev->CLK_GPIOx, dev->CLK_Pin );						// Set clock low
+//		delay_us(1);
+		LL_GPIO_SetOutputPin( dev->CLK_GPIOx, dev->CLK_Pin );						// Set clock high
+//		delay_us(1);
+		uint8_t temp  = LL_GPIO_IsInputPinSet( dev->DO_GPIOx, dev->DO_Pin ) & 0x01;	// Read data bit
+		pos          |= (temp) << i;												// Assign and shift bit
 	}
 
-	for (i = 0; i < 6; i++)
+	// Read/clear status bits
+	for ( int i = 0; i < 6; i++ )
 	{
-		LL_GPIO_ResetOutputPin(ENC2_SCLK_GPIO_PORT, ENC2_SCLK_PIN);
-		delay_us(1);
-
-		LL_GPIO_SetOutputPin(ENC2_SCLK_GPIO_PORT, ENC2_SCLK_PIN);
-		delay_us(1);
-
-		tempRead = LL_GPIO_IsInputPinSet(ENC2_DATA_GPIO_PORT, ENC2_DATA_PIN)
-				& 0x01;
-		Flags[i] |= (tempRead) << i;
+		LL_GPIO_ResetOutputPin( dev->CLK_GPIOx, dev->CLK_Pin );						// Set clock low
+//		delay_us(1);
+		LL_GPIO_SetOutputPin( dev->CLK_GPIOx, dev->CLK_Pin );						// Set clock high
+//		delay_us(1);
+		uint8_t temp  = LL_GPIO_IsInputPinSet( dev->DO_GPIOx, dev->DO_Pin ) & 0x01;	// Read data bit
+		Flags[i]     |= (temp) << i;												// Assign and shift bit
 	}
 
-	LL_GPIO_SetOutputPin(ENC2_CS_GPIO_PORT, ENC2_CS_PIN);
+	// Disable CSn pin
+	LL_GPIO_SetOutputPin( dev->CSn_GPIOx, dev->CSn_Pin );
 
-	return tempPosition;
+	// Convert from ADC to degrees
+	pos *= ADC2DEG;
+
+	// Return
+	return pos;
 }
-
-
-/*******************************************************************************
- * LOW-LEVEL FUNCTIONS
- ******************************************************************************/
-
-// None
 
 
 /*******************************************************************************

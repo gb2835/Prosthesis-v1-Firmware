@@ -52,10 +52,10 @@ void MX_GPIO_Init(void)
   LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOB);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOB, Oscope_Pin|SPI2_CS_Pin|MagEnc_CLK_Pin);
+  LL_GPIO_ResetOutputPin(GPIOB, Oscope_Pin|SPI2_CS_Pin|Enc_CLK_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(MagEnc_CSn_GPIO_Port, MagEnc_CSn_Pin);
+  LL_GPIO_ResetOutputPin(Enc_CSn_GPIO_Port, Enc_CSn_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(SPI1_CS_GPIO_Port, SPI1_CS_Pin);
@@ -78,7 +78,7 @@ void MX_GPIO_Init(void)
   LL_GPIO_SetPinMode(B1_GPIO_Port, B1_Pin, LL_GPIO_MODE_INPUT);
 
   /**/
-  GPIO_InitStruct.Pin = Oscope_Pin|MagEnc_CLK_Pin;
+  GPIO_InitStruct.Pin = Oscope_Pin|Enc_CLK_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -94,18 +94,18 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(SPI2_CS_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = MagEnc_CSn_Pin;
+  GPIO_InitStruct.Pin = Enc_CSn_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(MagEnc_CSn_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(Enc_CSn_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = MagEnc_DO_Pin;
+  GPIO_InitStruct.Pin = Enc_DO_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(MagEnc_DO_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(Enc_DO_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = SPI1_CS_Pin;
