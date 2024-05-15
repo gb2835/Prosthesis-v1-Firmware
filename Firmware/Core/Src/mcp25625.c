@@ -83,7 +83,7 @@ void mcp25625_loadTXB ( uint8_t reg, uint8_t length, uint8_t * data )
 	setChipSelect();
 
 	LL_SPI_TransmitData8(SPI2, reg);
-	for ( uint8_t i = 0; i < length; i++)
+	for ( uint8_t i = 0; i < length; i++ )
 	{
 		while ( !(SPI2->SR & SPI_SR_TXE) );
 		LL_SPI_TransmitData8(SPI2, data[i]);
@@ -254,9 +254,8 @@ void CAN_configure()
 
 	mcp25625_init();
 
-	mcp25625_writeRegister(CNF1, c1.value);
-	mcp25625_writeRegister(CNF2, c2.value);
-	mcp25625_writeRegister(CNF3, c3.value);
-	mcp25625_writeRegister(CANCTRL, canctrl.value);
-
+	mcp25625_writeRegister(CNF1, c1.value);				// Configuration 1 register
+	mcp25625_writeRegister(CNF2, c2.value);				// Configuration 2 register
+	mcp25625_writeRegister(CNF3, c3.value);				// Configuration 3 register
+	mcp25625_writeRegister(CANCTRL, canctrl.value);		// CAN control register
 }

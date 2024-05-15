@@ -1,11 +1,6 @@
-../Core/Src/EPOS4.c:4:13:delay_us	24	static,ignoring_inline_asm
-../Core/Src/EPOS4.c:15:6:EPOS4_data_framer	24	static
-../Core/Src/EPOS4.c:27:6:EPOS4_set_operation_mode	24	static
-../Core/Src/EPOS4.c:38:6:EPOS4_enable	24	static
-../Core/Src/EPOS4.c:51:6:EPOS4_enable2	24	static
-../Core/Src/EPOS4.c:61:6:EPOS4_PVM_set_velocity	24	static
-../Core/Src/EPOS4.c:72:6:EPOS4_PVM_start	24	static
-../Core/Src/EPOS4.c:84:6:EPOS4_PVM_stop	24	static
-../Core/Src/EPOS4.c:95:6:EPOS4_CST_apply_torque	24	static
-../Core/Src/EPOS4.c:105:6:EPOS4_CST_stop	24	static
-../Core/Src/EPOS4.c:114:6:EPOS4_clear_errors	24	static
+../Core/Src/EPOS4.c:21:6:EPOS4_SetCSTMode	24	static
+../Core/Src/EPOS4.c:53:6:EPOS4_ClearFault	24	static
+../Core/Src/EPOS4.c:69:6:EPOS4_SetTorque	24	static
+../Core/Src/EPOS4.c:80:6:EPOS4_StopMotion	24	static
+../Core/Src/EPOS4.c:102:6:EPOS4_DataFramer	24	static
+../Core/Src/EPOS4.c:115:6:EPOS4_usDelay	24	static,ignoring_inline_asm

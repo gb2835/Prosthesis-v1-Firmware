@@ -13,6 +13,7 @@
 
 #pragma pack(push, 1)
 
+// Transmit buffer x register
 typedef union {
 	uint8_t value;
 	struct {
@@ -26,8 +27,10 @@ typedef union {
 	} bits;
 } txb_ctrl_t;
 
+// Transmit buffer x standard identifier high register
 typedef uint8_t txb_sidh_t; // full byte is addr 10:3. Just for clarity
 
+// Transmit buffer x standard identifier low register
 typedef union {
 	uint8_t value;
 	struct {
@@ -39,10 +42,13 @@ typedef union {
 	} bits;
 } txb_sidl_t;
 
+// Transmit buffer x extended identifier high register
 typedef uint8_t txb_eid8_t; // extended id byte, 15:8. Just for consistency.
 
+// Transmit buffer x extended identifier low register
 typedef uint8_t txb_eid0_t; // extended id byte, 7:0. just for consistency.
 
+// Transmit buffer x data length code register
 typedef union {
 	uint8_t value;
 	struct {
@@ -53,7 +59,7 @@ typedef union {
 	} bits;
 } txb_dlc_t;
 
-
+// Transmit buffer
 typedef union {
 	uint8_t bytes[13];
 	struct {
@@ -66,7 +72,7 @@ typedef union {
 	} txb;
 }txbuff_t;
 
-
+// Receive buffer x control register
 typedef union {
 	uint8_t value;
 	struct {
@@ -80,8 +86,10 @@ typedef union {
 	} bits;
 } rxb_ctrl_t;
 
+// Receive buffer x standard identifier high register
 typedef uint8_t rxb_sidh_t;		// sid 10:3. just for concistency
 
+// Receive buffer x standard identifier low register
 typedef union {
 	uint8_t value;
 	struct {
@@ -93,9 +101,13 @@ typedef union {
 	} bits;
 } rxb_sidl_t;
 
+// Receive buffer x extended identifier high register
 typedef uint8_t rxb_eid8_t;	// eid 15:8
+
+// Receive buffer x extended identifier low register
 typedef uint8_t rxb_eid0_t;	// eid 7:0
 
+// Receive buffer x data length code register
 typedef union {
 	uint8_t value;
 	struct {
@@ -107,6 +119,7 @@ typedef union {
 	} bits;
 } rxb_dlc_t;
 
+// Receive buffer
 typedef union {
 	uint8_t bytes[13];
 	struct {
@@ -119,6 +132,7 @@ typedef union {
 	} txb;
 }rxbuff_t;
 
+// Configuration 1 register
 typedef union {
 	uint8_t value;
 	struct {
@@ -127,6 +141,7 @@ typedef union {
 	} bits;
 } cnf1_t;
 
+// Configuration 2 register
 typedef union {
 	uint8_t value;
 	struct {
@@ -137,6 +152,7 @@ typedef union {
 	} bits;
 } cnf2_t;
 
+// Configuration 3 register
 typedef union {
 	uint8_t value;
 	struct {
@@ -147,6 +163,7 @@ typedef union {
 	} bits;
 } cnf3_t;
 
+// CAN interrupt enable register
 typedef union {
 	uint8_t value;
 	struct {
@@ -161,6 +178,7 @@ typedef union {
 	} bits;
 } caninte_t;
 
+// CAN interrupt flag register
 typedef union {
 	uint8_t value;
 	struct {
@@ -175,6 +193,7 @@ typedef union {
 	} bits;
 } canintf_t;
 
+// CAN control register
 typedef union {
 	uint8_t value;
 	struct {
@@ -186,6 +205,7 @@ typedef union {
 	} bits;
 } canctrl_t;
 
+// CAN status register
 typedef union {
 	uint8_t value;
 	struct {
