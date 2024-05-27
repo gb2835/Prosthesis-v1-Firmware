@@ -1,6 +1,0 @@
-../Core/Src/EPOS4.c:21:6:EPOS4_SetCSTMode	24	static
-../Core/Src/EPOS4.c:53:6:EPOS4_ClearFault	24	static
-../Core/Src/EPOS4.c:69:6:EPOS4_SetTorque	24	static
-../Core/Src/EPOS4.c:80:6:EPOS4_StopMotion	24	static
-../Core/Src/EPOS4.c:102:6:EPOS4_DataFramer	24	static
-../Core/Src/EPOS4.c:115:6:EPOS4_usDelay	24	static,ignoring_inline_asm

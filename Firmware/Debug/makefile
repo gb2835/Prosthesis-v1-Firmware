@@ -10,8 +10,13 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
+-include Drivers/MPU-9255/subdir.mk
+-include Drivers/MCP25625/subdir.mk
+-include Drivers/EPOS4/subdir.mk
+-include Drivers/AS5145B/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/Inc/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

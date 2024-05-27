@@ -28,6 +28,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 
+#include "stm32l4xx_ll_adc.h"
 #include "stm32l4xx_ll_lptim.h"
 #include "stm32l4xx_ll_crs.h"
 #include "stm32l4xx_ll_rcc.h"
@@ -80,6 +81,12 @@ void Error_Handler(void);
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin LL_GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
+#define IMU_SCK_Pin LL_GPIO_PIN_5
+#define IMU_SCK_GPIO_Port GPIOA
+#define IMU_MISO_Pin LL_GPIO_PIN_6
+#define IMU_MISO_GPIO_Port GPIOA
+#define IMU_MOSI_Pin LL_GPIO_PIN_7
+#define IMU_MOSI_GPIO_Port GPIOA
 #define Oscope_Pin LL_GPIO_PIN_11
 #define Oscope_GPIO_Port GPIOB
 #define SPI2_CS_Pin LL_GPIO_PIN_12
@@ -88,8 +95,8 @@ void Error_Handler(void);
 #define Enc_CSn_GPIO_Port GPIOC
 #define Enc_DO_Pin LL_GPIO_PIN_7
 #define Enc_DO_GPIO_Port GPIOC
-#define SPI1_CS_Pin LL_GPIO_PIN_8
-#define SPI1_CS_GPIO_Port GPIOA
+#define IMU_CS_Pin LL_GPIO_PIN_8
+#define IMU_CS_GPIO_Port GPIOA
 #define TMS_Pin LL_GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin LL_GPIO_PIN_14
