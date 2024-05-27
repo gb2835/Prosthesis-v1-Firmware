@@ -53,16 +53,12 @@ uint16_t CM_loadCell_top[3];			// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_loadCell_top_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
 uint16_t CM_loadCell_bot_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
 
-
-float CM_qw, CM_qx, CM_qy, CM_qz;
-float CM_yaw, CM_pitch, CM_roll;
-
 static void GetInputs (void);
 static void RunStateMachine (void);
 static void SetOutputs (void);
 static void RunImpedanceControl (void);
 static void RunTestProgram (void);
-static uint16_t ReadADC ( ADC_TypeDef *ADCx );
+static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx );
 
 
 /*******************************************************************************
@@ -106,8 +102,8 @@ static void GetInputs (void)
 	float encBias_deg = 1325.0f * 360.0f/4096.0f;	// Bias found using RunTestProgram below
 
 	CM_angle_deg[0]	= AS5145B_ReadPosition_Deg() - encBias_deg;
-	CM_loadCell_bot[0] = ReadADC(ADC2);
-	CM_loadCell_top[0] = ReadADC(ADC1);
+	CM_loadCell_bot[0] = ReadLoadCell(ADC2);
+	CM_loadCell_top[0] = ReadLoadCell(ADC1);
 
 	// No derivative of angle (angular speed) on first execution
 	// No filtering for load cells on first or second execution
@@ -262,7 +258,7 @@ static void RunTestProgram (void)
 }
 
 // move to driver??
-static uint16_t ReadADC ( ADC_TypeDef *ADCx )
+static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx )
 {
 	LL_ADC_REG_StartConversion(ADCx);
 	while ( !LL_ADC_IsActiveFlag_EOC(ADCx) );				// change to EOC??
