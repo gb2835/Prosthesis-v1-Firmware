@@ -20,7 +20,7 @@
 // Test program options
 enum TestPrograms_e
 {
-	None,
+	None,				// No test program runs
 	ReadOnly,
 	ConstantTorque,
 	AverageMagEnc,

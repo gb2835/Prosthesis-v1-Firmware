@@ -25,10 +25,10 @@ typedef struct QUATERNARION_DATA {
 	union {
 		long array[4];
 		struct {
-			long a;
-			long b;
-			long c;
-			long d;
+			long w;
+			long x;
+			long y;
+			long z;
 		} data;
 	};
 } dmp_quat_t;

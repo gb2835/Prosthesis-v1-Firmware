@@ -39,6 +39,7 @@ void MX_LPTIM2_Init(void)
 
   /* LPTIM2 interrupt Init */
   NVIC_SetPriority(LPTIM2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_EnableIRQ(LPTIM2_IRQn);
 
   /* USER CODE BEGIN LPTIM2_Init 1 */
 

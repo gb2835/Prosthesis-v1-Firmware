@@ -15,6 +15,7 @@
 #include "as5145b.h"
 #include "EPOS4.h"
 #include "prosthesis_control.h"
+#include <math.h>
 #include "mcp25625.h"
 #include "mpu9255.h"
 #include <stdint.h>
@@ -49,15 +50,19 @@ float CM_speed_dps = 0.0f;
 uint16_t CM_average_MagEnc;
 uint16_t CM_loadCell_bot[3];			// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_loadCell_top[3];			// [0] = k-0, [1] = k-1, [2] = k-2
-uint16_t CM_loadCell_top_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2
-uint16_t CM_loadCell_bot_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2
+uint16_t CM_loadCell_top_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
+uint16_t CM_loadCell_bot_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
+
+
+float CM_qw, CM_qx, CM_qy, CM_qz;
+float CM_yaw, CM_pitch, CM_roll;
 
 static void GetInputs (void);
 static void RunStateMachine (void);
 static void SetOutputs (void);
 static void RunImpedanceControl (void);
 static void RunTestProgram (void);
-static uint16_t ReadADC (void);
+static uint16_t ReadADC ( ADC_TypeDef *ADCx );
 
 
 /*******************************************************************************
@@ -101,8 +106,8 @@ static void GetInputs (void)
 	float encBias_deg = 1325.0f * 360.0f/4096.0f;	// Bias found using RunTestProgram below
 
 	CM_angle_deg[0]	= AS5145B_ReadPosition_Deg() - encBias_deg;
-	CM_loadCell_bot[0] = ReadADC();	// ??
-	CM_loadCell_top[0] = ReadADC();	// ??
+	CM_loadCell_bot[0] = ReadADC(ADC2);
+	CM_loadCell_top[0] = ReadADC(ADC1);
 
 	// No derivative of angle (angular speed) on first execution
 	// No filtering for load cells on first or second execution
@@ -110,6 +115,7 @@ static void GetInputs (void)
 	{
 		CM_speed_dps = 0;
 
+		CM_angle_deg[1] = CM_angle_deg[0];
 		CM_loadCell_bot[2] = CM_loadCell_bot[0];
 		CM_loadCell_top[2] = CM_loadCell_top[0];
 		CM_loadCell_bot_filtered[0] = CM_loadCell_bot[0];
@@ -141,10 +147,10 @@ static void GetInputs (void)
 		CM_speed_dps = ( 2*( CM_angle_deg[0] - CM_angle_deg[1] ) + ( 2*tau - dt )*CM_speed_dps ) / ( dt + 2*tau );
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
-		CM_loadCell_bot_filtered[0] =   1.6556f * CM_loadCell_bot_filtered[1] - 0.7068 * CM_loadCell_bot_filtered[2]
-									  + 0.0128 * CM_loadCell_bot[0] + 0.0256 * CM_loadCell_bot[1] + 0.0128 * CM_loadCell_bot[2];
-		CM_loadCell_top_filtered[0] =   1.6556f * CM_loadCell_top_filtered[1] - 0.7068 * CM_loadCell_top_filtered[2]
-									  + 0.0128 * CM_loadCell_top[0] + 0.0256 * CM_loadCell_top[1] + 0.0128 * CM_loadCell_top[2];
+		CM_loadCell_bot_filtered[0] =   1.6556f * CM_loadCell_bot_filtered[1] - 0.7068f * CM_loadCell_bot_filtered[2]
+									  + 0.0128f * CM_loadCell_bot[0] + 0.0256f * CM_loadCell_bot[1] + 0.0128f * CM_loadCell_bot[2];
+		CM_loadCell_top_filtered[0] =   1.6556f * CM_loadCell_top_filtered[1] - 0.7068f * CM_loadCell_top_filtered[2]
+									  + 0.0128f * CM_loadCell_top[0] + 0.0256f * CM_loadCell_top[1] + 0.0128f * CM_loadCell_top[2];
 
 		CM_angle_deg[1] = CM_angle_deg[0];
 		CM_loadCell_bot[2] = CM_loadCell_bot[1];
@@ -160,6 +166,8 @@ static void GetInputs (void)
 		CM_loadCell_bot_filtered[1] = CM_loadCell_bot_filtered[0];
 		CM_loadCell_top_filtered[1] = CM_loadCell_top_filtered[0];
 	}
+
+	mpu9255_process();
 }
 
 static void RunStateMachine (void)
@@ -254,12 +262,12 @@ static void RunTestProgram (void)
 }
 
 // move to driver??
-static uint16_t ReadADC (void)
+static uint16_t ReadADC ( ADC_TypeDef *ADCx )
 {
-	LL_ADC_REG_StartConversion(ADC1);
-	while ( !LL_ADC_IsActiveFlag_EOS(ADC1) );				// change to EOC??
-	LL_ADC_ClearFlag_EOS(ADC1);								// remove this??
-	uint16_t val = LL_ADC_REG_ReadConversionData12(ADC1);	// change resolution??
+	LL_ADC_REG_StartConversion(ADCx);
+	while ( !LL_ADC_IsActiveFlag_EOC(ADCx) );				// change to EOC??
+	LL_ADC_ClearFlag_EOC(ADCx);								// change to EOC?? remove this??
+	uint16_t val = LL_ADC_REG_ReadConversionData12(ADCx);	// change resolution??
 	return val;
 }
 

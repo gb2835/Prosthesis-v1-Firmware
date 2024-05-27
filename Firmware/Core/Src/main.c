@@ -2,7 +2,7 @@
 
 /*******************************************************************************
  *
- * TITLE   Prosthesis Control (main) rename project to prosthesis_control??
+ * TITLE   Prosthesis Control (main) rename project and github to prosthesis_control??
  * AUTHOR  Greg Berkeley
  * RELEASE XX/XX/XXXX
  *
@@ -18,7 +18,7 @@
  * 4. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *    A new magnetic encoder bias position must be found and defined whenever
  *    the magnet is reassembled into the prosthesis device. A test program is
- *    provided below to find the bias. Location??
+ *    provided to find the bias. Location??
  *    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *
  * ABSTRACT
@@ -73,7 +73,7 @@ void SystemClock_Config(void);
 
 
 /*******************************************************************************
-* USER GLOBAL DEFINTIONS
+* USER PRELIMINARIES
 *******************************************************************************/
 
 #include "as5145b.h"
@@ -125,6 +125,7 @@ int main(void)
   MX_SPI1_Init();
   MX_LPTIM2_Init();
   MX_SPI2_Init();
+  MX_ADC2_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
@@ -139,17 +140,20 @@ int main(void)
 *******************************************************************************/
 
 	AS5145B_Init_t enc;
-	enc.CSn_GPIOx	= Enc_CSn_GPIO_Port;
-	enc.CSn_Pin		= Enc_CSn_Pin;
-	enc.CLK_GPIOx	= Enc_CLK_GPIO_Port;
-	enc.CLK_Pin		= Enc_CLK_Pin;
-	enc.DO_GPIOx	= Enc_DO_GPIO_Port;
-	enc.DO_Pin		= Enc_DO_Pin;
+	enc.CSn_GPIOx	= ENC_CSn_GPIO_Port;
+	enc.CSn_Pin		= ENC_CSn_Pin;
+	enc.CLK_GPIOx	= ENC_CLK_GPIO_Port;
+	enc.CLK_Pin		= ENC_CLK_Pin;
+	enc.DO_GPIOx	= ENC_DO_GPIO_Port;
+	enc.DO_Pin		= ENC_DO_Pin;
 
 
 /*******************************************************************************
 * USER INITIALIZATIONS
 *******************************************************************************/
+
+	// Enable Systick interrupt
+	LL_SYSTICK_EnableIT();
 
 	// Start LPTIM2 interrupt
 	LL_LPTIM_Enable(LPTIM2);
@@ -161,6 +165,7 @@ int main(void)
 	LL_SPI_Enable(SPI1);
 	LL_SPI_Enable(SPI2);
 	LL_ADC_Enable(ADC1);
+	LL_ADC_Enable(ADC2);
 
 	// Initialize devices
 	CAN_configure();
@@ -178,9 +183,7 @@ int main(void)
 * TEST PROGRAMS
 *******************************************************************************/
 
-// See TestProgram function for options (put options in comment below??)
-// Each test program (other than None) will halt the firmware
-//RequireTestProgram(ImpedanceControl);
+	RequireTestProgram(ReadOnly);
 
 
 /*******************************************************************************

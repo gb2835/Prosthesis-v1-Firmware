@@ -77,6 +77,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define B1_Pin LL_GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
+#define LC_TOP_IN_Pin LL_GPIO_PIN_2
+#define LC_TOP_IN_GPIO_Port GPIOC
+#define LC_BOT_IN_Pin LL_GPIO_PIN_3
+#define LC_BOT_IN_GPIO_Port GPIOC
 #define USART_TX_Pin LL_GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin LL_GPIO_PIN_3
@@ -87,14 +91,20 @@ void Error_Handler(void);
 #define IMU_MISO_GPIO_Port GPIOA
 #define IMU_MOSI_Pin LL_GPIO_PIN_7
 #define IMU_MOSI_GPIO_Port GPIOA
-#define Oscope_Pin LL_GPIO_PIN_11
-#define Oscope_GPIO_Port GPIOB
+#define OSCOPE_Pin LL_GPIO_PIN_11
+#define OSCOPE_GPIO_Port GPIOB
 #define SPI2_CS_Pin LL_GPIO_PIN_12
 #define SPI2_CS_GPIO_Port GPIOB
-#define Enc_CSn_Pin LL_GPIO_PIN_6
-#define Enc_CSn_GPIO_Port GPIOC
-#define Enc_DO_Pin LL_GPIO_PIN_7
-#define Enc_DO_GPIO_Port GPIOC
+#define EPOS4_SCK_Pin LL_GPIO_PIN_13
+#define EPOS4_SCK_GPIO_Port GPIOB
+#define EPOS4_MISO_Pin LL_GPIO_PIN_14
+#define EPOS4_MISO_GPIO_Port GPIOB
+#define EPOS4_MOSI_Pin LL_GPIO_PIN_15
+#define EPOS4_MOSI_GPIO_Port GPIOB
+#define ENC_CSn_Pin LL_GPIO_PIN_6
+#define ENC_CSn_GPIO_Port GPIOC
+#define ENC_DO_Pin LL_GPIO_PIN_7
+#define ENC_DO_GPIO_Port GPIOC
 #define IMU_CS_Pin LL_GPIO_PIN_8
 #define IMU_CS_GPIO_Port GPIOA
 #define TMS_Pin LL_GPIO_PIN_13
@@ -103,8 +113,8 @@ void Error_Handler(void);
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin LL_GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-#define Enc_CLK_Pin LL_GPIO_PIN_7
-#define Enc_CLK_GPIO_Port GPIOB
+#define ENC_CLK_Pin LL_GPIO_PIN_7
+#define ENC_CLK_GPIO_Port GPIOB
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */
