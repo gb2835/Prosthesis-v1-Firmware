@@ -17,7 +17,6 @@
  * PUBLIC DEFINITIONS
  ******************************************************************************/
 
-// Test program options
 enum TestPrograms_e
 {
 	None,				// No test program runs
@@ -27,11 +26,9 @@ enum TestPrograms_e
 	ImpedanceControl
 };
 
-//Declare variables
 extern uint16_t CAN_ID;
 extern uint8_t isProsthesisControlRequired;
 
-// Function prototypes
 void RunProsthesisControl (void);
 void RequireTestProgram ( enum TestPrograms_e option );
 
