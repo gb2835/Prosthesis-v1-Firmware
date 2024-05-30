@@ -22,7 +22,7 @@ enum TestPrograms_e
 	None,				// No test program runs
 	ReadOnly,
 	ConstantTorque,
-	AverageMagEnc,
+	MagneticEncoderBias,
 	ImpedanceControl
 };
 

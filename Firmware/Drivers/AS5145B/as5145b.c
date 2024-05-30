@@ -5,22 +5,56 @@
  * RELEASE 05/07/2024
  *
  * NOTES
- * 1. See header file for more information.
+ * 1. Unless otherwise specified, the following references are used:
+ * 		DS = Datasheet    (Title: Product Document AS5145H/AS5145A/AS5145B,
+ *                         Document Number: N/A,
+ *                         Revision: v2-02)
+ * 2. Only SSI functionality is used in this driver to read data.
+ * 3. The DS requires minimum delays in the clock frequency for the device. This
+ *    driver is configured for the scenario where there is no clock pin (i.e.
+ *    SPI) but a GPIO output pin instead. The delay function Delay_500ns is thus
+ *    used to generate the clock delays. The delays are configured according to
+ *    Figure 10 and Figure 13 in DS for 80 MHz SYSCLK. For a slower SYSCLK the
+ *    delays will be longer. Since the delays needed for the device are minimums,
+ *    slower delays do not affect functionality but do however affect MCU
+ *    performance due to longer delays.
+ * 4. The Delay_500ns function was generated based on the following process:
+ *    First, an oscope was used to measure how fast a pin goes HIGH then LOW.
+ *    Then, the for loops were placed between the HIGH and LOW and tuned to get
+ *    an extra 500 nanoseconds. Thus, it is a very approximate function for
+ *    generating 500 nanosecond delays.
  *
  ******************************************************************************/
 
-// Include header files
 #include "as5145b.h"
-
-// Declare global variables
-static AS5145B_t AS5145B;	// Device handle (static to provide ownership to this driver)
+#include <string.h>
 
 
 /*******************************************************************************
- * INITIALIZATION FUNCTIONS
- ******************************************************************************/
+* PRIVATE DEFINITIONS
+*******************************************************************************/
 
-// Initialize device
+#define AS5145B_RAW2DEG	360/4096.0f
+
+typedef struct
+{
+	GPIO_TypeDef	*CSn_GPIOx;
+	GPIO_TypeDef	*CLK_GPIOx;
+	GPIO_TypeDef	*DO_GPIOx;
+	uint16_t		CSn_Pin;
+	uint16_t		CLK_Pin;
+	uint16_t		DO_Pin;
+} AS5145B_t;
+
+static AS5145B_t AS5145B;
+
+static void AS5145B_Delay_500ns (void);
+
+
+/*******************************************************************************
+* PUBLIC FUNCTIONS
+*******************************************************************************/
+
 void AS5145B_Init ( AS5145B_Init_t *AS5145B_Init )
 {
 	// Copy memory of device initialization handle to device handle (provides ownership of the device handle to this driver)
@@ -31,21 +65,12 @@ void AS5145B_Init ( AS5145B_Init_t *AS5145B_Init )
 	LL_GPIO_SetOutputPin( AS5145B.CLK_GPIOx, AS5145B.CLK_Pin );		// Clock pin initially high (Figure 13 in DS)
 }
 
-
-/*******************************************************************************
- * APPLICATION FUNCTIONS
- ******************************************************************************/
-
-// Read data (first 12 bits = position, remaining 6 bits = status, MSB first, Figure 13 in DS)
-// @param posBias Amount of bias to be removed from angular position data in ADC
 struct AS5145B_Data_s AS5145B_ReadData (void)
 {
-	// Declare variables
-	struct AS5145B_Data_s data;		// Data structure
+	struct AS5145B_Data_s data;
 
-	// Declare initialized variables
-	data.pos    = 0;	// Angular position
-	data.status = 0;	// Status of device
+	data.pos_raw = 0;
+	data.status = 0;
 
 	// Enable chip select pin
 	LL_GPIO_ResetOutputPin( AS5145B.CSn_GPIOx, AS5145B.CSn_Pin );	// Chip select pin is active low
@@ -59,7 +84,7 @@ struct AS5145B_Data_s AS5145B_ReadData (void)
 		LL_GPIO_SetOutputPin( AS5145B.CLK_GPIOx, AS5145B.CLK_Pin );							// Set clock high
 		AS5145B_Delay_500ns();																// Delay of 500 ns minimum required for T_(CLK/2) (Figure 10 and Figure 13 in DS)
 		uint8_t temp  = LL_GPIO_IsInputPinSet( AS5145B.DO_GPIOx, AS5145B.DO_Pin ) & 0x01;	// Read data bit
-		data.pos     |= (temp) << i;														// Assign and shift bit
+		data.pos_raw |= (temp) << i;														// Assign and shift bit
 	}
 
 	// Read remaining 6 status bits (MSB first)
@@ -77,65 +102,45 @@ struct AS5145B_Data_s AS5145B_ReadData (void)
 	LL_GPIO_SetOutputPin( AS5145B.CSn_GPIOx, AS5145B.CSn_Pin );		// Chip select pin is inactive high
 	AS5145B_Delay_500ns();											// Delay of 500 ns minimum required for t_(CSn) (Figure 10 and Figure 13 in DS)
 
-	// Return
 	return data;
 }
 
-// Read angular position in degrees
-// @param posBias	Amount of bias to be removed from angular position data in ADC
-float AS5145B_ReadPosition_Deg (void)
+uint16_t AS5145B_ReadPosition_Raw (void)
 {
-	// Declare variables
-	struct AS5145B_Data_s data;		// Data structure
-
-	// Read data and separate angular position
-	data          = AS5145B_ReadData();		// Read data
-	int16_t temp = data.pos;						// Separate angular position
-
-	// Convert angular position from ADC to degrees
-	float pos = (float) temp*AS5145B_ADC2DEG;
-
-	// Return
-	return pos;
+	struct AS5145B_Data_s data = AS5145B_ReadData();
+	return data.pos_raw;
 }
 
-// Read status bits
+float AS5145B_ReadPosition_Deg (void)
+{
+	uint16_t pos_raw = AS5145B_ReadPosition_Raw();
+	float pos_deg = (float) pos_raw * AS5145B_RAW2DEG;
+	return pos_deg;
+}
+
 uint8_t AS5145B_ReadStatus (void)
 {
-	// Declare variables
-	struct AS5145B_Data_s data;		// Data structure
-
-	// Read data and separate status
-	data           = AS5145B_ReadData();	// Read data
-	uint8_t status = data.status;			// Separate status
-
-	// Return
+	struct AS5145B_Data_s data = AS5145B_ReadData();
+	uint8_t status = data.status;
 	return status;
 }
 
 
 /*******************************************************************************
- * LOW-LEVEL FUNCTIONS
- ******************************************************************************/
+* PRIVATE FUNCTIONS
+*******************************************************************************/
 
-// None
-
-
-/*******************************************************************************
- * OTHER FUNCTIONS
- ******************************************************************************/
-
-// Delay of approximately 500 nanoseconds for 80 MHz SYSCLK
-void AS5145B_Delay_500ns (void)
+// See NOTES at the top of this file for more information
+static void AS5145B_Delay_500ns (void)
 {
 	for ( uint8_t i = 0; i < 2; i++ )
 	{
 		for( uint8_t j = 0; j < 3; j++ )
-		 __NOP();
+			__NOP();
 	}
 }
 
 
 /*******************************************************************************
- * END
- ******************************************************************************/
+* END
+*******************************************************************************/
