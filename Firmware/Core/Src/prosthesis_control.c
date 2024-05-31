@@ -45,10 +45,10 @@ uint8_t isTestProgramRequired = 0;
 
 // For CubeMonitor
 double CM_hipAngle;
-float CM_jointAngle_deg[2];												// [0] = k-0, [1] = k-1
+float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointTorque_nm;
 float CM_jointSpeed_dps = 0.0f;
-uint16_t CM_average_MagEnc;
+uint16_t CM_magEncBias;
 uint16_t CM_loadCell_bot[3], CM_loadCell_top[3];					// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_loadCell_bot_filtered[3], CM_loadCell_top_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
 
@@ -256,14 +256,32 @@ static void ProcessInputs (void)
 
 static void CalibrateIMU (void)
 {
-	double gxBias_dps = 60 / 32.8;
-	double gyBias_dps = 29 / 32.8;
-	double gzBias_dps = 16 / 32.8;
+	double axBias_g = 0;
+	double ayBias_g = 0;
+	double azBias_g = 0;
+	double gxBias_dps = -1.127268296;
+	double gyBias_dps = -0.402634146;
+	double gzBias_dps = 0.730534709;
+	double n = 1.00509896445316;	// Scaling factor (helps with normalization)
 
-	CM_imu_data.ax_g = imu_data.ax_g;
-	CM_imu_data.ay_g = imu_data.ay_g;
-	CM_imu_data.az_g = imu_data.az_g;
+	// Sine and cosine of Euler angles (1 = z angle, 2 = x' angle, 3 = z'' angle)
+	double c1 = cos(0);
+	double c2 = cos(0);
+	double c3 = cos(0);
+	double s1 = sin(0);
+	double s2 = sin(0);
+	double s3 = sin(0);
 
+	double ax_g = imu_data.ax_g;
+	double ay_g = imu_data.ay_g;
+	double az_g = imu_data.az_g;
+
+	// Rotate accelerometer and remove bias
+	CM_imu_data.ax_g = n * ( ax_g*(c1*c3 - c2*s1*s3) + ay_g*(  -c3*s1 - c1*c2*s3) + az_g*( s2*s3) ) - axBias_g;
+	CM_imu_data.ay_g = n * ( ax_g*(c1*s3 + c2*c3*s1) + ay_g*(c1*c2*c3 - s1*s3   ) + az_g*(-c3*s2) ) - ayBias_g;
+	CM_imu_data.az_g = n * ( ax_g*(        s1*s2   ) + ay_g*(           c1*s2   ) + az_g*( c2   ) ) - azBias_g;
+
+	// Remove bias from gyroscope
 	CM_imu_data.gx_dps = imu_data.gx_dps - gxBias_dps;
 	CM_imu_data.gy_dps = imu_data.gy_dps - gyBias_dps;
 	CM_imu_data.gz_dps = imu_data.gz_dps - gzBias_dps;
@@ -336,7 +354,7 @@ static void RunTestProgram (void)
 		EPOS4_SetTorque( CAN_ID, torque );
 		break;
 	}
-	case AverageMagEnc:
+	case MagEncBias:
 	{
 		uint16_t i;
 		uint32_t sum = 0;
@@ -347,10 +365,14 @@ static void RunTestProgram (void)
 			sum                        += data.pos;
 		}
 
-		CM_average_MagEnc = sum / i;
-		(void) CM_average_MagEnc;
+		CM_magEncBias = sum / i;
+		(void) CM_magEncBias;
 
 		while (1);	// Halt program
+	}
+	case GyroBias:
+	{
+		// Complete after DMP is figured out??
 	}
 	case ImpedanceControl:
 	{
