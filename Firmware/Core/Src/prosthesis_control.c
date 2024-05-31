@@ -34,17 +34,18 @@ uint16_t CAN_ID = 0x601;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-enum TestPrograms_e testProgram;
-float Kp;
-float Kd;
+static enum TestPrograms_e testProgram;
+float kp;
+float kd;
 float equilibriumPoint_deg;
 
+float dt = 1 / 512.0f;					// Sample time (programmatically find??)
 uint8_t isFirst = 1;
 uint8_t isSecond = 0;
 uint8_t isTestProgramRequired = 0;
 
 // For CubeMonitor
-double CM_hipAngle;
+double CM_hipAngle_deg;
 float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointTorque_nm;
 float CM_jointSpeed_dps = 0.0f;
@@ -53,14 +54,13 @@ uint16_t CM_loadCell_bot[3], CM_loadCell_top[3];					// [0] = k-0, [1] = k-1, [2
 uint16_t CM_loadCell_bot_filtered[3], CM_loadCell_top_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
 
 static void GetInputs (void);
+static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx );
 static void ProcessInputs (void);
 static void CalibrateIMU (void);
 static void ComputeHipAngle (void);
 static void RunStateMachine (void);
-static void SetOutputs (void);
 static void RunImpedanceControl (void);
 static void RunTestProgram (void);
-static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx );
 
 
 /*******************************************************************************
@@ -127,7 +127,7 @@ void RunProsthesisControl (void)
 	else
 	{
 		RunStateMachine();
-		SetOutputs();
+		RunImpedanceControl();
 	}
 
 	// Check for first or second executions, needed for derivatives, filters, etc.
@@ -184,14 +184,13 @@ static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx )
 	LL_ADC_REG_StartConversion(ADCx);
 	while ( !LL_ADC_IsActiveFlag_EOC(ADCx) );
 	LL_ADC_ClearFlag_EOC(ADCx);								// remove this??
-	uint16_t val = LL_ADC_REG_ReadConversionData12(ADCx);
+	uint16_t val = LL_ADC_REG_ReadConversionData12(ADCx);	// Change resolution??
 	return val;
 }
 
 static void ProcessInputs (void)
 {
-	float tau = 1 / ( 2 * 3.1416f * 10 );	// Time constant
-	float dt = 1 / 512.0f;					// Sample time (should this be extern in main??)
+	float tau = 1 / ( 2 * 3.1416f * 10 );	// Time constant for practical differentiator (fc = 10 Hz)
 
 	// Derivative of angle and filtering of load cells
 	// No derivative of angle (angular speed) on first execution
@@ -211,7 +210,7 @@ static void ProcessInputs (void)
 	}
 	else if (isSecond)
 	{
-		// Practical differentiator (fc = 10 Hz, bilinear transformation used)
+		// Practical differentiator (bilinear transformation used)
 		CM_jointSpeed_dps = ( 2*( CM_jointAngle_deg[0] - CM_jointAngle_deg[1] ) + ( 2*tau - dt )*CM_jointSpeed_dps ) / ( dt + 2*tau );
 
 		// Shift values in arrays
@@ -225,7 +224,7 @@ static void ProcessInputs (void)
 	}
 	else
 	{
-		// Practical differentiator (fc = 10 Hz, bilinear transformation used)
+		// Practical differentiator (bilinear transformation used)
 		CM_jointSpeed_dps = ( 2*( CM_jointAngle_deg[0] - CM_jointAngle_deg[1] ) + ( 2*tau - dt )*CM_jointSpeed_dps ) / ( dt + 2*tau );
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
@@ -291,8 +290,6 @@ static void ComputeHipAngle (void)
 {
 //	float gyroAngle = 0.0;	// Value not needed but used to suppress initialization warning
 //
-//	double dt = 1 / 512.0;	// Sample time (should this be extern in main??)
-//
 //	double gz_rad = CM_imu_data.gz_dps * 3.1416 / 180.0;
 //	double accelAngle = atan(CM_imu_data.ax_g / sqrt(pow(CM_imu_data.ay_g,2) + pow(CM_imu_data.az_g,2)));
 //
@@ -316,28 +313,23 @@ static void RunStateMachine (void)
 	switch (0)
 	{
 	case 0:
-		Kp = 2.5;
-		Kd = 0;
+		kp = 2.5f;
+		kd = 0;
 		equilibriumPoint_deg = 0;
 		break;
 	}
-}
-
-static void SetOutputs (void)
-{
-
 }
 
 static void RunImpedanceControl (void)
 {
 	float gearRatio = 40;
 	float torqueConst_nmpa = 0.095f;	// is this number accurate??
-	float nomCurrent_amp = 8;			// is this number accurate??
+	float nomCurrent_amp = 8.;			// is this number accurate??
 
 	float errorPos_deg = equilibriumPoint_deg - CM_jointAngle_deg[0];
-	CM_jointTorque_nm = Kp*errorPos_deg - Kd*CM_jointSpeed_dps;
-	int32_t motTorque = CM_jointTorque_nm / ( torqueConst_nmpa * gearRatio * nomCurrent_amp ) * 1000.0f;
-	EPOS4_SetTorque( CAN_ID, motTorque );
+	CM_jointTorque_nm = kp*errorPos_deg - kd*CM_jointSpeed_dps;
+	int32_t motorTorque = CM_jointTorque_nm / ( torqueConst_nmpa * gearRatio * nomCurrent_amp ) * 1000;
+	EPOS4_SetTorque( CAN_ID, motorTorque );
 }
 
 static void RunTestProgram (void)
@@ -354,15 +346,15 @@ static void RunTestProgram (void)
 		EPOS4_SetTorque( CAN_ID, torque );
 		break;
 	}
-	case MagEncBias:
+	case MagneticEncoderBias:
 	{
 		uint16_t i;
 		uint32_t sum = 0;
 
 		for ( i = 0; i < 1000; i++ )
 		{
-			struct AS5145B_Data_s data  = AS5145B_ReadData();
-			sum                        += data.pos;
+			struct AS5145B_Data_s data = AS5145B_ReadData();
+			sum += data.pos_raw;
 		}
 
 		CM_magEncBias = sum / i;
@@ -382,14 +374,14 @@ static void RunTestProgram (void)
 		{
 			uint16_t i;
 
-			Kp = 2.5;
-			Kd = 0;
+			kp = 2.5;
+			kd = 0;
 			uint32_t sum = 0;
 
 			for ( i = 0; i < 1000; i++ )
 			{
 				struct AS5145B_Data_s data = AS5145B_ReadData();
-				sum += data.pos;
+				sum += data.pos_raw;
 			}
 
 			equilibriumPoint_deg = (float) sum/i * 360/4096;
@@ -409,7 +401,8 @@ static void RunTestProgram (void)
 * Deal with this after we figure out DMP??
 *******************************************************************************/
 
-struct imu_data_s IMU_read(void) {
+struct imu_data_s IMU_read(void)
+{
 	struct imu_data_s IMU;
 	uint8_t response[21];
 	WriteReg(MPUREG_I2C_SLV0_ADDR, AK8963_I2C_ADDR | READ_FLAG); // Set the I2C slave addres of AK8963 and set for read.
@@ -434,48 +427,41 @@ struct imu_data_s IMU_read(void) {
 	return IMU;
 }
 
-unsigned int WriteReg(uint8_t adress, uint8_t data) {
+unsigned int WriteReg(uint8_t adress, uint8_t data)
+{
 	unsigned int temp_val;
 	LL_GPIO_ResetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
 
-	while (!(SPI1->SR & SPI_SR_TXE))
-		; //transmit buffer empty?
+	while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
 	LL_SPI_TransmitData8(SPI1, adress);
-	while (!(SPI1->SR & SPI_SR_RXNE))
-		; //data received?
+	while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
 	LL_SPI_ReceiveData8(SPI1);
 
-	while (!(SPI1->SR & SPI_SR_TXE))
-		; //transmit buffer empty?
+	while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
 	LL_SPI_TransmitData8(SPI1, data);
-	while (!(SPI1->SR & SPI_SR_RXNE))
-		; //data received?
+	while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
 	temp_val = LL_SPI_ReceiveData8(SPI1);
 
 	LL_GPIO_SetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
 	return temp_val;
 }
 
-void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes) {
+void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes)
+{
 	unsigned int i = 0;
 	LL_GPIO_ResetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin); // PA4 CS RESET Active Low
 
-	while (!(SPI1->SR & SPI_SR_TXE))
-		; //transmit buffer empty?
+	while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
 	LL_SPI_TransmitData8(SPI1, (ReadAddr | 0x80)); // (Starting Address 0x22 | 0x80); MSB is '1' for 0x80, next 7 bit Address of register to write 0x22
-	while (!(SPI1->SR & SPI_SR_RXNE))
-		; //data received?
+	while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
 	LL_SPI_ReceiveData8(SPI1);
 
-	for (i = 0; i < Bytes; i++) {
-		while (!(SPI1->SR & SPI_SR_TXE))
-			; //transmit buffer empty?
+	for (i = 0; i < Bytes; i++)
+	{
+		while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
 		LL_SPI_TransmitData8(SPI1, 0x00);
-
-		while (!(SPI1->SR & SPI_SR_RXNE))
-			; //data received?
+		while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
 		ReadBuf[i] = LL_SPI_ReceiveData8(SPI1);
-
 	}
 
 	LL_GPIO_SetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin); // PC4 CS SET Active Low
