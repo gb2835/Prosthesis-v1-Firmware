@@ -15,4 +15,4 @@
 ../Drivers/MPU-9255/mpu9255.c:169:24:inv_orientation_matrix_to_scalar	24	static
 ../Drivers/MPU-9255/mpu9255.c:181:14:mpu9255_getLast	8	static
 ../Drivers/MPU-9255/mpu9255.c:195:6:mpu9255_process	32	static
-../Drivers/MPU-9255/mpu9255.c:217:6:mpu9255_init	40	static
+../Drivers/MPU-9255/mpu9255.c:219:6:mpu9255_init	40	static

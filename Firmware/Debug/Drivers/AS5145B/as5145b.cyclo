@@ -1,0 +1,9 @@
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:875:26:LL_GPIO_IsInputPinSet	2
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:956:22:LL_GPIO_SetOutputPin	1
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:985:22:LL_GPIO_ResetOutputPin	1
+../Drivers/AS5145B/as5145b.c:58:6:AS5145B_Init	1
+../Drivers/AS5145B/as5145b.c:68:23:AS5145B_ReadData	3
+../Drivers/AS5145B/as5145b.c:108:10:AS5145B_ReadPosition_Raw	1
+../Drivers/AS5145B/as5145b.c:114:7:AS5145B_ReadPosition_Deg	1
+../Drivers/AS5145B/as5145b.c:121:9:AS5145B_ReadStatus	1
+../Drivers/AS5145B/as5145b.c:134:13:AS5145B_Delay_500ns	3

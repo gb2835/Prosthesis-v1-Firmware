@@ -167,16 +167,18 @@ static void GetInputs (void)
 	// DMP??
 	mpu9255_process();
 	dmp_data_t *dmp_data = mpu9255_getLast();
-	CM_dmp_data.ax_g = dmp_data->acceleration.data.x;
-	CM_dmp_data.ay_g = dmp_data->acceleration.data.y;
-	CM_dmp_data.az_g = dmp_data->acceleration.data.z;
-	CM_dmp_data.gx_dps = dmp_data->gyro.data.x;
-	CM_dmp_data.gy_dps = dmp_data->gyro.data.y;
-	CM_dmp_data.gz_dps = dmp_data->gyro.data.z;
-	CM_dmp_data.qw = dmp_data->quaternarion.data.w;
-	CM_dmp_data.qx = dmp_data->quaternarion.data.x;
-	CM_dmp_data.qy = dmp_data->quaternarion.data.y;
-	CM_dmp_data.qz = dmp_data->quaternarion.data.z;
+	if (dmp_data->sensors != 0) {
+		CM_dmp_data.ax_g = dmp_data->acceleration.data.x;
+		CM_dmp_data.ay_g = dmp_data->acceleration.data.y;
+		CM_dmp_data.az_g = dmp_data->acceleration.data.z;
+		CM_dmp_data.gx_dps = dmp_data->gyro.data.x;
+		CM_dmp_data.gy_dps = dmp_data->gyro.data.y;
+		CM_dmp_data.gz_dps = dmp_data->gyro.data.z;
+		CM_dmp_data.qw = dmp_data->quaternarion.data.w;
+		CM_dmp_data.qx = dmp_data->quaternarion.data.x;
+		CM_dmp_data.qy = dmp_data->quaternarion.data.y;
+		CM_dmp_data.qz = dmp_data->quaternarion.data.z;
+	}
 }
 
 static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx )

@@ -201,7 +201,9 @@ void mpu9255_process() {
 #if DEBUG_DMP
 		dmp_read_fifo(dmpData[writeIndex].gyro.array, dmpData[writeIndex].acceleration.array, dmpData[writeIndex].quaternarion.array, &dmpData[writeIndex].timestamp, &dmpData[writeIndex].sensors, &more);
 
-		writeIndex++;
+		if (dmpData[writeIndex].sensors != 0) {
+			writeIndex++;
+		}
 #else
 		dmp_read_fifo(dmpData.gyro.array, dmpData.acceleration.array, dmpData.quaternarion.array, &dmpData.timestamp, &dmpData.sensors, &more);
 
