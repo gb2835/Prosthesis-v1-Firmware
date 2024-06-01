@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0002639e  00000000  00000000  0001cb96  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0001120d  00000000  00000000  00042f34  2**0
+ 17 .debug_line   0001120f  00000000  00000000  00042f34  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c8387  00000000  00000000  00054141  2**0
+ 18 .debug_str    000c8387  00000000  00000000  00054143  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  0011c4c8  2**0
+ 19 .comment      00000043  00000000  00000000  0011c4ca  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004420  00000000  00000000  0011c50c  2**2
+ 20 .debug_frame  00004420  00000000  00000000  0011c510  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000005f  00000000  00000000  0012092c  2**0
+ 21 .debug_line_str 0000005f  00000000  00000000  00120930  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -13911,10 +13911,10 @@ void mpu9255_process() {
  8005e34:	b2da      	uxtb	r2, r3
  8005e36:	4b07      	ldr	r3, [pc, #28]	@ (8005e54 <mpu9255_process+0xc4>)
  8005e38:	701a      	strb	r2, [r3, #0]
-		}
-#else
-		dmp_read_fifo(dmpData.gyro.array, dmpData.acceleration.array, dmpData.quaternarion.array, &dmpData.timestamp, &dmpData.sensors, &more);
 
+		if (d.sensors != 0) {
+			memcpy(&dmpData, &d, sizeof(dmp_data_t));
+		}
 #endif
 		if (!more) {
  8005e3a:	79fb      	ldrb	r3, [r7, #7]
