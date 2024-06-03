@@ -213,12 +213,13 @@ void mpu9255_process() {
 #else
 		dmp_data_t d;	// temporary variable for the read.
 
-		dmp_read_fifo(d.gyro.array, d.acceleration.array, d.quaternarion.array, &d.timestamp, &d.sensors, &more);
+		if (dmp_read_fifo(d.gyro.array, d.acceleration.array,
+				d.quaternarion.array, &d.timestamp, &d.sensors, &more) == 0) {
 
-		// if new data is valid, copy over last saved data
-		if (d.sensors != 0) {
-			memcpy(&dmpData, &d, sizeof(dmp_data_t));
-		}
+			// if new data is valid, copy over last saved data
+			if (d.sensors == 0x178) {
+				memcpy(&dmpData, &d, sizeof(dmp_data_t));
+			}
 #endif
 			if (!more) {
 				updateRequired = false;
