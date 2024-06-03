@@ -193,17 +193,23 @@ dmp_data_t * mpu9255_getLast() {
 }
 
 void mpu9255_process() {
+
+
 	if (updateRequired) {
 
 		unsigned char more;
 
 
 #if DEBUG_DMP
-		dmp_read_fifo(dmpData[writeIndex].gyro.array, dmpData[writeIndex].acceleration.array, dmpData[writeIndex].quaternarion.array, &dmpData[writeIndex].timestamp, &dmpData[writeIndex].sensors, &more);
+		if (dmp_read_fifo(dmpData[writeIndex].gyro.array,
+				dmpData[writeIndex].acceleration.array,
+				dmpData[writeIndex].quaternarion.array,
+				&dmpData[writeIndex].timestamp, &dmpData[writeIndex].sensors,
+				&more) == 0) {
 
-		if (dmpData[writeIndex].sensors != 0) {
-			writeIndex++;
-		}
+			if (dmpData[writeIndex].sensors == 0x178) {
+				writeIndex++;
+			}
 #else
 		dmp_data_t d;	// temporary variable for the read.
 
@@ -214,10 +220,10 @@ void mpu9255_process() {
 			memcpy(&dmpData, &d, sizeof(dmp_data_t));
 		}
 #endif
-		if (!more) {
-			updateRequired = false;
+			if (!more) {
+				updateRequired = false;
+			}
 		}
-
 
 	}
 }
