@@ -3342,8 +3342,8 @@ int main(void)
  8001938:	f001 fb46 	bl	8002fc8 <AS5145B_Init>
 	systick_app_timer_module_init();
  800193c:	f001 fa1a 	bl	8002d74 <systick_app_timer_module_init>
-	mpu9255_init(10);
- 8001940:	200a      	movs	r0, #10
+	mpu9255_init(5);
+ 8001940:	2005      	movs	r0, #5
  8001942:	f004 fa8f 	bl	8005e64 <mpu9255_init>
 	readTimer_event_handler();
  8001946:	f004 f965 	bl	8005c14 <readTimer_event_handler>

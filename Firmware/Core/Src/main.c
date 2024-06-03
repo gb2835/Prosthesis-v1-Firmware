@@ -172,7 +172,7 @@ int main(void)
 	EPOS4_SetCSTMode(CAN_ID);
 	AS5145B_Init(&enc);
 	systick_app_timer_module_init();
-	mpu9255_init(10);
+	mpu9255_init(5);
 	readTimer_event_handler();
 
 	// Remove spikes from beginning
