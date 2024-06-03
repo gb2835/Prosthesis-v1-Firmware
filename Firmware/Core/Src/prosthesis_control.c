@@ -49,6 +49,12 @@ double CM_hipAngle_deg;
 float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointTorque_nm;
 float CM_jointSpeed_dps = 0.0f;
+int16_t CM_axOffset;
+int16_t CM_ayOffset;
+int16_t CM_azOffset;
+int16_t CM_gxOffset;
+int16_t CM_gyOffset;
+int16_t CM_gzOffset;
 uint16_t CM_magEncBias;
 uint16_t CM_loadCell_bot[3], CM_loadCell_top[3];					// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_loadCell_bot_filtered[3], CM_loadCell_top_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
@@ -93,14 +99,16 @@ struct dmp_data_s
    short	gx_dps;
    short	gy_dps;
    short  	gz_dps;
-   long		qw;
-   long		qx;
-   long		qy;
-   long		qz;
+   double	qw;
+   double	qx;
+   double	qy;
+   double	qz;
 };
 
 struct imu_data_s imu_data;
 
+// CubeMonitor
+double CM_rollPitchYaw_deg[3];
 struct imu_data_s CM_imu_data;
 struct dmp_data_s CM_dmp_data;
 
@@ -173,10 +181,24 @@ static void GetInputs (void)
 	CM_dmp_data.gx_dps = dmp_data->gyro.data.x;
 	CM_dmp_data.gy_dps = dmp_data->gyro.data.y;
 	CM_dmp_data.gz_dps = dmp_data->gyro.data.z;
-	CM_dmp_data.qw = dmp_data->quaternarion.data.w;
-	CM_dmp_data.qx = dmp_data->quaternarion.data.x;
-	CM_dmp_data.qy = dmp_data->quaternarion.data.y;
-	CM_dmp_data.qz = dmp_data->quaternarion.data.z;
+	double qw = dmp_data->quaternarion.data.w / 1000000000.0;
+	double qx = dmp_data->quaternarion.data.x / 1000000000.0;
+	double qy = dmp_data->quaternarion.data.y / 1000000000.0;
+	double qz = dmp_data->quaternarion.data.z / 1000000000.0;
+	double norm = sqrt( qw*qw + qx*qx + qy*qy + qz*qz );
+	CM_dmp_data.qw = qw / norm;
+	CM_dmp_data.qx = qx / norm;
+	CM_dmp_data.qy = qy / norm;
+	CM_dmp_data.qz = qz / norm;
+    double sinr_cosp = 2.0 * (CM_dmp_data.qw * CM_dmp_data.qx + CM_dmp_data.qy * CM_dmp_data.qz);
+    double cosr_cosp = 1.0 - 2.0 * (CM_dmp_data.qx * CM_dmp_data.qx + CM_dmp_data.qy * CM_dmp_data.qy);
+    CM_rollPitchYaw_deg[0] = atan2(sinr_cosp, cosr_cosp) * 180.0/3.1416;
+    double sinp = sqrt(1.0 + 2.0 * (CM_dmp_data.qw * CM_dmp_data.qy - CM_dmp_data.qx * CM_dmp_data.qz));
+    double cosp = sqrt(1.0 - 2.0 * (CM_dmp_data.qw * CM_dmp_data.qy - CM_dmp_data.qx * CM_dmp_data.qz));
+    CM_rollPitchYaw_deg[1] = ( 2.0 * atan2(sinp, cosp) - 3.1416 / 2.0 ) * 180.0/3.1416;
+    double siny_cosp = 2.0 * (CM_dmp_data.qw * CM_dmp_data.qz + CM_dmp_data.qx * CM_dmp_data.qy);
+    double cosy_cosp = 1.0 - 2.0 * (CM_dmp_data.qy * CM_dmp_data.qy + CM_dmp_data.qz * CM_dmp_data.qz);
+    CM_rollPitchYaw_deg[2] = atan2(siny_cosp, cosy_cosp) * 180.0/3.1416;
 }
 
 static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx )
@@ -358,13 +380,38 @@ static void RunTestProgram (void)
 		}
 
 		CM_magEncBias = sum / i;
-		(void) CM_magEncBias;
 
-		while (1);	// Halt program
+		break;
 	}
-	case GyroBias:
+	case GyroOffset:
 	{
-		// Complete after DMP is figured out??
+		uint16_t i;
+		int32_t sum_ax = 0;
+		int32_t sum_ay = 0;
+		int32_t sum_az = 0;
+		int32_t sum_gx = 0;
+		int32_t sum_gy = 0;
+		int32_t sum_gz = 0;
+
+		for ( i = 0; i < 1000; i++ )
+		{
+			struct imu_data_s imu_data = IMU_read();
+			sum_ax += imu_data.ax_g * 4096;
+			sum_ax += imu_data.ay_g * 4096;
+			sum_ax += imu_data.az_g * 4096;
+			sum_ax += imu_data.gx_dps * 32.8;
+			sum_ax += imu_data.gy_dps * 32.8;
+			sum_ax += imu_data.gz_dps * 32.8;
+		}
+
+		CM_axOffset = sum_ax / i;
+		CM_ayOffset = sum_ay / i;
+		CM_azOffset = sum_az / i;
+		CM_gxOffset = sum_gx / i;
+		CM_gyOffset = sum_gy / i;
+		CM_gzOffset = sum_gz / i;
+
+		break;
 	}
 	case ImpedanceControl:
 	{

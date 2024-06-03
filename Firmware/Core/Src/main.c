@@ -186,6 +186,12 @@ int main(void)
 	RequireTestProgram(ReadOnly);
 
 
+	// Gyro offsets??
+	unsigned char datax = 37 * 2;
+	unsigned char datay = 13 * 2;
+	mpu9255_write( 0, 0x14, 1, &datax );
+	mpu9255_write( 0, 0x16, 1, &datay );
+
 /*******************************************************************************
 * USER MAIN LOOP
 *******************************************************************************/
