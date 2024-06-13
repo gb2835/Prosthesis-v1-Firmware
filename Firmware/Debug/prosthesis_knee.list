@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  000200b0  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000eb83  00000000  00000000  000200e0  2**0
+ 12 .debug_info   0000eb80  00000000  00000000  000200e0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002c90  00000000  00000000  0002ec63  2**0
+ 13 .debug_abbrev 00002c90  00000000  00000000  0002ec60  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00001070  00000000  00000000  000318f8  2**3
+ 14 .debug_aranges 00001070  00000000  00000000  000318f0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000f40  00000000  00000000  00032968  2**3
+ 15 .debug_ranges 00000f40  00000000  00000000  00032960  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00026587  00000000  00000000  000338a8  2**0
+ 16 .debug_macro  0002659c  00000000  00000000  000338a0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000104bc  00000000  00000000  00059e2f  2**0
+ 17 .debug_line   000104bb  00000000  00000000  00059e3c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c88f8  00000000  00000000  0006a2eb  2**0
+ 18 .debug_str    000c88f8  00000000  00000000  0006a2f7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  00132be3  2**0
+ 19 .comment      00000050  00000000  00000000  00132bef  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004888  00000000  00000000  00132c34  2**2
+ 20 .debug_frame  00004888  00000000  00000000  00132c40  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -7202,7 +7202,7 @@ struct AS5145B_Data_s AS5145B_ReadData(void)
  8003496:	f000 f8b3 	bl	8003600 <AS5145B_Delay_500ns>
 
 	// Read angular position in ADC from first 12 bits (MSB first)
-	for ( int i = 12-1; i >= 0; i-- )
+	for(int i = 12-1; i >= 0; i--)
  800349a:	230b      	movs	r3, #11
  800349c:	617b      	str	r3, [r7, #20]
  800349e:	e02d      	b.n	80034fc <AS5145B_ReadData+0x84>
@@ -7248,7 +7248,7 @@ struct AS5145B_Data_s AS5145B_ReadData(void)
  80034f0:	4313      	orrs	r3, r2
  80034f2:	b21b      	sxth	r3, r3
  80034f4:	80bb      	strh	r3, [r7, #4]
-	for ( int i = 12-1; i >= 0; i-- )
+	for(int i = 12-1; i >= 0; i--)
  80034f6:	697b      	ldr	r3, [r7, #20]
  80034f8:	3b01      	subs	r3, #1
  80034fa:	617b      	str	r3, [r7, #20]

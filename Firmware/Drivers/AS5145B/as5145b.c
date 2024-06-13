@@ -34,8 +34,6 @@
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-#define AS5145B_RAW2DEG	360/4096.0f
-
 typedef struct
 {
 	GPIO_TypeDef	*DO_GPIOx;
@@ -74,7 +72,7 @@ struct AS5145B_Data_s AS5145B_ReadData(void)
 	AS5145B_Delay_500ns();											// Delay of 500 ns minimum required for t_(CLK FE) (Figure 10 and Figure 13 in DS)
 
 	// Read angular position in ADC from first 12 bits (MSB first)
-	for ( int i = 12-1; i >= 0; i-- )
+	for(int i = 12-1; i >= 0; i--)
 	{
 		LL_GPIO_ResetOutputPin(AS5145B.CLK_GPIOx, AS5145B.CLK_Pin);
 		AS5145B_Delay_500ns();																// Delay of 500 ns minimum required for T_(CLK/2) (Figure 10 and Figure 13 in DS)

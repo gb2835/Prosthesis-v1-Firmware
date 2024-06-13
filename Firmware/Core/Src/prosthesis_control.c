@@ -7,9 +7,6 @@
  * NOTES
  * 1. None.
  *
- * ABSTRACT
- * The below code provides the functionality for prosthesis control.
- *
  ******************************************************************************/
 
 #include "as5145b.h"
@@ -78,8 +75,8 @@ struct IMU_Data_s IMU_Data;
 
 double compFiltAngle_deg = 0.0;
 double dGyroAngle_deg = 0.0;
-float dt = 1 / 512.0f;						// Sample time
-float encBias_deg = 1325 * 360/4096.0f;
+float dt = 1 / 512.0f;
+float encBias_deg = 1325 * AS5145B_RAW2DEG;
 uint8_t isFirst = 1;
 uint8_t isSecond = 0;
 uint8_t isTestProgramRequired = 0;
@@ -223,9 +220,9 @@ static void ProcessInputs(void)
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
 		CM_LoadCell_Filtered->bot[0] =   1.6556f * CM_LoadCell_Filtered->bot[1] - 0.7068f * CM_LoadCell_Filtered->bot[2]
-									  + 0.0128f * CM_LoadCell->bot[0] + 0.0256f * CM_LoadCell->bot[1] + 0.0128f * CM_LoadCell->bot[2];
+									   + 0.0128f * CM_LoadCell->bot[0] + 0.0256f * CM_LoadCell->bot[1] + 0.0128f * CM_LoadCell->bot[2];
 		CM_LoadCell_Filtered->top[0] =   1.6556f * CM_LoadCell_Filtered->top[1] - 0.7068f * CM_LoadCell_Filtered->top[2]
-									  + 0.0128f * CM_LoadCell->top[0] + 0.0256f * CM_LoadCell->top[1] + 0.0128f * CM_LoadCell->top[2];
+									   + 0.0128f * CM_LoadCell->top[0] + 0.0256f * CM_LoadCell->top[1] + 0.0128f * CM_LoadCell->top[2];
 
 		CM_jointAngle_deg[1] = CM_jointAngle_deg[0];
 		CM_LoadCell->bot[2] = CM_LoadCell->bot[1];
@@ -442,9 +439,9 @@ void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes)
 
 	for (i = 0; i < Bytes; i++)
 	{
-		while (!(SPI1->SR & SPI_SR_TXE));
+		while(!(SPI1->SR & SPI_SR_TXE));
 		LL_SPI_TransmitData8(SPI1, 0x00);
-		while (!(SPI1->SR & SPI_SR_RXNE));
+		while(!(SPI1->SR & SPI_SR_RXNE));
 		ReadBuf[i] = LL_SPI_ReceiveData8(SPI1);
 	}
 

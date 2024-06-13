@@ -19,6 +19,8 @@
 * PUBLIC DEFINITIONS
 *******************************************************************************/
 
+#define AS5145B_RAW2DEG	360/4096.0f
+
 typedef struct
 {
 	GPIO_TypeDef	*DO_GPIOx;
