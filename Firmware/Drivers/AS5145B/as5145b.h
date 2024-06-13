@@ -21,12 +21,12 @@
 
 typedef struct
 {
-	GPIO_TypeDef	*CSn_GPIOx;
-	GPIO_TypeDef	*CLK_GPIOx;
 	GPIO_TypeDef	*DO_GPIOx;
-	uint16_t		CSn_Pin;
-	uint16_t		CLK_Pin;
+	GPIO_TypeDef	*CLK_GPIOx;
+	GPIO_TypeDef	*CSn_GPIOx;
 	uint16_t		DO_Pin;
+	uint16_t		CLK_Pin;
+	uint16_t		CSn_Pin;
 } AS5145B_Init_t;
 
 struct AS5145B_Data_s
@@ -35,11 +35,11 @@ struct AS5145B_Data_s
 	uint8_t	status;
 };
 
-void AS5145B_Init ( AS5145B_Init_t *dev );
-struct AS5145B_Data_s AS5145B_ReadData (void);
-uint16_t AS5145B_ReadPosition_Raw (void);
-float AS5145B_ReadPosition_Deg (void);
-uint8_t AS5145B_ReadStatus (void);
+void AS5145B_Init(AS5145B_Init_t *dev);
+struct AS5145B_Data_s AS5145B_ReadData(void);
+uint16_t AS5145B_ReadPosition_Raw(void);
+float AS5145B_ReadPosition_Deg(void);
+uint8_t AS5145B_ReadStatus(void);
 
 
 /*******************************************************************************

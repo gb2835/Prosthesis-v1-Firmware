@@ -2,7 +2,7 @@
 
 /*******************************************************************************
  *
- * TITLE   Prosthesis Control (main) rename project and github to prosthesis_control??
+ * TITLE   Prosthesis Firmware
  * AUTHOR  Greg Berkeley
  * RELEASE XX/XX/XXXX
  *
@@ -18,7 +18,7 @@
  * 4. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *    A new magnetic encoder bias position must be found and defined whenever
  *    the magnet is reassembled into the prosthesis device. A test program is
- *    provided to find the bias. Location??
+ *    provided to find the bias.
  *    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *
  * ABSTRACT
@@ -83,7 +83,7 @@ void SystemClock_Config(void);
 #include "mpu9255.h"
 #include "systick_app_timer.h"
 
-#define LPTIM2_PERIOD 0x3F	// put something here??
+#define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / ( prescaler * ( period + 1 ) )
 
 
 /******************************************************************************/
@@ -139,13 +139,13 @@ int main(void)
 * USER DEFINITIONS
 *******************************************************************************/
 
-	AS5145B_Init_t enc;
-	enc.CSn_GPIOx	= ENC_CSn_GPIO_Port;
-	enc.CSn_Pin		= ENC_CSn_Pin;
-	enc.CLK_GPIOx	= ENC_CLK_GPIO_Port;
-	enc.CLK_Pin		= ENC_CLK_Pin;
-	enc.DO_GPIOx	= ENC_DO_GPIO_Port;
-	enc.DO_Pin		= ENC_DO_Pin;
+	AS5145B_Init_t MagEnc;
+	MagEnc.DO_GPIOx = ENC_DO_GPIO_Port;
+	MagEnc.CLK_GPIOx = ENC_CLK_GPIO_Port;
+	MagEnc.CSn_GPIOx = ENC_CSn_GPIO_Port;
+	MagEnc.DO_Pin = ENC_DO_Pin;
+	MagEnc.CLK_Pin = ENC_CLK_Pin;
+	MagEnc.CSn_Pin = ENC_CSn_Pin;
 
 
 /*******************************************************************************
@@ -170,7 +170,7 @@ int main(void)
 	// Initialize devices
 	CAN_configure();
 	EPOS4_SetCSTMode(CAN_ID);
-	AS5145B_Init(&enc);
+	AS5145B_Init(&MagEnc);
 	systick_app_timer_module_init();
 	mpu9255_init(10);
 	readTimer_event_handler();
