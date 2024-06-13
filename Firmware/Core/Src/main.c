@@ -83,7 +83,7 @@ void SystemClock_Config(void);
 #include "mpu9255.h"
 #include "systick_app_timer.h"
 
-#define LPTIM2_PERIOD 0x3F
+#define LPTIM2_PERIOD 0x3F	// put something here??
 
 
 /******************************************************************************/
@@ -158,8 +158,8 @@ int main(void)
 	// Start LPTIM2 interrupt
 	LL_LPTIM_Enable(LPTIM2);
 	LL_LPTIM_EnableIT_ARRM(LPTIM2);
-	LL_LPTIM_SetAutoReload( LPTIM2, LPTIM2_PERIOD );
-	LL_LPTIM_StartCounter( LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS );
+	LL_LPTIM_SetAutoReload(LPTIM2, LPTIM2_PERIOD);
+	LL_LPTIM_StartCounter(LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS);
 
 	// Enable peripherals
 	LL_SPI_Enable(SPI1);
@@ -180,23 +180,17 @@ int main(void)
 
 
 /*******************************************************************************
-* TEST PROGRAMS
+* USER TEST PROGRAMS
 *******************************************************************************/
 
 	RequireTestProgram(ReadOnly);
 
 
-	// Gyro offsets??
-	unsigned char datax = 37 * 2;
-	unsigned char datay = 13 * 2;
-	mpu9255_write( 0, 0x14, 1, &datax );
-	mpu9255_write( 0, 0x16, 1, &datay );
-
 /*******************************************************************************
 * USER MAIN LOOP
 *******************************************************************************/
 
-  while (1)
+  while(1)
   {
 	  if (isProsthesisControlRequired)
 	  {

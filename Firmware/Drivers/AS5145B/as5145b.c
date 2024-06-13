@@ -34,7 +34,7 @@
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-#define AS5145B_RAW2DEG	360/4096.0f
+#define AS5145B_RAW2DEG	360.0f/4096.0f
 
 typedef struct
 {
