@@ -149,28 +149,26 @@ int main(void)
 * USER INITIALIZATIONS
 *******************************************************************************/
 
-	// Enable Systick interrupt
 	LL_SYSTICK_EnableIT();
 
-	// Start LPTIM2 interrupt
 	LL_LPTIM_Enable(LPTIM2);
 	LL_LPTIM_EnableIT_ARRM(LPTIM2);
 	LL_LPTIM_SetAutoReload(LPTIM2, LPTIM2_PERIOD);
 	LL_LPTIM_StartCounter(LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS);
 
-	// Enable peripherals
 	LL_SPI_Enable(SPI1);
 	LL_SPI_Enable(SPI2);
 	LL_ADC_Enable(ADC1);
 	LL_ADC_Enable(ADC2);
 
-	// Initialize devices
 	CAN_configure();
 	EPOS4_SetCSTMode(CAN_ID);
 	AS5145B_Init(&MagEnc);
 	systick_app_timer_module_init();
 	mpu9255_init(10);
 	readTimer_event_handler();
+
+	InitProsthesisControl();
 
 	// Remove spikes from beginning
 	for ( uint16_t i = 0; i < 1000; i++ );

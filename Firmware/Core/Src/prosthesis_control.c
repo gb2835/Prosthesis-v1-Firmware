@@ -71,7 +71,7 @@ struct IMU_Data_s
 
 static enum TestPrograms_e testProgram;
 struct ControlParams_s ProsCtrl;
-struct IMU_Data_s IMU_Data;
+struct IMU_Data_s IMU_Data;					// Uncalibrated data
 
 double compFiltAngle_deg = 0.0;
 double dGyroAngle_deg = 0.0;
@@ -87,7 +87,7 @@ float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointSpeed_dps = 0.0f;
 float CM_jointTorque_nm;
 struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingCtrl;
-struct IMU_Data_s CM_IMU_Data;
+struct IMU_Data_s CM_IMU_Data;										// Calibrated data
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_magEncBias_raw;
 
@@ -392,19 +392,57 @@ struct IMU_Data_s IMU_read(void)
 
 	ReadRegs(MPUREG_ACCEL_XOUT_H, response, 21);
 
-	int16_t AX = ((int16_t) response[0] << 8) | response[1];
-	int16_t AY = ((int16_t) response[2] << 8) | response[3];
-	int16_t AZ = ((int16_t) response[4] << 8) | response[5];
-	int16_t GX = ((int16_t) response[8] << 8) | response[9];
-	int16_t GY = ((int16_t) response[10] << 8) | response[11];
-	int16_t GZ = ((int16_t) response[12] << 8) | response[13];
+//	int16_t AX = ((int16_t) response[0] << 8) | response[1];
+//	int16_t AY = ((int16_t) response[2] << 8) | response[3];
+//	int16_t AZ = ((int16_t) response[4] << 8) | response[5];
+//	int16_t GX = ((int16_t) response[8] << 8) | response[9];
+//	int16_t GY = ((int16_t) response[10] << 8) | response[11];
+//	int16_t GZ = ((int16_t) response[12] << 8) | response[13];
 
-	IMU.ax_g = AX / 4096.0;
-	IMU.ay_g = AY / 4096.0;
-	IMU.az_g = AZ / 4096.0;
-	IMU.gx_dps = GX / 32.8;
-	IMU.gy_dps = GY / 32.8;
-	IMU.gz_dps = GZ / 32.8;
+	int16_t accel[3];
+	int16_t gyro[3];
+	int8_t orientation[3] = {-1, 2, -3};
+
+	if(orientation[0] > 0)
+	{
+		accel[orientation[0]-1] = ((int16_t) response[0] << 8) | response[1];
+		gyro[orientation[0]-1] = ((int16_t) response[8] << 8) | response[9];
+	}
+	else
+	{
+		accel[-orientation[0]-1] = -((int16_t) response[0] << 8) | response[1];
+		gyro[-orientation[0]-1] = -((int16_t) response[8] << 8) | response[9];
+	}
+
+	if(orientation[1] > 0)
+	{
+		accel[orientation[1]-1] = ((int16_t) response[2] << 8) | response[3];
+		gyro[orientation[1]-1] = ((int16_t) response[10] << 8) | response[11];
+	}
+	else
+	{
+		accel[-orientation[1]-1] = -((int16_t) response[2] << 8) | response[3];
+		gyro[-orientation[1]-1] = -((int16_t) response[10] << 8) | response[11];
+	}
+
+	if(orientation[2] > 0)
+	{
+		accel[orientation[2]-1] = ((int16_t) response[4] << 8) | response[5];
+		gyro[orientation[2]-1] = ((int16_t) response[12] << 8) | response[13];
+	}
+	else
+	{
+		accel[-orientation[2]-1] = -((int16_t) response[4] << 8) | response[5];
+		gyro[-orientation[2]-1] = -((int16_t) response[12] << 8) | response[13];
+	}
+
+	IMU.ax_g = accel[0] / 4096.0;
+	IMU.ay_g = accel[1] / 4096.0;
+	IMU.az_g = accel[2] / 4096.0;
+	IMU.gx_dps = gyro[0] / 32.8;
+	IMU.gy_dps = gyro[1] / 32.8;
+	IMU.gz_dps = gyro[2] / 32.8;
+
 	return IMU;
 }
 

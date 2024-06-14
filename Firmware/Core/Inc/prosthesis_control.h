@@ -19,7 +19,7 @@
 
 enum TestPrograms_e
 {
-	None,				// No test program runs
+	None,
 	ReadOnly,
 	ConstantTorque,
 	MagneticEncoderBias,
@@ -29,6 +29,7 @@ enum TestPrograms_e
 extern uint16_t CAN_ID;
 extern uint8_t isProsthesisControlRequired;
 
+void InitProsthesisControl(void);
 void RunProsthesisControl(void);
 void RequireTestProgram(enum TestPrograms_e option);
 
