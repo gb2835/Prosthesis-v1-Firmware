@@ -110,9 +110,8 @@ void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes);
 
 void InitProsthesisControl(void)
 {
-	CM_ImpCtrl.eqPoint_deg = 0.0f;
 	CM_ImpCtrl.kd = 0.0f;
-	CM_ImpCtrl.kp = 0.0f;
+	CM_ImpCtrl.kp = 2.5f;
 	CM_StanceCtrl.eqPoint_deg = -4.99f;		// Vanderbilt = -4.99 deg
 	CM_StanceCtrl.kd = 0.0;					// Vanderbilt = 0 N*m/(deg/s)
 	CM_StanceCtrl.kp = 2.5f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
@@ -277,7 +276,7 @@ static void ComputeLimbAngle(void)
 	double alpha = 0.002;
 	compFiltAngle_deg = accelAngle_deg*alpha + (1 - alpha) * (dGyroAngle_deg + compFiltAngle_deg);
 
-	CM_limbAngle_deg = compFiltAngle_deg - CM_jointAngle_deg[0];
+	CM_limbAngle_deg = compFiltAngle_deg + CM_jointAngle_deg[0];
 }
 
 static void RunStateMachine(void)
@@ -353,9 +352,6 @@ static void RunTestProgram(void)
 		if (isFirst)
 		{
 			uint16_t i;
-
-			ProsCtrl.kd = CM_ImpCtrl.kd;
-			ProsCtrl.kp = CM_ImpCtrl.kp;
 			float sum = 0.0f;
 
 			for(i = 0; i < 1000; i++)
@@ -368,7 +364,10 @@ static void RunTestProgram(void)
 		}
 		else
 		{
+			ProsCtrl.kd = CM_ImpCtrl.kd;
+			ProsCtrl.kp = CM_ImpCtrl.kp;
 			ProsCtrl.eqPoint_deg = CM_ImpCtrl.eqPoint_deg;
+
 			RunImpedanceControl();
 		}
 
@@ -392,13 +391,6 @@ struct IMU_Data_s IMU_read(void)
 
 	ReadRegs(MPUREG_ACCEL_XOUT_H, response, 21);
 
-//	int16_t AX = ((int16_t) response[0] << 8) | response[1];
-//	int16_t AY = ((int16_t) response[2] << 8) | response[3];
-//	int16_t AZ = ((int16_t) response[4] << 8) | response[5];
-//	int16_t GX = ((int16_t) response[8] << 8) | response[9];
-//	int16_t GY = ((int16_t) response[10] << 8) | response[11];
-//	int16_t GZ = ((int16_t) response[12] << 8) | response[13];
-
 	int16_t accel[3];
 	int16_t gyro[3];
 	int8_t orientation[3] = {-1, 2, -3};
@@ -410,8 +402,11 @@ struct IMU_Data_s IMU_read(void)
 	}
 	else
 	{
-		accel[-orientation[0]-1] = -((int16_t) response[0] << 8) | response[1];
-		gyro[-orientation[0]-1] = -((int16_t) response[8] << 8) | response[9];
+		int16_t tmp = ((int16_t) response[0] << 8) | response[1];
+		accel[-orientation[0]-1] = -tmp;
+
+		tmp = ((int16_t) response[8] << 8) | response[9];
+		gyro[-orientation[0]-1] = -tmp;
 	}
 
 	if(orientation[1] > 0)
@@ -421,8 +416,11 @@ struct IMU_Data_s IMU_read(void)
 	}
 	else
 	{
-		accel[-orientation[1]-1] = -((int16_t) response[2] << 8) | response[3];
-		gyro[-orientation[1]-1] = -((int16_t) response[10] << 8) | response[11];
+		int16_t tmp = ((int16_t) response[2] << 8) | response[3];
+		accel[-orientation[1]-1] = -tmp;
+
+		tmp = ((int16_t) response[10] << 8) | response[11];
+		gyro[-orientation[1]-1] = -tmp;
 	}
 
 	if(orientation[2] > 0)
@@ -432,8 +430,11 @@ struct IMU_Data_s IMU_read(void)
 	}
 	else
 	{
-		accel[-orientation[2]-1] = -((int16_t) response[4] << 8) | response[5];
-		gyro[-orientation[2]-1] = -((int16_t) response[12] << 8) | response[13];
+		int16_t tmp = ((int16_t) response[4] << 8) | response[5];
+		accel[-orientation[2]-1] = -tmp;
+
+		tmp = ((int16_t) response[12] << 8) | response[13];
+		gyro[-orientation[2]-1] = -tmp;
 	}
 
 	IMU.ax_g = accel[0] / 4096.0;

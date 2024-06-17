@@ -170,55 +170,55 @@
         ]
     },
     {
-        "id": "e84446091e43a1e4",
+        "id": "f3ea2dbea57410a2",
         "type": "tab",
         "label": "Basic_Flow",
         "disabled": false,
         "info": "# Basic flow to start with STM32CubeMonitor."
     },
     {
-        "id": "4a303596401c168c",
+        "id": "b5d332b35f305c45",
         "type": "acquisition out",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "myProbe_Out",
-        "probeconfig": "434fcf31a2f1684f",
+        "probeconfig": "405108040c755406",
         "x": 820,
         "y": 120,
         "wires": []
     },
     {
-        "id": "554defaa6eaa9cca",
+        "id": "9b0858fa8d0957d9",
         "type": "acquisition in",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "myProbe_In",
-        "probeconfig": "434fcf31a2f1684f",
+        "probeconfig": "405108040c755406",
         "x": 1050,
         "y": 80,
         "wires": [
             [
-                "6f366b87b8f95291",
-                "209384eb5e56abcc",
-                "9c24f440aca16060",
-                "0d1d732edf200f68",
-                "25e62c6096a97d9e",
-                "27ab249492316a89",
-                "eb660c71b0ccee4d",
-                "dba1f9f036cfb426",
-                "f0d98dc3a72b0d35",
-                "65f9fb6e4242793a",
-                "4b0cc3edff89f8c4",
-                "3771d919dc2643f7"
+                "afbf3e134fc8f492",
+                "14f3e15557dd41a2",
+                "8e5f81279b640d1d",
+                "ef47e798a2f7696d",
+                "bde46b60aee0d902",
+                "01cf8cc54e699abd",
+                "125e2861acec6ff7",
+                "e4e844f1741672ba",
+                "376729098eda3ba9",
+                "5c4d692a54c1893f",
+                "e8b2230b46ee7c5d",
+                "525e3f76618d7d7d"
             ],
             []
         ]
     },
     {
-        "id": "a3c35465c02826ad",
+        "id": "157dd4ac79088566",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Joint & Limb Angle",
         "accesspoint": 0,
-        "execonfig": "7552992f60894f1e",
+        "execonfig": "461ec212ad9b077f",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_jointAngle_deg[0]",
@@ -227,25 +227,25 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309454298,
+        "lastImportedTime": 1718390774511,
         "openStatus": true,
         "x": 390,
         "y": 180,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "25e62c6096a97d9e",
+        "id": "bde46b60aee0d902",
         "type": "ui_button",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "",
-        "group": "093cb4c623e98bb9",
+        "group": "022c49444173c6ce",
         "order": 5,
         "width": 6,
         "height": 1,
@@ -264,21 +264,21 @@
         "y": 500,
         "wires": [
             [
-                "8b6e74e02a28679c",
-                "91da1812b98f55b2",
-                "d74faa71fbe03187",
-                "d5e86987286af2e7",
-                "2ac072f0bb8e65ab",
-                "48c96b6e065bb826"
+                "d2a807a1be9955b0",
+                "75c5b302ae6c4446",
+                "ba965679a6ef66b0",
+                "1422562a74e57b08",
+                "3875dfa927e1ea4d",
+                "b67c859247d90ec9"
             ]
         ]
     },
     {
-        "id": "c4f09a870568445e",
+        "id": "40f46f513f04f672",
         "type": "ui_button",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "",
-        "group": "093cb4c623e98bb9",
+        "group": "022c49444173c6ce",
         "order": 3,
         "width": 6,
         "height": 1,
@@ -297,26 +297,26 @@
         "y": 80,
         "wires": [
             [
-                "a3c35465c02826ad",
-                "25f165da0ccd6517",
-                "dd9edd8dace810c3",
-                "fc3a96c9e0466661",
-                "d8428c85f31c559c",
-                "d0bc17b5f03ee25b",
-                "3f5163571f5d2a24",
-                "cd0b5c247e9854d9",
-                "b55659ab715dc4af",
-                "66ba92853c8c3288",
-                "7e0fe4fbc3aaa311"
+                "157dd4ac79088566",
+                "6f95a14a9fd3f260",
+                "2bb981d6293cb012",
+                "f37bf0e298af34e4",
+                "45da695948e18197",
+                "f3a6bcf0d66ab403",
+                "e5698e2e6d1d7ac4",
+                "c6a6f6a326cf0d5f",
+                "b6cafea31d6f7da9",
+                "22c46372661b2660",
+                "1bfe51b11203f3fc"
             ]
         ]
     },
     {
-        "id": "8f0d593428323891",
+        "id": "889611dc9d1c9ee9",
         "type": "ui_button",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "",
-        "group": "093cb4c623e98bb9",
+        "group": "022c49444173c6ce",
         "order": 4,
         "width": 6,
         "height": 1,
@@ -335,22 +335,22 @@
         "y": 120,
         "wires": [
             [
-                "a3c35465c02826ad",
-                "25f165da0ccd6517",
-                "dd9edd8dace810c3",
-                "fc3a96c9e0466661",
-                "d8428c85f31c559c",
-                "d0bc17b5f03ee25b",
-                "3f5163571f5d2a24",
-                "cd0b5c247e9854d9",
-                "b55659ab715dc4af"
+                "157dd4ac79088566",
+                "6f95a14a9fd3f260",
+                "2bb981d6293cb012",
+                "f37bf0e298af34e4",
+                "45da695948e18197",
+                "f3a6bcf0d66ab403",
+                "e5698e2e6d1d7ac4",
+                "c6a6f6a326cf0d5f",
+                "b6cafea31d6f7da9"
             ]
         ]
     },
     {
-        "id": "6f366b87b8f95291",
+        "id": "afbf3e134fc8f492",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Joint & Limb Angle",
         "groupid": "e22f1676f93504a8",
         "expressions": [],
@@ -361,15 +361,15 @@
         "y": 140,
         "wires": [
             [
-                "48c96b6e065bb826"
+                "b67c859247d90ec9"
             ],
             []
         ]
     },
     {
-        "id": "1aa5ff52ae35864c",
+        "id": "6055b386e196da53",
         "type": "ui_toast",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "position": "top right",
         "displayTime": "3",
         "highlight": "",
@@ -385,12 +385,12 @@
         "wires": []
     },
     {
-        "id": "25f165da0ccd6517",
+        "id": "6f95a14a9fd3f260",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Load Cells",
         "accesspoint": 0,
-        "execonfig": "e21f99943e63bb93",
+        "execonfig": "58b60e6ff3a4f49b",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_LoadCell[0].bot[0]",
@@ -399,26 +399,26 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309465245,
+        "lastImportedTime": 1718390779697,
         "openStatus": false,
         "x": 370,
         "y": 240,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "dd9edd8dace810c3",
+        "id": "2bb981d6293cb012",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Gyroscope",
         "accesspoint": 0,
-        "execonfig": "ed04ddbea67ea287",
+        "execonfig": "ede404165379940f",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_IMU_Data.gx_dps",
@@ -427,26 +427,26 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309487275,
+        "lastImportedTime": 1718390789474,
         "openStatus": false,
         "x": 370,
         "y": 360,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "fc3a96c9e0466661",
+        "id": "f37bf0e298af34e4",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Accelerometer",
         "accesspoint": 0,
-        "execonfig": "0a7dac80e6422552",
+        "execonfig": "908f670e628debd0",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_IMU_Data.ax_g",
@@ -455,23 +455,23 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309475482,
+        "lastImportedTime": 1718390784960,
         "openStatus": false,
         "x": 380,
         "y": 300,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "209384eb5e56abcc",
+        "id": "14f3e15557dd41a2",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Load Cells",
         "groupid": "ea1e5ad05fc09777",
         "expressions": [],
@@ -482,15 +482,15 @@
         "y": 200,
         "wires": [
             [
-                "d74faa71fbe03187"
+                "ba965679a6ef66b0"
             ],
             []
         ]
     },
     {
-        "id": "9c24f440aca16060",
+        "id": "8e5f81279b640d1d",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Accelerometer",
         "groupid": "dda7cfbcb1cf7fdb",
         "expressions": [],
@@ -501,15 +501,15 @@
         "y": 260,
         "wires": [
             [
-                "91da1812b98f55b2"
+                "75c5b302ae6c4446"
             ],
             []
         ]
     },
     {
-        "id": "0d1d732edf200f68",
+        "id": "ef47e798a2f7696d",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Gyroscope",
         "groupid": "bf9ca4bc09375a9c",
         "expressions": [],
@@ -520,16 +520,16 @@
         "y": 320,
         "wires": [
             [
-                "8b6e74e02a28679c"
+                "d2a807a1be9955b0"
             ],
             []
         ]
     },
     {
-        "id": "d74faa71fbe03187",
+        "id": "ba965679a6ef66b0",
         "type": "ui_chartst",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Load Cells",
         "order": 2,
         "width": 12,
@@ -544,10 +544,10 @@
         "wires": []
     },
     {
-        "id": "91da1812b98f55b2",
+        "id": "75c5b302ae6c4446",
         "type": "ui_chartst",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Accelerometer",
         "order": 9,
         "width": 12,
@@ -562,10 +562,10 @@
         "wires": []
     },
     {
-        "id": "8b6e74e02a28679c",
+        "id": "d2a807a1be9955b0",
         "type": "ui_chartst",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Gyroscope",
         "order": 10,
         "width": 12,
@@ -580,12 +580,12 @@
         "wires": []
     },
     {
-        "id": "d8428c85f31c559c",
+        "id": "45da695948e18197",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Joint Torque",
         "accesspoint": 0,
-        "execonfig": "de923210c5e79a1c",
+        "execonfig": "51fb48adf17aec58",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_jointTorque_nm",
@@ -594,26 +594,26 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309495096,
+        "lastImportedTime": 1718390793722,
         "openStatus": false,
         "x": 370,
         "y": 420,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "d0bc17b5f03ee25b",
+        "id": "f3a6bcf0d66ab403",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Joint Speed",
         "accesspoint": 0,
-        "execonfig": "dda70fde5315dc5c",
+        "execonfig": "c39df86c3a7b1ecd",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_jointSpeed_dps",
@@ -622,23 +622,23 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309501112,
+        "lastImportedTime": 1718390799240,
         "openStatus": false,
         "x": 370,
         "y": 480,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "eb660c71b0ccee4d",
+        "id": "125e2861acec6ff7",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Joint Torque",
         "groupid": "4af9267e36bfc878",
         "expressions": [],
@@ -649,15 +649,15 @@
         "y": 380,
         "wires": [
             [
-                "d5e86987286af2e7"
+                "1422562a74e57b08"
             ],
             []
         ]
     },
     {
-        "id": "27ab249492316a89",
+        "id": "01cf8cc54e699abd",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Joint Speed",
         "groupid": "df8910eed57e5d04",
         "expressions": [],
@@ -668,16 +668,16 @@
         "y": 440,
         "wires": [
             [
-                "2ac072f0bb8e65ab"
+                "3875dfa927e1ea4d"
             ],
             []
         ]
     },
     {
-        "id": "d5e86987286af2e7",
+        "id": "1422562a74e57b08",
         "type": "ui_chartst",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Joint Torque",
         "order": 14,
         "width": 12,
@@ -692,10 +692,10 @@
         "wires": []
     },
     {
-        "id": "2ac072f0bb8e65ab",
+        "id": "3875dfa927e1ea4d",
         "type": "ui_chartst",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Joint Speed",
         "order": 13,
         "width": 12,
@@ -710,10 +710,10 @@
         "wires": []
     },
     {
-        "id": "48c96b6e065bb826",
+        "id": "b67c859247d90ec9",
         "type": "ui_chartst",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Joint & Hip Angle",
         "order": 1,
         "width": 12,
@@ -728,12 +728,12 @@
         "wires": []
     },
     {
-        "id": "3f5163571f5d2a24",
+        "id": "e5698e2e6d1d7ac4",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "All Variables",
         "accesspoint": 0,
-        "execonfig": "269a3bbdcda52561",
+        "execonfig": "c433f91e6f82d408",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_ImpCtrl.eqPoint_deg",
@@ -742,23 +742,23 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309447791,
+        "lastImportedTime": 1718390766549,
         "openStatus": true,
         "x": 370,
         "y": 120,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "dba1f9f036cfb426",
+        "id": "e4e844f1741672ba",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "All Variables",
         "groupid": "26f6097dd386b260",
         "expressions": [],
@@ -773,12 +773,12 @@
         ]
     },
     {
-        "id": "cd0b5c247e9854d9",
+        "id": "c6a6f6a326cf0d5f",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Magnetic Encoder Bias",
         "accesspoint": 0,
-        "execonfig": "67c582a1cfeb23e7",
+        "execonfig": "fab78f5c68f91af3",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_magEncBias_raw",
@@ -787,23 +787,23 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1718309507013,
+        "lastImportedTime": 1718390803614,
         "openStatus": false,
         "x": 410,
         "y": 540,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "f0d98dc3a72b0d35",
+        "id": "376729098eda3ba9",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Magnetic Encoder Bias",
         "groupid": "c7cb31e221bfb5c5",
         "expressions": [],
@@ -814,15 +814,15 @@
         "y": 580,
         "wires": [
             [
-                "ca55df2dbea6b5a4"
+                "9f325250c02d4c17"
             ],
             []
         ]
     },
     {
-        "id": "ca55df2dbea6b5a4",
+        "id": "9f325250c02d4c17",
         "type": "subflow:8381c865.236028",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "",
         "env": [
             {
@@ -835,15 +835,15 @@
         "y": 580,
         "wires": [
             [
-                "b7c5551d9fdeb0a9"
+                "5769a4da79f865d5"
             ]
         ]
     },
     {
-        "id": "b7c5551d9fdeb0a9",
+        "id": "5769a4da79f865d5",
         "type": "ui_text",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "order": 7,
         "width": 6,
         "height": 1,
@@ -861,12 +861,12 @@
         "wires": []
     },
     {
-        "id": "b55659ab715dc4af",
+        "id": "b6cafea31d6f7da9",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Stance Control",
         "accesspoint": 0,
-        "execonfig": "c5a3a5fa6cc7c526",
+        "execonfig": "6190bb5a0d4167b5",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_StanceCtrl.eqPoint_deg",
@@ -881,19 +881,19 @@
         "y": 600,
         "wires": [
             [
-                "fee86f50af9732c0",
-                "4a303596401c168c"
+                "cf7c9824f762c71b",
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "fee86f50af9732c0",
+        "id": "cf7c9824f762c71b",
         "type": "ui_write",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Stance Control",
         "order": 11,
         "width": 6,
@@ -902,14 +902,14 @@
         "y": 600,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ]
         ]
     },
     {
-        "id": "65f9fb6e4242793a",
+        "id": "5c4d692a54c1893f",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Stance Control",
         "groupid": "b55659ab715dc4af",
         "expressions": [],
@@ -924,12 +924,12 @@
         ]
     },
     {
-        "id": "66ba92853c8c3288",
+        "id": "22c46372661b2660",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Swing Control",
         "accesspoint": 0,
-        "execonfig": "d3e1f3734b9e657a",
+        "execonfig": "bd9dd3cbd0d493bc",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_SwingCtrl.eqPoint_deg",
@@ -944,19 +944,19 @@
         "y": 660,
         "wires": [
             [
-                "b1de8d1371a7df89",
-                "4a303596401c168c"
+                "88d227f5436c2464",
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "b1de8d1371a7df89",
+        "id": "88d227f5436c2464",
         "type": "ui_write",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Swing Control",
         "order": 12,
         "width": 6,
@@ -965,17 +965,17 @@
         "y": 660,
         "wires": [
             [
-                "4a303596401c168c"
+                "b5d332b35f305c45"
             ]
         ]
     },
     {
-        "id": "7e0fe4fbc3aaa311",
+        "id": "1bfe51b11203f3fc",
         "type": "variables",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Impedance Control",
         "accesspoint": 0,
-        "execonfig": "a23b336e658bdc48",
+        "execonfig": "eb6900588c03e111",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_ImpCtrl.eqPoint_deg",
@@ -990,19 +990,19 @@
         "y": 720,
         "wires": [
             [
-                "1b965095652f0dd0",
-                "4a303596401c168c"
+                "3a5fe72e6803506d",
+                "b5d332b35f305c45"
             ],
             [
-                "1aa5ff52ae35864c"
+                "6055b386e196da53"
             ]
         ]
     },
     {
-        "id": "1b965095652f0dd0",
+        "id": "3a5fe72e6803506d",
         "type": "ui_write",
-        "z": "e84446091e43a1e4",
-        "group": "093cb4c623e98bb9",
+        "z": "f3ea2dbea57410a2",
+        "group": "022c49444173c6ce",
         "name": "Impedance Control",
         "order": 15,
         "width": 6,
@@ -1010,13 +1010,15 @@
         "x": 630,
         "y": 720,
         "wires": [
-            []
+            [
+                "b5d332b35f305c45"
+            ]
         ]
     },
     {
-        "id": "4b0cc3edff89f8c4",
+        "id": "e8b2230b46ee7c5d",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Swing Control",
         "groupid": "66ba92853c8c3288",
         "expressions": [],
@@ -1031,9 +1033,9 @@
         ]
     },
     {
-        "id": "3771d919dc2643f7",
+        "id": "525e3f76618d7d7d",
         "type": "processing",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "groupname": "Impedance Control",
         "groupid": "7e0fe4fbc3aaa311",
         "expressions": [],
@@ -1048,9 +1050,9 @@
         ]
     },
     {
-        "id": "b085ba16f1c18544",
+        "id": "467dd9015219b191",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 6,
@@ -1058,9 +1060,9 @@
         "height": 1
     },
     {
-        "id": "fb30852c75fbb55e",
+        "id": "0c9714b2e1d8878f",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 7,
@@ -1068,9 +1070,9 @@
         "height": 1
     },
     {
-        "id": "e1d3a29dd7db57eb",
+        "id": "6a261f805d7cc984",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 8,
@@ -1078,9 +1080,9 @@
         "height": 1
     },
     {
-        "id": "6298f1838b362095",
+        "id": "0c5ed7d39bd5f4a2",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 11,
@@ -1088,9 +1090,9 @@
         "height": 1
     },
     {
-        "id": "9f36a28c405fa5be",
+        "id": "90c65a81533a4d3f",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 12,
@@ -1098,9 +1100,9 @@
         "height": 1
     },
     {
-        "id": "17da806ea74bd208",
+        "id": "ace2165423d515b2",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 13,
@@ -1108,9 +1110,9 @@
         "height": 1
     },
     {
-        "id": "a7819911222aacba",
+        "id": "a068762ad771220d",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 14,
@@ -1118,9 +1120,9 @@
         "height": 1
     },
     {
-        "id": "d5de47a5843f7cda",
+        "id": "84a455d8e8fcbe97",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 15,
@@ -1128,9 +1130,9 @@
         "height": 1
     },
     {
-        "id": "e725fb34ff03df35",
+        "id": "3b45d7189498fac6",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
         "group": "",
         "order": 16,
@@ -1138,27 +1140,27 @@
         "height": 1
     },
     {
-        "id": "2042657a3850fc73",
+        "id": "6ef1141de9a28a78",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
-        "group": "093cb4c623e98bb9",
+        "group": "022c49444173c6ce",
         "order": 6,
         "width": 6,
         "height": 1
     },
     {
-        "id": "796e7669043ae9b4",
+        "id": "366833c6b7ac8b2e",
         "type": "ui_spacer",
-        "z": "e84446091e43a1e4",
+        "z": "f3ea2dbea57410a2",
         "name": "spacer",
-        "group": "093cb4c623e98bb9",
+        "group": "022c49444173c6ce",
         "order": 8,
         "width": 6,
         "height": 1
     },
     {
-        "id": "434fcf31a2f1684f",
+        "id": "405108040c755406",
         "type": "probe",
         "probeid": "066AFF485370514867131847",
         "probename": "ST-Link v2-1B 066AFF485370514867131847",
@@ -1170,7 +1172,7 @@
         "nickname": "Nucleo Adapter"
     },
     {
-        "id": "7552992f60894f1e",
+        "id": "461ec212ad9b077f",
         "type": "exe-config",
         "name": "JointAndLimbAngle",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
@@ -2107,10 +2109,10 @@
         "expand": false,
         "filename": "prosthesis_knee.elf",
         "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309453879
+        "configLastUpdate": 1718390774066
     },
     {
-        "id": "093cb4c623e98bb9",
+        "id": "022c49444173c6ce",
         "type": "ui_group",
         "name": "GUI",
         "tab": "17d09b07.741a55",
@@ -2121,7 +2123,7 @@
         "className": ""
     },
     {
-        "id": "e21f99943e63bb93",
+        "id": "58b60e6ff3a4f49b",
         "type": "exe-config",
         "name": "LoadCells",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
@@ -3060,22 +3062,22 @@
         "expand": false,
         "filename": "prosthesis_knee.elf",
         "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309464799
+        "configLastUpdate": 1718390779350
     },
     {
-        "id": "ed04ddbea67ea287",
+        "id": "ede404165379940f",
         "type": "exe-config",
         "name": "Gyroscope",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
         "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
         "exevariablelist": [
             {
-                "address": "0x080085c8",
+                "address": "0x080087c4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080085d8",
+                "address": "0x080087d4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -3105,22 +3107,22 @@
                 "type": 3
             },
             {
-                "address": "0x20000280",
+                "address": "0x20000288",
                 "name": "AS5145B.CSn_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x2000028c",
+                "address": "0x20000290",
                 "name": "AS5145B.CSn_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000288",
+                "address": "0x20000280",
                 "name": "AS5145B.DO_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000290",
+                "address": "0x2000028c",
                 "name": "AS5145B.DO_Pin",
                 "type": 3
             },
@@ -3245,12 +3247,12 @@
                 "type": 9
             },
             {
-                "address": "0x2000013c",
+                "address": "0x20000138",
                 "name": "CM_jointSpeed_dps",
                 "type": 9
             },
             {
-                "address": "0x20000138",
+                "address": "0x2000013c",
                 "name": "CM_jointTorque_nm",
                 "type": 9
             },
@@ -3380,7 +3382,7 @@
                 "type": 5
             },
             {
-                "address": "0x0800867c",
+                "address": "0x08008878",
                 "name": "dmp_memory[0]",
                 "type": 1
             },
@@ -3410,37 +3412,37 @@
                 "type": 5
             },
             {
-                "address": "0x0800863c",
+                "address": "0x08008838",
                 "name": "hw.addr",
                 "type": 1
             },
             {
-                "address": "0x08008646",
+                "address": "0x08008842",
                 "name": "hw.bank_size",
                 "type": 3
             },
             {
-                "address": "0x08008648",
+                "address": "0x08008844",
                 "name": "hw.compass_fsr",
                 "type": 3
             },
             {
-                "address": "0x0800863e",
+                "address": "0x0800883a",
                 "name": "hw.max_fifo",
                 "type": 3
             },
             {
-                "address": "0x08008640",
+                "address": "0x0800883c",
                 "name": "hw.num_reg",
                 "type": 1
             },
             {
-                "address": "0x08008644",
+                "address": "0x08008840",
                 "name": "hw.temp_offset",
                 "type": 4
             },
             {
-                "address": "0x08008642",
+                "address": "0x0800883e",
                 "name": "hw.temp_sens",
                 "type": 3
             },
@@ -3500,7 +3502,7 @@
                 "type": 5
             },
             {
-                "address": "0x080085e0",
+                "address": "0x080087dc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -3545,212 +3547,212 @@
                 "type": 5
             },
             {
-                "address": "0x08008617",
+                "address": "0x08008813",
                 "name": "reg.accel_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008618",
+                "address": "0x08008814",
                 "name": "reg.accel_cfg2",
                 "type": 1
             },
             {
-                "address": "0x08008624",
+                "address": "0x08008820",
                 "name": "reg.accel_intel",
                 "type": 1
             },
             {
-                "address": "0x08008629",
+                "address": "0x08008825",
                 "name": "reg.accel_offs",
                 "type": 1
             },
             {
-                "address": "0x0800862b",
+                "address": "0x08008827",
                 "name": "reg.bank_sel",
                 "type": 1
             },
             {
-                "address": "0x08008622",
+                "address": "0x0800881e",
                 "name": "reg.dmp_int_status",
                 "type": 1
             },
             {
-                "address": "0x0800861c",
+                "address": "0x08008818",
                 "name": "reg.fifo_count_h",
                 "type": 1
             },
             {
-                "address": "0x08008615",
+                "address": "0x08008811",
                 "name": "reg.fifo_en",
                 "type": 1
             },
             {
-                "address": "0x0800861d",
+                "address": "0x08008819",
                 "name": "reg.fifo_r_w",
                 "type": 1
             },
             {
-                "address": "0x08008616",
+                "address": "0x08008812",
                 "name": "reg.gyro_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008637",
+                "address": "0x08008833",
                 "name": "reg.i2c_delay_ctrl",
                 "type": 1
             },
             {
-                "address": "0x0800862a",
+                "address": "0x08008826",
                 "name": "reg.i2c_mst",
                 "type": 1
             },
             {
-                "address": "0x08008621",
+                "address": "0x0800881d",
                 "name": "reg.int_enable",
                 "type": 1
             },
             {
-                "address": "0x08008627",
+                "address": "0x08008823",
                 "name": "reg.int_pin_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008623",
+                "address": "0x0800881f",
                 "name": "reg.int_status",
                 "type": 1
             },
             {
-                "address": "0x08008619",
+                "address": "0x08008815",
                 "name": "reg.lp_accel_odr",
                 "type": 1
             },
             {
-                "address": "0x08008612",
+                "address": "0x0800880e",
                 "name": "reg.lpf",
                 "type": 1
             },
             {
-                "address": "0x08008628",
+                "address": "0x08008824",
                 "name": "reg.mem_r_w",
                 "type": 1
             },
             {
-                "address": "0x0800862c",
+                "address": "0x08008828",
                 "name": "reg.mem_start_addr",
                 "type": 1
             },
             {
-                "address": "0x0800861b",
+                "address": "0x08008817",
                 "name": "reg.motion_dur",
                 "type": 1
             },
             {
-                "address": "0x0800861a",
+                "address": "0x08008816",
                 "name": "reg.motion_thr",
                 "type": 1
             },
             {
-                "address": "0x0800862d",
+                "address": "0x08008829",
                 "name": "reg.prgm_start_h",
                 "type": 1
             },
             {
-                "address": "0x08008613",
+                "address": "0x0800880f",
                 "name": "reg.prod_id",
                 "type": 1
             },
             {
-                "address": "0x08008625",
+                "address": "0x08008821",
                 "name": "reg.pwr_mgmt_1",
                 "type": 1
             },
             {
-                "address": "0x08008626",
+                "address": "0x08008822",
                 "name": "reg.pwr_mgmt_2",
                 "type": 1
             },
             {
-                "address": "0x08008611",
+                "address": "0x0800880d",
                 "name": "reg.rate_div",
                 "type": 1
             },
             {
-                "address": "0x0800861f",
+                "address": "0x0800881b",
                 "name": "reg.raw_accel",
                 "type": 1
             },
             {
-                "address": "0x08008638",
+                "address": "0x08008834",
                 "name": "reg.raw_compass",
                 "type": 1
             },
             {
-                "address": "0x0800861e",
+                "address": "0x0800881a",
                 "name": "reg.raw_gyro",
                 "type": 1
             },
             {
-                "address": "0x0800862e",
+                "address": "0x0800882a",
                 "name": "reg.s0_addr",
                 "type": 1
             },
             {
-                "address": "0x08008630",
+                "address": "0x0800882c",
                 "name": "reg.s0_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008635",
+                "address": "0x08008831",
                 "name": "reg.s0_do",
                 "type": 1
             },
             {
-                "address": "0x0800862f",
+                "address": "0x0800882b",
                 "name": "reg.s0_reg",
                 "type": 1
             },
             {
-                "address": "0x08008631",
+                "address": "0x0800882d",
                 "name": "reg.s1_addr",
                 "type": 1
             },
             {
-                "address": "0x08008633",
+                "address": "0x0800882f",
                 "name": "reg.s1_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008636",
+                "address": "0x08008832",
                 "name": "reg.s1_do",
                 "type": 1
             },
             {
-                "address": "0x08008632",
+                "address": "0x0800882e",
                 "name": "reg.s1_reg",
                 "type": 1
             },
             {
-                "address": "0x08008634",
+                "address": "0x08008830",
                 "name": "reg.s4_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008620",
+                "address": "0x0800881c",
                 "name": "reg.temp",
                 "type": 1
             },
             {
-                "address": "0x08008614",
+                "address": "0x08008810",
                 "name": "reg.user_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008610",
+                "address": "0x0800880c",
                 "name": "reg.who_am_i",
                 "type": 1
             },
             {
-                "address": "0x08008639",
+                "address": "0x08008835",
                 "name": "reg.yg_offs_tc",
                 "type": 1
             },
@@ -3910,82 +3912,82 @@
                 "type": 5
             },
             {
-                "address": "0x08008650",
+                "address": "0x0800884c",
                 "name": "test.accel_sens",
                 "type": 5
             },
             {
-                "address": "0x0800864c",
+                "address": "0x08008848",
                 "name": "test.gyro_sens",
                 "type": 5
             },
             {
-                "address": "0x08008670",
+                "address": "0x0800886c",
                 "name": "test.max_accel_var",
                 "type": 9
             },
             {
-                "address": "0x08008660",
+                "address": "0x0800885c",
                 "name": "test.max_dps",
                 "type": 9
             },
             {
-                "address": "0x0800866c",
+                "address": "0x08008868",
                 "name": "test.max_g",
                 "type": 9
             },
             {
-                "address": "0x08008674",
+                "address": "0x08008870",
                 "name": "test.max_g_offset",
                 "type": 9
             },
             {
-                "address": "0x08008664",
+                "address": "0x08008860",
                 "name": "test.max_gyro_var",
                 "type": 9
             },
             {
-                "address": "0x0800865c",
+                "address": "0x08008858",
                 "name": "test.min_dps",
                 "type": 9
             },
             {
-                "address": "0x08008668",
+                "address": "0x08008864",
                 "name": "test.min_g",
                 "type": 9
             },
             {
-                "address": "0x0800865a",
+                "address": "0x08008856",
                 "name": "test.packet_thresh",
                 "type": 1
             },
             {
-                "address": "0x08008657",
+                "address": "0x08008853",
                 "name": "test.reg_accel_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008656",
+                "address": "0x08008852",
                 "name": "test.reg_gyro_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008655",
+                "address": "0x08008851",
                 "name": "test.reg_lpf",
                 "type": 1
             },
             {
-                "address": "0x08008654",
+                "address": "0x08008850",
                 "name": "test.reg_rate_div",
                 "type": 1
             },
             {
-                "address": "0x08008678",
+                "address": "0x08008874",
                 "name": "test.sample_wait_ms",
                 "type": 3
             },
             {
-                "address": "0x08008658",
+                "address": "0x08008854",
                 "name": "test.wait_ms",
                 "type": 3
             },
@@ -4002,23 +4004,23 @@
         ],
         "expand": false,
         "filename": "prosthesis_knee.elf",
-        "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309486821
+        "exeModifiedTime": 1718390257958,
+        "configLastUpdate": 1718390789136
     },
     {
-        "id": "0a7dac80e6422552",
+        "id": "908f670e628debd0",
         "type": "exe-config",
         "name": "Accelerometer",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
         "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
         "exevariablelist": [
             {
-                "address": "0x080085c8",
+                "address": "0x080087c4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080085d8",
+                "address": "0x080087d4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -4048,22 +4050,22 @@
                 "type": 3
             },
             {
-                "address": "0x20000280",
+                "address": "0x20000288",
                 "name": "AS5145B.CSn_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x2000028c",
+                "address": "0x20000290",
                 "name": "AS5145B.CSn_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000288",
+                "address": "0x20000280",
                 "name": "AS5145B.DO_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000290",
+                "address": "0x2000028c",
                 "name": "AS5145B.DO_Pin",
                 "type": 3
             },
@@ -4186,12 +4188,12 @@
                 "type": 9
             },
             {
-                "address": "0x2000013c",
+                "address": "0x20000138",
                 "name": "CM_jointSpeed_dps",
                 "type": 9
             },
             {
-                "address": "0x20000138",
+                "address": "0x2000013c",
                 "name": "CM_jointTorque_nm",
                 "type": 9
             },
@@ -4321,7 +4323,7 @@
                 "type": 5
             },
             {
-                "address": "0x0800867c",
+                "address": "0x08008878",
                 "name": "dmp_memory[0]",
                 "type": 1
             },
@@ -4351,37 +4353,37 @@
                 "type": 5
             },
             {
-                "address": "0x0800863c",
+                "address": "0x08008838",
                 "name": "hw.addr",
                 "type": 1
             },
             {
-                "address": "0x08008646",
+                "address": "0x08008842",
                 "name": "hw.bank_size",
                 "type": 3
             },
             {
-                "address": "0x08008648",
+                "address": "0x08008844",
                 "name": "hw.compass_fsr",
                 "type": 3
             },
             {
-                "address": "0x0800863e",
+                "address": "0x0800883a",
                 "name": "hw.max_fifo",
                 "type": 3
             },
             {
-                "address": "0x08008640",
+                "address": "0x0800883c",
                 "name": "hw.num_reg",
                 "type": 1
             },
             {
-                "address": "0x08008644",
+                "address": "0x08008840",
                 "name": "hw.temp_offset",
                 "type": 4
             },
             {
-                "address": "0x08008642",
+                "address": "0x0800883e",
                 "name": "hw.temp_sens",
                 "type": 3
             },
@@ -4441,7 +4443,7 @@
                 "type": 5
             },
             {
-                "address": "0x080085e0",
+                "address": "0x080087dc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -4486,212 +4488,212 @@
                 "type": 5
             },
             {
-                "address": "0x08008617",
+                "address": "0x08008813",
                 "name": "reg.accel_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008618",
+                "address": "0x08008814",
                 "name": "reg.accel_cfg2",
                 "type": 1
             },
             {
-                "address": "0x08008624",
+                "address": "0x08008820",
                 "name": "reg.accel_intel",
                 "type": 1
             },
             {
-                "address": "0x08008629",
+                "address": "0x08008825",
                 "name": "reg.accel_offs",
                 "type": 1
             },
             {
-                "address": "0x0800862b",
+                "address": "0x08008827",
                 "name": "reg.bank_sel",
                 "type": 1
             },
             {
-                "address": "0x08008622",
+                "address": "0x0800881e",
                 "name": "reg.dmp_int_status",
                 "type": 1
             },
             {
-                "address": "0x0800861c",
+                "address": "0x08008818",
                 "name": "reg.fifo_count_h",
                 "type": 1
             },
             {
-                "address": "0x08008615",
+                "address": "0x08008811",
                 "name": "reg.fifo_en",
                 "type": 1
             },
             {
-                "address": "0x0800861d",
+                "address": "0x08008819",
                 "name": "reg.fifo_r_w",
                 "type": 1
             },
             {
-                "address": "0x08008616",
+                "address": "0x08008812",
                 "name": "reg.gyro_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008637",
+                "address": "0x08008833",
                 "name": "reg.i2c_delay_ctrl",
                 "type": 1
             },
             {
-                "address": "0x0800862a",
+                "address": "0x08008826",
                 "name": "reg.i2c_mst",
                 "type": 1
             },
             {
-                "address": "0x08008621",
+                "address": "0x0800881d",
                 "name": "reg.int_enable",
                 "type": 1
             },
             {
-                "address": "0x08008627",
+                "address": "0x08008823",
                 "name": "reg.int_pin_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008623",
+                "address": "0x0800881f",
                 "name": "reg.int_status",
                 "type": 1
             },
             {
-                "address": "0x08008619",
+                "address": "0x08008815",
                 "name": "reg.lp_accel_odr",
                 "type": 1
             },
             {
-                "address": "0x08008612",
+                "address": "0x0800880e",
                 "name": "reg.lpf",
                 "type": 1
             },
             {
-                "address": "0x08008628",
+                "address": "0x08008824",
                 "name": "reg.mem_r_w",
                 "type": 1
             },
             {
-                "address": "0x0800862c",
+                "address": "0x08008828",
                 "name": "reg.mem_start_addr",
                 "type": 1
             },
             {
-                "address": "0x0800861b",
+                "address": "0x08008817",
                 "name": "reg.motion_dur",
                 "type": 1
             },
             {
-                "address": "0x0800861a",
+                "address": "0x08008816",
                 "name": "reg.motion_thr",
                 "type": 1
             },
             {
-                "address": "0x0800862d",
+                "address": "0x08008829",
                 "name": "reg.prgm_start_h",
                 "type": 1
             },
             {
-                "address": "0x08008613",
+                "address": "0x0800880f",
                 "name": "reg.prod_id",
                 "type": 1
             },
             {
-                "address": "0x08008625",
+                "address": "0x08008821",
                 "name": "reg.pwr_mgmt_1",
                 "type": 1
             },
             {
-                "address": "0x08008626",
+                "address": "0x08008822",
                 "name": "reg.pwr_mgmt_2",
                 "type": 1
             },
             {
-                "address": "0x08008611",
+                "address": "0x0800880d",
                 "name": "reg.rate_div",
                 "type": 1
             },
             {
-                "address": "0x0800861f",
+                "address": "0x0800881b",
                 "name": "reg.raw_accel",
                 "type": 1
             },
             {
-                "address": "0x08008638",
+                "address": "0x08008834",
                 "name": "reg.raw_compass",
                 "type": 1
             },
             {
-                "address": "0x0800861e",
+                "address": "0x0800881a",
                 "name": "reg.raw_gyro",
                 "type": 1
             },
             {
-                "address": "0x0800862e",
+                "address": "0x0800882a",
                 "name": "reg.s0_addr",
                 "type": 1
             },
             {
-                "address": "0x08008630",
+                "address": "0x0800882c",
                 "name": "reg.s0_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008635",
+                "address": "0x08008831",
                 "name": "reg.s0_do",
                 "type": 1
             },
             {
-                "address": "0x0800862f",
+                "address": "0x0800882b",
                 "name": "reg.s0_reg",
                 "type": 1
             },
             {
-                "address": "0x08008631",
+                "address": "0x0800882d",
                 "name": "reg.s1_addr",
                 "type": 1
             },
             {
-                "address": "0x08008633",
+                "address": "0x0800882f",
                 "name": "reg.s1_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008636",
+                "address": "0x08008832",
                 "name": "reg.s1_do",
                 "type": 1
             },
             {
-                "address": "0x08008632",
+                "address": "0x0800882e",
                 "name": "reg.s1_reg",
                 "type": 1
             },
             {
-                "address": "0x08008634",
+                "address": "0x08008830",
                 "name": "reg.s4_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008620",
+                "address": "0x0800881c",
                 "name": "reg.temp",
                 "type": 1
             },
             {
-                "address": "0x08008614",
+                "address": "0x08008810",
                 "name": "reg.user_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008610",
+                "address": "0x0800880c",
                 "name": "reg.who_am_i",
                 "type": 1
             },
             {
-                "address": "0x08008639",
+                "address": "0x08008835",
                 "name": "reg.yg_offs_tc",
                 "type": 1
             },
@@ -4851,82 +4853,82 @@
                 "type": 5
             },
             {
-                "address": "0x08008650",
+                "address": "0x0800884c",
                 "name": "test.accel_sens",
                 "type": 5
             },
             {
-                "address": "0x0800864c",
+                "address": "0x08008848",
                 "name": "test.gyro_sens",
                 "type": 5
             },
             {
-                "address": "0x08008670",
+                "address": "0x0800886c",
                 "name": "test.max_accel_var",
                 "type": 9
             },
             {
-                "address": "0x08008660",
+                "address": "0x0800885c",
                 "name": "test.max_dps",
                 "type": 9
             },
             {
-                "address": "0x0800866c",
+                "address": "0x08008868",
                 "name": "test.max_g",
                 "type": 9
             },
             {
-                "address": "0x08008674",
+                "address": "0x08008870",
                 "name": "test.max_g_offset",
                 "type": 9
             },
             {
-                "address": "0x08008664",
+                "address": "0x08008860",
                 "name": "test.max_gyro_var",
                 "type": 9
             },
             {
-                "address": "0x0800865c",
+                "address": "0x08008858",
                 "name": "test.min_dps",
                 "type": 9
             },
             {
-                "address": "0x08008668",
+                "address": "0x08008864",
                 "name": "test.min_g",
                 "type": 9
             },
             {
-                "address": "0x0800865a",
+                "address": "0x08008856",
                 "name": "test.packet_thresh",
                 "type": 1
             },
             {
-                "address": "0x08008657",
+                "address": "0x08008853",
                 "name": "test.reg_accel_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008656",
+                "address": "0x08008852",
                 "name": "test.reg_gyro_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008655",
+                "address": "0x08008851",
                 "name": "test.reg_lpf",
                 "type": 1
             },
             {
-                "address": "0x08008654",
+                "address": "0x08008850",
                 "name": "test.reg_rate_div",
                 "type": 1
             },
             {
-                "address": "0x08008678",
+                "address": "0x08008874",
                 "name": "test.sample_wait_ms",
                 "type": 3
             },
             {
-                "address": "0x08008658",
+                "address": "0x08008854",
                 "name": "test.wait_ms",
                 "type": 3
             },
@@ -4943,23 +4945,23 @@
         ],
         "expand": false,
         "filename": "prosthesis_knee.elf",
-        "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309475035
+        "exeModifiedTime": 1718390257958,
+        "configLastUpdate": 1718390784614
     },
     {
-        "id": "de923210c5e79a1c",
+        "id": "51fb48adf17aec58",
         "type": "exe-config",
         "name": "JointTorque",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
         "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
         "exevariablelist": [
             {
-                "address": "0x080085c8",
+                "address": "0x080087c4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080085d8",
+                "address": "0x080087d4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -4989,22 +4991,22 @@
                 "type": 3
             },
             {
-                "address": "0x20000280",
+                "address": "0x20000288",
                 "name": "AS5145B.CSn_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x2000028c",
+                "address": "0x20000290",
                 "name": "AS5145B.CSn_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000288",
+                "address": "0x20000280",
                 "name": "AS5145B.DO_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000290",
+                "address": "0x2000028c",
                 "name": "AS5145B.DO_Pin",
                 "type": 3
             },
@@ -5124,12 +5126,12 @@
                 "type": 9
             },
             {
-                "address": "0x2000013c",
+                "address": "0x20000138",
                 "name": "CM_jointSpeed_dps",
                 "type": 9
             },
             {
-                "address": "0x20000138",
+                "address": "0x2000013c",
                 "name": "CM_jointTorque_nm",
                 "type": 9,
                 "checked": true
@@ -5260,7 +5262,7 @@
                 "type": 5
             },
             {
-                "address": "0x0800867c",
+                "address": "0x08008878",
                 "name": "dmp_memory[0]",
                 "type": 1
             },
@@ -5290,37 +5292,37 @@
                 "type": 5
             },
             {
-                "address": "0x0800863c",
+                "address": "0x08008838",
                 "name": "hw.addr",
                 "type": 1
             },
             {
-                "address": "0x08008646",
+                "address": "0x08008842",
                 "name": "hw.bank_size",
                 "type": 3
             },
             {
-                "address": "0x08008648",
+                "address": "0x08008844",
                 "name": "hw.compass_fsr",
                 "type": 3
             },
             {
-                "address": "0x0800863e",
+                "address": "0x0800883a",
                 "name": "hw.max_fifo",
                 "type": 3
             },
             {
-                "address": "0x08008640",
+                "address": "0x0800883c",
                 "name": "hw.num_reg",
                 "type": 1
             },
             {
-                "address": "0x08008644",
+                "address": "0x08008840",
                 "name": "hw.temp_offset",
                 "type": 4
             },
             {
-                "address": "0x08008642",
+                "address": "0x0800883e",
                 "name": "hw.temp_sens",
                 "type": 3
             },
@@ -5380,7 +5382,7 @@
                 "type": 5
             },
             {
-                "address": "0x080085e0",
+                "address": "0x080087dc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -5425,212 +5427,212 @@
                 "type": 5
             },
             {
-                "address": "0x08008617",
+                "address": "0x08008813",
                 "name": "reg.accel_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008618",
+                "address": "0x08008814",
                 "name": "reg.accel_cfg2",
                 "type": 1
             },
             {
-                "address": "0x08008624",
+                "address": "0x08008820",
                 "name": "reg.accel_intel",
                 "type": 1
             },
             {
-                "address": "0x08008629",
+                "address": "0x08008825",
                 "name": "reg.accel_offs",
                 "type": 1
             },
             {
-                "address": "0x0800862b",
+                "address": "0x08008827",
                 "name": "reg.bank_sel",
                 "type": 1
             },
             {
-                "address": "0x08008622",
+                "address": "0x0800881e",
                 "name": "reg.dmp_int_status",
                 "type": 1
             },
             {
-                "address": "0x0800861c",
+                "address": "0x08008818",
                 "name": "reg.fifo_count_h",
                 "type": 1
             },
             {
-                "address": "0x08008615",
+                "address": "0x08008811",
                 "name": "reg.fifo_en",
                 "type": 1
             },
             {
-                "address": "0x0800861d",
+                "address": "0x08008819",
                 "name": "reg.fifo_r_w",
                 "type": 1
             },
             {
-                "address": "0x08008616",
+                "address": "0x08008812",
                 "name": "reg.gyro_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008637",
+                "address": "0x08008833",
                 "name": "reg.i2c_delay_ctrl",
                 "type": 1
             },
             {
-                "address": "0x0800862a",
+                "address": "0x08008826",
                 "name": "reg.i2c_mst",
                 "type": 1
             },
             {
-                "address": "0x08008621",
+                "address": "0x0800881d",
                 "name": "reg.int_enable",
                 "type": 1
             },
             {
-                "address": "0x08008627",
+                "address": "0x08008823",
                 "name": "reg.int_pin_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008623",
+                "address": "0x0800881f",
                 "name": "reg.int_status",
                 "type": 1
             },
             {
-                "address": "0x08008619",
+                "address": "0x08008815",
                 "name": "reg.lp_accel_odr",
                 "type": 1
             },
             {
-                "address": "0x08008612",
+                "address": "0x0800880e",
                 "name": "reg.lpf",
                 "type": 1
             },
             {
-                "address": "0x08008628",
+                "address": "0x08008824",
                 "name": "reg.mem_r_w",
                 "type": 1
             },
             {
-                "address": "0x0800862c",
+                "address": "0x08008828",
                 "name": "reg.mem_start_addr",
                 "type": 1
             },
             {
-                "address": "0x0800861b",
+                "address": "0x08008817",
                 "name": "reg.motion_dur",
                 "type": 1
             },
             {
-                "address": "0x0800861a",
+                "address": "0x08008816",
                 "name": "reg.motion_thr",
                 "type": 1
             },
             {
-                "address": "0x0800862d",
+                "address": "0x08008829",
                 "name": "reg.prgm_start_h",
                 "type": 1
             },
             {
-                "address": "0x08008613",
+                "address": "0x0800880f",
                 "name": "reg.prod_id",
                 "type": 1
             },
             {
-                "address": "0x08008625",
+                "address": "0x08008821",
                 "name": "reg.pwr_mgmt_1",
                 "type": 1
             },
             {
-                "address": "0x08008626",
+                "address": "0x08008822",
                 "name": "reg.pwr_mgmt_2",
                 "type": 1
             },
             {
-                "address": "0x08008611",
+                "address": "0x0800880d",
                 "name": "reg.rate_div",
                 "type": 1
             },
             {
-                "address": "0x0800861f",
+                "address": "0x0800881b",
                 "name": "reg.raw_accel",
                 "type": 1
             },
             {
-                "address": "0x08008638",
+                "address": "0x08008834",
                 "name": "reg.raw_compass",
                 "type": 1
             },
             {
-                "address": "0x0800861e",
+                "address": "0x0800881a",
                 "name": "reg.raw_gyro",
                 "type": 1
             },
             {
-                "address": "0x0800862e",
+                "address": "0x0800882a",
                 "name": "reg.s0_addr",
                 "type": 1
             },
             {
-                "address": "0x08008630",
+                "address": "0x0800882c",
                 "name": "reg.s0_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008635",
+                "address": "0x08008831",
                 "name": "reg.s0_do",
                 "type": 1
             },
             {
-                "address": "0x0800862f",
+                "address": "0x0800882b",
                 "name": "reg.s0_reg",
                 "type": 1
             },
             {
-                "address": "0x08008631",
+                "address": "0x0800882d",
                 "name": "reg.s1_addr",
                 "type": 1
             },
             {
-                "address": "0x08008633",
+                "address": "0x0800882f",
                 "name": "reg.s1_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008636",
+                "address": "0x08008832",
                 "name": "reg.s1_do",
                 "type": 1
             },
             {
-                "address": "0x08008632",
+                "address": "0x0800882e",
                 "name": "reg.s1_reg",
                 "type": 1
             },
             {
-                "address": "0x08008634",
+                "address": "0x08008830",
                 "name": "reg.s4_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008620",
+                "address": "0x0800881c",
                 "name": "reg.temp",
                 "type": 1
             },
             {
-                "address": "0x08008614",
+                "address": "0x08008810",
                 "name": "reg.user_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008610",
+                "address": "0x0800880c",
                 "name": "reg.who_am_i",
                 "type": 1
             },
             {
-                "address": "0x08008639",
+                "address": "0x08008835",
                 "name": "reg.yg_offs_tc",
                 "type": 1
             },
@@ -5790,82 +5792,82 @@
                 "type": 5
             },
             {
-                "address": "0x08008650",
+                "address": "0x0800884c",
                 "name": "test.accel_sens",
                 "type": 5
             },
             {
-                "address": "0x0800864c",
+                "address": "0x08008848",
                 "name": "test.gyro_sens",
                 "type": 5
             },
             {
-                "address": "0x08008670",
+                "address": "0x0800886c",
                 "name": "test.max_accel_var",
                 "type": 9
             },
             {
-                "address": "0x08008660",
+                "address": "0x0800885c",
                 "name": "test.max_dps",
                 "type": 9
             },
             {
-                "address": "0x0800866c",
+                "address": "0x08008868",
                 "name": "test.max_g",
                 "type": 9
             },
             {
-                "address": "0x08008674",
+                "address": "0x08008870",
                 "name": "test.max_g_offset",
                 "type": 9
             },
             {
-                "address": "0x08008664",
+                "address": "0x08008860",
                 "name": "test.max_gyro_var",
                 "type": 9
             },
             {
-                "address": "0x0800865c",
+                "address": "0x08008858",
                 "name": "test.min_dps",
                 "type": 9
             },
             {
-                "address": "0x08008668",
+                "address": "0x08008864",
                 "name": "test.min_g",
                 "type": 9
             },
             {
-                "address": "0x0800865a",
+                "address": "0x08008856",
                 "name": "test.packet_thresh",
                 "type": 1
             },
             {
-                "address": "0x08008657",
+                "address": "0x08008853",
                 "name": "test.reg_accel_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008656",
+                "address": "0x08008852",
                 "name": "test.reg_gyro_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008655",
+                "address": "0x08008851",
                 "name": "test.reg_lpf",
                 "type": 1
             },
             {
-                "address": "0x08008654",
+                "address": "0x08008850",
                 "name": "test.reg_rate_div",
                 "type": 1
             },
             {
-                "address": "0x08008678",
+                "address": "0x08008874",
                 "name": "test.sample_wait_ms",
                 "type": 3
             },
             {
-                "address": "0x08008658",
+                "address": "0x08008854",
                 "name": "test.wait_ms",
                 "type": 3
             },
@@ -5882,23 +5884,23 @@
         ],
         "expand": false,
         "filename": "prosthesis_knee.elf",
-        "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309494652
+        "exeModifiedTime": 1718390257958,
+        "configLastUpdate": 1718390793374
     },
     {
-        "id": "dda70fde5315dc5c",
+        "id": "c39df86c3a7b1ecd",
         "type": "exe-config",
         "name": "JointSpeed",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
         "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
         "exevariablelist": [
             {
-                "address": "0x080085c8",
+                "address": "0x080087c4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080085d8",
+                "address": "0x080087d4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -5928,22 +5930,22 @@
                 "type": 3
             },
             {
-                "address": "0x20000280",
+                "address": "0x20000288",
                 "name": "AS5145B.CSn_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x2000028c",
+                "address": "0x20000290",
                 "name": "AS5145B.CSn_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000288",
+                "address": "0x20000280",
                 "name": "AS5145B.DO_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000290",
+                "address": "0x2000028c",
                 "name": "AS5145B.DO_Pin",
                 "type": 3
             },
@@ -6063,13 +6065,13 @@
                 "type": 9
             },
             {
-                "address": "0x2000013c",
+                "address": "0x20000138",
                 "name": "CM_jointSpeed_dps",
                 "type": 9,
                 "checked": true
             },
             {
-                "address": "0x20000138",
+                "address": "0x2000013c",
                 "name": "CM_jointTorque_nm",
                 "type": 9
             },
@@ -6199,7 +6201,7 @@
                 "type": 5
             },
             {
-                "address": "0x0800867c",
+                "address": "0x08008878",
                 "name": "dmp_memory[0]",
                 "type": 1
             },
@@ -6229,37 +6231,37 @@
                 "type": 5
             },
             {
-                "address": "0x0800863c",
+                "address": "0x08008838",
                 "name": "hw.addr",
                 "type": 1
             },
             {
-                "address": "0x08008646",
+                "address": "0x08008842",
                 "name": "hw.bank_size",
                 "type": 3
             },
             {
-                "address": "0x08008648",
+                "address": "0x08008844",
                 "name": "hw.compass_fsr",
                 "type": 3
             },
             {
-                "address": "0x0800863e",
+                "address": "0x0800883a",
                 "name": "hw.max_fifo",
                 "type": 3
             },
             {
-                "address": "0x08008640",
+                "address": "0x0800883c",
                 "name": "hw.num_reg",
                 "type": 1
             },
             {
-                "address": "0x08008644",
+                "address": "0x08008840",
                 "name": "hw.temp_offset",
                 "type": 4
             },
             {
-                "address": "0x08008642",
+                "address": "0x0800883e",
                 "name": "hw.temp_sens",
                 "type": 3
             },
@@ -6319,7 +6321,7 @@
                 "type": 5
             },
             {
-                "address": "0x080085e0",
+                "address": "0x080087dc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -6364,212 +6366,212 @@
                 "type": 5
             },
             {
-                "address": "0x08008617",
+                "address": "0x08008813",
                 "name": "reg.accel_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008618",
+                "address": "0x08008814",
                 "name": "reg.accel_cfg2",
                 "type": 1
             },
             {
-                "address": "0x08008624",
+                "address": "0x08008820",
                 "name": "reg.accel_intel",
                 "type": 1
             },
             {
-                "address": "0x08008629",
+                "address": "0x08008825",
                 "name": "reg.accel_offs",
                 "type": 1
             },
             {
-                "address": "0x0800862b",
+                "address": "0x08008827",
                 "name": "reg.bank_sel",
                 "type": 1
             },
             {
-                "address": "0x08008622",
+                "address": "0x0800881e",
                 "name": "reg.dmp_int_status",
                 "type": 1
             },
             {
-                "address": "0x0800861c",
+                "address": "0x08008818",
                 "name": "reg.fifo_count_h",
                 "type": 1
             },
             {
-                "address": "0x08008615",
+                "address": "0x08008811",
                 "name": "reg.fifo_en",
                 "type": 1
             },
             {
-                "address": "0x0800861d",
+                "address": "0x08008819",
                 "name": "reg.fifo_r_w",
                 "type": 1
             },
             {
-                "address": "0x08008616",
+                "address": "0x08008812",
                 "name": "reg.gyro_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008637",
+                "address": "0x08008833",
                 "name": "reg.i2c_delay_ctrl",
                 "type": 1
             },
             {
-                "address": "0x0800862a",
+                "address": "0x08008826",
                 "name": "reg.i2c_mst",
                 "type": 1
             },
             {
-                "address": "0x08008621",
+                "address": "0x0800881d",
                 "name": "reg.int_enable",
                 "type": 1
             },
             {
-                "address": "0x08008627",
+                "address": "0x08008823",
                 "name": "reg.int_pin_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008623",
+                "address": "0x0800881f",
                 "name": "reg.int_status",
                 "type": 1
             },
             {
-                "address": "0x08008619",
+                "address": "0x08008815",
                 "name": "reg.lp_accel_odr",
                 "type": 1
             },
             {
-                "address": "0x08008612",
+                "address": "0x0800880e",
                 "name": "reg.lpf",
                 "type": 1
             },
             {
-                "address": "0x08008628",
+                "address": "0x08008824",
                 "name": "reg.mem_r_w",
                 "type": 1
             },
             {
-                "address": "0x0800862c",
+                "address": "0x08008828",
                 "name": "reg.mem_start_addr",
                 "type": 1
             },
             {
-                "address": "0x0800861b",
+                "address": "0x08008817",
                 "name": "reg.motion_dur",
                 "type": 1
             },
             {
-                "address": "0x0800861a",
+                "address": "0x08008816",
                 "name": "reg.motion_thr",
                 "type": 1
             },
             {
-                "address": "0x0800862d",
+                "address": "0x08008829",
                 "name": "reg.prgm_start_h",
                 "type": 1
             },
             {
-                "address": "0x08008613",
+                "address": "0x0800880f",
                 "name": "reg.prod_id",
                 "type": 1
             },
             {
-                "address": "0x08008625",
+                "address": "0x08008821",
                 "name": "reg.pwr_mgmt_1",
                 "type": 1
             },
             {
-                "address": "0x08008626",
+                "address": "0x08008822",
                 "name": "reg.pwr_mgmt_2",
                 "type": 1
             },
             {
-                "address": "0x08008611",
+                "address": "0x0800880d",
                 "name": "reg.rate_div",
                 "type": 1
             },
             {
-                "address": "0x0800861f",
+                "address": "0x0800881b",
                 "name": "reg.raw_accel",
                 "type": 1
             },
             {
-                "address": "0x08008638",
+                "address": "0x08008834",
                 "name": "reg.raw_compass",
                 "type": 1
             },
             {
-                "address": "0x0800861e",
+                "address": "0x0800881a",
                 "name": "reg.raw_gyro",
                 "type": 1
             },
             {
-                "address": "0x0800862e",
+                "address": "0x0800882a",
                 "name": "reg.s0_addr",
                 "type": 1
             },
             {
-                "address": "0x08008630",
+                "address": "0x0800882c",
                 "name": "reg.s0_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008635",
+                "address": "0x08008831",
                 "name": "reg.s0_do",
                 "type": 1
             },
             {
-                "address": "0x0800862f",
+                "address": "0x0800882b",
                 "name": "reg.s0_reg",
                 "type": 1
             },
             {
-                "address": "0x08008631",
+                "address": "0x0800882d",
                 "name": "reg.s1_addr",
                 "type": 1
             },
             {
-                "address": "0x08008633",
+                "address": "0x0800882f",
                 "name": "reg.s1_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008636",
+                "address": "0x08008832",
                 "name": "reg.s1_do",
                 "type": 1
             },
             {
-                "address": "0x08008632",
+                "address": "0x0800882e",
                 "name": "reg.s1_reg",
                 "type": 1
             },
             {
-                "address": "0x08008634",
+                "address": "0x08008830",
                 "name": "reg.s4_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008620",
+                "address": "0x0800881c",
                 "name": "reg.temp",
                 "type": 1
             },
             {
-                "address": "0x08008614",
+                "address": "0x08008810",
                 "name": "reg.user_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008610",
+                "address": "0x0800880c",
                 "name": "reg.who_am_i",
                 "type": 1
             },
             {
-                "address": "0x08008639",
+                "address": "0x08008835",
                 "name": "reg.yg_offs_tc",
                 "type": 1
             },
@@ -6729,82 +6731,82 @@
                 "type": 5
             },
             {
-                "address": "0x08008650",
+                "address": "0x0800884c",
                 "name": "test.accel_sens",
                 "type": 5
             },
             {
-                "address": "0x0800864c",
+                "address": "0x08008848",
                 "name": "test.gyro_sens",
                 "type": 5
             },
             {
-                "address": "0x08008670",
+                "address": "0x0800886c",
                 "name": "test.max_accel_var",
                 "type": 9
             },
             {
-                "address": "0x08008660",
+                "address": "0x0800885c",
                 "name": "test.max_dps",
                 "type": 9
             },
             {
-                "address": "0x0800866c",
+                "address": "0x08008868",
                 "name": "test.max_g",
                 "type": 9
             },
             {
-                "address": "0x08008674",
+                "address": "0x08008870",
                 "name": "test.max_g_offset",
                 "type": 9
             },
             {
-                "address": "0x08008664",
+                "address": "0x08008860",
                 "name": "test.max_gyro_var",
                 "type": 9
             },
             {
-                "address": "0x0800865c",
+                "address": "0x08008858",
                 "name": "test.min_dps",
                 "type": 9
             },
             {
-                "address": "0x08008668",
+                "address": "0x08008864",
                 "name": "test.min_g",
                 "type": 9
             },
             {
-                "address": "0x0800865a",
+                "address": "0x08008856",
                 "name": "test.packet_thresh",
                 "type": 1
             },
             {
-                "address": "0x08008657",
+                "address": "0x08008853",
                 "name": "test.reg_accel_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008656",
+                "address": "0x08008852",
                 "name": "test.reg_gyro_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008655",
+                "address": "0x08008851",
                 "name": "test.reg_lpf",
                 "type": 1
             },
             {
-                "address": "0x08008654",
+                "address": "0x08008850",
                 "name": "test.reg_rate_div",
                 "type": 1
             },
             {
-                "address": "0x08008678",
+                "address": "0x08008874",
                 "name": "test.sample_wait_ms",
                 "type": 3
             },
             {
-                "address": "0x08008658",
+                "address": "0x08008854",
                 "name": "test.wait_ms",
                 "type": 3
             },
@@ -6821,23 +6823,23 @@
         ],
         "expand": false,
         "filename": "prosthesis_knee.elf",
-        "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309500675
+        "exeModifiedTime": 1718390257958,
+        "configLastUpdate": 1718390798875
     },
     {
-        "id": "269a3bbdcda52561",
+        "id": "c433f91e6f82d408",
         "type": "exe-config",
         "name": "AllVariables",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
         "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
         "exevariablelist": [
             {
-                "address": "0x080085c8",
+                "address": "0x080087c4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080085d8",
+                "address": "0x080087d4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -6867,22 +6869,22 @@
                 "type": 3
             },
             {
-                "address": "0x20000280",
+                "address": "0x20000288",
                 "name": "AS5145B.CSn_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x2000028c",
+                "address": "0x20000290",
                 "name": "AS5145B.CSn_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000288",
+                "address": "0x20000280",
                 "name": "AS5145B.DO_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000290",
+                "address": "0x2000028c",
                 "name": "AS5145B.DO_Pin",
                 "type": 3
             },
@@ -7012,13 +7014,13 @@
                 "checked": true
             },
             {
-                "address": "0x2000013c",
+                "address": "0x20000138",
                 "name": "CM_jointSpeed_dps",
                 "type": 9,
                 "checked": true
             },
             {
-                "address": "0x20000138",
+                "address": "0x2000013c",
                 "name": "CM_jointTorque_nm",
                 "type": 9,
                 "checked": true
@@ -7161,7 +7163,7 @@
                 "type": 5
             },
             {
-                "address": "0x0800867c",
+                "address": "0x08008878",
                 "name": "dmp_memory[0]",
                 "type": 1
             },
@@ -7191,37 +7193,37 @@
                 "type": 5
             },
             {
-                "address": "0x0800863c",
+                "address": "0x08008838",
                 "name": "hw.addr",
                 "type": 1
             },
             {
-                "address": "0x08008646",
+                "address": "0x08008842",
                 "name": "hw.bank_size",
                 "type": 3
             },
             {
-                "address": "0x08008648",
+                "address": "0x08008844",
                 "name": "hw.compass_fsr",
                 "type": 3
             },
             {
-                "address": "0x0800863e",
+                "address": "0x0800883a",
                 "name": "hw.max_fifo",
                 "type": 3
             },
             {
-                "address": "0x08008640",
+                "address": "0x0800883c",
                 "name": "hw.num_reg",
                 "type": 1
             },
             {
-                "address": "0x08008644",
+                "address": "0x08008840",
                 "name": "hw.temp_offset",
                 "type": 4
             },
             {
-                "address": "0x08008642",
+                "address": "0x0800883e",
                 "name": "hw.temp_sens",
                 "type": 3
             },
@@ -7281,7 +7283,7 @@
                 "type": 5
             },
             {
-                "address": "0x080085e0",
+                "address": "0x080087dc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -7326,212 +7328,212 @@
                 "type": 5
             },
             {
-                "address": "0x08008617",
+                "address": "0x08008813",
                 "name": "reg.accel_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008618",
+                "address": "0x08008814",
                 "name": "reg.accel_cfg2",
                 "type": 1
             },
             {
-                "address": "0x08008624",
+                "address": "0x08008820",
                 "name": "reg.accel_intel",
                 "type": 1
             },
             {
-                "address": "0x08008629",
+                "address": "0x08008825",
                 "name": "reg.accel_offs",
                 "type": 1
             },
             {
-                "address": "0x0800862b",
+                "address": "0x08008827",
                 "name": "reg.bank_sel",
                 "type": 1
             },
             {
-                "address": "0x08008622",
+                "address": "0x0800881e",
                 "name": "reg.dmp_int_status",
                 "type": 1
             },
             {
-                "address": "0x0800861c",
+                "address": "0x08008818",
                 "name": "reg.fifo_count_h",
                 "type": 1
             },
             {
-                "address": "0x08008615",
+                "address": "0x08008811",
                 "name": "reg.fifo_en",
                 "type": 1
             },
             {
-                "address": "0x0800861d",
+                "address": "0x08008819",
                 "name": "reg.fifo_r_w",
                 "type": 1
             },
             {
-                "address": "0x08008616",
+                "address": "0x08008812",
                 "name": "reg.gyro_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008637",
+                "address": "0x08008833",
                 "name": "reg.i2c_delay_ctrl",
                 "type": 1
             },
             {
-                "address": "0x0800862a",
+                "address": "0x08008826",
                 "name": "reg.i2c_mst",
                 "type": 1
             },
             {
-                "address": "0x08008621",
+                "address": "0x0800881d",
                 "name": "reg.int_enable",
                 "type": 1
             },
             {
-                "address": "0x08008627",
+                "address": "0x08008823",
                 "name": "reg.int_pin_cfg",
                 "type": 1
             },
             {
-                "address": "0x08008623",
+                "address": "0x0800881f",
                 "name": "reg.int_status",
                 "type": 1
             },
             {
-                "address": "0x08008619",
+                "address": "0x08008815",
                 "name": "reg.lp_accel_odr",
                 "type": 1
             },
             {
-                "address": "0x08008612",
+                "address": "0x0800880e",
                 "name": "reg.lpf",
                 "type": 1
             },
             {
-                "address": "0x08008628",
+                "address": "0x08008824",
                 "name": "reg.mem_r_w",
                 "type": 1
             },
             {
-                "address": "0x0800862c",
+                "address": "0x08008828",
                 "name": "reg.mem_start_addr",
                 "type": 1
             },
             {
-                "address": "0x0800861b",
+                "address": "0x08008817",
                 "name": "reg.motion_dur",
                 "type": 1
             },
             {
-                "address": "0x0800861a",
+                "address": "0x08008816",
                 "name": "reg.motion_thr",
                 "type": 1
             },
             {
-                "address": "0x0800862d",
+                "address": "0x08008829",
                 "name": "reg.prgm_start_h",
                 "type": 1
             },
             {
-                "address": "0x08008613",
+                "address": "0x0800880f",
                 "name": "reg.prod_id",
                 "type": 1
             },
             {
-                "address": "0x08008625",
+                "address": "0x08008821",
                 "name": "reg.pwr_mgmt_1",
                 "type": 1
             },
             {
-                "address": "0x08008626",
+                "address": "0x08008822",
                 "name": "reg.pwr_mgmt_2",
                 "type": 1
             },
             {
-                "address": "0x08008611",
+                "address": "0x0800880d",
                 "name": "reg.rate_div",
                 "type": 1
             },
             {
-                "address": "0x0800861f",
+                "address": "0x0800881b",
                 "name": "reg.raw_accel",
                 "type": 1
             },
             {
-                "address": "0x08008638",
+                "address": "0x08008834",
                 "name": "reg.raw_compass",
                 "type": 1
             },
             {
-                "address": "0x0800861e",
+                "address": "0x0800881a",
                 "name": "reg.raw_gyro",
                 "type": 1
             },
             {
-                "address": "0x0800862e",
+                "address": "0x0800882a",
                 "name": "reg.s0_addr",
                 "type": 1
             },
             {
-                "address": "0x08008630",
+                "address": "0x0800882c",
                 "name": "reg.s0_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008635",
+                "address": "0x08008831",
                 "name": "reg.s0_do",
                 "type": 1
             },
             {
-                "address": "0x0800862f",
+                "address": "0x0800882b",
                 "name": "reg.s0_reg",
                 "type": 1
             },
             {
-                "address": "0x08008631",
+                "address": "0x0800882d",
                 "name": "reg.s1_addr",
                 "type": 1
             },
             {
-                "address": "0x08008633",
+                "address": "0x0800882f",
                 "name": "reg.s1_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008636",
+                "address": "0x08008832",
                 "name": "reg.s1_do",
                 "type": 1
             },
             {
-                "address": "0x08008632",
+                "address": "0x0800882e",
                 "name": "reg.s1_reg",
                 "type": 1
             },
             {
-                "address": "0x08008634",
+                "address": "0x08008830",
                 "name": "reg.s4_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008620",
+                "address": "0x0800881c",
                 "name": "reg.temp",
                 "type": 1
             },
             {
-                "address": "0x08008614",
+                "address": "0x08008810",
                 "name": "reg.user_ctrl",
                 "type": 1
             },
             {
-                "address": "0x08008610",
+                "address": "0x0800880c",
                 "name": "reg.who_am_i",
                 "type": 1
             },
             {
-                "address": "0x08008639",
+                "address": "0x08008835",
                 "name": "reg.yg_offs_tc",
                 "type": 1
             },
@@ -7691,82 +7693,82 @@
                 "type": 5
             },
             {
-                "address": "0x08008650",
+                "address": "0x0800884c",
                 "name": "test.accel_sens",
                 "type": 5
             },
             {
-                "address": "0x0800864c",
+                "address": "0x08008848",
                 "name": "test.gyro_sens",
                 "type": 5
             },
             {
-                "address": "0x08008670",
+                "address": "0x0800886c",
                 "name": "test.max_accel_var",
                 "type": 9
             },
             {
-                "address": "0x08008660",
+                "address": "0x0800885c",
                 "name": "test.max_dps",
                 "type": 9
             },
             {
-                "address": "0x0800866c",
+                "address": "0x08008868",
                 "name": "test.max_g",
                 "type": 9
             },
             {
-                "address": "0x08008674",
+                "address": "0x08008870",
                 "name": "test.max_g_offset",
                 "type": 9
             },
             {
-                "address": "0x08008664",
+                "address": "0x08008860",
                 "name": "test.max_gyro_var",
                 "type": 9
             },
             {
-                "address": "0x0800865c",
+                "address": "0x08008858",
                 "name": "test.min_dps",
                 "type": 9
             },
             {
-                "address": "0x08008668",
+                "address": "0x08008864",
                 "name": "test.min_g",
                 "type": 9
             },
             {
-                "address": "0x0800865a",
+                "address": "0x08008856",
                 "name": "test.packet_thresh",
                 "type": 1
             },
             {
-                "address": "0x08008657",
+                "address": "0x08008853",
                 "name": "test.reg_accel_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008656",
+                "address": "0x08008852",
                 "name": "test.reg_gyro_fsr",
                 "type": 1
             },
             {
-                "address": "0x08008655",
+                "address": "0x08008851",
                 "name": "test.reg_lpf",
                 "type": 1
             },
             {
-                "address": "0x08008654",
+                "address": "0x08008850",
                 "name": "test.reg_rate_div",
                 "type": 1
             },
             {
-                "address": "0x08008678",
+                "address": "0x08008874",
                 "name": "test.sample_wait_ms",
                 "type": 3
             },
             {
-                "address": "0x08008658",
+                "address": "0x08008854",
                 "name": "test.wait_ms",
                 "type": 3
             },
@@ -7783,11 +7785,11 @@
         ],
         "expand": false,
         "filename": "prosthesis_knee.elf",
-        "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309447218
+        "exeModifiedTime": 1718390257958,
+        "configLastUpdate": 1718390766156
     },
     {
-        "id": "67c582a1cfeb23e7",
+        "id": "fab78f5c68f91af3",
         "type": "exe-config",
         "name": "MagneticEncoderBias",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
@@ -8723,10 +8725,10 @@
         "expand": false,
         "filename": "prosthesis_knee.elf",
         "exeModifiedTime": 1718309159356,
-        "configLastUpdate": 1718309506591
+        "configLastUpdate": 1718390803268
     },
     {
-        "id": "c5a3a5fa6cc7c526",
+        "id": "6190bb5a0d4167b5",
         "type": "exe-config",
         "name": "StanceControl",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
@@ -9667,7 +9669,7 @@
         "configLastUpdate": 1718309524121
     },
     {
-        "id": "d3e1f3734b9e657a",
+        "id": "bd9dd3cbd0d493bc",
         "type": "exe-config",
         "name": "SwingControl",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
@@ -10608,7 +10610,7 @@
         "configLastUpdate": 1718309533944
     },
     {
-        "id": "a23b336e658bdc48",
+        "id": "eb6900588c03e111",
         "type": "exe-config",
         "name": "ImpedanceControl",
         "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_knee.elf",
