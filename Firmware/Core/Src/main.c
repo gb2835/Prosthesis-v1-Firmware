@@ -2,7 +2,7 @@
 
 /*******************************************************************************
  *
- * TITLE   Prosthesis Control (main) rename project and github to prosthesis_control??
+ * TITLE   Prosthesis Firmware
  * AUTHOR  Greg Berkeley
  * RELEASE XX/XX/XXXX
  *
@@ -18,11 +18,8 @@
  * 4. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *    A new magnetic encoder bias position must be found and defined whenever
  *    the magnet is reassembled into the prosthesis device. A test program is
- *    provided to find the bias. Location??
+ *    provided to find the bias.
  *    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- *
- * ABSTRACT
- * The below code XXX.
  *
  ******************************************************************************/
 
@@ -83,7 +80,7 @@ void SystemClock_Config(void);
 #include "mpu9255.h"
 #include "systick_app_timer.h"
 
-#define LPTIM2_PERIOD 0x3F
+#define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / ( prescaler * ( period + 1 ) )
 
 
 /******************************************************************************/
@@ -139,48 +136,46 @@ int main(void)
 * USER DEFINITIONS
 *******************************************************************************/
 
-	AS5145B_Init_t enc;
-	enc.CSn_GPIOx	= ENC_CSn_GPIO_Port;
-	enc.CSn_Pin		= ENC_CSn_Pin;
-	enc.CLK_GPIOx	= ENC_CLK_GPIO_Port;
-	enc.CLK_Pin		= ENC_CLK_Pin;
-	enc.DO_GPIOx	= ENC_DO_GPIO_Port;
-	enc.DO_Pin		= ENC_DO_Pin;
+	AS5145B_Init_t MagEnc;
+	MagEnc.DO_GPIOx = ENC_DO_GPIO_Port;
+	MagEnc.CLK_GPIOx = ENC_CLK_GPIO_Port;
+	MagEnc.CSn_GPIOx = ENC_CSn_GPIO_Port;
+	MagEnc.DO_Pin = ENC_DO_Pin;
+	MagEnc.CLK_Pin = ENC_CLK_Pin;
+	MagEnc.CSn_Pin = ENC_CSn_Pin;
 
 
 /*******************************************************************************
 * USER INITIALIZATIONS
 *******************************************************************************/
 
-	// Enable Systick interrupt
 	LL_SYSTICK_EnableIT();
 
-	// Start LPTIM2 interrupt
 	LL_LPTIM_Enable(LPTIM2);
 	LL_LPTIM_EnableIT_ARRM(LPTIM2);
-	LL_LPTIM_SetAutoReload( LPTIM2, LPTIM2_PERIOD );
-	LL_LPTIM_StartCounter( LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS );
+	LL_LPTIM_SetAutoReload(LPTIM2, LPTIM2_PERIOD);
+	LL_LPTIM_StartCounter(LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS);
 
-	// Enable peripherals
 	LL_SPI_Enable(SPI1);
 	LL_SPI_Enable(SPI2);
 	LL_ADC_Enable(ADC1);
 	LL_ADC_Enable(ADC2);
 
-	// Initialize devices
 	CAN_configure();
 	EPOS4_SetCSTMode(CAN_ID);
-	AS5145B_Init(&enc);
+	AS5145B_Init(&MagEnc);
 	systick_app_timer_module_init();
 	mpu9255_init(10);
 	readTimer_event_handler();
+
+	InitProsthesisControl();
 
 	// Remove spikes from beginning
 	for ( uint16_t i = 0; i < 1000; i++ );
 
 
 /*******************************************************************************
-* TEST PROGRAMS
+* USER TEST PROGRAMS
 *******************************************************************************/
 
 	RequireTestProgram(ReadOnly);
@@ -190,7 +185,7 @@ int main(void)
 * USER MAIN LOOP
 *******************************************************************************/
 
-  while (1)
+  while(1)
   {
 	  if (isProsthesisControlRequired)
 	  {

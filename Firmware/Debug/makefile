@@ -65,8 +65,8 @@ all: main-build
 main-build: prosthesis_knee.elf secondary-outputs
 
 # Tool invocations
-prosthesis_knee.elf prosthesis_knee.map: $(OBJS) $(USER_OBJS) C:\OneDrive\Desktop\CubeIDE\ Workspace\Prosthesis-Knee-Firmware\Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "prosthesis_knee.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\OneDrive\Desktop\CubeIDE Workspace\Prosthesis-Knee-Firmware\Firmware\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="prosthesis_knee.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+prosthesis_knee.elf prosthesis_knee.map: $(OBJS) $(USER_OBJS) C:\CubeIDE\ Workspace\Prosthesis\ Firmware\Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "prosthesis_knee.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\CubeIDE Workspace\Prosthesis Firmware\Firmware\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="prosthesis_knee.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

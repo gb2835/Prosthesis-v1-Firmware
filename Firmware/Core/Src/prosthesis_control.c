@@ -7,9 +7,6 @@
  * NOTES
  * 1. None.
  *
- * ABSTRACT
- * The below code provides the functionality for prosthesis control.
- *
  ******************************************************************************/
 
 #include "as5145b.h"
@@ -34,48 +31,37 @@ uint16_t CAN_ID = 0x601;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-static enum TestPrograms_e testProgram;
-float kp;
-float kd;
-float equilibriumPoint_deg;
+#define KNEE
 
-float dt = 1 / 512.0f;					// Sample time (programmatically find??)
-uint8_t isFirst = 1;
-uint8_t isSecond = 0;
-uint8_t isTestProgramRequired = 0;
+#define MPUREG_I2C_SLV0_ADDR	0x25
+#define AK8963_I2C_ADDR			0x0c
+#define READ_FLAG				0x80
+#define MPUREG_I2C_SLV0_REG		0x26
+#define AK8963_HXL				0x03
+#define MPUREG_I2C_SLV0_CTRL	0x27
+#define MPUREG_ACCEL_XOUT_H		0x3B
 
-// For CubeMonitor
-double CM_hipAngle_deg;
-float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
-float CM_jointTorque_nm;
-float CM_jointSpeed_dps = 0.0f;
-uint16_t CM_magEncBias;
-uint16_t CM_loadCell_bot[3], CM_loadCell_top[3];					// [0] = k-0, [1] = k-1, [2] = k-2
-uint16_t CM_loadCell_bot_filtered[3], CM_loadCell_top_filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2 (float or uint??)
+enum StateMachine_e
+{
+	Stance,
+	Swing
+};
 
-static void GetInputs (void);
-static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx );
-static void ProcessInputs (void);
-static void CalibrateIMU (void);
-static void ComputeHipAngle (void);
-static void RunStateMachine (void);
-static void RunImpedanceControl (void);
-static void RunTestProgram (void);
+struct ControlParams_s
+{
+	float eqPoint_deg;
+	float kd;			// Units in N*m/(deg/s)
+	float kp;			// Units in N*m/deg
+};
 
+struct LoadCell_Data_s
+{
+	float bot[3];
+	float top[3];
+};
 
-/*******************************************************************************
-* Deal with this after we figure out DMP??
-*******************************************************************************/
-
-#define MPUREG_I2C_SLV0_ADDR 0x25
-#define AK8963_I2C_ADDR 0x0c
-#define READ_FLAG 0x80
-#define MPUREG_I2C_SLV0_REG 0x26
-#define AK8963_HXL 0x03
-#define MPUREG_I2C_SLV0_CTRL 0x27
-#define MPUREG_ACCEL_XOUT_H 0x3B
-
-struct imu_data_s
+// Should be moved to IMU driver??
+struct IMU_Data_s
 {
    double	ax_g;
    double	ay_g;
@@ -85,26 +71,42 @@ struct imu_data_s
    double	gz_dps;
 };
 
-struct dmp_data_s
-{
-   short	ax_g;
-   short	ay_g;
-   short	az_g;
-   short	gx_dps;
-   short	gy_dps;
-   short  	gz_dps;
-   long		qw;
-   long		qx;
-   long		qy;
-   long		qz;
-};
+static enum TestPrograms_e testProgram;
+struct ControlParams_s ProsCtrl;
+struct IMU_Data_s IMU_Data;					// Uncalibrated data
 
-struct imu_data_s imu_data;
+double compFiltAngle_deg = 0.0;
+double dGyroAngle_deg = 0.0;
+float dt = 1 / 512.0f;
+uint8_t isFirst = 1;
+uint8_t isSecond = 0;
+uint8_t isTestProgramRequired = 0;
 
-struct imu_data_s CM_imu_data;
-struct dmp_data_s CM_dmp_data;
+#ifdef KNEE
+float encBias_deg = 2244 * AS5145B_RAW2DEG;
+#else
+float encBias_deg = 1325 * AS5145B_RAW2DEG;
+#endif
 
-struct imu_data_s IMU_read(void);
+// For CubeMonitor
+double CM_limbAngle_deg;
+float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
+float CM_jointSpeed_dps = 0.0f;
+float CM_jointTorque_nm;
+struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingCtrl;
+struct IMU_Data_s CM_IMU_Data;										// Calibrated data
+struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
+uint16_t CM_magEncBias_raw;
+
+static void GetInputs(void);
+static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
+static void ProcessInputs(void);
+static void CalibrateIMU(void);
+static void ComputeLimbAngle(void);
+static void RunStateMachine(void);
+static void RunImpedanceControl(void);
+static void RunTestProgram(void);
+struct IMU_Data_s IMU_read(void);
 unsigned int WriteReg(uint8_t adress, uint8_t data);
 void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes);
 
@@ -113,14 +115,26 @@ void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-void RunProsthesisControl (void)
+void InitProsthesisControl(void)
+{
+	CM_ImpCtrl.kd = 0.0f;
+	CM_ImpCtrl.kp = 2.5f;
+	CM_StanceCtrl.eqPoint_deg = -4.99f;		// Vanderbilt = -4.99 deg
+	CM_StanceCtrl.kd = 0.0;					// Vanderbilt = 0 N*m/(deg/s)
+	CM_StanceCtrl.kp = 2.5f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
+	CM_SwingCtrl.eqPoint_deg = -35.0f;		// Vanderbilt = -35.0 deg
+	CM_SwingCtrl.kd = 0.05f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
+	CM_SwingCtrl.kp = 0.45f;				// 0.45 on the bench "feels" right, Vanderbilt = 0.65 N*m/deg
+}
+
+void RunProsthesisControl(void)
 {
 	GetInputs();
 	ProcessInputs();
 
 	// If test program is required, run test program
 	// Otherwise continue prosthesis control
-	if (isTestProgramRequired)
+	if(isTestProgramRequired)
 	{
 		RunTestProgram();
 	}
@@ -130,23 +144,23 @@ void RunProsthesisControl (void)
 		RunImpedanceControl();
 	}
 
-	// Check for first or second executions, needed for derivatives, filters, etc.
-	if (isFirst)
+	// Check for first and second executions, needed for derivatives, filters, etc.
+	if(isFirst)
 	{
 		isFirst = 0;
 		isSecond = 1;
 	}
-	else if (isSecond)
+	else if(isSecond)
 	{
 		isSecond = 0;
 	}
 }
 
-void RequireTestProgram ( enum TestPrograms_e option )
+void RequireTestProgram(enum TestPrograms_e option)
 {
 	testProgram = option;
 
-	if ( testProgram != None )
+	if(testProgram != None)
 		isTestProgramRequired = 1;
 }
 
@@ -155,31 +169,16 @@ void RequireTestProgram ( enum TestPrograms_e option )
 * PRIVATE FUNCTIONS
 *******************************************************************************/
 
-static void GetInputs (void)
+static void GetInputs(void)
 {
-	float encBias_deg = 1325.0f * 360.0f/4096.0f;	// Bias found using RunTestProgram below
-
 	CM_jointAngle_deg[0] = AS5145B_ReadPosition_Deg() - encBias_deg;
-	CM_loadCell_bot[0] = ReadLoadCell(ADC2);
-	CM_loadCell_top[0] = ReadLoadCell(ADC1);
-	imu_data = IMU_read();
-
-	// DMP??
-	mpu9255_process();
-	dmp_data_t *dmp_data = mpu9255_getLast();
-	CM_dmp_data.ax_g = dmp_data->acceleration.data.x;
-	CM_dmp_data.ay_g = dmp_data->acceleration.data.y;
-	CM_dmp_data.az_g = dmp_data->acceleration.data.z;
-	CM_dmp_data.gx_dps = dmp_data->gyro.data.x;
-	CM_dmp_data.gy_dps = dmp_data->gyro.data.y;
-	CM_dmp_data.gz_dps = dmp_data->gyro.data.z;
-	CM_dmp_data.qw = dmp_data->quaternarion.data.w;
-	CM_dmp_data.qx = dmp_data->quaternarion.data.x;
-	CM_dmp_data.qy = dmp_data->quaternarion.data.y;
-	CM_dmp_data.qz = dmp_data->quaternarion.data.z;
+	CM_LoadCell->bot[0] = ReadLoadCell(ADC2);
+	CM_LoadCell->top[0] = ReadLoadCell(ADC1);
+	IMU_Data = IMU_read();
 }
 
-static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx )
+// Should be moved to ADC driver??
+static uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
 {
 	LL_ADC_REG_StartConversion(ADCx);
 	while ( !LL_ADC_IsActiveFlag_EOC(ADCx) );
@@ -188,39 +187,37 @@ static uint16_t ReadLoadCell ( ADC_TypeDef *ADCx )
 	return val;
 }
 
-static void ProcessInputs (void)
+static void ProcessInputs(void)
 {
-	float tau = 1 / ( 2 * 3.1416f * 10 );	// Time constant for practical differentiator (fc = 10 Hz)
+	float tau = 1 / (2 * 3.1416f * 10);		// Time constant for practical differentiator (fc = 10 Hz)
 
 	// Derivative of angle and filtering of load cells
 	// No derivative of angle (angular speed) on first execution
 	// No filtering of load cells on first or second execution
-	if (isFirst)
+	if(isFirst)
 	{
-		CM_jointSpeed_dps = 0;
+		CM_jointSpeed_dps = 0.0f;
 
-		// Shift values in arrays
 		CM_jointAngle_deg[1] = CM_jointAngle_deg[0];
-		CM_loadCell_bot[2] = CM_loadCell_bot[0];
-		CM_loadCell_top[2] = CM_loadCell_top[0];
-		CM_loadCell_bot_filtered[0] = CM_loadCell_bot[0];
-		CM_loadCell_top_filtered[0] = CM_loadCell_top[0];
-		CM_loadCell_bot_filtered[2] = CM_loadCell_bot_filtered[0];
-		CM_loadCell_top_filtered[2] = CM_loadCell_top_filtered[0];
+		CM_LoadCell->bot[2] = CM_LoadCell->bot[0];
+		CM_LoadCell->top[2] = CM_LoadCell->top[0];
+		CM_LoadCell_Filtered->bot[0] = CM_LoadCell->bot[0];
+		CM_LoadCell_Filtered->top[0] = CM_LoadCell->top[0];
+		CM_LoadCell_Filtered->bot[2] = CM_LoadCell_Filtered->bot[0];
+		CM_LoadCell_Filtered->top[2] = CM_LoadCell_Filtered->top[0];
 	}
-	else if (isSecond)
+	else if(isSecond)
 	{
 		// Practical differentiator (bilinear transformation used)
 		CM_jointSpeed_dps = ( 2*( CM_jointAngle_deg[0] - CM_jointAngle_deg[1] ) + ( 2*tau - dt )*CM_jointSpeed_dps ) / ( dt + 2*tau );
 
-		// Shift values in arrays
 		CM_jointAngle_deg[1] = CM_jointAngle_deg[0];
-		CM_loadCell_bot[1] = CM_loadCell_bot[0];
-		CM_loadCell_top[1] = CM_loadCell_top[0];
-		CM_loadCell_bot_filtered[0] = CM_loadCell_bot[0];
-		CM_loadCell_top_filtered[0] = CM_loadCell_top[0];
-		CM_loadCell_bot_filtered[1] = CM_loadCell_bot_filtered[0];
-		CM_loadCell_top_filtered[1] = CM_loadCell_top_filtered[0];
+		CM_LoadCell->bot[1] = CM_LoadCell->bot[0];
+		CM_LoadCell->top[1] = CM_LoadCell->top[0];
+		CM_LoadCell_Filtered->bot[0] = CM_LoadCell->bot[0];
+		CM_LoadCell_Filtered->top[0] = CM_LoadCell->top[0];
+		CM_LoadCell_Filtered->bot[1] = CM_LoadCell_Filtered->bot[0];
+		CM_LoadCell_Filtered->top[1] = CM_LoadCell_Filtered->top[0];
 	}
 	else
 	{
@@ -228,40 +225,35 @@ static void ProcessInputs (void)
 		CM_jointSpeed_dps = ( 2*( CM_jointAngle_deg[0] - CM_jointAngle_deg[1] ) + ( 2*tau - dt )*CM_jointSpeed_dps ) / ( dt + 2*tau );
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
-		CM_loadCell_bot_filtered[0] =   1.6556f * CM_loadCell_bot_filtered[1] - 0.7068f * CM_loadCell_bot_filtered[2]
-									  + 0.0128f * CM_loadCell_bot[0] + 0.0256f * CM_loadCell_bot[1] + 0.0128f * CM_loadCell_bot[2];
-		CM_loadCell_top_filtered[0] =   1.6556f * CM_loadCell_top_filtered[1] - 0.7068f * CM_loadCell_top_filtered[2]
-									  + 0.0128f * CM_loadCell_top[0] + 0.0256f * CM_loadCell_top[1] + 0.0128f * CM_loadCell_top[2];
+		CM_LoadCell_Filtered->bot[0] =   1.6556f * CM_LoadCell_Filtered->bot[1] - 0.7068f * CM_LoadCell_Filtered->bot[2]
+									   + 0.0128f * CM_LoadCell->bot[0] + 0.0256f * CM_LoadCell->bot[1] + 0.0128f * CM_LoadCell->bot[2];
+		CM_LoadCell_Filtered->top[0] =   1.6556f * CM_LoadCell_Filtered->top[1] - 0.7068f * CM_LoadCell_Filtered->top[2]
+									   + 0.0128f * CM_LoadCell->top[0] + 0.0256f * CM_LoadCell->top[1] + 0.0128f * CM_LoadCell->top[2];
 
-		// Shift values in arrays
 		CM_jointAngle_deg[1] = CM_jointAngle_deg[0];
-		CM_loadCell_bot[2] = CM_loadCell_bot[1];
-		CM_loadCell_top[2] = CM_loadCell_top[1];
-		CM_loadCell_bot[1] = CM_loadCell_bot[0];
-		CM_loadCell_top[1] = CM_loadCell_top[0];
-		CM_loadCell_bot_filtered[2] = CM_loadCell_bot[1];
-		CM_loadCell_top_filtered[2] = CM_loadCell_top[1];
-		CM_loadCell_bot_filtered[2] = CM_loadCell_bot_filtered[1];
-		CM_loadCell_top_filtered[2] = CM_loadCell_top_filtered[1];
-		CM_loadCell_bot_filtered[1] = CM_loadCell_bot[0];
-		CM_loadCell_top_filtered[1] = CM_loadCell_top[0];
-		CM_loadCell_bot_filtered[1] = CM_loadCell_bot_filtered[0];
-		CM_loadCell_top_filtered[1] = CM_loadCell_top_filtered[0];
+		CM_LoadCell->bot[2] = CM_LoadCell->bot[1];
+		CM_LoadCell->bot[1] = CM_LoadCell->bot[0];
+		CM_LoadCell->top[2] = CM_LoadCell->top[1];
+		CM_LoadCell->top[1] = CM_LoadCell->top[0];
+		CM_LoadCell_Filtered->bot[2] = CM_LoadCell_Filtered->bot[1];
+		CM_LoadCell_Filtered->bot[1] = CM_LoadCell_Filtered->bot[0];
+		CM_LoadCell_Filtered->top[2] = CM_LoadCell_Filtered->top[1];
+		CM_LoadCell_Filtered->top[1] = CM_LoadCell_Filtered->top[0];
 	}
 
 	CalibrateIMU();
-	ComputeHipAngle();
+	ComputeLimbAngle();
 }
 
-static void CalibrateIMU (void)
+static void CalibrateIMU(void)
 {
-	double axBias_g = 0;
-	double ayBias_g = 0;
-	double azBias_g = 0;
-	double gxBias_dps = -1.127268296;
-	double gyBias_dps = -0.402634146;
-	double gzBias_dps = 0.730534709;
-	double n = 1.00509896445316;	// Scaling factor (helps with normalization)
+	double axBias_g = 0.0;
+	double ayBias_g = 0.0;
+	double azBias_g = 0.0;
+	double gxBias_dps = 0.0;
+	double gyBias_dps = 0.0;
+	double gzBias_dps = 0.0;
+	double n = 1.0;				// Scaling factor (helps with normalization)
 
 	// Sine and cosine of Euler angles (1 = z angle, 2 = x' angle, 3 = z'' angle)
 	double c1 = cos(0);
@@ -271,68 +263,76 @@ static void CalibrateIMU (void)
 	double s2 = sin(0);
 	double s3 = sin(0);
 
-	double ax_g = imu_data.ax_g;
-	double ay_g = imu_data.ay_g;
-	double az_g = imu_data.az_g;
-
-	// Rotate accelerometer and remove bias
-	CM_imu_data.ax_g = n * ( ax_g*(c1*c3 - c2*s1*s3) + ay_g*(  -c3*s1 - c1*c2*s3) + az_g*( s2*s3) ) - axBias_g;
-	CM_imu_data.ay_g = n * ( ax_g*(c1*s3 + c2*c3*s1) + ay_g*(c1*c2*c3 - s1*s3   ) + az_g*(-c3*s2) ) - ayBias_g;
-	CM_imu_data.az_g = n * ( ax_g*(        s1*s2   ) + ay_g*(           c1*s2   ) + az_g*( c2   ) ) - azBias_g;
-
-	// Remove bias from gyroscope
-	CM_imu_data.gx_dps = imu_data.gx_dps - gxBias_dps;
-	CM_imu_data.gy_dps = imu_data.gy_dps - gyBias_dps;
-	CM_imu_data.gz_dps = imu_data.gz_dps - gzBias_dps;
+	// Rotate IMU data and remove biases
+	CM_IMU_Data.ax_g = n * ( IMU_Data.ax_g*(c1*c3 - c2*s1*s3) + IMU_Data.ay_g*(  -c3*s1 - c1*c2*s3) + IMU_Data.az_g*( s2*s3) ) - axBias_g;
+	CM_IMU_Data.ay_g = n * ( IMU_Data.ax_g*(c1*s3 + c2*c3*s1) + IMU_Data.ay_g*(c1*c2*c3 - s1*s3   ) + IMU_Data.az_g*(-c3*s2) ) - ayBias_g;
+	CM_IMU_Data.az_g = n * ( IMU_Data.ax_g*(        s1*s2   ) + IMU_Data.ay_g*(           c1*s2   ) + IMU_Data.az_g*( c2   ) ) - azBias_g;
+	CM_IMU_Data.gx_dps = n * ( IMU_Data.gx_dps*(c1*c3 - c2*s1*s3) + IMU_Data.gy_dps*(  -c3*s1 - c1*c2*s3) + IMU_Data.gz_dps*( s2*s3) ) - gxBias_dps;
+	CM_IMU_Data.gy_dps = n * ( IMU_Data.gx_dps*(c1*s3 + c2*c3*s1) + IMU_Data.gy_dps*(c1*c2*c3 - s1*s3   ) + IMU_Data.gz_dps*(-c3*s2) ) - gyBias_dps;
+	CM_IMU_Data.gz_dps = n * ( IMU_Data.gx_dps*(        s1*s2   ) + IMU_Data.gy_dps*(           c1*s2   ) + IMU_Data.gz_dps*( c2   ) ) - gzBias_dps;
 }
 
-static void ComputeHipAngle (void)
+static void ComputeLimbAngle(void)
 {
-//	float gyroAngle = 0.0;	// Value not needed but used to suppress initialization warning
-//
-//	double gz_rad = CM_imu_data.gz_dps * 3.1416 / 180.0;
-//	double accelAngle = atan(CM_imu_data.ax_g / sqrt(pow(CM_imu_data.ay_g,2) + pow(CM_imu_data.az_g,2)));
-//
-//	// Compute change in angle from gyro (trapezoidal used)
-//	if (isFirst)
-//	{
-//		gyroAngle = 0.0f;
-//	}
-//	else
-//	{
-//		gyroAngle = dt/2 * (gz_rad + gyroAngle);
-//	}
-//
-//	// Complementary filter (optimal alpha value found from trial and error experiment of MSE)
-//	double alpha = 0.002;
-//	CM_hipAngle = accelAngle*alpha + ( 1 - alpha ) * ( gyroAngle + CM_hipAngle );
+	double accelAngle_deg = ( atan( CM_IMU_Data.ax_g / sqrt( pow( CM_IMU_Data.ay_g, 2 ) + pow(CM_IMU_Data.az_g, 2 ) ) ) ) * 180/3.1416;
+
+	// Change in angle from gyro (trapezoidal used)
+	dGyroAngle_deg = dt/2 * (CM_IMU_Data.gz_dps + dGyroAngle_deg);
+
+	// Complementary filter (optimal alpha value found from trial and error experiment of MSE)
+	double alpha = 0.002;
+	compFiltAngle_deg = accelAngle_deg*alpha + (1 - alpha) * (dGyroAngle_deg + compFiltAngle_deg);
+
+	#ifdef KNEE
+	CM_limbAngle_deg = compFiltAngle_deg - CM_jointAngle_deg[0];
+	#else
+	CM_limbAngle_deg = compFiltAngle_deg + CM_jointAngle_deg[0];
+	#endif
 }
 
-static void RunStateMachine (void)
+static void RunStateMachine(void)
 {
-	switch (0)
+	enum StateMachine_e state;
+
+	if(isFirst)
 	{
-	case 0:
-		kp = 2.5f;
-		kd = 0;
-		equilibriumPoint_deg = 0;
+		state = Stance;
+	}
+
+	switch(state)
+	{
+	case Stance:
+		ProsCtrl.eqPoint_deg = CM_StanceCtrl.eqPoint_deg;
+		ProsCtrl.kd = CM_StanceCtrl.kd;
+		ProsCtrl.kp = CM_StanceCtrl.kp;
+		break;
+	case Swing:
+		ProsCtrl.eqPoint_deg = CM_SwingCtrl.eqPoint_deg;
+		ProsCtrl.kd = CM_SwingCtrl.kd;
+		ProsCtrl.kp = CM_SwingCtrl.kp;
 		break;
 	}
 }
 
-static void RunImpedanceControl (void)
+static void RunImpedanceControl(void)
 {
-	float gearRatio = 40;
-	float torqueConst_nmpa = 0.095f;	// is this number accurate??
-	float nomCurrent_amp = 8.;			// is this number accurate??
+	float gearRatio = 40.0f;
+	float nomCurrent_amp = 8.0f;	// is this number accurate??
+	float torqueConst = 0.095f;		// Units in N*m/A, is this number accurate??
 
-	float errorPos_deg = equilibriumPoint_deg - CM_jointAngle_deg[0];
-	CM_jointTorque_nm = kp*errorPos_deg - kd*CM_jointSpeed_dps;
-	int32_t motorTorque = CM_jointTorque_nm / ( torqueConst_nmpa * gearRatio * nomCurrent_amp ) * 1000;
-	EPOS4_SetTorque( CAN_ID, motorTorque );
+	float errorPos_deg = ProsCtrl.eqPoint_deg - CM_jointAngle_deg[0];
+
+	#ifdef KNEE
+	CM_jointTorque_nm = -(ProsCtrl.kp*errorPos_deg - ProsCtrl.kd*CM_jointSpeed_dps);
+	#else
+	CM_jointTorque_nm = ProsCtrl.kp*errorPos_deg - ProsCtrl.kd*CM_jointSpeed_dps;
+	#endif
+
+	int32_t motorTorque = CM_jointTorque_nm / (torqueConst * gearRatio * nomCurrent_amp) * 1000;
+	EPOS4_SetTorque(CAN_ID, motorTorque);
 }
 
-static void RunTestProgram (void)
+static void RunTestProgram(void)
 {
 	switch (testProgram)
 	{
@@ -342,29 +342,25 @@ static void RunTestProgram (void)
 		break;
 	case ConstantTorque:
 	{
-		int32_t torque = 150;
-		EPOS4_SetTorque( CAN_ID, torque );
+		int32_t torque = 100;
+		EPOS4_SetTorque(CAN_ID, torque);
 		break;
 	}
 	case MagneticEncoderBias:
 	{
 		uint16_t i;
-		uint32_t sum = 0;
 
-		for ( i = 0; i < 1000; i++ )
+		uint32_t sum = 0.0f;
+
+		for(i = 0; i < 1000; i++)
 		{
-			struct AS5145B_Data_s data = AS5145B_ReadData();
-			sum += data.pos_raw;
+			uint16_t bias_raw = AS5145B_ReadPosition_Raw();
+			sum += bias_raw;
 		}
 
-		CM_magEncBias = sum / i;
-		(void) CM_magEncBias;
+		CM_magEncBias_raw = sum / i;
 
-		while (1);	// Halt program
-	}
-	case GyroBias:
-	{
-		// Complete after DMP is figured out??
+		break;
 	}
 	case ImpedanceControl:
 	{
@@ -373,21 +369,22 @@ static void RunTestProgram (void)
 		if (isFirst)
 		{
 			uint16_t i;
+			float sum = 0.0f;
 
-			kp = 2.5;
-			kd = 0;
-			uint32_t sum = 0;
-
-			for ( i = 0; i < 1000; i++ )
+			for(i = 0; i < 1000; i++)
 			{
-				struct AS5145B_Data_s data = AS5145B_ReadData();
-				sum += data.pos_raw;
+				float pos_deg = AS5145B_ReadPosition_Deg();
+				sum += pos_deg;
 			}
 
-			equilibriumPoint_deg = (float) sum/i * 360/4096;
+			CM_ImpCtrl.eqPoint_deg = sum / i - encBias_deg;
 		}
 		else
 		{
+			ProsCtrl.kd = CM_ImpCtrl.kd;
+			ProsCtrl.kp = CM_ImpCtrl.kp;
+			ProsCtrl.eqPoint_deg = CM_ImpCtrl.eqPoint_deg;
+
 			RunImpedanceControl();
 		}
 
@@ -398,32 +395,77 @@ static void RunTestProgram (void)
 
 
 /*******************************************************************************
-* Deal with this after we figure out DMP??
+* Should move to IMU driver??
 *******************************************************************************/
 
-struct imu_data_s IMU_read(void)
+struct IMU_Data_s IMU_read(void)
 {
-	struct imu_data_s IMU;
+	struct IMU_Data_s IMU;
 	uint8_t response[21];
-	WriteReg(MPUREG_I2C_SLV0_ADDR, AK8963_I2C_ADDR | READ_FLAG); // Set the I2C slave addres of AK8963 and set for read.
-	WriteReg(MPUREG_I2C_SLV0_REG, AK8963_HXL); // I2C slave 0 register address from where to begin data transfer
-	WriteReg(MPUREG_I2C_SLV0_CTRL, 0x87); // Read 7 bytes from the magnetometer
+	WriteReg(MPUREG_I2C_SLV0_ADDR, AK8963_I2C_ADDR | READ_FLAG);
+	WriteReg(MPUREG_I2C_SLV0_REG, AK8963_HXL);
+	WriteReg(MPUREG_I2C_SLV0_CTRL, 0x87);
 
 	ReadRegs(MPUREG_ACCEL_XOUT_H, response, 21);
 
-	int16_t AX = ((int16_t) response[0] << 8) | response[1];
-	int16_t AY = ((int16_t) response[2] << 8) | response[3];
-	int16_t AZ = ((int16_t) response[4] << 8) | response[5];
-	int16_t GX = ((int16_t) response[8] << 8) | response[9];
-	int16_t GY = ((int16_t) response[10] << 8) | response[11];
-	int16_t GZ = ((int16_t) response[12] << 8) | response[13];
+	int16_t accel[3];
+	int16_t gyro[3];
 
-	IMU.ax_g = AX / 4096.0;
-	IMU.ay_g = AY / 4096.0;
-	IMU.az_g = AZ / 4096.0;
-	IMU.gx_dps = GX / 32.8;
-	IMU.gy_dps = GY / 32.8;
-	IMU.gz_dps = GZ / 32.8;
+	#ifdef KNEE
+	int8_t orientation[3] = {1, 2, 3};
+	#else
+	int8_t orientation[3] = {-1, 2, -3};
+	#endif
+
+	if(orientation[0] > 0)
+	{
+		accel[orientation[0]-1] = ((int16_t) response[0] << 8) | response[1];
+		gyro[orientation[0]-1] = ((int16_t) response[8] << 8) | response[9];
+	}
+	else
+	{
+		int16_t tmp = ((int16_t) response[0] << 8) | response[1];
+		accel[-orientation[0]-1] = -tmp;
+
+		tmp = ((int16_t) response[8] << 8) | response[9];
+		gyro[-orientation[0]-1] = -tmp;
+	}
+
+	if(orientation[1] > 0)
+	{
+		accel[orientation[1]-1] = ((int16_t) response[2] << 8) | response[3];
+		gyro[orientation[1]-1] = ((int16_t) response[10] << 8) | response[11];
+	}
+	else
+	{
+		int16_t tmp = ((int16_t) response[2] << 8) | response[3];
+		accel[-orientation[1]-1] = -tmp;
+
+		tmp = ((int16_t) response[10] << 8) | response[11];
+		gyro[-orientation[1]-1] = -tmp;
+	}
+
+	if(orientation[2] > 0)
+	{
+		accel[orientation[2]-1] = ((int16_t) response[4] << 8) | response[5];
+		gyro[orientation[2]-1] = ((int16_t) response[12] << 8) | response[13];
+	}
+	else
+	{
+		int16_t tmp = ((int16_t) response[4] << 8) | response[5];
+		accel[-orientation[2]-1] = -tmp;
+
+		tmp = ((int16_t) response[12] << 8) | response[13];
+		gyro[-orientation[2]-1] = -tmp;
+	}
+
+	IMU.ax_g = accel[0] / 4096.0;
+	IMU.ay_g = accel[1] / 4096.0;
+	IMU.az_g = accel[2] / 4096.0;
+	IMU.gx_dps = gyro[0] / 32.8;
+	IMU.gy_dps = gyro[1] / 32.8;
+	IMU.gz_dps = gyro[2] / 32.8;
+
 	return IMU;
 }
 
@@ -432,14 +474,14 @@ unsigned int WriteReg(uint8_t adress, uint8_t data)
 	unsigned int temp_val;
 	LL_GPIO_ResetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
 
-	while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
+	while (!(SPI1->SR & SPI_SR_TXE));
 	LL_SPI_TransmitData8(SPI1, adress);
-	while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
+	while (!(SPI1->SR & SPI_SR_RXNE));
 	LL_SPI_ReceiveData8(SPI1);
 
-	while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
+	while (!(SPI1->SR & SPI_SR_TXE));
 	LL_SPI_TransmitData8(SPI1, data);
-	while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
+	while (!(SPI1->SR & SPI_SR_RXNE));
 	temp_val = LL_SPI_ReceiveData8(SPI1);
 
 	LL_GPIO_SetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
@@ -449,22 +491,22 @@ unsigned int WriteReg(uint8_t adress, uint8_t data)
 void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes)
 {
 	unsigned int i = 0;
-	LL_GPIO_ResetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin); // PA4 CS RESET Active Low
+	LL_GPIO_ResetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
 
-	while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
-	LL_SPI_TransmitData8(SPI1, (ReadAddr | 0x80)); // (Starting Address 0x22 | 0x80); MSB is '1' for 0x80, next 7 bit Address of register to write 0x22
-	while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
+	while (!(SPI1->SR & SPI_SR_TXE));
+	LL_SPI_TransmitData8(SPI1, (ReadAddr | 0x80));
+	while (!(SPI1->SR & SPI_SR_RXNE));
 	LL_SPI_ReceiveData8(SPI1);
 
 	for (i = 0; i < Bytes; i++)
 	{
-		while (!(SPI1->SR & SPI_SR_TXE)); //transmit buffer empty?
+		while(!(SPI1->SR & SPI_SR_TXE));
 		LL_SPI_TransmitData8(SPI1, 0x00);
-		while (!(SPI1->SR & SPI_SR_RXNE)); //data received?
+		while(!(SPI1->SR & SPI_SR_RXNE));
 		ReadBuf[i] = LL_SPI_ReceiveData8(SPI1);
 	}
 
-	LL_GPIO_SetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin); // PC4 CS SET Active Low
+	LL_GPIO_SetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
 }
 
 
