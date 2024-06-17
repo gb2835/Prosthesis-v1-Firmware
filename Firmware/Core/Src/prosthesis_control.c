@@ -31,6 +31,8 @@ uint16_t CAN_ID = 0x601;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
+#define KNEE
+
 #define MPUREG_I2C_SLV0_ADDR	0x25
 #define AK8963_I2C_ADDR			0x0c
 #define READ_FLAG				0x80
@@ -76,10 +78,15 @@ struct IMU_Data_s IMU_Data;					// Uncalibrated data
 double compFiltAngle_deg = 0.0;
 double dGyroAngle_deg = 0.0;
 float dt = 1 / 512.0f;
-float encBias_deg = 1325 * AS5145B_RAW2DEG;
 uint8_t isFirst = 1;
 uint8_t isSecond = 0;
 uint8_t isTestProgramRequired = 0;
+
+#ifdef KNEE
+float encBias_deg = 2244 * AS5145B_RAW2DEG;
+#else
+float encBias_deg = 1325 * AS5145B_RAW2DEG;
+#endif
 
 // For CubeMonitor
 double CM_limbAngle_deg;
@@ -276,7 +283,11 @@ static void ComputeLimbAngle(void)
 	double alpha = 0.002;
 	compFiltAngle_deg = accelAngle_deg*alpha + (1 - alpha) * (dGyroAngle_deg + compFiltAngle_deg);
 
+	#ifdef KNEE
+	CM_limbAngle_deg = compFiltAngle_deg - CM_jointAngle_deg[0];
+	#else
 	CM_limbAngle_deg = compFiltAngle_deg + CM_jointAngle_deg[0];
+	#endif
 }
 
 static void RunStateMachine(void)
@@ -310,7 +321,13 @@ static void RunImpedanceControl(void)
 	float torqueConst = 0.095f;		// Units in N*m/A, is this number accurate??
 
 	float errorPos_deg = ProsCtrl.eqPoint_deg - CM_jointAngle_deg[0];
+
+	#ifdef KNEE
+	CM_jointTorque_nm = -(ProsCtrl.kp*errorPos_deg - ProsCtrl.kd*CM_jointSpeed_dps);
+	#else
 	CM_jointTorque_nm = ProsCtrl.kp*errorPos_deg - ProsCtrl.kd*CM_jointSpeed_dps;
+	#endif
+
 	int32_t motorTorque = CM_jointTorque_nm / (torqueConst * gearRatio * nomCurrent_amp) * 1000;
 	EPOS4_SetTorque(CAN_ID, motorTorque);
 }
@@ -325,7 +342,7 @@ static void RunTestProgram(void)
 		break;
 	case ConstantTorque:
 	{
-		int32_t torque = 150;
+		int32_t torque = 100;
 		EPOS4_SetTorque(CAN_ID, torque);
 		break;
 	}
@@ -393,7 +410,12 @@ struct IMU_Data_s IMU_read(void)
 
 	int16_t accel[3];
 	int16_t gyro[3];
+
+	#ifdef KNEE
+	int8_t orientation[3] = {1, 2, 3};
+	#else
 	int8_t orientation[3] = {-1, 2, -3};
+	#endif
 
 	if(orientation[0] > 0)
 	{
