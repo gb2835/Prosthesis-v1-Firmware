@@ -1,17 +1,33 @@
 /*******************************************************************************
- *
- * NOTES
- * 1. See header file for more information.
- *
- ******************************************************************************/
+*
+* TITLE   Driver for EPOS4 Motor Controller
+* AUTHOR  Greg Berkeley
+* RELEASE 04/30/2024
+*
+* NOTES
+* 1. Unless otherwise specified, the following references are used:
+* 		AN = Application Notes (Title: EPOS4 Application Notes,
+*                              Document Number: rel8760,
+*                              Revision: 2019-11)
+* 2. Double question marks (??) are commented at locations where possible
+*    improvements may be made.
+*
+*******************************************************************************/
 
 // Include header files
 #include "EPOS4.h"
 
 
 /*******************************************************************************
- * INITIALIZATION FUNCTIONS
- ******************************************************************************/
+* PRIVATE DEFINITIONS
+*******************************************************************************/
+
+void EPOS4_usDelay(uint32_t us);	// Can we lose this??
+
+
+/*******************************************************************************
+* PUBLIC FUNCTIONS
+*******************************************************************************/
 
 // Set Cyclic Synchronous Torque (CST) Mode (Table 7-71 of AN)
 // NOTE: According to AN the below process should start at Set CST operation mode.
@@ -20,7 +36,6 @@
 //       beginning.
 void EPOS4_SetCSTMode( uint16_t CAN_ID )
 {
-	// Declare variables
     uint8_t data[8];
 
     // Shutdown device
@@ -49,7 +64,7 @@ void EPOS4_SetCSTMode( uint16_t CAN_ID )
     LL_mDelay(10);									// Can we do better??
 }
 
-// Clear fault (Table 7-73 of AN)
+// Table 7-73 of AN
 void EPOS4_ClearFault( uint16_t CAN_ID )
 {
     uint8_t data[8];
@@ -58,14 +73,9 @@ void EPOS4_ClearFault( uint16_t CAN_ID )
     CAN_transmit(CAN_ID, 8, data);
 }
 
-
-/*******************************************************************************
- * APPLICATION FUNCTIONS
- ******************************************************************************/
-
 // Set torque per thousand of motor rated torque (Table 7-71 of AN)
 // Motor rated torque = nominal current * torque constant
-// @param torque	100 = 10% of motor rated torque
+// For example, 100 = 10% of motor rated torque
 void EPOS4_SetTorque( uint16_t CAN_ID, int32_t torque )
 {
     uint8_t data[8];
@@ -73,33 +83,20 @@ void EPOS4_SetTorque( uint16_t CAN_ID, int32_t torque )
     EPOS4_DataFramer(data, 0x6071, 0x00, torque);
 
     CAN_transmit(CAN_ID, 8, data);
-    EPOS4_usDelay(50);					// Can we do better??
+    EPOS4_usDelay(50);				// Can we do better??
 }
 
-// Stop motion of motor (Table 7-72 of AN)
-void EPOS4_StopMotion( uint16_t CAN_ID )
+// Table 7-72 of AN
+void EPOS4_StopMotion(uint16_t CAN_ID)
 {
     uint8_t data[8];
     EPOS4_DataFramer(data, 0x6071, 0x00, 0x00);
 
     CAN_transmit(CAN_ID, 8, data);
-    EPOS4_usDelay(1500);
+    EPOS4_usDelay(1500);			// Can we do better??
 }
 
-
-/*******************************************************************************
- * LOW-LEVEL FUNCTIONS
- ******************************************************************************/
-
-// None
-
-
-/*******************************************************************************
- * OTHER FUNCTIONS
- ******************************************************************************/
-
-// This is useful for later adding in functionality. Should work for any Client to Server SDO
-void EPOS4_DataFramer( uint8_t *data, uint16_t object, uint8_t subindex, uint32_t value )
+void EPOS4_DataFramer(uint8_t *data, uint16_t object, uint8_t subindex, uint32_t value)
 {
     data[0] = 0x22; 					// [Byte 0] legend Table 5-43 page 5-55 of AN
     data[1] = (0x00 | object); 			// Index LowByte
@@ -111,13 +108,23 @@ void EPOS4_DataFramer( uint8_t *data, uint16_t object, uint8_t subindex, uint32_
     data[7] = (0x00 | (value >> 24));	// SDO Byte 3
 }
 
+
+/*******************************************************************************
+* PRIVATE FUNCTIONS
+*******************************************************************************/
+
 // Can we lose this??
-void EPOS4_usDelay( uint32_t us )
+void EPOS4_usDelay(uint32_t us)
 {
     uint32_t i,k;
-    for(k=0;k<us;k++)
+    for(k = 0 ; k < us; k++)
     {
-    	for(i=0;i<11;i++)
+    	for(i = 0; i < 11; i++)
          __NOP();
     }
 }
+
+
+/*******************************************************************************
+* END
+*******************************************************************************/

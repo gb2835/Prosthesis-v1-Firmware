@@ -1,13 +1,14 @@
 /*******************************************************************************
- *
- * TITLE   Prosthesis Control
- * AUTHOR  Greg Berkeley
- * RELEASE XX/XX/XXXX
- *
- * NOTES
- * 1. None.
- *
- ******************************************************************************/
+*
+* TITLE   Prosthesis Control
+* AUTHOR  Greg Berkeley
+* RELEASE XX/XX/XXXX
+*
+* NOTES
+* 1. Double question marks (??) are commented at locations where possible
+*    improvements may be made.
+*
+*******************************************************************************/
 
 #include "as5145b.h"
 #include "EPOS4.h"
@@ -75,8 +76,8 @@ static enum TestPrograms_e testProgram;
 struct ControlParams_s ProsCtrl;
 struct IMU_Data_s IMU_Data;					// Uncalibrated data
 
-double compFiltAngle_deg = 0.0;
-double dGyroAngle_deg = 0.0;
+//double compFiltAngle_deg = 0.0; check this??
+//double dGyroAngle_deg = 0.0;
 float dt = 1 / 512.0f;
 uint8_t isFirst = 1;
 uint8_t isSecond = 0;
@@ -275,6 +276,8 @@ static void CalibrateIMU(void)
 static void ComputeLimbAngle(void)
 {
 	double accelAngle_deg = ( atan( CM_IMU_Data.ax_g / sqrt( pow( CM_IMU_Data.ay_g, 2 ) + pow(CM_IMU_Data.az_g, 2 ) ) ) ) * 180/3.1416;
+	static double compFiltAngle_deg = 0.0;
+	static double dGyroAngle_deg = 0.0;
 
 	// Change in angle from gyro (trapezoidal used)
 	dGyroAngle_deg = dt/2 * (CM_IMU_Data.gz_dps + dGyroAngle_deg);
@@ -317,8 +320,8 @@ static void RunStateMachine(void)
 static void RunImpedanceControl(void)
 {
 	float gearRatio = 40.0f;
-	float nomCurrent_amp = 8.0f;	// is this number accurate??
-	float torqueConst = 0.095f;		// Units in N*m/A, is this number accurate??
+	float nomCurrent_amp = 8.0f;					// is this number accurate??
+	float torqueConst = 60 / (2*3.1416f * 100);		// Units in N*m/A, for Kv = 100 rpm/V
 
 	float errorPos_deg = ProsCtrl.eqPoint_deg - CM_jointAngle_deg[0];
 

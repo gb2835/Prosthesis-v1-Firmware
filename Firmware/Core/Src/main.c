@@ -1,27 +1,27 @@
 /* USER CODE BEGIN Header */
 
 /*******************************************************************************
- *
- * TITLE   Prosthesis Firmware
- * AUTHOR  Greg Berkeley
- * RELEASE XX/XX/XXXX
- *
- * NOTES
- * 1. The below lines can be used to measure PB11 on oscilloscope:
- *     - LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
- *     - LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
- *     - LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
- * 2. Test programs provided prior to main loop to independently test device
- *    functionality. Firmware halts when a test program is used.
- * 3. Double question marks (??) are commented at locations throughout the code
- *    where possible improvements may be made.
- * 4. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- *    A new magnetic encoder bias position must be found and defined whenever
- *    the magnet is reassembled into the prosthesis device. A test program is
- *    provided to find the bias.
- *    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- *
- ******************************************************************************/
+*
+* TITLE   Prosthesis Firmware
+* AUTHOR  Greg Berkeley
+* RELEASE XX/XX/XXXX
+*
+* NOTES
+* 1. The below lines can be used to measure PB11 on oscilloscope:
+*     - LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
+*     - LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
+*     - LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
+* 2. Test programs provided prior to main loop to independently test device
+*    functionality. Firmware halts when a test program is used.
+* 3. Double question marks (??) are commented at locations where possible
+*    improvements may be made.
+* 4. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*    A new magnetic encoder bias position must be found and defined whenever
+*    the magnet is reassembled into the prosthesis device. A test program is
+*    provided to find the bias.
+*    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*
+*******************************************************************************/
 
 
 /* USER CODE END Header */

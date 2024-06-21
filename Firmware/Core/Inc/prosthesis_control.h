@@ -1,13 +1,8 @@
 /*******************************************************************************
- *
- * TITLE   Prosthesis Control
- * AUTHOR  Greg Berkeley
- * RELEASE XX/XX/XXXX
- *
- * NOTES
- * 1. See source file for more information.
- *
- ******************************************************************************/
+*
+* See source file for more information.
+*
+*******************************************************************************/
 
 #ifndef INC_PROSTHESIS_CONTROL_H_
 #define INC_PROSTHESIS_CONTROL_H_
