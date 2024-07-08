@@ -7719,7 +7719,6 @@ void EPOS4_SetCSTMode( uint16_t CAN_ID )
  8003862:	af00      	add	r7, sp, #0
  8003864:	4603      	mov	r3, r0
  8003866:	80fb      	strh	r3, [r7, #6]
-	// Declare variables
     uint8_t data[8];
 
     // Shutdown device
@@ -7840,7 +7839,7 @@ void EPOS4_SetTorque( uint16_t CAN_ID, int32_t torque )
  8003946:	2108      	movs	r1, #8
  8003948:	4618      	mov	r0, r3
  800394a:	f000 fa12 	bl	8003d72 <CAN_transmit>
-    EPOS4_usDelay(50);					// Can we do better??
+    EPOS4_usDelay(50);				// Can we do better??
  800394e:	2032      	movs	r0, #50	; 0x32
  8003950:	f000 f83d 	bl	80039ce <EPOS4_usDelay>
 }
@@ -7851,10 +7850,10 @@ void EPOS4_SetTorque( uint16_t CAN_ID, int32_t torque )
 
 0800395c <EPOS4_DataFramer>:
     CAN_transmit(CAN_ID, 8, data);
-    EPOS4_usDelay(1500);
+    EPOS4_usDelay(1500);			// Can we do better??
 }
 
-void EPOS4_DataFramer( uint8_t *data, uint16_t object, uint8_t subindex, uint32_t value )
+void EPOS4_DataFramer(uint8_t *data, uint16_t object, uint8_t subindex, uint32_t value)
 {
  800395c:	b480      	push	{r7}
  800395e:	b085      	sub	sp, #20
@@ -7927,32 +7926,32 @@ void EPOS4_DataFramer( uint8_t *data, uint16_t object, uint8_t subindex, uint32_
 *******************************************************************************/
 
 // Can we lose this??
-void EPOS4_usDelay( uint32_t us )
+void EPOS4_usDelay(uint32_t us)
 {
  80039ce:	b480      	push	{r7}
  80039d0:	b085      	sub	sp, #20
  80039d2:	af00      	add	r7, sp, #0
  80039d4:	6078      	str	r0, [r7, #4]
     uint32_t i,k;
-    for(k=0;k<us;k++)
+    for(k = 0 ; k < us; k++)
  80039d6:	2300      	movs	r3, #0
  80039d8:	60bb      	str	r3, [r7, #8]
  80039da:	e00c      	b.n	80039f6 <EPOS4_usDelay+0x28>
     {
-    	for(i=0;i<11;i++)
+    	for(i = 0; i < 11; i++)
  80039dc:	2300      	movs	r3, #0
  80039de:	60fb      	str	r3, [r7, #12]
  80039e0:	e003      	b.n	80039ea <EPOS4_usDelay+0x1c>
          __NOP();
  80039e2:	bf00      	nop
-    	for(i=0;i<11;i++)
+    	for(i = 0; i < 11; i++)
  80039e4:	68fb      	ldr	r3, [r7, #12]
  80039e6:	3301      	adds	r3, #1
  80039e8:	60fb      	str	r3, [r7, #12]
  80039ea:	68fb      	ldr	r3, [r7, #12]
  80039ec:	2b0a      	cmp	r3, #10
  80039ee:	d9f8      	bls.n	80039e2 <EPOS4_usDelay+0x14>
-    for(k=0;k<us;k++)
+    for(k = 0 ; k < us; k++)
  80039f0:	68bb      	ldr	r3, [r7, #8]
  80039f2:	3301      	adds	r3, #1
  80039f4:	60bb      	str	r3, [r7, #8]

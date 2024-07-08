@@ -32,8 +32,11 @@ uint16_t CAN_ID = 0x601;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
+// Can we do better
 #define KNEE
+#define LEFT
 
+// Should move to IMU driver??
 #define MPUREG_I2C_SLV0_ADDR	0x25
 #define AK8963_I2C_ADDR			0x0c
 #define READ_FLAG				0x80
@@ -414,7 +417,7 @@ struct IMU_Data_s IMU_read(void)
 	int16_t accel[3];
 	int16_t gyro[3];
 
-	#ifdef KNEE
+	#ifdef RIGHT
 	int8_t orientation[3] = {1, 2, 3};
 	#else
 	int8_t orientation[3] = {-1, 2, -3};
