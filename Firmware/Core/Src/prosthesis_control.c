@@ -77,10 +77,8 @@ struct IMU_Data_s
 
 static enum TestPrograms_e testProgram;
 struct ControlParams_s ProsCtrl;
-struct IMU_Data_s IMU_Data;					// Uncalibrated data
+struct IMU_Data_s IMU_Data;
 
-//double compFiltAngle_deg = 0.0; check this??
-//double dGyroAngle_deg = 0.0;
 float dt = 1 / 512.0f;
 uint8_t isFirst = 1;
 uint8_t isSecond = 0;
@@ -98,7 +96,7 @@ float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointSpeed_dps = 0.0f;
 float CM_jointTorque_nm;
 struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingCtrl;
-struct IMU_Data_s CM_IMU_Data;										// Calibrated data
+struct IMU_Data_s CM_IMU_Data;
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_magEncBias_raw;
 
@@ -122,9 +120,9 @@ void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes);
 void InitProsthesisControl(void)
 {
 	CM_ImpCtrl.kd = 0.0f;
-	CM_ImpCtrl.kp = 2.5f;
-	CM_StanceCtrl.eqPoint_deg = -4.99f;		// Vanderbilt = -4.99 deg
-	CM_StanceCtrl.kd = 0.0;					// Vanderbilt = 0 N*m/(deg/s)
+	CM_ImpCtrl.kp = 0.0f;
+	CM_StanceCtrl.eqPoint_deg = 0.0f;		// Vanderbilt = -4.99 deg
+	CM_StanceCtrl.kd = 0.0f;					// Vanderbilt = 0 N*m/(deg/s)
 	CM_StanceCtrl.kp = 2.5f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
 	CM_SwingCtrl.eqPoint_deg = -35.0f;		// Vanderbilt = -35.0 deg
 	CM_SwingCtrl.kd = 0.05f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
@@ -136,8 +134,6 @@ void RunProsthesisControl(void)
 	GetInputs();
 	ProcessInputs();
 
-	// If test program is required, run test program
-	// Otherwise continue prosthesis control
 	if(isTestProgramRequired)
 	{
 		RunTestProgram();
