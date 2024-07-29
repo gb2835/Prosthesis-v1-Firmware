@@ -1,6 +1,6 @@
-../Drivers/EPOS4/EPOS4.c:21:6:EPOS4_SetCSTMode	24	static
-../Drivers/EPOS4/EPOS4.c:53:6:EPOS4_ClearFault	24	static
-../Drivers/EPOS4/EPOS4.c:69:6:EPOS4_SetTorque	24	static
-../Drivers/EPOS4/EPOS4.c:80:6:EPOS4_StopMotion	24	static
-../Drivers/EPOS4/EPOS4.c:102:6:EPOS4_DataFramer	24	static
-../Drivers/EPOS4/EPOS4.c:115:6:EPOS4_usDelay	24	static,ignoring_inline_asm
+../Drivers/EPOS4/EPOS4.c:37:6:EPOS4_SetCSTMode	24	static
+../Drivers/EPOS4/EPOS4.c:68:6:EPOS4_ClearFault	24	static
+../Drivers/EPOS4/EPOS4.c:79:6:EPOS4_SetTorque	24	static
+../Drivers/EPOS4/EPOS4.c:90:6:EPOS4_StopMotion	24	static
+../Drivers/EPOS4/EPOS4.c:99:6:EPOS4_DataFramer	24	static
+../Drivers/EPOS4/EPOS4.c:117:6:EPOS4_usDelay	24	static,ignoring_inline_asm

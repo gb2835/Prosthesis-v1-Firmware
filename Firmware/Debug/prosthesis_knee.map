@@ -3361,7 +3361,7 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .igot.plt      0x00000000200000b0        0x0 c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+fp/hard/crtbegin.o
                 0x00000000200000b0                . = ALIGN (0x4)
 
-.bss            0x00000000200000b0     0x28a0 load address 0x00000000080095b0
+.bss            0x00000000200000b0     0x28a4 load address 0x00000000080095b0
                 0x00000000200000b0                _sbss = .
                 0x00000000200000b0                __bss_start__ = _sbss
  *(.bss)
@@ -3378,85 +3378,84 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  *fill*         0x00000000200000dc        0x4 
  .bss.IMU_Data  0x00000000200000e0       0x30 ./Core/Src/prosthesis_control.o
                 0x00000000200000e0                IMU_Data
- .bss.compFiltAngle_deg
-                0x0000000020000110        0x8 ./Core/Src/prosthesis_control.o
-                0x0000000020000110                compFiltAngle_deg
- .bss.dGyroAngle_deg
-                0x0000000020000118        0x8 ./Core/Src/prosthesis_control.o
-                0x0000000020000118                dGyroAngle_deg
- .bss.isSecond  0x0000000020000120        0x1 ./Core/Src/prosthesis_control.o
-                0x0000000020000120                isSecond
+ .bss.isSecond  0x0000000020000110        0x1 ./Core/Src/prosthesis_control.o
+                0x0000000020000110                isSecond
  .bss.isTestProgramRequired
-                0x0000000020000121        0x1 ./Core/Src/prosthesis_control.o
-                0x0000000020000121                isTestProgramRequired
- *fill*         0x0000000020000122        0x6 
+                0x0000000020000111        0x1 ./Core/Src/prosthesis_control.o
+                0x0000000020000111                isTestProgramRequired
+ *fill*         0x0000000020000112        0x6 
  .bss.CM_limbAngle_deg
-                0x0000000020000128        0x8 ./Core/Src/prosthesis_control.o
-                0x0000000020000128                CM_limbAngle_deg
+                0x0000000020000118        0x8 ./Core/Src/prosthesis_control.o
+                0x0000000020000118                CM_limbAngle_deg
  .bss.CM_jointAngle_deg
-                0x0000000020000130        0x8 ./Core/Src/prosthesis_control.o
-                0x0000000020000130                CM_jointAngle_deg
+                0x0000000020000120        0x8 ./Core/Src/prosthesis_control.o
+                0x0000000020000120                CM_jointAngle_deg
  .bss.CM_jointSpeed_dps
-                0x0000000020000138        0x4 ./Core/Src/prosthesis_control.o
-                0x0000000020000138                CM_jointSpeed_dps
+                0x0000000020000128        0x4 ./Core/Src/prosthesis_control.o
+                0x0000000020000128                CM_jointSpeed_dps
  .bss.CM_jointTorque_nm
-                0x000000002000013c        0x4 ./Core/Src/prosthesis_control.o
-                0x000000002000013c                CM_jointTorque_nm
+                0x000000002000012c        0x4 ./Core/Src/prosthesis_control.o
+                0x000000002000012c                CM_jointTorque_nm
  .bss.CM_ImpCtrl
-                0x0000000020000140        0xc ./Core/Src/prosthesis_control.o
-                0x0000000020000140                CM_ImpCtrl
+                0x0000000020000130        0xc ./Core/Src/prosthesis_control.o
+                0x0000000020000130                CM_ImpCtrl
  .bss.CM_StanceCtrl
-                0x000000002000014c        0xc ./Core/Src/prosthesis_control.o
-                0x000000002000014c                CM_StanceCtrl
+                0x000000002000013c        0xc ./Core/Src/prosthesis_control.o
+                0x000000002000013c                CM_StanceCtrl
  .bss.CM_SwingCtrl
-                0x0000000020000158        0xc ./Core/Src/prosthesis_control.o
-                0x0000000020000158                CM_SwingCtrl
- *fill*         0x0000000020000164        0x4 
+                0x0000000020000148        0xc ./Core/Src/prosthesis_control.o
+                0x0000000020000148                CM_SwingCtrl
+ *fill*         0x0000000020000154        0x4 
  .bss.CM_IMU_Data
-                0x0000000020000168       0x30 ./Core/Src/prosthesis_control.o
-                0x0000000020000168                CM_IMU_Data
+                0x0000000020000158       0x30 ./Core/Src/prosthesis_control.o
+                0x0000000020000158                CM_IMU_Data
  .bss.CM_LoadCell
-                0x0000000020000198       0x48 ./Core/Src/prosthesis_control.o
-                0x0000000020000198                CM_LoadCell
+                0x0000000020000188       0x48 ./Core/Src/prosthesis_control.o
+                0x0000000020000188                CM_LoadCell
  .bss.CM_LoadCell_Filtered
-                0x00000000200001e0       0x48 ./Core/Src/prosthesis_control.o
-                0x00000000200001e0                CM_LoadCell_Filtered
+                0x00000000200001d0       0x48 ./Core/Src/prosthesis_control.o
+                0x00000000200001d0                CM_LoadCell_Filtered
  .bss.CM_magEncBias_raw
-                0x0000000020000228        0x2 ./Core/Src/prosthesis_control.o
-                0x0000000020000228                CM_magEncBias_raw
- *fill*         0x000000002000022a        0x2 
- .bss.appTimer  0x000000002000022c       0x54 ./Core/Src/systick_app_timer.o
- .bss.AS5145B   0x0000000020000280       0x14 ./Drivers/AS5145B/as5145b.o
+                0x0000000020000218        0x2 ./Core/Src/prosthesis_control.o
+                0x0000000020000218                CM_magEncBias_raw
+ *fill*         0x000000002000021a        0x6 
+ .bss.dGyroAngle_deg.1
+                0x0000000020000220        0x8 ./Core/Src/prosthesis_control.o
+ .bss.compFiltAngle_deg.0
+                0x0000000020000228        0x8 ./Core/Src/prosthesis_control.o
+ .bss.appTimer  0x0000000020000230       0x54 ./Core/Src/systick_app_timer.o
+ .bss.AS5145B   0x0000000020000284       0x14 ./Drivers/AS5145B/as5145b.o
  .bss.can_tranceiver
-                0x0000000020000294      0x276 ./Drivers/MCP25625/mcp25625.o
- *fill*         0x000000002000050a        0x2 
- .bss.dmp       0x000000002000050c       0x10 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+                0x0000000020000298      0x276 ./Drivers/MCP25625/mcp25625.o
+ *fill*         0x000000002000050e        0x2 
+ .bss.dmp       0x0000000020000510       0x10 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
  .bss.delayTimer
-                0x000000002000051c       0x14 ./Drivers/MPU-9255/mpu9255.o
+                0x0000000020000520       0x14 ./Drivers/MPU-9255/mpu9255.o
  .bss.readTimer
-                0x0000000020000530       0x14 ./Drivers/MPU-9255/mpu9255.o
+                0x0000000020000534       0x14 ./Drivers/MPU-9255/mpu9255.o
  .bss.g_ul_ms_ticks
-                0x0000000020000544        0x4 ./Drivers/MPU-9255/mpu9255.o
- .bss.ms_delay  0x0000000020000548        0x4 ./Drivers/MPU-9255/mpu9255.o
+                0x0000000020000548        0x4 ./Drivers/MPU-9255/mpu9255.o
+ .bss.ms_delay  0x000000002000054c        0x4 ./Drivers/MPU-9255/mpu9255.o
  .bss.updateRequired
-                0x000000002000054c        0x4 ./Drivers/MPU-9255/mpu9255.o
- .bss.dmpData   0x0000000020000550     0x2400 ./Drivers/MPU-9255/mpu9255.o
-                0x0000000020000550                dmpData
+                0x0000000020000550        0x4 ./Drivers/MPU-9255/mpu9255.o
+ .bss.dmpData   0x0000000020000554     0x2400 ./Drivers/MPU-9255/mpu9255.o
+                0x0000000020000554                dmpData
  *(COMMON)
-                0x0000000020002950                . = ALIGN (0x4)
-                0x0000000020002950                _ebss = .
-                0x0000000020002950                __bss_end__ = _ebss
+                0x0000000020002954                . = ALIGN (0x4)
+                0x0000000020002954                _ebss = .
+                0x0000000020002954                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x0000000020002950      0x600 load address 0x00000000080095b0
-                0x0000000020002950                . = ALIGN (0x8)
+                0x0000000020002954      0x604 load address 0x00000000080095b0
+                0x0000000020002958                . = ALIGN (0x8)
+ *fill*         0x0000000020002954        0x4 
                 [!provide]                        PROVIDE (end = .)
                 [!provide]                        PROVIDE (_end = .)
-                0x0000000020002b50                . = (. + _Min_Heap_Size)
- *fill*         0x0000000020002950      0x200 
-                0x0000000020002f50                . = (. + _Min_Stack_Size)
- *fill*         0x0000000020002b50      0x400 
-                0x0000000020002f50                . = ALIGN (0x8)
+                0x0000000020002b58                . = (. + _Min_Heap_Size)
+ *fill*         0x0000000020002958      0x200 
+                0x0000000020002f58                . = (. + _Min_Stack_Size)
+ *fill*         0x0000000020002b58      0x400 
+                0x0000000020002f58                . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -3564,31 +3563,31 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
 LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x0000000000000000     0xebf3
+.debug_info     0x0000000000000000     0xebf5
  .debug_info    0x0000000000000000      0xb21 ./Core/Src/adc.o
  .debug_info    0x0000000000000b21      0x89e ./Core/Src/gpio.o
  .debug_info    0x00000000000013bf      0xbaf ./Core/Src/lptim.o
  .debug_info    0x0000000000001f6e     0x1243 ./Core/Src/main.o
- .debug_info    0x00000000000031b1      0xe52 ./Core/Src/prosthesis_control.o
- .debug_info    0x0000000000004003      0x71e ./Core/Src/spi.o
- .debug_info    0x0000000000004721      0x298 ./Core/Src/stm32l4xx_it.o
- .debug_info    0x00000000000049b9      0x5bf ./Core/Src/system_stm32l4xx.o
- .debug_info    0x0000000000004f78      0x335 ./Core/Src/systick_app_timer.o
- .debug_info    0x00000000000052ad      0x734 ./Core/Src/usart.o
- .debug_info    0x00000000000059e1       0x22 ./Core/Startup/startup_stm32l476rgtx.o
- .debug_info    0x0000000000005a03      0x531 ./Drivers/AS5145B/as5145b.o
- .debug_info    0x0000000000005f34      0x2c1 ./Drivers/EPOS4/EPOS4.o
- .debug_info    0x00000000000061f5      0xe8c ./Drivers/MCP25625/mcp25625.o
- .debug_info    0x0000000000007081     0x2017 ./Drivers/MPU-9255/inv_mpu.o
- .debug_info    0x0000000000009098      0xc40 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
- .debug_info    0x0000000000009cd8      0xa92 ./Drivers/MPU-9255/mpu9255.o
- .debug_info    0x000000000000a76a      0xb94 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
- .debug_info    0x000000000000b2fe      0x513 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
- .debug_info    0x000000000000b811      0xa01 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_info    0x000000000000c212      0xf50 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_info    0x000000000000d162      0x5f4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
- .debug_info    0x000000000000d756      0x806 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_info    0x000000000000df5c      0xc97 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_info    0x00000000000031b1      0xe54 ./Core/Src/prosthesis_control.o
+ .debug_info    0x0000000000004005      0x71e ./Core/Src/spi.o
+ .debug_info    0x0000000000004723      0x298 ./Core/Src/stm32l4xx_it.o
+ .debug_info    0x00000000000049bb      0x5bf ./Core/Src/system_stm32l4xx.o
+ .debug_info    0x0000000000004f7a      0x335 ./Core/Src/systick_app_timer.o
+ .debug_info    0x00000000000052af      0x734 ./Core/Src/usart.o
+ .debug_info    0x00000000000059e3       0x22 ./Core/Startup/startup_stm32l476rgtx.o
+ .debug_info    0x0000000000005a05      0x531 ./Drivers/AS5145B/as5145b.o
+ .debug_info    0x0000000000005f36      0x2c1 ./Drivers/EPOS4/EPOS4.o
+ .debug_info    0x00000000000061f7      0xe8c ./Drivers/MCP25625/mcp25625.o
+ .debug_info    0x0000000000007083     0x2017 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_info    0x000000000000909a      0xc40 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+ .debug_info    0x0000000000009cda      0xa92 ./Drivers/MPU-9255/mpu9255.o
+ .debug_info    0x000000000000a76c      0xb94 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_info    0x000000000000b300      0x513 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
+ .debug_info    0x000000000000b813      0xa01 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_info    0x000000000000c214      0xf50 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_info    0x000000000000d164      0x5f4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_info    0x000000000000d758      0x806 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_info    0x000000000000df5e      0xc97 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
 .debug_abbrev   0x0000000000000000     0x2c90
  .debug_abbrev  0x0000000000000000      0x1a4 ./Core/Src/adc.o
@@ -3692,7 +3691,7 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_ranges  0x0000000000000da0       0x78 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
  .debug_ranges  0x0000000000000e18      0x128 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
-.debug_macro    0x0000000000000000    0x265a2
+.debug_macro    0x0000000000000000    0x265a8
  .debug_macro   0x0000000000000000      0x16c ./Core/Src/adc.o
  .debug_macro   0x000000000000016c      0xac6 ./Core/Src/adc.o
  .debug_macro   0x0000000000000c32       0x2e ./Core/Src/adc.o
@@ -3747,64 +3746,64 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x000000000002002b       0x20 ./Core/Src/main.o
  .debug_macro   0x000000000002004b       0xeb ./Core/Src/main.o
  .debug_macro   0x0000000000020136       0x1c ./Core/Src/main.o
- .debug_macro   0x0000000000020152      0x2b9 ./Core/Src/prosthesis_control.o
- .debug_macro   0x000000000002040b      0x163 ./Core/Src/prosthesis_control.o
- .debug_macro   0x000000000002056e      0xf8a ./Core/Src/prosthesis_control.o
- .debug_macro   0x00000000000214f8      0x19b ./Core/Src/prosthesis_control.o
- .debug_macro   0x0000000000021693      0x16c ./Core/Src/spi.o
- .debug_macro   0x00000000000217ff      0x17f ./Core/Src/stm32l4xx_it.o
- .debug_macro   0x000000000002197e       0xce ./Core/Src/system_stm32l4xx.o
- .debug_macro   0x0000000000021a4c      0x173 ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021bbf       0x16 ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021bd5       0x16 ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021beb      0x10e ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021cf9       0x8d ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021d86       0x16 ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021d9c       0x29 ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021dc5       0x16 ./Core/Src/systick_app_timer.o
- .debug_macro   0x0000000000021ddb      0x16c ./Core/Src/usart.o
- .debug_macro   0x0000000000021f47      0x1c0 ./Drivers/AS5145B/as5145b.o
- .debug_macro   0x0000000000022107      0x24c ./Drivers/EPOS4/EPOS4.o
- .debug_macro   0x0000000000022353       0x4c ./Drivers/EPOS4/EPOS4.o
- .debug_macro   0x000000000002239f       0x94 ./Drivers/EPOS4/EPOS4.o
- .debug_macro   0x0000000000022433       0x57 ./Drivers/EPOS4/EPOS4.o
- .debug_macro   0x000000000002248a      0x248 ./Drivers/MCP25625/mcp25625.o
- .debug_macro   0x00000000000226d2      0x565 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022c37       0x16 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022c4d       0x97 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022ce4       0xfd ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022de1       0x10 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022df1       0x10 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022e01       0x1c ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022e1d       0x52 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022e6f       0x22 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022e91       0x10 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022ea1       0x52 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022ef3       0xd5 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022fc8       0x1c ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000022fe4       0x3d ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000023021       0x16 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x0000000000023037      0x145 ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x000000000002317c       0x8e ./Drivers/MPU-9255/inv_mpu.o
- .debug_macro   0x000000000002320a      0x819 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
- .debug_macro   0x0000000000023a23       0xa6 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
- .debug_macro   0x0000000000023ac9      0xb8a ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
- .debug_macro   0x0000000000024653      0x659 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
- .debug_macro   0x0000000000024cac      0x26e ./Drivers/MPU-9255/mpu9255.o
- .debug_macro   0x0000000000024f1a      0x1cc ./Drivers/MPU-9255/mpu9255.o
- .debug_macro   0x00000000000250e6      0x17e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
- .debug_macro   0x0000000000025264       0xfb ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
- .debug_macro   0x000000000002535f      0x15d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
- .debug_macro   0x00000000000254bc      0x110 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_macro   0x00000000000255cc      0x12b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_macro   0x00000000000256f7      0x710 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_macro   0x0000000000025e07      0x12e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
- .debug_macro   0x0000000000025f35      0x13d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_macro   0x0000000000026072      0x2f1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_macro   0x0000000000026363      0x19e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
- .debug_macro   0x0000000000026501       0xa1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_macro   0x0000000000020152      0x2bf ./Core/Src/prosthesis_control.o
+ .debug_macro   0x0000000000020411      0x163 ./Core/Src/prosthesis_control.o
+ .debug_macro   0x0000000000020574      0xf8a ./Core/Src/prosthesis_control.o
+ .debug_macro   0x00000000000214fe      0x19b ./Core/Src/prosthesis_control.o
+ .debug_macro   0x0000000000021699      0x16c ./Core/Src/spi.o
+ .debug_macro   0x0000000000021805      0x17f ./Core/Src/stm32l4xx_it.o
+ .debug_macro   0x0000000000021984       0xce ./Core/Src/system_stm32l4xx.o
+ .debug_macro   0x0000000000021a52      0x173 ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021bc5       0x16 ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021bdb       0x16 ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021bf1      0x10e ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021cff       0x8d ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021d8c       0x16 ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021da2       0x29 ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021dcb       0x16 ./Core/Src/systick_app_timer.o
+ .debug_macro   0x0000000000021de1      0x16c ./Core/Src/usart.o
+ .debug_macro   0x0000000000021f4d      0x1c0 ./Drivers/AS5145B/as5145b.o
+ .debug_macro   0x000000000002210d      0x24c ./Drivers/EPOS4/EPOS4.o
+ .debug_macro   0x0000000000022359       0x4c ./Drivers/EPOS4/EPOS4.o
+ .debug_macro   0x00000000000223a5       0x94 ./Drivers/EPOS4/EPOS4.o
+ .debug_macro   0x0000000000022439       0x57 ./Drivers/EPOS4/EPOS4.o
+ .debug_macro   0x0000000000022490      0x248 ./Drivers/MCP25625/mcp25625.o
+ .debug_macro   0x00000000000226d8      0x565 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022c3d       0x16 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022c53       0x97 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022cea       0xfd ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022de7       0x10 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022df7       0x10 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022e07       0x1c ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022e23       0x52 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022e75       0x22 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022e97       0x10 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022ea7       0x52 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022ef9       0xd5 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022fce       0x1c ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000022fea       0x3d ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000023027       0x16 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x000000000002303d      0x145 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000023182       0x8e ./Drivers/MPU-9255/inv_mpu.o
+ .debug_macro   0x0000000000023210      0x819 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+ .debug_macro   0x0000000000023a29       0xa6 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+ .debug_macro   0x0000000000023acf      0xb8a ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+ .debug_macro   0x0000000000024659      0x659 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+ .debug_macro   0x0000000000024cb2      0x26e ./Drivers/MPU-9255/mpu9255.o
+ .debug_macro   0x0000000000024f20      0x1cc ./Drivers/MPU-9255/mpu9255.o
+ .debug_macro   0x00000000000250ec      0x17e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_macro   0x000000000002526a       0xfb ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
+ .debug_macro   0x0000000000025365      0x15d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
+ .debug_macro   0x00000000000254c2      0x110 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_macro   0x00000000000255d2      0x12b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_macro   0x00000000000256fd      0x710 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_macro   0x0000000000025e0d      0x12e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_macro   0x0000000000025f3b      0x13d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_macro   0x0000000000026078      0x2f1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_macro   0x0000000000026369      0x19e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_macro   0x0000000000026507       0xa1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
-.debug_line     0x0000000000000000    0x105b9
+.debug_line     0x0000000000000000    0x105ba
  .debug_line    0x0000000000000000      0x79a ./Core/Src/adc.o
  .debug_line    0x000000000000079a      0x76f ./Core/Src/gpio.o
  .debug_line    0x0000000000000f09      0x7b2 ./Core/Src/lptim.o
@@ -3817,20 +3816,20 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x0000000000004f0e      0x6a1 ./Core/Src/usart.o
  .debug_line    0x00000000000055af       0x88 ./Core/Startup/startup_stm32l476rgtx.o
  .debug_line    0x0000000000005637      0x852 ./Drivers/AS5145B/as5145b.o
- .debug_line    0x0000000000005e89      0x858 ./Drivers/EPOS4/EPOS4.o
- .debug_line    0x00000000000066e1      0xb2a ./Drivers/MCP25625/mcp25625.o
- .debug_line    0x000000000000720b     0x2d8b ./Drivers/MPU-9255/inv_mpu.o
- .debug_line    0x0000000000009f96     0x1316 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
- .debug_line    0x000000000000b2ac      0xb15 ./Drivers/MPU-9255/mpu9255.o
- .debug_line    0x000000000000bdc1      0x8bd ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
- .debug_line    0x000000000000c67e      0x707 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
- .debug_line    0x000000000000cd85      0x7b0 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_line    0x000000000000d535     0x1853 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_line    0x000000000000ed88      0x60e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
- .debug_line    0x000000000000f396      0x6f9 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_line    0x000000000000fa8f      0xb2a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_line    0x0000000000005e89      0x859 ./Drivers/EPOS4/EPOS4.o
+ .debug_line    0x00000000000066e2      0xb2a ./Drivers/MCP25625/mcp25625.o
+ .debug_line    0x000000000000720c     0x2d8b ./Drivers/MPU-9255/inv_mpu.o
+ .debug_line    0x0000000000009f97     0x1316 ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+ .debug_line    0x000000000000b2ad      0xb15 ./Drivers/MPU-9255/mpu9255.o
+ .debug_line    0x000000000000bdc2      0x8bd ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_line    0x000000000000c67f      0x707 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
+ .debug_line    0x000000000000cd86      0x7b0 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_line    0x000000000000d536     0x1853 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_line    0x000000000000ed89      0x60e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_line    0x000000000000f397      0x6f9 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_line    0x000000000000fa90      0xb2a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
-.debug_str      0x0000000000000000    0xc8907
+.debug_str      0x0000000000000000    0xc890d
  .debug_str     0x0000000000000000    0xb5e7b ./Core/Src/adc.o
                                       0xb6099 (size before relaxing)
  .debug_str     0x00000000000b5e7b      0x139 ./Core/Src/gpio.o
@@ -3839,45 +3838,45 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
                                       0xb63bb (size before relaxing)
  .debug_str     0x00000000000b6629     0x39b6 ./Core/Src/main.o
                                       0xb98a5 (size before relaxing)
- .debug_str     0x00000000000b9fdf      0xcdd ./Core/Src/prosthesis_control.o
-                                      0xb9e1b (size before relaxing)
- .debug_str     0x00000000000bacbc       0xc2 ./Core/Src/spi.o
+ .debug_str     0x00000000000b9fdf      0xce3 ./Core/Src/prosthesis_control.o
+                                      0xb9e21 (size before relaxing)
+ .debug_str     0x00000000000bacc2       0xc2 ./Core/Src/spi.o
                                       0xb5e3e (size before relaxing)
- .debug_str     0x00000000000bad7e      0x123 ./Core/Src/stm32l4xx_it.o
+ .debug_str     0x00000000000bad84      0x123 ./Core/Src/stm32l4xx_it.o
                                       0xb5c8d (size before relaxing)
- .debug_str     0x00000000000baea1       0x8e ./Core/Src/system_stm32l4xx.o
+ .debug_str     0x00000000000baea7       0x8e ./Core/Src/system_stm32l4xx.o
                                       0x9eb26 (size before relaxing)
- .debug_str     0x00000000000baf2f      0x286 ./Core/Src/systick_app_timer.o
+ .debug_str     0x00000000000baf35      0x286 ./Core/Src/systick_app_timer.o
                                        0x71a8 (size before relaxing)
- .debug_str     0x00000000000bb1b5       0xe9 ./Core/Src/usart.o
+ .debug_str     0x00000000000bb1bb       0xe9 ./Core/Src/usart.o
                                       0xb5e4a (size before relaxing)
- .debug_str     0x00000000000bb29e       0x36 ./Core/Startup/startup_stm32l476rgtx.o
+ .debug_str     0x00000000000bb2a4       0x36 ./Core/Startup/startup_stm32l476rgtx.o
                                          0x6e (size before relaxing)
- .debug_str     0x00000000000bb2d4       0x9b ./Drivers/AS5145B/as5145b.o
+ .debug_str     0x00000000000bb2da       0x9b ./Drivers/AS5145B/as5145b.o
                                       0xa2454 (size before relaxing)
- .debug_str     0x00000000000bb36f       0x81 ./Drivers/EPOS4/EPOS4.o
+ .debug_str     0x00000000000bb375       0x81 ./Drivers/EPOS4/EPOS4.o
                                       0xb8f3d (size before relaxing)
- .debug_str     0x00000000000bb3f0      0x3d1 ./Drivers/MCP25625/mcp25625.o
+ .debug_str     0x00000000000bb3f6      0x3d1 ./Drivers/MCP25625/mcp25625.o
                                       0xb9358 (size before relaxing)
- .debug_str     0x00000000000bb7c1     0x2484 ./Drivers/MPU-9255/inv_mpu.o
+ .debug_str     0x00000000000bb7c7     0x2484 ./Drivers/MPU-9255/inv_mpu.o
                                       0xbbb31 (size before relaxing)
- .debug_str     0x00000000000bdc45     0x4fda ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
+ .debug_str     0x00000000000bdc4b     0x4fda ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o
                                       0xbf8cd (size before relaxing)
- .debug_str     0x00000000000c2c1f      0x18d ./Drivers/MPU-9255/mpu9255.o
+ .debug_str     0x00000000000c2c25      0x18d ./Drivers/MPU-9255/mpu9255.o
                                       0xb96c0 (size before relaxing)
- .debug_str     0x00000000000c2dac     0x2503 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_str     0x00000000000c2db2     0x2503 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
                                       0xac4a7 (size before relaxing)
- .debug_str     0x00000000000c52af      0x47b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
+ .debug_str     0x00000000000c52b5      0x47b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.o
                                       0x9f518 (size before relaxing)
- .debug_str     0x00000000000c572a      0x5f2 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_str     0x00000000000c5730      0x5f2 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
                                       0xa04e8 (size before relaxing)
- .debug_str     0x00000000000c5d1c      0xd9f ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_str     0x00000000000c5d22      0xd9f ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
                                       0xa3328 (size before relaxing)
- .debug_str     0x00000000000c6abb      0x997 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_str     0x00000000000c6ac1      0x997 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
                                       0xa0bb0 (size before relaxing)
- .debug_str     0x00000000000c7452      0x7e7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_str     0x00000000000c7458      0x7e7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
                                       0xa4a1b (size before relaxing)
- .debug_str     0x00000000000c7c39      0xcce ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_str     0x00000000000c7c3f      0xcce ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
                                       0xa5826 (size before relaxing)
 
 .comment        0x0000000000000000       0x50

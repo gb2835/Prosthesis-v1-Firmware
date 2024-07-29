@@ -21,29 +21,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   8 .data         000000b0  20000000  08009500  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000028a0  200000b0  080095b0  000200b0  2**3
+  9 .bss          000028a4  200000b0  080095b0  000200b0  2**3
                   ALLOC
- 10 ._user_heap_stack 00000600  20002950  080095b0  00022950  2**0
+ 10 ._user_heap_stack 00000604  20002954  080095b0  00022954  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  000200b0  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000ebf3  00000000  00000000  000200e0  2**0
+ 12 .debug_info   0000ebf5  00000000  00000000  000200e0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002c90  00000000  00000000  0002ecd3  2**0
+ 13 .debug_abbrev 00002c90  00000000  00000000  0002ecd5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  14 .debug_aranges 00001070  00000000  00000000  00031968  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_ranges 00000f40  00000000  00000000  000329d8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000265a2  00000000  00000000  00033918  2**0
+ 16 .debug_macro  000265a8  00000000  00000000  00033918  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000105b9  00000000  00000000  00059eba  2**0
+ 17 .debug_line   000105ba  00000000  00000000  00059ec0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c8907  00000000  00000000  0006a473  2**0
+ 18 .debug_str    000c890d  00000000  00000000  0006a47a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  00132d7a  2**0
+ 19 .comment      00000050  00000000  00000000  00132d87  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000488c  00000000  00000000  00132dcc  2**2
+ 20 .debug_frame  0000488c  00000000  00000000  00132dd8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3852,48 +3852,47 @@ void InitProsthesisControl(void)
  8001c94:	b480      	push	{r7}
  8001c96:	af00      	add	r7, sp, #0
 	CM_ImpCtrl.kd = 0.0f;
- 8001c98:	4b0f      	ldr	r3, [pc, #60]	; (8001cd8 <InitProsthesisControl+0x44>)
+ 8001c98:	4b10      	ldr	r3, [pc, #64]	; (8001cdc <InitProsthesisControl+0x48>)
  8001c9a:	f04f 0200 	mov.w	r2, #0
  8001c9e:	605a      	str	r2, [r3, #4]
-	CM_ImpCtrl.kp = 2.5f;
- 8001ca0:	4b0d      	ldr	r3, [pc, #52]	; (8001cd8 <InitProsthesisControl+0x44>)
- 8001ca2:	4a0e      	ldr	r2, [pc, #56]	; (8001cdc <InitProsthesisControl+0x48>)
- 8001ca4:	609a      	str	r2, [r3, #8]
-	CM_StanceCtrl.eqPoint_deg = -4.99f;		// Vanderbilt = -4.99 deg
- 8001ca6:	4b0e      	ldr	r3, [pc, #56]	; (8001ce0 <InitProsthesisControl+0x4c>)
- 8001ca8:	4a0e      	ldr	r2, [pc, #56]	; (8001ce4 <InitProsthesisControl+0x50>)
- 8001caa:	601a      	str	r2, [r3, #0]
-	CM_StanceCtrl.kd = 0.0;					// Vanderbilt = 0 N*m/(deg/s)
- 8001cac:	4b0c      	ldr	r3, [pc, #48]	; (8001ce0 <InitProsthesisControl+0x4c>)
- 8001cae:	f04f 0200 	mov.w	r2, #0
- 8001cb2:	605a      	str	r2, [r3, #4]
+	CM_ImpCtrl.kp = 0.0f;
+ 8001ca0:	4b0e      	ldr	r3, [pc, #56]	; (8001cdc <InitProsthesisControl+0x48>)
+ 8001ca2:	f04f 0200 	mov.w	r2, #0
+ 8001ca6:	609a      	str	r2, [r3, #8]
+	CM_StanceCtrl.eqPoint_deg = 0.0f;		// Vanderbilt = -4.99 deg
+ 8001ca8:	4b0d      	ldr	r3, [pc, #52]	; (8001ce0 <InitProsthesisControl+0x4c>)
+ 8001caa:	f04f 0200 	mov.w	r2, #0
+ 8001cae:	601a      	str	r2, [r3, #0]
+	CM_StanceCtrl.kd = 0.0f;					// Vanderbilt = 0 N*m/(deg/s)
+ 8001cb0:	4b0b      	ldr	r3, [pc, #44]	; (8001ce0 <InitProsthesisControl+0x4c>)
+ 8001cb2:	f04f 0200 	mov.w	r2, #0
+ 8001cb6:	605a      	str	r2, [r3, #4]
 	CM_StanceCtrl.kp = 2.5f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
- 8001cb4:	4b0a      	ldr	r3, [pc, #40]	; (8001ce0 <InitProsthesisControl+0x4c>)
- 8001cb6:	4a09      	ldr	r2, [pc, #36]	; (8001cdc <InitProsthesisControl+0x48>)
- 8001cb8:	609a      	str	r2, [r3, #8]
+ 8001cb8:	4b09      	ldr	r3, [pc, #36]	; (8001ce0 <InitProsthesisControl+0x4c>)
+ 8001cba:	4a0a      	ldr	r2, [pc, #40]	; (8001ce4 <InitProsthesisControl+0x50>)
+ 8001cbc:	609a      	str	r2, [r3, #8]
 	CM_SwingCtrl.eqPoint_deg = -35.0f;		// Vanderbilt = -35.0 deg
- 8001cba:	4b0b      	ldr	r3, [pc, #44]	; (8001ce8 <InitProsthesisControl+0x54>)
- 8001cbc:	4a0b      	ldr	r2, [pc, #44]	; (8001cec <InitProsthesisControl+0x58>)
- 8001cbe:	601a      	str	r2, [r3, #0]
+ 8001cbe:	4b0a      	ldr	r3, [pc, #40]	; (8001ce8 <InitProsthesisControl+0x54>)
+ 8001cc0:	4a0a      	ldr	r2, [pc, #40]	; (8001cec <InitProsthesisControl+0x58>)
+ 8001cc2:	601a      	str	r2, [r3, #0]
 	CM_SwingCtrl.kd = 0.05f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
- 8001cc0:	4b09      	ldr	r3, [pc, #36]	; (8001ce8 <InitProsthesisControl+0x54>)
- 8001cc2:	4a0b      	ldr	r2, [pc, #44]	; (8001cf0 <InitProsthesisControl+0x5c>)
- 8001cc4:	605a      	str	r2, [r3, #4]
+ 8001cc4:	4b08      	ldr	r3, [pc, #32]	; (8001ce8 <InitProsthesisControl+0x54>)
+ 8001cc6:	4a0a      	ldr	r2, [pc, #40]	; (8001cf0 <InitProsthesisControl+0x5c>)
+ 8001cc8:	605a      	str	r2, [r3, #4]
 	CM_SwingCtrl.kp = 0.45f;				// 0.45 on the bench "feels" right, Vanderbilt = 0.65 N*m/deg
- 8001cc6:	4b08      	ldr	r3, [pc, #32]	; (8001ce8 <InitProsthesisControl+0x54>)
- 8001cc8:	4a0a      	ldr	r2, [pc, #40]	; (8001cf4 <InitProsthesisControl+0x60>)
- 8001cca:	609a      	str	r2, [r3, #8]
+ 8001cca:	4b07      	ldr	r3, [pc, #28]	; (8001ce8 <InitProsthesisControl+0x54>)
+ 8001ccc:	4a09      	ldr	r2, [pc, #36]	; (8001cf4 <InitProsthesisControl+0x60>)
+ 8001cce:	609a      	str	r2, [r3, #8]
 }
- 8001ccc:	bf00      	nop
- 8001cce:	46bd      	mov	sp, r7
- 8001cd0:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001cd4:	4770      	bx	lr
- 8001cd6:	bf00      	nop
- 8001cd8:	20000140 	.word	0x20000140
- 8001cdc:	40200000 	.word	0x40200000
- 8001ce0:	2000014c 	.word	0x2000014c
- 8001ce4:	c09fae14 	.word	0xc09fae14
- 8001ce8:	20000158 	.word	0x20000158
+ 8001cd0:	bf00      	nop
+ 8001cd2:	46bd      	mov	sp, r7
+ 8001cd4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001cd8:	4770      	bx	lr
+ 8001cda:	bf00      	nop
+ 8001cdc:	20000130 	.word	0x20000130
+ 8001ce0:	2000013c 	.word	0x2000013c
+ 8001ce4:	40200000 	.word	0x40200000
+ 8001ce8:	20000148 	.word	0x20000148
  8001cec:	c20c0000 	.word	0xc20c0000
  8001cf0:	3d4ccccd 	.word	0x3d4ccccd
  8001cf4:	3ee66666 	.word	0x3ee66666
@@ -3909,8 +3908,6 @@ void RunProsthesisControl(void)
 	ProcessInputs();
  8001d00:	f000 f8a0 	bl	8001e44 <ProcessInputs>
 
-	// If test program is required, run test program
-	// Otherwise continue prosthesis control
 	if(isTestProgramRequired)
  8001d04:	4b0f      	ldr	r3, [pc, #60]	; (8001d44 <RunProsthesisControl+0x4c>)
  8001d06:	781b      	ldrb	r3, [r3, #0]
@@ -3964,9 +3961,9 @@ void RunProsthesisControl(void)
  8001d3e:	bf00      	nop
  8001d40:	bd80      	pop	{r7, pc}
  8001d42:	bf00      	nop
- 8001d44:	20000121 	.word	0x20000121
+ 8001d44:	20000111 	.word	0x20000111
  8001d48:	20000008 	.word	0x20000008
- 8001d4c:	20000120 	.word	0x20000120
+ 8001d4c:	20000110 	.word	0x20000110
 
 08001d50 <RequireTestProgram>:
 
@@ -3999,7 +3996,7 @@ void RequireTestProgram(enum TestPrograms_e option)
  8001d78:	4770      	bx	lr
  8001d7a:	bf00      	nop
  8001d7c:	200000cd 	.word	0x200000cd
- 8001d80:	20000121 	.word	0x20000121
+ 8001d80:	20000111 	.word	0x20000111
 
 08001d84 <GetInputs>:
 /*******************************************************************************
@@ -4054,9 +4051,9 @@ static void GetInputs(void)
  8001df0:	46bd      	mov	sp, r7
  8001df2:	bdb0      	pop	{r4, r5, r7, pc}
  8001df4:	2000000c 	.word	0x2000000c
- 8001df8:	20000130 	.word	0x20000130
+ 8001df8:	20000120 	.word	0x20000120
  8001dfc:	50040100 	.word	0x50040100
- 8001e00:	20000198 	.word	0x20000198
+ 8001e00:	20000188 	.word	0x20000188
  8001e04:	50040000 	.word	0x50040000
  8001e08:	200000e0 	.word	0x200000e0
 
@@ -4374,11 +4371,11 @@ static void ProcessInputs(void)
  800208a:	bf00      	nop
  800208c:	3c826122 	.word	0x3c826122
  8002090:	20000008 	.word	0x20000008
- 8002094:	20000138 	.word	0x20000138
- 8002098:	20000130 	.word	0x20000130
- 800209c:	20000198 	.word	0x20000198
- 80020a0:	200001e0 	.word	0x200001e0
- 80020a4:	20000120 	.word	0x20000120
+ 8002094:	20000128 	.word	0x20000128
+ 8002098:	20000120 	.word	0x20000120
+ 800209c:	20000188 	.word	0x20000188
+ 80020a0:	200001d0 	.word	0x200001d0
+ 80020a4:	20000110 	.word	0x20000110
  80020a8:	20000004 	.word	0x20000004
  80020ac:	3fd3eab3 	.word	0x3fd3eab3
  80020b0:	3f34f0d8 	.word	0x3f34f0d8
@@ -4715,7 +4712,7 @@ static void CalibrateIMU(void)
  800240e:	e005      	b.n	800241c <CalibrateIMU+0x360>
  8002410:	3ff00000 	.word	0x3ff00000
  8002414:	200000e0 	.word	0x200000e0
- 8002418:	20000168 	.word	0x20000168
+ 8002418:	20000158 	.word	0x20000158
  800241c:	e9d7 231a 	ldrd	r2, r3, [r7, #104]	; 0x68
  8002420:	f7fd fed6 	bl	80001d0 <__aeabi_dsub>
  8002424:	4602      	mov	r2, r0
@@ -4998,7 +4995,7 @@ static void CalibrateIMU(void)
  80026fc:	3780      	adds	r7, #128	; 0x80
  80026fe:	46bd      	mov	sp, r7
  8002700:	e8bd 8fb0 	ldmia.w	sp!, {r4, r5, r7, r8, r9, sl, fp, pc}
- 8002704:	20000168 	.word	0x20000168
+ 8002704:	20000158 	.word	0x20000158
  8002708:	200000e0 	.word	0x200000e0
  800270c:	00000000 	.word	0x00000000
 
@@ -5059,6 +5056,8 @@ static void ComputeLimbAngle(void)
  80027ae:	4602      	mov	r2, r0
  80027b0:	460b      	mov	r3, r1
  80027b2:	e9c7 2302 	strd	r2, r3, [r7, #8]
+	static double compFiltAngle_deg = 0.0;
+	static double dGyroAngle_deg = 0.0;
 
 	// Change in angle from gyro (trapezoidal used)
 	dGyroAngle_deg = dt/2 * (CM_IMU_Data.gz_dps + dGyroAngle_deg);
@@ -5158,14 +5157,14 @@ static void ComputeLimbAngle(void)
  800289c:	400921ff 	.word	0x400921ff
  80028a0:	d2f1a9fc 	.word	0xd2f1a9fc
  80028a4:	3f60624d 	.word	0x3f60624d
- 80028a8:	20000168 	.word	0x20000168
+ 80028a8:	20000158 	.word	0x20000158
  80028ac:	40668000 	.word	0x40668000
  80028b0:	20000004 	.word	0x20000004
- 80028b4:	20000118 	.word	0x20000118
+ 80028b4:	20000220 	.word	0x20000220
  80028b8:	3ff00000 	.word	0x3ff00000
- 80028bc:	20000110 	.word	0x20000110
- 80028c0:	20000130 	.word	0x20000130
- 80028c4:	20000128 	.word	0x20000128
+ 80028bc:	20000228 	.word	0x20000228
+ 80028c0:	20000120 	.word	0x20000120
+ 80028c4:	20000118 	.word	0x20000118
 
 080028c8 <RunStateMachine>:
 
@@ -5242,9 +5241,9 @@ static void RunStateMachine(void)
  8002924:	4770      	bx	lr
  8002926:	bf00      	nop
  8002928:	20000008 	.word	0x20000008
- 800292c:	2000014c 	.word	0x2000014c
+ 800292c:	2000013c 	.word	0x2000013c
  8002930:	200000d0 	.word	0x200000d0
- 8002934:	20000158 	.word	0x20000158
+ 8002934:	20000148 	.word	0x20000148
 
 08002938 <RunImpedanceControl>:
 
@@ -5256,10 +5255,10 @@ static void RunImpedanceControl(void)
 	float gearRatio = 40.0f;
  800293e:	4b24      	ldr	r3, [pc, #144]	; (80029d0 <RunImpedanceControl+0x98>)
  8002940:	617b      	str	r3, [r7, #20]
-	float nomCurrent_amp = 8.0f;	// is this number accurate??
+	float nomCurrent_amp = 8.0f;					// is this number accurate??
  8002942:	f04f 4382 	mov.w	r3, #1090519040	; 0x41000000
  8002946:	613b      	str	r3, [r7, #16]
-	float torqueConst = 0.095f;		// Units in N*m/A, is this number accurate??
+	float torqueConst = 60 / (2*3.1416f * 100);		// Units in N*m/A, for Kv = 100 rpm/V
  8002948:	4b22      	ldr	r3, [pc, #136]	; (80029d4 <RunImpedanceControl+0x9c>)
  800294a:	60fb      	str	r3, [r7, #12]
 
@@ -5316,11 +5315,11 @@ static void RunImpedanceControl(void)
  80029cc:	46bd      	mov	sp, r7
  80029ce:	bd80      	pop	{r7, pc}
  80029d0:	42200000 	.word	0x42200000
- 80029d4:	3dc28f5c 	.word	0x3dc28f5c
+ 80029d4:	3dc391b3 	.word	0x3dc391b3
  80029d8:	200000d0 	.word	0x200000d0
- 80029dc:	20000130 	.word	0x20000130
- 80029e0:	20000138 	.word	0x20000138
- 80029e4:	2000013c 	.word	0x2000013c
+ 80029dc:	20000120 	.word	0x20000120
+ 80029e0:	20000128 	.word	0x20000128
+ 80029e4:	2000012c 	.word	0x2000012c
  80029e8:	447a0000 	.word	0x447a0000
  80029ec:	20000000 	.word	0x20000000
 
@@ -5487,10 +5486,10 @@ static void RunTestProgram(void)
  8002ae6:	bd80      	pop	{r7, pc}
  8002ae8:	200000cd 	.word	0x200000cd
  8002aec:	20000000 	.word	0x20000000
- 8002af0:	20000228 	.word	0x20000228
+ 8002af0:	20000218 	.word	0x20000218
  8002af4:	20000008 	.word	0x20000008
  8002af8:	2000000c 	.word	0x2000000c
- 8002afc:	20000140 	.word	0x20000140
+ 8002afc:	20000130 	.word	0x20000130
  8002b00:	200000d0 	.word	0x200000d0
  8002b04:	00000000 	.word	0x00000000
 
@@ -5526,12 +5525,12 @@ struct IMU_Data_s IMU_read(void)
  8002b2e:	4619      	mov	r1, r3
  8002b30:	203b      	movs	r0, #59	; 0x3b
  8002b32:	f000 f9bf 	bl	8002eb4 <ReadRegs>
-
-	int16_t accel[3];
 	int16_t gyro[3];
 
-	#ifdef KNEE
+	#ifdef RIGHT
 	int8_t orientation[3] = {1, 2, 3};
+	#else
+	int8_t orientation[3] = {-1, 2, -3};
  8002b36:	4ab8      	ldr	r2, [pc, #736]	; (8002e18 <IMU_read+0x310>)
  8002b38:	f107 030c 	add.w	r3, r7, #12
  8002b3c:	6812      	ldr	r2, [r2, #0]
@@ -5540,8 +5539,6 @@ struct IMU_Data_s IMU_read(void)
  8002b42:	3302      	adds	r3, #2
  8002b44:	0c12      	lsrs	r2, r2, #16
  8002b46:	701a      	strb	r2, [r3, #0]
-	#else
-	int8_t orientation[3] = {-1, 2, -3};
 	#endif
 
 	if(orientation[0] > 0)
@@ -6812,7 +6809,7 @@ void systick_app_timer_tickAndProcess() {
  800333a:	46bd      	mov	sp, r7
  800333c:	bd80      	pop	{r7, pc}
  800333e:	bf00      	nop
- 8003340:	2000022c 	.word	0x2000022c
+ 8003340:	20000230 	.word	0x20000230
 
 08003344 <systick_app_timer_channel_start>:
 	}
@@ -6869,7 +6866,7 @@ uint32_t systick_app_timer_channel_start(uint8_t channel){
  8003388:	46bd      	mov	sp, r7
  800338a:	f85d 7b04 	ldr.w	r7, [sp], #4
  800338e:	4770      	bx	lr
- 8003390:	2000022c 	.word	0x2000022c
+ 8003390:	20000230 	.word	0x20000230
 
 08003394 <systick_app_timer_channel_create>:
 /*
@@ -6949,7 +6946,7 @@ uint32_t systick_app_timer_channel_create(systick_app_timer_t * timer){
  80033fc:	46bd      	mov	sp, r7
  80033fe:	f85d 7b04 	ldr.w	r7, [sp], #4
  8003402:	4770      	bx	lr
- 8003404:	2000022c 	.word	0x2000022c
+ 8003404:	20000230 	.word	0x20000230
 
 08003408 <systick_app_timer_module_init>:
 
@@ -6967,7 +6964,7 @@ void systick_app_timer_module_init() {
  8003416:	bf00      	nop
  8003418:	bd80      	pop	{r7, pc}
  800341a:	bf00      	nop
- 800341c:	2000022c 	.word	0x2000022c
+ 800341c:	20000230 	.word	0x20000230
 
 08003420 <LL_RCC_SetUSARTClockSource>:
 {
@@ -7329,7 +7326,7 @@ LoopForever:
   ldr r2, =_sbss
  80035f0:	200000b0 	.word	0x200000b0
   ldr r4, =_ebss
- 80035f4:	20002950 	.word	0x20002950
+ 80035f4:	20002954 	.word	0x20002954
 
 080035f8 <ADC1_2_IRQHandler>:
  * @retval : None
@@ -7440,7 +7437,7 @@ void AS5145B_Init(AS5145B_Init_t *AS5145B_Init)
  8003692:	46bd      	mov	sp, r7
  8003694:	bd80      	pop	{r7, pc}
  8003696:	bf00      	nop
- 8003698:	20000280 	.word	0x20000280
+ 8003698:	20000284 	.word	0x20000284
 
 0800369c <AS5145B_ReadData>:
 
@@ -7608,7 +7605,7 @@ struct AS5145B_Data_s AS5145B_ReadData(void)
  80037ba:	46bd      	mov	sp, r7
  80037bc:	bd80      	pop	{r7, pc}
  80037be:	bf00      	nop
- 80037c0:	20000280 	.word	0x20000280
+ 80037c0:	20000284 	.word	0x20000284
 
 080037c4 <AS5145B_ReadPosition_Raw>:
 
@@ -7717,7 +7714,6 @@ void EPOS4_SetCSTMode( uint16_t CAN_ID )
  8003862:	af00      	add	r7, sp, #0
  8003864:	4603      	mov	r3, r0
  8003866:	80fb      	strh	r3, [r7, #6]
-	// Declare variables
     uint8_t data[8];
 
     // Shutdown device
@@ -7814,7 +7810,7 @@ void EPOS4_SetCSTMode( uint16_t CAN_ID )
 
 // Set torque per thousand of motor rated torque (Table 7-71 of AN)
 // Motor rated torque = nominal current * torque constant
-// @param torque	100 = 10% of motor rated torque
+// For example, 100 = 10% of motor rated torque
 void EPOS4_SetTorque( uint16_t CAN_ID, int32_t torque )
 {
  8003924:	b580      	push	{r7, lr}
@@ -7838,7 +7834,7 @@ void EPOS4_SetTorque( uint16_t CAN_ID, int32_t torque )
  8003946:	2108      	movs	r1, #8
  8003948:	4618      	mov	r0, r3
  800394a:	f000 fa12 	bl	8003d72 <CAN_transmit>
-    EPOS4_usDelay(50);					// Can we do better??
+    EPOS4_usDelay(50);				// Can we do better??
  800394e:	2032      	movs	r0, #50	; 0x32
  8003950:	f000 f83d 	bl	80039ce <EPOS4_usDelay>
 }
@@ -7848,11 +7844,11 @@ void EPOS4_SetTorque( uint16_t CAN_ID, int32_t torque )
  800395a:	bd80      	pop	{r7, pc}
 
 0800395c <EPOS4_DataFramer>:
- * OTHER FUNCTIONS
- ******************************************************************************/
+    CAN_transmit(CAN_ID, 8, data);
+    EPOS4_usDelay(1500);			// Can we do better??
+}
 
-// This is useful for later adding in functionality. Should work for any Client to Server SDO
-void EPOS4_DataFramer( uint8_t *data, uint16_t object, uint8_t subindex, uint32_t value )
+void EPOS4_DataFramer(uint8_t *data, uint16_t object, uint8_t subindex, uint32_t value)
 {
  800395c:	b480      	push	{r7}
  800395e:	b085      	sub	sp, #20
@@ -7921,34 +7917,36 @@ void EPOS4_DataFramer( uint8_t *data, uint16_t object, uint8_t subindex, uint32_
  80039cc:	4770      	bx	lr
 
 080039ce <EPOS4_usDelay>:
+* PRIVATE FUNCTIONS
+*******************************************************************************/
 
 // Can we lose this??
-void EPOS4_usDelay( uint32_t us )
+void EPOS4_usDelay(uint32_t us)
 {
  80039ce:	b480      	push	{r7}
  80039d0:	b085      	sub	sp, #20
  80039d2:	af00      	add	r7, sp, #0
  80039d4:	6078      	str	r0, [r7, #4]
     uint32_t i,k;
-    for(k=0;k<us;k++)
+    for(k = 0 ; k < us; k++)
  80039d6:	2300      	movs	r3, #0
  80039d8:	60bb      	str	r3, [r7, #8]
  80039da:	e00c      	b.n	80039f6 <EPOS4_usDelay+0x28>
     {
-    	for(i=0;i<11;i++)
+    	for(i = 0; i < 11; i++)
  80039dc:	2300      	movs	r3, #0
  80039de:	60fb      	str	r3, [r7, #12]
  80039e0:	e003      	b.n	80039ea <EPOS4_usDelay+0x1c>
          __NOP();
  80039e2:	bf00      	nop
-    	for(i=0;i<11;i++)
+    	for(i = 0; i < 11; i++)
  80039e4:	68fb      	ldr	r3, [r7, #12]
  80039e6:	3301      	adds	r3, #1
  80039e8:	60fb      	str	r3, [r7, #12]
  80039ea:	68fb      	ldr	r3, [r7, #12]
  80039ec:	2b0a      	cmp	r3, #10
  80039ee:	d9f8      	bls.n	80039e2 <EPOS4_usDelay+0x14>
-    for(k=0;k<us;k++)
+    for(k = 0 ; k < us; k++)
  80039f0:	68bb      	ldr	r3, [r7, #8]
  80039f2:	3301      	adds	r3, #1
  80039f4:	60bb      	str	r3, [r7, #8]
@@ -8670,7 +8668,7 @@ void mcp25625_init (void)
 }
  8003df8:	bf00      	nop
  8003dfa:	bd80      	pop	{r7, pc}
- 8003dfc:	20000294 	.word	0x20000294
+ 8003dfc:	20000298 	.word	0x20000298
 
 08003e00 <CAN_configure>:
 
@@ -11979,7 +11977,7 @@ int dmp_set_orientation(unsigned short orient)
  8005374:	08008788 	.word	0x08008788
  8005378:	0800878c 	.word	0x0800878c
  800537c:	08008790 	.word	0x08008790
- 8005380:	2000050c 	.word	0x2000050c
+ 8005380:	20000510 	.word	0x20000510
 
 08005384 <dmp_set_fifo_rate>:
  *  Only used when DMP is on.
@@ -12063,7 +12061,7 @@ int dmp_set_fifo_rate(unsigned short rate)
  8005408:	46bd      	mov	sp, r7
  800540a:	bd80      	pop	{r7, pc}
  800540c:	08008794 	.word	0x08008794
- 8005410:	2000050c 	.word	0x2000050c
+ 8005410:	20000510 	.word	0x20000510
 
 08005414 <dmp_set_tap_thresh>:
  *  @param[in]  axis    1, 2, and 4 for XYZ accel, respectively.
@@ -13044,7 +13042,7 @@ int dmp_enable_feature(unsigned short mask)
  8005adc:	46bd      	mov	sp, r7
  8005ade:	bd80      	pop	{r7, pc}
  8005ae0:	02cae309 	.word	0x02cae309
- 8005ae4:	2000050c 	.word	0x2000050c
+ 8005ae4:	20000510 	.word	0x20000510
 
 08005ae8 <dmp_enable_gyro_cal>:
  *  subtracted from the gyro output.
@@ -13232,7 +13230,7 @@ int dmp_register_tap_cb(void (*func)(unsigned char, unsigned char))
  8005bf8:	46bd      	mov	sp, r7
  8005bfa:	f85d 7b04 	ldr.w	r7, [sp], #4
  8005bfe:	4770      	bx	lr
- 8005c00:	2000050c 	.word	0x2000050c
+ 8005c00:	20000510 	.word	0x20000510
 
 08005c04 <dmp_register_android_orient_cb>:
  *  @brief      Register a function to be executed on a android orientation event.
@@ -13257,7 +13255,7 @@ int dmp_register_android_orient_cb(void (*func)(unsigned char))
  8005c18:	46bd      	mov	sp, r7
  8005c1a:	f85d 7b04 	ldr.w	r7, [sp], #4
  8005c1e:	4770      	bx	lr
- 8005c20:	2000050c 	.word	0x2000050c
+ 8005c20:	20000510 	.word	0x20000510
 
 08005c24 <LL_SPI_TransmitData8>:
 {
@@ -13575,7 +13573,7 @@ void mpu9255_delay_ms(unsigned long num_ms) {
  8005df4:	f85d 7b04 	ldr.w	r7, [sp], #4
  8005df8:	4770      	bx	lr
  8005dfa:	bf00      	nop
- 8005dfc:	20000548 	.word	0x20000548
+ 8005dfc:	2000054c 	.word	0x2000054c
 
 08005e00 <delaytimer_event_handler>:
 
@@ -13610,8 +13608,8 @@ void delaytimer_event_handler() {
  8005e24:	f85d 7b04 	ldr.w	r7, [sp], #4
  8005e28:	4770      	bx	lr
  8005e2a:	bf00      	nop
- 8005e2c:	20000544 	.word	0x20000544
- 8005e30:	20000548 	.word	0x20000548
+ 8005e2c:	20000548 	.word	0x20000548
+ 8005e30:	2000054c 	.word	0x2000054c
 
 08005e34 <readTimer_event_handler>:
 
@@ -13630,7 +13628,7 @@ void readTimer_event_handler() {
  8005e40:	46bd      	mov	sp, r7
  8005e42:	f85d 7b04 	ldr.w	r7, [sp], #4
  8005e46:	4770      	bx	lr
- 8005e48:	2000054c 	.word	0x2000054c
+ 8005e48:	20000550 	.word	0x20000550
 
 08005e4c <android_orient_cb>:
 
@@ -13926,11 +13924,11 @@ void mpu9255_init(uint32_t readPeriod) {
  8006012:	46bd      	mov	sp, r7
  8006014:	bd80      	pop	{r7, pc}
  8006016:	bf00      	nop
- 8006018:	2000051c 	.word	0x2000051c
+ 8006018:	20000520 	.word	0x20000520
  800601c:	08005e01 	.word	0x08005e01
- 8006020:	20000530 	.word	0x20000530
+ 8006020:	20000534 	.word	0x20000534
  8006024:	08005e35 	.word	0x08005e35
- 8006028:	20000550 	.word	0x20000550
+ 8006028:	20000554 	.word	0x20000554
  800602c:	080087d0 	.word	0x080087d0
  8006030:	08005e63 	.word	0x08005e63
  8006034:	08005e4d 	.word	0x08005e4d

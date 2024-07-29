@@ -1,13 +1,14 @@
 /*******************************************************************************
- *
- * TITLE   Prosthesis Control
- * AUTHOR  Greg Berkeley
- * RELEASE XX/XX/XXXX
- *
- * NOTES
- * 1. None.
- *
- ******************************************************************************/
+*
+* TITLE   Prosthesis Control
+* AUTHOR  Greg Berkeley
+* RELEASE XX/XX/XXXX
+*
+* NOTES
+* 1. Double question marks (??) are commented at locations where possible
+*    improvements may be made.
+*
+*******************************************************************************/
 
 #include "as5145b.h"
 #include "EPOS4.h"
@@ -31,8 +32,11 @@ uint16_t CAN_ID = 0x601;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
+// Can we do better
 #define KNEE
+#define LEFT
 
+// Should move to IMU driver??
 #define MPUREG_I2C_SLV0_ADDR	0x25
 #define AK8963_I2C_ADDR			0x0c
 #define READ_FLAG				0x80
@@ -73,10 +77,8 @@ struct IMU_Data_s
 
 static enum TestPrograms_e testProgram;
 struct ControlParams_s ProsCtrl;
-struct IMU_Data_s IMU_Data;					// Uncalibrated data
+struct IMU_Data_s IMU_Data;
 
-double compFiltAngle_deg = 0.0;
-double dGyroAngle_deg = 0.0;
 float dt = 1 / 512.0f;
 uint8_t isFirst = 1;
 uint8_t isSecond = 0;
@@ -94,7 +96,7 @@ float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointSpeed_dps = 0.0f;
 float CM_jointTorque_nm;
 struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingCtrl;
-struct IMU_Data_s CM_IMU_Data;										// Calibrated data
+struct IMU_Data_s CM_IMU_Data;
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_magEncBias_raw;
 
@@ -118,9 +120,9 @@ void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes);
 void InitProsthesisControl(void)
 {
 	CM_ImpCtrl.kd = 0.0f;
-	CM_ImpCtrl.kp = 2.5f;
-	CM_StanceCtrl.eqPoint_deg = -4.99f;		// Vanderbilt = -4.99 deg
-	CM_StanceCtrl.kd = 0.0;					// Vanderbilt = 0 N*m/(deg/s)
+	CM_ImpCtrl.kp = 0.0f;
+	CM_StanceCtrl.eqPoint_deg = 0.0f;		// Vanderbilt = -4.99 deg
+	CM_StanceCtrl.kd = 0.0f;					// Vanderbilt = 0 N*m/(deg/s)
 	CM_StanceCtrl.kp = 2.5f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
 	CM_SwingCtrl.eqPoint_deg = -35.0f;		// Vanderbilt = -35.0 deg
 	CM_SwingCtrl.kd = 0.05f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
@@ -132,8 +134,6 @@ void RunProsthesisControl(void)
 	GetInputs();
 	ProcessInputs();
 
-	// If test program is required, run test program
-	// Otherwise continue prosthesis control
 	if(isTestProgramRequired)
 	{
 		RunTestProgram();
@@ -275,6 +275,8 @@ static void CalibrateIMU(void)
 static void ComputeLimbAngle(void)
 {
 	double accelAngle_deg = ( atan( CM_IMU_Data.ax_g / sqrt( pow( CM_IMU_Data.ay_g, 2 ) + pow(CM_IMU_Data.az_g, 2 ) ) ) ) * 180/3.1416;
+	static double compFiltAngle_deg = 0.0;
+	static double dGyroAngle_deg = 0.0;
 
 	// Change in angle from gyro (trapezoidal used)
 	dGyroAngle_deg = dt/2 * (CM_IMU_Data.gz_dps + dGyroAngle_deg);
@@ -317,8 +319,8 @@ static void RunStateMachine(void)
 static void RunImpedanceControl(void)
 {
 	float gearRatio = 40.0f;
-	float nomCurrent_amp = 8.0f;	// is this number accurate??
-	float torqueConst = 0.095f;		// Units in N*m/A, is this number accurate??
+	float nomCurrent_amp = 8.0f;					// is this number accurate??
+	float torqueConst = 60 / (2*3.1416f * 100);		// Units in N*m/A, for Kv = 100 rpm/V
 
 	float errorPos_deg = ProsCtrl.eqPoint_deg - CM_jointAngle_deg[0];
 
@@ -411,7 +413,7 @@ struct IMU_Data_s IMU_read(void)
 	int16_t accel[3];
 	int16_t gyro[3];
 
-	#ifdef KNEE
+	#ifdef RIGHT
 	int8_t orientation[3] = {1, 2, 3};
 	#else
 	int8_t orientation[3] = {-1, 2, -3};
