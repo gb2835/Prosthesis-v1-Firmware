@@ -75,6 +75,12 @@ struct IMU_Data_s
    double	gz_dps;
 };
 
+struct StateTransitions_s
+{
+	float s1_s2;
+	float sf_s1;	// Final state returns to 1
+};
+
 static enum TestPrograms_e testProgram;
 struct ControlParams_s ProsCtrl;
 struct IMU_Data_s IMU_Data;
@@ -98,7 +104,10 @@ float CM_jointTorque_nm;
 struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingCtrl;
 struct IMU_Data_s CM_IMU_Data;
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
+struct StateTransitions_s CM_transitions_lc_bot;
+struct StateTransitions_s CM_transitions_lc_top;
 uint16_t CM_magEncBias_raw;
+uint16_t CM_state;
 
 static void GetInputs(void);
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -122,11 +131,24 @@ void InitProsthesisControl(void)
 	CM_ImpCtrl.kd = 0.0f;
 	CM_ImpCtrl.kp = 0.0f;
 	CM_StanceCtrl.eqPoint_deg = 0.0f;		// Vanderbilt = -4.99 deg
-	CM_StanceCtrl.kd = 0.0f;					// Vanderbilt = 0 N*m/(deg/s)
-	CM_StanceCtrl.kp = 2.5f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
+	CM_StanceCtrl.kd = 0.0f;				// Vanderbilt = 0 N*m/(deg/s)
+	CM_StanceCtrl.kp = 0.0f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
 	CM_SwingCtrl.eqPoint_deg = -35.0f;		// Vanderbilt = -35.0 deg
-	CM_SwingCtrl.kd = 0.05f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
-	CM_SwingCtrl.kp = 0.45f;				// 0.45 on the bench "feels" right, Vanderbilt = 0.65 N*m/deg
+	CM_SwingCtrl.kd = 0.00f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
+	CM_SwingCtrl.kp = 0.00f;				// 0.45 on the bench "feels" right, Vanderbilt = 0.65 N*m/deg
+
+	CM_transitions_lc_bot.s1_s2 = 2200;
+	CM_transitions_lc_top.s1_s2 = 2370;
+	CM_transitions_lc_bot.sf_s1 = 2370;
+	CM_transitions_lc_top.sf_s1 = 2370;
+}
+
+void RequireTestProgram(enum TestPrograms_e option)
+{
+	testProgram = option;
+
+	if(testProgram != None)
+		isTestProgramRequired = 1;
 }
 
 void RunProsthesisControl(void)
@@ -154,14 +176,6 @@ void RunProsthesisControl(void)
 	{
 		isSecond = 0;
 	}
-}
-
-void RequireTestProgram(enum TestPrograms_e option)
-{
-	testProgram = option;
-
-	if(testProgram != None)
-		isTestProgramRequired = 1;
 }
 
 
@@ -294,7 +308,7 @@ static void ComputeLimbAngle(void)
 
 static void RunStateMachine(void)
 {
-	enum StateMachine_e state;
+	static enum StateMachine_e state;
 
 	if(isFirst)
 	{
@@ -304,14 +318,29 @@ static void RunStateMachine(void)
 	switch(state)
 	{
 	case Stance:
+		CM_state = 1800;
 		ProsCtrl.eqPoint_deg = CM_StanceCtrl.eqPoint_deg;
 		ProsCtrl.kd = CM_StanceCtrl.kd;
 		ProsCtrl.kp = CM_StanceCtrl.kp;
+
+		if ((CM_LoadCell_Filtered->top[0] < CM_transitions_lc_top.s1_s2) && (CM_LoadCell_Filtered->bot[0] < CM_transitions_lc_bot.s1_s2))
+		{
+			state = Swing;
+		}
+
 		break;
+
 	case Swing:
+		CM_state = 2900;
 		ProsCtrl.eqPoint_deg = CM_SwingCtrl.eqPoint_deg;
 		ProsCtrl.kd = CM_SwingCtrl.kd;
 		ProsCtrl.kp = CM_SwingCtrl.kp;
+
+		if ((CM_LoadCell_Filtered->top[0] < CM_transitions_lc_top.sf_s1) && (CM_LoadCell_Filtered->bot[0] > CM_transitions_lc_bot.sf_s1))
+		{
+			state = Stance;
+		}
+
 		break;
 	}
 }
