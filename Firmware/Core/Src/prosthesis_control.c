@@ -5,8 +5,7 @@
 * RELEASE XX/XX/XXXX
 *
 * NOTES
-* 1. Double question marks (??) are commented at locations where possible
-*    improvements may be made.
+* 1. None.
 *
 *******************************************************************************/
 
@@ -58,12 +57,6 @@ struct ControlParams_s
 	float kp;			// Units in N*m/deg
 };
 
-struct LoadCell_Data_s
-{
-	float bot[3];
-	float top[3];
-};
-
 // Should be moved to IMU driver??
 struct IMU_Data_s
 {
@@ -75,10 +68,10 @@ struct IMU_Data_s
    double	gz_dps;
 };
 
-struct StateTransitions_s
+struct LoadCell_Data_s
 {
-	float s1_s2;
-	float sf_s1;	// Final state returns to 1
+	float bot[3];
+	float top[3];
 };
 
 static enum TestPrograms_e testProgram;
@@ -101,11 +94,10 @@ double CM_limbAngle_deg;
 float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointSpeed_dps = 0.0f;
 float CM_jointTorque_nm;
+float CM_lcBot_staticUpperLimit, CM_lcTop_staticUpperLimit;
 struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingCtrl;
 struct IMU_Data_s CM_IMU_Data;
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
-struct StateTransitions_s CM_transitions_lc_bot;
-struct StateTransitions_s CM_transitions_lc_top;
 uint16_t CM_magEncBias_raw;
 uint16_t CM_state;
 
@@ -126,6 +118,7 @@ void ReadRegs(uint8_t ReadAddr, uint8_t *ReadBuf, unsigned int Bytes);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
+// This is to localize variables that are subject to change during testing
 void InitProsthesisControl(void)
 {
 	CM_ImpCtrl.kd = 0.0f;
@@ -137,10 +130,8 @@ void InitProsthesisControl(void)
 	CM_SwingCtrl.kd = 0.00f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
 	CM_SwingCtrl.kp = 0.00f;				// 0.45 on the bench "feels" right, Vanderbilt = 0.65 N*m/deg
 
-	CM_transitions_lc_bot.s1_s2 = 2200;
-	CM_transitions_lc_top.s1_s2 = 2370;
-	CM_transitions_lc_bot.sf_s1 = 2370;
-	CM_transitions_lc_top.sf_s1 = 2370;
+	CM_lcBot_staticUpperLimit = 2200;
+	CM_lcTop_staticUpperLimit = 2370;
 }
 
 void RequireTestProgram(enum TestPrograms_e option)
@@ -323,7 +314,7 @@ static void RunStateMachine(void)
 		ProsCtrl.kd = CM_StanceCtrl.kd;
 		ProsCtrl.kp = CM_StanceCtrl.kp;
 
-		if ((CM_LoadCell_Filtered->top[0] < CM_transitions_lc_top.s1_s2) && (CM_LoadCell_Filtered->bot[0] < CM_transitions_lc_bot.s1_s2))
+		if((CM_LoadCell_Filtered->top[0] < CM_lcTop_staticUpperLimit) && (CM_LoadCell_Filtered->bot[0] < CM_lcBot_staticUpperLimit))
 		{
 			state = Swing;
 		}
@@ -336,7 +327,7 @@ static void RunStateMachine(void)
 		ProsCtrl.kd = CM_SwingCtrl.kd;
 		ProsCtrl.kp = CM_SwingCtrl.kp;
 
-		if ((CM_LoadCell_Filtered->top[0] < CM_transitions_lc_top.sf_s1) && (CM_LoadCell_Filtered->bot[0] > CM_transitions_lc_bot.sf_s1))
+		if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_staticUpperLimit)
 		{
 			state = Stance;
 		}
