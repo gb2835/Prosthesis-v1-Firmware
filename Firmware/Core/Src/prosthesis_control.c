@@ -47,7 +47,8 @@ uint16_t CAN_ID = 0x601;
 enum StateMachine_e
 {
 	Stance,
-	Swing
+	SwingFlexion,
+	SwingExtension
 };
 
 struct ControlParams_s
@@ -95,7 +96,7 @@ float CM_jointAngle_deg[2];											// [0] = k-0, [1] = k-1
 float CM_jointSpeed_dps = 0.0f;
 float CM_jointTorque_nm;
 float CM_lcBot_staticUpperLimit, CM_lcTop_staticUpperLimit;
-struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingCtrl;
+struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingFlexCtrl, CM_SwingExtCtrl;
 struct IMU_Data_s CM_IMU_Data;
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_magEncBias_raw;
@@ -126,9 +127,12 @@ void InitProsthesisControl(void)
 	CM_StanceCtrl.eqPoint_deg = 0.0f;		// Vanderbilt = -4.99 deg
 	CM_StanceCtrl.kd = 0.0f;				// Vanderbilt = 0 N*m/(deg/s)
 	CM_StanceCtrl.kp = 0.0f;				// 2.50 used to keep heat down in EPOS, Vanderbilt = 4.97 N*m/deg
-	CM_SwingCtrl.eqPoint_deg = -35.0f;		// Vanderbilt = -35.0 deg
-	CM_SwingCtrl.kd = 0.00f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
-	CM_SwingCtrl.kp = 0.00f;				// 0.45 on the bench "feels" right, Vanderbilt = 0.65 N*m/deg
+	CM_SwingFlexCtrl.eqPoint_deg = 0.0f;	// Vanderbilt = -35.0 deg
+	CM_SwingFlexCtrl.kd = 0.0f;				// 0.05 used to get zero overshoot and 0.5 sec settling time, Vanderbilt = 0 N*m/(deg/s)
+	CM_SwingFlexCtrl.kp = 0.0f;				// 0.45 on the bench "feels" right, Vanderbilt = 0.65 N*m/deg
+	CM_SwingExtCtrl.eqPoint_deg = 0.f;
+	CM_SwingExtCtrl.kd = 0.0f;
+	CM_SwingExtCtrl.kp = 0.0f;
 
 	CM_lcBot_staticUpperLimit = 2200;
 	CM_lcTop_staticUpperLimit = 2370;
@@ -316,16 +320,29 @@ static void RunStateMachine(void)
 
 		if((CM_LoadCell_Filtered->top[0] < CM_lcTop_staticUpperLimit) && (CM_LoadCell_Filtered->bot[0] < CM_lcBot_staticUpperLimit))
 		{
-			state = Swing;
+			state = SwingFlexion;
 		}
 
 		break;
 
-	case Swing:
+	case SwingFlexion:
+		CM_state = 2400;
+		ProsCtrl.eqPoint_deg = CM_SwingFlexCtrl.eqPoint_deg;
+		ProsCtrl.kd = CM_SwingFlexCtrl.kd;
+		ProsCtrl.kp = CM_SwingFlexCtrl.kp;
+
+		if(CM_jointSpeed_dps > 0)
+		{
+			state = SwingExtension;
+		}
+
+		break;
+
+	case SwingExtension:
 		CM_state = 2900;
-		ProsCtrl.eqPoint_deg = CM_SwingCtrl.eqPoint_deg;
-		ProsCtrl.kd = CM_SwingCtrl.kd;
-		ProsCtrl.kp = CM_SwingCtrl.kp;
+		ProsCtrl.eqPoint_deg = CM_SwingExtCtrl.eqPoint_deg;
+		ProsCtrl.kd = CM_SwingExtCtrl.kd;
+		ProsCtrl.kp = CM_SwingExtCtrl.kp;
 
 		if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_staticUpperLimit)
 		{
