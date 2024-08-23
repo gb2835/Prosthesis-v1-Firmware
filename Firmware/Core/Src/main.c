@@ -13,8 +13,8 @@
 *     - LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
 * 2. Test programs provided prior to main loop to independently test device
 *    functionality. Firmware halts when a test program is used.
-* 3. Double question marks (??) are commented at locations where possible
-*    improvements may be made.
+* 3. Double question marks (??) are commented at locations throughout project
+*    files where possible improvements may be made.
 * 4. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 *    A new magnetic encoder bias position must be found and defined whenever
 *    the magnet is reassembled into the prosthesis device. A test program is
@@ -178,7 +178,7 @@ int main(void)
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(ImpedanceControl);
+	RequireTestProgram(None);
 
 
 /*******************************************************************************
