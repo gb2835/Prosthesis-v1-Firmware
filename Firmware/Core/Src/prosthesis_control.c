@@ -14,7 +14,7 @@
 #include "prosthesis_control.h"
 #include <math.h>
 #include "mcp25625.h"
-#include "mpu9255.h"
+#include "mpu925x_spi.h"
 #include <stdint.h>
 #include "stm32l4xx_ll_adc.h"
 
@@ -35,15 +35,6 @@ uint16_t CAN_ID = 0x601;
 #define KNEE
 #define LEFT
 
-// Should move to IMU driver??
-#define MPUREG_I2C_SLV0_ADDR	0x25
-#define AK8963_I2C_ADDR			0x0c
-#define READ_FLAG				0x80
-#define MPUREG_I2C_SLV0_REG		0x26
-#define AK8963_HXL				0x03
-#define MPUREG_I2C_SLV0_CTRL	0x27
-#define MPUREG_ACCEL_XOUT_H		0x3B
-
 enum StateMachine_e
 {
 	Stance,
@@ -58,17 +49,6 @@ struct ControlParams_s
 	float kp;			// Units in N*m/deg
 };
 
-// Should be moved to IMU driver??
-struct IMU_Data_s
-{
-   double	ax_g;
-   double	ay_g;
-   double	az_g;
-   double	gx_dps;
-   double	gy_dps;
-   double	gz_dps;
-};
-
 struct LoadCell_Data_s
 {
 	float bot[3];
@@ -77,7 +57,7 @@ struct LoadCell_Data_s
 
 static enum TestPrograms_e testProgram;
 struct ControlParams_s ProsCtrl;
-struct IMU_Data_s IMU_Data;
+struct MPU925x_IMUData_s IMUData;
 
 float dt = 1 / 512.0f;
 uint8_t isFirst = 1;
@@ -97,7 +77,7 @@ float CM_jointSpeed_dps = 0.0f;
 float CM_jointTorque_nm;
 float CM_lcBot_staticUpperLimit, CM_lcTop_staticUpperLimit;
 struct ControlParams_s CM_ImpCtrl, CM_StanceCtrl, CM_SwingFlexCtrl, CM_SwingExtCtrl;
-struct IMU_Data_s CM_IMU_Data;
+struct MPU925x_IMUData_s CM_IMUData;
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_magEncBias_raw;
 uint16_t CM_state;
@@ -183,7 +163,8 @@ static void GetInputs(void)
 	CM_jointAngle_deg[0] = AS5145B_ReadPosition_Deg() - encBias_deg;
 	CM_LoadCell->bot[0] = ReadLoadCell(ADC2);
 	CM_LoadCell->top[0] = ReadLoadCell(ADC1);
-	IMU_Data = IMU_read();
+	IMUData = MPU925x_ReadIMU();
+	IMU_Orientation();
 }
 
 // Should be moved to ADC driver??
@@ -256,12 +237,12 @@ static void ProcessInputs(void)
 
 static void CalibrateIMU(void)
 {
-	double axBias_g = 0.0;
-	double ayBias_g = 0.0;
-	double azBias_g = 0.0;
-	double gxBias_dps = 0.0;
-	double gyBias_dps = 0.0;
-	double gzBias_dps = 0.0;
+	double axBias = 0.0;
+	double ayBias = 0.0;
+	double azBias = 0.0;
+	double gxBias = 0.0;
+	double gyBias = 0.0;
+	double gzBias = 0.0;
 	double n = 1.0;				// Scaling factor (helps with normalization)
 
 	// Sine and cosine of Euler angles (1 = z angle, 2 = x' angle, 3 = z'' angle)
@@ -273,22 +254,22 @@ static void CalibrateIMU(void)
 	double s3 = sin(0);
 
 	// Rotate IMU data and remove biases
-	CM_IMU_Data.ax_g = n * ( IMU_Data.ax_g*(c1*c3 - c2*s1*s3) + IMU_Data.ay_g*(  -c3*s1 - c1*c2*s3) + IMU_Data.az_g*( s2*s3) ) - axBias_g;
-	CM_IMU_Data.ay_g = n * ( IMU_Data.ax_g*(c1*s3 + c2*c3*s1) + IMU_Data.ay_g*(c1*c2*c3 - s1*s3   ) + IMU_Data.az_g*(-c3*s2) ) - ayBias_g;
-	CM_IMU_Data.az_g = n * ( IMU_Data.ax_g*(        s1*s2   ) + IMU_Data.ay_g*(           c1*s2   ) + IMU_Data.az_g*( c2   ) ) - azBias_g;
-	CM_IMU_Data.gx_dps = n * ( IMU_Data.gx_dps*(c1*c3 - c2*s1*s3) + IMU_Data.gy_dps*(  -c3*s1 - c1*c2*s3) + IMU_Data.gz_dps*( s2*s3) ) - gxBias_dps;
-	CM_IMU_Data.gy_dps = n * ( IMU_Data.gx_dps*(c1*s3 + c2*c3*s1) + IMU_Data.gy_dps*(c1*c2*c3 - s1*s3   ) + IMU_Data.gz_dps*(-c3*s2) ) - gyBias_dps;
-	CM_IMU_Data.gz_dps = n * ( IMU_Data.gx_dps*(        s1*s2   ) + IMU_Data.gy_dps*(           c1*s2   ) + IMU_Data.gz_dps*( c2   ) ) - gzBias_dps;
+	CM_IMUData.ax = n * (IMUData.ax*(c1*c3 - c2*s1*s3) + IMUData.ay*(  -c3*s1 - c1*c2*s3) + IMUData.az*( s2*s3)) - axBias;
+	CM_IMUData.ay = n * (IMUData.ax*(c1*s3 + c2*c3*s1) + IMUData.ay*(c1*c2*c3 - s1*s3   ) + IMUData.az*(-c3*s2)) - ayBias;
+	CM_IMUData.az = n * (IMUData.ax*(        s1*s2   ) + IMUData.ay*(           c1*s2   ) + IMUData.az*( c2   )) - azBias;
+	CM_IMUData.gx = n * (IMUData.gx*(c1*c3 - c2*s1*s3) + IMUData.gy*(  -c3*s1 - c1*c2*s3) + IMUData.gz*( s2*s3)) - gxBias;
+	CM_IMUData.gy = n * (IMUData.gx*(c1*s3 + c2*c3*s1) + IMUData.gy*(c1*c2*c3 - s1*s3   ) + IMUData.gz*(-c3*s2)) - gyBias;
+	CM_IMUData.gz = n * (IMUData.gx*(        s1*s2   ) + IMUData.gy*(           c1*s2   ) + IMUData.gz*( c2   )) - gzBias;
 }
 
 static void ComputeLimbAngle(void)
 {
-	double accelAngle_deg = ( atan( CM_IMU_Data.ax_g / sqrt( pow( CM_IMU_Data.ay_g, 2 ) + pow(CM_IMU_Data.az_g, 2 ) ) ) ) * 180/3.1416;
+	double accelAngle_deg = (atan( CM_IMUData.ax / sqrt(pow(CM_IMUData.ay, 2) + pow(CM_IMUData.az, 2)))) * 180/3.1416;
 	static double compFiltAngle_deg = 0.0;
 	static double dGyroAngle_deg = 0.0;
 
 	// Change in angle from gyro (trapezoidal used)
-	dGyroAngle_deg = dt/2 * (CM_IMU_Data.gz_dps + dGyroAngle_deg);
+	dGyroAngle_deg = dt/2 * (CM_IMUData.gz + dGyroAngle_deg);
 
 	// Complementary filter (optimal alpha value found from trial and error experiment of MSE)
 	double alpha = 0.002;
@@ -437,18 +418,10 @@ static void RunTestProgram(void)
 * Should move to IMU driver??
 *******************************************************************************/
 
-struct IMU_Data_s IMU_read(void)
+void IMU_Orientation(void)
 {
-	struct IMU_Data_s IMU;
-	uint8_t response[21];
-	WriteReg(MPUREG_I2C_SLV0_ADDR, AK8963_I2C_ADDR | READ_FLAG);
-	WriteReg(MPUREG_I2C_SLV0_REG, AK8963_HXL);
-	WriteReg(MPUREG_I2C_SLV0_CTRL, 0x87);
-
-	ReadRegs(MPUREG_ACCEL_XOUT_H, response, 21);
-
-	int16_t accel[3];
-	int16_t gyro[3];
+	double accel[3];
+	double gyro[3];
 
 	#ifdef RIGHT
 	int8_t orientation[3] = {1, 2, 3};
@@ -458,54 +431,52 @@ struct IMU_Data_s IMU_read(void)
 
 	if(orientation[0] > 0)
 	{
-		accel[orientation[0]-1] = ((int16_t) response[0] << 8) | response[1];
-		gyro[orientation[0]-1] = ((int16_t) response[8] << 8) | response[9];
+		accel[orientation[0]-1] = IMUData.ax;
+		gyro[orientation[0]-1] = IMUData.gx;
 	}
 	else
 	{
-		int16_t tmp = ((int16_t) response[0] << 8) | response[1];
+		double tmp = IMUData.ax;
 		accel[-orientation[0]-1] = -tmp;
 
-		tmp = ((int16_t) response[8] << 8) | response[9];
+		tmp = IMUData.gx;
 		gyro[-orientation[0]-1] = -tmp;
 	}
 
 	if(orientation[1] > 0)
 	{
-		accel[orientation[1]-1] = ((int16_t) response[2] << 8) | response[3];
-		gyro[orientation[1]-1] = ((int16_t) response[10] << 8) | response[11];
+		accel[orientation[1]-1] = IMUData.ay;
+		gyro[orientation[1]-1] = IMUData.gy;
 	}
 	else
 	{
-		int16_t tmp = ((int16_t) response[2] << 8) | response[3];
+		double tmp = IMUData.ay;
 		accel[-orientation[1]-1] = -tmp;
 
-		tmp = ((int16_t) response[10] << 8) | response[11];
+		tmp = IMUData.gy;
 		gyro[-orientation[1]-1] = -tmp;
 	}
 
 	if(orientation[2] > 0)
 	{
-		accel[orientation[2]-1] = ((int16_t) response[4] << 8) | response[5];
-		gyro[orientation[2]-1] = ((int16_t) response[12] << 8) | response[13];
+		accel[orientation[2]-1] = IMUData.az;
+		gyro[orientation[2]-1] = IMUData.gz;
 	}
 	else
 	{
-		int16_t tmp = ((int16_t) response[4] << 8) | response[5];
+		double tmp = IMUData.az;
 		accel[-orientation[2]-1] = -tmp;
 
-		tmp = ((int16_t) response[12] << 8) | response[13];
+		tmp = IMUData.gz;
 		gyro[-orientation[2]-1] = -tmp;
 	}
 
-	IMU.ax_g = accel[0] / 4096.0;
-	IMU.ay_g = accel[1] / 4096.0;
-	IMU.az_g = accel[2] / 4096.0;
-	IMU.gx_dps = gyro[0] / 32.8;
-	IMU.gy_dps = gyro[1] / 32.8;
-	IMU.gz_dps = gyro[2] / 32.8;
-
-	return IMU;
+	IMUData.ax = accel[0];
+	IMUData.ay = accel[1];
+	IMUData.az = accel[2];
+	IMUData.gx = gyro[0];
+	IMUData.gy = gyro[1];
+	IMUData.gz = gyro[2];
 }
 
 unsigned int WriteReg(uint8_t adress, uint8_t data)

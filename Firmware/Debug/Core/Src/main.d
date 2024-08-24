@@ -25,7 +25,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/spi.h ../Core/Inc/usart.h ../Core/Inc/gpio.h \
  ../Drivers/AS5145B/as5145b.h ../Drivers/EPOS4/EPOS4.h \
  ../Drivers/MCP25625/mcp25625.h ../Core/Inc/prosthesis_control.h \
- ../Drivers/MPU-9255/mpu9255.h ../Core/Inc/systick_app_timer.h
+ ../Drivers/MPU-9255/mpu925x_spi.h ../Core/Inc/systick_app_timer.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h:
 ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
@@ -59,5 +59,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/EPOS4/EPOS4.h:
 ../Drivers/MCP25625/mcp25625.h:
 ../Core/Inc/prosthesis_control.h:
-../Drivers/MPU-9255/mpu9255.h:
+../Drivers/MPU-9255/mpu925x_spi.h:
 ../Core/Inc/systick_app_timer.h:
