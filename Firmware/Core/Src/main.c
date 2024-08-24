@@ -77,10 +77,10 @@ void SystemClock_Config(void);
 #include "EPOS4.h"
 #include "prosthesis_control.h"
 #include "mcp25625.h"
-#include "mpu9255.h"
+#include "mpu925x_spi.h"
 #include "systick_app_timer.h"
 
-#define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / ( prescaler * ( period + 1 ) )
+#define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
 
 /******************************************************************************/
@@ -161,12 +161,14 @@ int main(void)
 	LL_ADC_Enable(ADC1);
 	LL_ADC_Enable(ADC2);
 
+	if(MPU925x_Init(SPI1, IMU_CS_GPIO_Port, IMU_CS_Pin))
+		Error_Handler();
+	MPU925x_SetAccelSensitivity(mpu925x_accelSensitivity_8g);
+	MPU925x_SetGyroSensitivity(mpu925x_gyroSensitivity_1000dps);
+
 	CAN_configure();
 	EPOS4_SetCSTMode(CAN_ID);
 	AS5145B_Init(&MagEnc);
-	systick_app_timer_module_init();
-	mpu9255_init(10);
-	readTimer_event_handler();
 
 	InitProsthesisControl();
 

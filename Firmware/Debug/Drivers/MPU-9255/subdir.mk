@@ -5,19 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Drivers/MPU-9255/inv_mpu.c \
-../Drivers/MPU-9255/inv_mpu_dmp_motion_driver.c \
-../Drivers/MPU-9255/mpu9255.c 
+../Drivers/MPU-9255/mpu925x_spi.c 
 
 OBJS += \
-./Drivers/MPU-9255/inv_mpu.o \
-./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o \
-./Drivers/MPU-9255/mpu9255.o 
+./Drivers/MPU-9255/mpu925x_spi.o 
 
 C_DEPS += \
-./Drivers/MPU-9255/inv_mpu.d \
-./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.d \
-./Drivers/MPU-9255/mpu9255.d 
+./Drivers/MPU-9255/mpu925x_spi.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -27,7 +21,7 @@ Drivers/MPU-9255/%.o Drivers/MPU-9255/%.su: ../Drivers/MPU-9255/%.c Drivers/MPU-
 clean: clean-Drivers-2f-MPU-2d-9255
 
 clean-Drivers-2f-MPU-2d-9255:
-	-$(RM) ./Drivers/MPU-9255/inv_mpu.d ./Drivers/MPU-9255/inv_mpu.o ./Drivers/MPU-9255/inv_mpu.su ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.d ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.o ./Drivers/MPU-9255/inv_mpu_dmp_motion_driver.su ./Drivers/MPU-9255/mpu9255.d ./Drivers/MPU-9255/mpu9255.o ./Drivers/MPU-9255/mpu9255.su
+	-$(RM) ./Drivers/MPU-9255/mpu925x_spi.d ./Drivers/MPU-9255/mpu925x_spi.o ./Drivers/MPU-9255/mpu925x_spi.su
 
 .PHONY: clean-Drivers-2f-MPU-2d-9255
 
