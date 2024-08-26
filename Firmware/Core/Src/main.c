@@ -189,7 +189,7 @@ int main(void)
 
   while(1)
   {
-	  if (isProsthesisControlRequired)
+	  if(isProsthesisControlRequired)
 	  {
 		  RunProsthesisControl();
 		  isProsthesisControlRequired = 0;

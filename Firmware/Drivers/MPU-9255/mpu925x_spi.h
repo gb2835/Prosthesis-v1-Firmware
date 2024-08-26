@@ -9,11 +9,9 @@
 
 #include "stm32l4xx_ll_spi.h"
 
-// Identifiers
-#define MPU9250_DEVICE_ID	0x71	// For MPU-9250
-#define MPU9255_DEVICE_ID	0x73	// For MPU-9255
+#define MPU9250_DEVICE_ID	0x71
+#define MPU9255_DEVICE_ID	0x73
 
-// Registers
 #define MPU925X_REG_SMPLRT_DIV		0x19
 #define MPU925X_REG_CONFIG			0x1A
 #define MPU925X_REG_GYRO_CONFIG		0x1B
@@ -35,7 +33,6 @@
 #define MPU925X_REG_GYRO_ZOUT_L		0x48
 #define MPU925X_REG_WHO_AM_I		0X75
 
-// Other definitions
 #define MPU925X_ACCEL_SENSITIVITY_2G		16384
 #define MPU925X_ACCEL_SENSITIVITY_4G		8192
 #define MPU925X_ACCEL_SENSITIVITY_8G		4096
@@ -98,12 +95,12 @@ struct MPU925x_IMUData_s
    double	gz;
 };
 
-uint8_t MPU925x_Init (SPI_TypeDef *spix, GPIO_TypeDef *cs_gpiox, uint16_t cs_pinx);
-void MPU925x_SetAccelSensitivity ( enum MPU925x_AccelSensitivity_e option );
-void MPU925x_SetGyroSensitivity ( enum MPU925x_GyroSensitivity_e option );
-void MPU925x_SetAccelDlpfBandwidth ( enum MPU925x_AccelDlpfBandWidth_e option );
-void MPU925x_SetGyroDlpfBandwidth ( enum MPU925x_GyroDlpfBandWidth_e option );
-void MPU925x_SetSampleRateDiv ( uint8_t divider );									// Must be in the range 0 - 255 ( new sample rate = 1000 Hz / (1 + divider) )
+uint8_t MPU925x_Init(SPI_TypeDef *spix, GPIO_TypeDef *cs_gpiox, uint16_t cs_pinx);
+void MPU925x_SetAccelSensitivity(enum MPU925x_AccelSensitivity_e option);
+void MPU925x_SetGyroSensitivity(enum MPU925x_GyroSensitivity_e option);
+void MPU925x_SetAccelDlpfBandwidth(enum MPU925x_AccelDlpfBandWidth_e option);
+void MPU925x_SetGyroDlpfBandwidth(enum MPU925x_GyroDlpfBandWidth_e option);
+void MPU925x_SetSampleRateDiv(uint8_t divider);
 struct MPU925x_IMUData_s MPU925x_ReadIMU(void);
 void MPU925x_WriteReg(uint8_t adress, uint8_t data);
 void MPU925x_ReadRegs(uint8_t address, uint8_t *data, uint8_t bytes);
