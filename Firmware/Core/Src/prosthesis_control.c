@@ -32,10 +32,6 @@ uint16_t kneeCANID = 0x601;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-// Can we do better??
-#define KNEE
-#define LEFT
-
 enum StateMachine_e
 {
 	Stance,
@@ -72,7 +68,7 @@ struct LoadCell_Data_s
 enum TestPrograms_e testProgram;
 float ankleEncBias, kneeEncBias;
 struct Configuration_s config;
-struct ControlParams_s AnkleProsCtrl, KneeProsCtrl;
+struct ControlParams_s AnkleProsCtrl, KneeProsCtrl, ProsCtrl;
 struct MPU925x_IMUData_s AnkleIMUData, KneeIMUData;
 
 double dt = 1 / 512.0;
@@ -87,6 +83,8 @@ struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [
 uint16_t CM_ankleEncBias;
 uint16_t CM_kneeEncBias;
 uint16_t CM_state;
+
+float CM_gain = 0.0f;
 
 void GetInputs(void);
 uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -127,15 +125,15 @@ void InitProsthesisControl(struct Configuration_s option)
 	CM_Knee.ImpCtrl.eqPoint = 0.0f;
 	CM_Knee.ImpCtrl.kd = 0.0f;
 	CM_Knee.ImpCtrl.kp = 0.0f;
-	CM_Knee.StanceCtrl.eqPoint = 0.0f;
-	CM_Knee.StanceCtrl.kd = 0.0f;
-	CM_Knee.StanceCtrl.kp = 0.0f;
-	CM_Knee.SwingFlexCtrl.eqPoint = 0.0f;
-	CM_Knee.SwingFlexCtrl.kd = 0.0f;
-	CM_Knee.SwingFlexCtrl.kp = 0.0f;
-	CM_Knee.SwingExtCtrl.eqPoint = 0.0f;
-	CM_Knee.SwingExtCtrl.kd = 0.0f;
-	CM_Knee.SwingExtCtrl.kp = 0.0f;
+	CM_Knee.StanceCtrl.eqPoint = -8.0f;
+	CM_Knee.StanceCtrl.kd = 0.05f;
+	CM_Knee.StanceCtrl.kp = 2.5f;
+	CM_Knee.SwingFlexCtrl.eqPoint = -65.0f;
+	CM_Knee.SwingFlexCtrl.kd = 0.02f;
+	CM_Knee.SwingFlexCtrl.kp = 0.15f;
+	CM_Knee.SwingExtCtrl.eqPoint = -40.0f;
+	CM_Knee.SwingExtCtrl.kd = 0.03f;
+	CM_Knee.SwingExtCtrl.kp = 0.1f;
 
 	CM_lcBot_staticUpperLimit = 2300.0f;
 	CM_lcTop_staticUpperLimit = 2300.0f;
@@ -188,10 +186,18 @@ void RunProsthesisControl(void)
 
 void GetInputs(void)
 {
-	//	CM_Ankle.jointAngle[0] = AS5145B_ReadPosition_Deg() - ankleEncBias; ??
-	CM_Knee.jointAngle[0] = AS5145B_ReadPosition_Deg() - kneeEncBias;
-	//	ankleIMUData = MPU925x_ReadIMU(); ??
-	kneeIMUData = MPU925x_ReadIMU();
+	// Differentiate between two IMUs??
+	if((config.Device == Ankle) || (config.Device == Combined))
+	{
+		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition_Deg() - ankleEncBias;
+		AnkleIMUData = MPU925x_ReadIMU();
+	}
+	else if((config.Device == Knee) || (config.Device == Combined))
+	{
+		CM_Knee.jointAngle[0] = AS5145B_ReadPosition_Deg() - kneeEncBias;
+		KneeIMUData = MPU925x_ReadIMU();
+	}
+
 	CM_LoadCell->bot[0] = ReadLoadCell(ADC2);
 	CM_LoadCell->top[0] = ReadLoadCell(ADC1);
 }
@@ -215,11 +221,17 @@ void ProcessInputs(void)
 	// No filtering of load cells on first or second execution
 	if(isFirst)
 	{
-//		CM_Ankle.jointSpeed = 0.0; ??
-		CM_Knee.jointSpeed = 0.0;
+		if((config.Device == Ankle) || (config.Device == Combined))
+		{
+			CM_Ankle.jointSpeed = 0.0;
+			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
+		}
+		else if((config.Device == Knee) || (config.Device == Combined))
+		{
+			CM_Knee.jointSpeed = 0.0;
+			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
+		}
 
-//		CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0]; ??
-		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 		CM_LoadCell->bot[2] = CM_LoadCell->bot[0];
 		CM_LoadCell->top[2] = CM_LoadCell->top[0];
 		CM_LoadCell_Filtered->bot[0] = CM_LoadCell->bot[0];
@@ -229,10 +241,19 @@ void ProcessInputs(void)
 	}
 	else if(isSecond)
 	{
-		// Practical differentiator (bilinear transformation used)
-		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+		if((config.Device == Ankle) || (config.Device == Combined))
+		{
+			// Practical differentiator (bilinear transformation used)
+			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
+			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
+		}
+		else if((config.Device == Knee) || (config.Device == Combined))
+		{
+			// Practical differentiator (bilinear transformation used)
+			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
+		}
 
-		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 		CM_LoadCell->bot[1] = CM_LoadCell->bot[0];
 		CM_LoadCell->top[1] = CM_LoadCell->top[0];
 		CM_LoadCell_Filtered->bot[0] = CM_LoadCell->bot[0];
@@ -242,8 +263,18 @@ void ProcessInputs(void)
 	}
 	else
 	{
-		// Practical differentiator (bilinear transformation used)
-		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+		if((config.Device == Ankle) || (config.Device == Combined))
+		{
+			// Practical differentiator (bilinear transformation used)
+			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
+			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
+		}
+		else if((config.Device == Knee) || (config.Device == Combined))
+		{
+			// Practical differentiator (bilinear transformation used)
+			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
+		}
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
 		CM_LoadCell_Filtered->bot[0] =   1.6556 * CM_LoadCell_Filtered->bot[1] - 0.7068 * CM_LoadCell_Filtered->bot[2]
@@ -251,7 +282,6 @@ void ProcessInputs(void)
 		CM_LoadCell_Filtered->top[0] =   1.6556 * CM_LoadCell_Filtered->top[1] - 0.7068 * CM_LoadCell_Filtered->top[2]
 									   + 0.0128 * CM_LoadCell->top[0] + 0.0256 * CM_LoadCell->top[1] + 0.0128 * CM_LoadCell->top[2];
 
-		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 		CM_LoadCell->bot[2] = CM_LoadCell->bot[1];
 		CM_LoadCell->bot[1] = CM_LoadCell->bot[0];
 		CM_LoadCell->top[2] = CM_LoadCell->top[1];
@@ -327,12 +357,12 @@ void CalibrateIMU(void)
 	CM_Ankle.IMUData.gy = ankleN * (AnkleIMUData.gx*(ac1*as3 + ac2*ac3*as1) + AnkleIMUData.gy*( ac1*ac2*ac3  - as1*as3    ) + AnkleIMUData.gz*(-ac3*as2)) - ankleGyBias;
 	CM_Ankle.IMUData.gz = ankleN * (AnkleIMUData.gx*(as1*as2              ) + AnkleIMUData.gy*( ac1*as2                   ) + AnkleIMUData.gz*( ac2    )) - ankleGzBias;
 
-	CM_Knee.IMUData.ax = kneeN * (KneeIMUData.ax*(kc1*kc3 - kc2*ks1*ks3) + KneeIMUData.ay*(  -c3*s1 - c1*c2*s3) + KneeIMUData.az*( s2*s3)) - kneeAxBias;
-	CM_Knee.IMUData.ay = kneeN * (KneeIMUData.ax*(kc1*ks3 + kc2*kc3*ks1) + KneeIMUData.ay*(c1*c2*c3 - s1*s3   ) + KneeIMUData.az*(-c3*s2)) - kneeAyBias;
-	CM_Knee.IMUData.az = kneeN * (KneeIMUData.ax*(ks1*ks2              ) + KneeIMUData.ay*(           c1*s2   ) + KneeIMUData.az*( c2   )) - kneeAzBias;
-	CM_Knee.IMUData.gx = kneeN * (KneeIMUData.gx*(kc1*kc3 - kc2*ks1*ks3) + KneeIMUData.gy*(  -c3*s1 - c1*c2*s3) + KneeIMUData.gz*( s2*s3)) - kneeGxBias;
-	CM_Knee.IMUData.gy = kneeN * (KneeIMUData.gx*(kc1*ks3 + kc2*kc3*ks1) + KneeIMUData.gy*(c1*c2*c3 - s1*s3   ) + KneeIMUData.gz*(-c3*s2)) - kneeGyBias;
-	CM_Knee.IMUData.gz = kneeN * (KneeIMUData.gx*(ks1*ks2              ) + KneeIMUData.gy*(           c1*s2   ) + KneeIMUData.gz*( c2   )) - kneeGzBias;
+	CM_Knee.IMUData.ax = kneeN * (KneeIMUData.ax*(kc1*kc3 - kc2*ks1*ks3) + KneeIMUData.ay*(-kc3*ks1 - kc1*kc2*ks3) + KneeIMUData.az*( ks2*ks3)) - kneeAxBias;
+	CM_Knee.IMUData.ay = kneeN * (KneeIMUData.ax*(kc1*ks3 + kc2*kc3*ks1) + KneeIMUData.ay*( kc1*kc2*kc3 - ks1*ks3) + KneeIMUData.az*(-kc3*ks2)) - kneeAyBias;
+	CM_Knee.IMUData.az = kneeN * (KneeIMUData.ax*(ks1*ks2              ) + KneeIMUData.ay*( kc1*ks2              ) + KneeIMUData.az*( kc2    )) - kneeAzBias;
+	CM_Knee.IMUData.gx = kneeN * (KneeIMUData.gx*(kc1*kc3 - kc2*ks1*ks3) + KneeIMUData.gy*(-kc3*ks1 - kc1*kc2*ks3) + KneeIMUData.gz*( ks2*ks3)) - kneeGxBias;
+	CM_Knee.IMUData.gy = kneeN * (KneeIMUData.gx*(kc1*ks3 + kc2*kc3*ks1) + KneeIMUData.gy*( kc1*kc2*kc3 - ks1*ks3) + KneeIMUData.gz*(-kc3*ks2)) - kneeGyBias;
+	CM_Knee.IMUData.gz = kneeN * (KneeIMUData.gx*(ks1*ks2              ) + KneeIMUData.gy*( kc1*ks2              ) + KneeIMUData.gz*( kc2    )) - kneeGzBias;
 }
 
 void ComputeLimbAngle(void)
@@ -412,11 +442,11 @@ void RunImpedanceControl(void)
 
 	float errorPos = ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 
-	//	CM_Ankle.jointTorque_nm = ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Ankle.jointSpeed; ??
-	CM_Knee.jointTorque = -(ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Knee.jointSpeed);
+	//	CM_Ankle.jointTorque_nm = ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Ankle.jointSpeed * CM_gain; ??
+	CM_Knee.jointTorque = -(ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Knee.jointSpeed) * CM_gain;
 
 	int32_t motorTorque = CM_Knee.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-	EPOS4_SetTorque(CAN_ID, motorTorque);
+	EPOS4_SetTorque(kneeCANID, motorTorque);
 }
 
 void RunTestProgram(void)
@@ -430,7 +460,7 @@ void RunTestProgram(void)
 	case ConstantTorque:
 	{
 		int32_t torque = 100;
-		EPOS4_SetTorque(CAN_ID, torque);
+		EPOS4_SetTorque(kneeCANID, torque);
 		break;
 	}
 	case MagneticEncoderBias:
@@ -455,6 +485,7 @@ void RunTestProgram(void)
 		// Then run impedance control
 		if (isFirst)
 		{
+			CM_gain = 1.0f;
 			uint16_t i;
 			float sum = 0.0f;
 
@@ -464,7 +495,7 @@ void RunTestProgram(void)
 				sum += pos;
 			}
 
-			CM_Knee.ImpCtrl.eqPoint = sum / i - CM_Knee.encBias;
+			CM_Knee.ImpCtrl.eqPoint = sum / i - kneeEncBias;
 		}
 		else
 		{
