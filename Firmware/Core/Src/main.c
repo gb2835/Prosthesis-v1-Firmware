@@ -144,6 +144,10 @@ int main(void)
 	MagEnc.CLK_Pin = ENC_CLK_Pin;
 	MagEnc.CSn_Pin = ENC_CSn_Pin;
 
+	struct Configuration_s config;
+	config.Device = Knee;
+	config.Side = Left;
+
 
 /*******************************************************************************
 * USER INITIALIZATIONS
@@ -167,20 +171,20 @@ int main(void)
 	MPU925x_SetGyroSensitivity(mpu925x_gyroSensitivity_1000dps);
 
 	CAN_configure();
-	EPOS4_SetCSTMode(CAN_ID);
+	EPOS4_SetCSTMode(kneeCANID);
 	AS5145B_Init(&MagEnc);
 
-	InitProsthesisControl();
+	InitProsthesisControl(config);
 
 	// Remove spikes from beginning
-	for ( uint16_t i = 0; i < 1000; i++ );
+	for(uint16_t i = 0; i < 1000; i++);
 
 
 /*******************************************************************************
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(None);
+	RequireTestProgram(ImpedanceControl);
 
 
 /*******************************************************************************
@@ -189,7 +193,7 @@ int main(void)
 
   while(1)
   {
-	  if (isProsthesisControlRequired)
+	  if(isProsthesisControlRequired)
 	  {
 		  RunProsthesisControl();
 		  isProsthesisControlRequired = 0;
