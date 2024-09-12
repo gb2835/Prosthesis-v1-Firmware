@@ -81,6 +81,7 @@ void SystemClock_Config(void);
 #include "systick_app_timer.h"
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
+#define LPTIM1_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
 
 /******************************************************************************/
@@ -184,7 +185,7 @@ int main(void)
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(ImpedanceControl);
+	RequireTestProgram(SimulatedWalking);
 
 
 /*******************************************************************************

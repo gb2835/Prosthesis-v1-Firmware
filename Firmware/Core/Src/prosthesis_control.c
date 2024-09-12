@@ -14,9 +14,9 @@
 #include "prosthesis_control.h"
 #include <math.h>
 #include "mcp25625.h"
-#include "mpu925x_spi.h"
 #include <stdint.h>
 #include "stm32l4xx_ll_adc.h"
+#include "mpu925x_spi.h"
 
 
 /*******************************************************************************
@@ -34,6 +34,7 @@ uint16_t kneeCANID = 0x601;
 
 enum StateMachine_e
 {
+	Waiting,
 	Stance,
 	SwingFlexion,
 	SwingExtension
@@ -75,16 +76,17 @@ double dt = 1 / 512.0;
 uint8_t isFirst = 1;
 uint8_t isInit = 0;
 uint8_t isSecond = 0;
+uint8_t isSimulatedWalkingRequired = 0;
 uint8_t isTestProgramRequired = 0;
 
 float CM_lcBot_staticUpperLimit, CM_lcTop_staticUpperLimit;
 struct DeviceParams_s CM_Ankle, CM_Knee;
 struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
-uint16_t CM_ankleEncBias;
-uint16_t CM_kneeEncBias;
+uint16_t CM_ankleEncBias, CM_kneeEncBias;
 uint16_t CM_state;
 
 float CM_gain = 0.0f;
+uint8_t CM_start = 0;
 
 void GetInputs(void);
 uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -146,7 +148,11 @@ void RequireTestProgram(enum TestPrograms_e option)
 	testProgram = option;
 
 	if(testProgram != None)
+	{
 		isTestProgramRequired = 1;
+		if(testProgram == SimulatedWalking)
+			isSimulatedWalkingRequired = 1;
+	}
 }
 
 void RunProsthesisControl(void)
@@ -385,24 +391,42 @@ void ComputeLimbAngle(void)
 void RunStateMachine(void)
 {
 	static enum StateMachine_e state;
+	static uint32_t count = 0;
 
 	if(isFirst)
 	{
-		state = Stance;
+		if(isSimulatedWalkingRequired)
+			state = Waiting;
+		else
+			state = Stance;
 	}
 
 	switch(state)
 	{
+	case Waiting:
+		CM_state = 1700;
+		if(CM_start)
+		{
+			state = Stance;
+		}
+		break;
 	case Stance:
 		CM_state = 1800;
 		ProsCtrl.eqPoint = CM_Knee.StanceCtrl.eqPoint;
 		ProsCtrl.kd = CM_Knee.StanceCtrl.kd;
 		ProsCtrl.kp = CM_Knee.StanceCtrl.kp;
 
-		if((CM_LoadCell_Filtered->top[0] < CM_lcTop_staticUpperLimit) && (CM_LoadCell_Filtered->bot[0] < CM_lcBot_staticUpperLimit))
+		if(isSimulatedWalkingRequired)
 		{
-			state = SwingFlexion;
+			if(count > 1000)
+			{
+				state = SwingFlexion;
+				count = 0;
+			}
+			else count++;
 		}
+		else if((CM_LoadCell_Filtered->top[0] < CM_lcTop_staticUpperLimit) && (CM_LoadCell_Filtered->bot[0] < CM_lcBot_staticUpperLimit))
+			state = SwingFlexion;
 
 		break;
 
@@ -412,10 +436,17 @@ void RunStateMachine(void)
 		ProsCtrl.kd = CM_Knee.SwingFlexCtrl.kd;
 		ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
 
-		if(CM_Knee.jointSpeed > 0)
+		if(isSimulatedWalkingRequired)
 		{
-			state = SwingExtension;
+			if(count > 1000)
+			{
+				state = SwingExtension;
+				count = 0;
+			}
+			else count++;
 		}
+		else if(CM_Knee.jointSpeed > 0)
+			state = SwingExtension;
 
 		break;
 
@@ -425,10 +456,17 @@ void RunStateMachine(void)
 		ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
 		ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
 
-		if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_staticUpperLimit)
+		if(isSimulatedWalkingRequired)
 		{
-			state = Stance;
+			if(count > 1000)
+			{
+				state = Stance;
+				count = 0;
+			}
+			else count++;
 		}
+		else if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_staticUpperLimit)
+			state = Stance;
 
 		break;
 	}
@@ -508,6 +546,10 @@ void RunTestProgram(void)
 
 		break;
 	}
+	case SimulatedWalking:
+		RunStateMachine();
+		RunImpedanceControl();
+		break;
 	}
 }
 

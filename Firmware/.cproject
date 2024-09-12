@@ -60,9 +60,9 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/EPOS4"/>
 									<listOptionValue builtIn="false" value="../Drivers/MCP25625"/>
-									<listOptionValue builtIn="false" value="../Drivers/MPU-9255"/>
 									<listOptionValue builtIn="false" value="../Drivers/AS5145B"/>
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
+									<listOptionValue builtIn="false" value="../Drivers/MPU9255"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.56429794" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

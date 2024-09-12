@@ -232,11 +232,10 @@ void LPTIM2_IRQHandler(void)
 * USER LPTIM2_IRQHandler
 ******************************************************************************/
 
-	// Wait for auto reload match to occur
 	if(LL_LPTIM_IsActiveFlag_ARRM(LPTIM2) == 1)
 	{
-		isProsthesisControlRequired = 1;	// Set flag for prosthesis control
-		LL_LPTIM_ClearFLAG_ARRM(LPTIM2);	// Clear ARR interrupt flag
+		isProsthesisControlRequired = 1;
+		LL_LPTIM_ClearFLAG_ARRM(LPTIM2);
 	}
 
 

@@ -24,7 +24,7 @@ Core/Src/prosthesis_control.o: ../Core/Src/prosthesis_control.c \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h \
- ../Core/Inc/prosthesis_control.h ../Drivers/MPU-9255/mpu925x_spi.h
+ ../Core/Inc/prosthesis_control.h ../Drivers/MPU9255/mpu925x_spi.h
 ../Drivers/AS5145B/as5145b.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:
 ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
@@ -53,4 +53,4 @@ Core/Src/prosthesis_control.o: ../Core/Src/prosthesis_control.c \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:
 ../Core/Inc/prosthesis_control.h:
-../Drivers/MPU-9255/mpu925x_spi.h:
+../Drivers/MPU9255/mpu925x_spi.h:
