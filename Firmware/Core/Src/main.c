@@ -78,7 +78,6 @@ void SystemClock_Config(void);
 #include "prosthesis_control.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
-#include "systick_app_timer.h"
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
