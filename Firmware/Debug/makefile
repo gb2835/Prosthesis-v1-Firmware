@@ -10,7 +10,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
--include Drivers/MPU9255/subdir.mk
+-include Drivers/MPU-9255/subdir.mk
 -include Drivers/MCP25625/subdir.mk
 -include Drivers/EPOS4/subdir.mk
 -include Drivers/AS5145B/subdir.mk
@@ -39,34 +39,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := prosthesis_knee
+BUILD_ARTIFACT_NAME := Prosthesis Firmware
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-prosthesis_knee.elf \
+Prosthesis\ Firmware.elf \
 
 MAP_FILES += \
-prosthesis_knee.map \
+Prosthesis\ Firmware.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-prosthesis_knee.list \
+Prosthesis\ Firmware.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: prosthesis_knee.elf secondary-outputs
+main-build: Prosthesis\ Firmware.elf secondary-outputs
 
 # Tool invocations
-prosthesis_knee.elf prosthesis_knee.map: $(OBJS) $(USER_OBJS) C:\CubeIDE\ Workspace\Prosthesis\ Firmware\Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "prosthesis_knee.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\CubeIDE Workspace\Prosthesis Firmware\Firmware\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="prosthesis_knee.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Prosthesis\ Firmware.elf Prosthesis\ Firmware.map: $(OBJS) $(USER_OBJS) C:\CubeIDE\ Workspace\Prosthesis\ Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Prosthesis Firmware.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\CubeIDE Workspace\Prosthesis Firmware\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Prosthesis Firmware.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,14 +75,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-prosthesis_knee.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "prosthesis_knee.list"
+Prosthesis\ Firmware.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Prosthesis Firmware.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout prosthesis_knee.elf prosthesis_knee.list prosthesis_knee.map
+	-$(RM) Prosthesis\ Firmware.elf Prosthesis\ Firmware.list Prosthesis\ Firmware.map Prosthesis\\ Firmware.elf default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

@@ -14,9 +14,9 @@
 #include "prosthesis_control.h"
 #include <math.h>
 #include "mcp25625.h"
+#include "mpu925x_spi.h"
 #include <stdint.h>
 #include "stm32l4xx_ll_adc.h"
-#include "mpu925x_spi.h"
 
 
 /*******************************************************************************
@@ -164,9 +164,7 @@ void RunProsthesisControl(void)
 	ProcessInputs();
 
 	if(isTestProgramRequired)
-	{
 		RunTestProgram();
-	}
 	else
 	{
 		RunStateMachine();
@@ -180,9 +178,7 @@ void RunProsthesisControl(void)
 		isSecond = 1;
 	}
 	else if(isSecond)
-	{
 		isSecond = 0;
-	}
 }
 
 
@@ -356,12 +352,12 @@ void CalibrateIMU(void)
 		ks3 = sin(0.0);
 	}
 
-	CM_Ankle.IMUData.ax = ankleN * (AnkleIMUData.ax*(ac1*ac3 - ac2*as1*as3) + AnkleIMUData.ay*(-ac3*as1     - ac1*ac2*as3 ) + AnkleIMUData.az*( as2*as3)) - ankleAxBias;
-	CM_Ankle.IMUData.ay = ankleN * (AnkleIMUData.ax*(ac1*as3 + ac2*ac3*as1) + AnkleIMUData.ay*( ac1*ac2*ac3 - as1*as3     ) + AnkleIMUData.az*(-ac3*as2)) - ankleAyBias;
-	CM_Ankle.IMUData.az = ankleN * (AnkleIMUData.ax*(as1*as2              ) + AnkleIMUData.ay*( ac1*as2                   ) + AnkleIMUData.az*( ac2    )) - ankleAzBias;
-	CM_Ankle.IMUData.gx = ankleN * (AnkleIMUData.gx*(ac1*ac3 - ac2*as1*as3) + AnkleIMUData.gy*(-ac3*as1      - ac1*ac2*as3) + AnkleIMUData.gz*( as2*as3)) - ankleGxBias;
-	CM_Ankle.IMUData.gy = ankleN * (AnkleIMUData.gx*(ac1*as3 + ac2*ac3*as1) + AnkleIMUData.gy*( ac1*ac2*ac3  - as1*as3    ) + AnkleIMUData.gz*(-ac3*as2)) - ankleGyBias;
-	CM_Ankle.IMUData.gz = ankleN * (AnkleIMUData.gx*(as1*as2              ) + AnkleIMUData.gy*( ac1*as2                   ) + AnkleIMUData.gz*( ac2    )) - ankleGzBias;
+	CM_Ankle.IMUData.ax = ankleN * (AnkleIMUData.ax*(ac1*ac3 - ac2*as1*as3) + AnkleIMUData.ay*(-ac3*as1     - ac1*ac2*as3) + AnkleIMUData.az*( as2*as3)) - ankleAxBias;
+	CM_Ankle.IMUData.ay = ankleN * (AnkleIMUData.ax*(ac1*as3 + ac2*ac3*as1) + AnkleIMUData.ay*( ac1*ac2*ac3 - as1*as3    ) + AnkleIMUData.az*(-ac3*as2)) - ankleAyBias;
+	CM_Ankle.IMUData.az = ankleN * (AnkleIMUData.ax*(as1*as2              ) + AnkleIMUData.ay*( ac1*as2                  ) + AnkleIMUData.az*( ac2    )) - ankleAzBias;
+	CM_Ankle.IMUData.gx = ankleN * (AnkleIMUData.gx*(ac1*ac3 - ac2*as1*as3) + AnkleIMUData.gy*(-ac3*as1     - ac1*ac2*as3) + AnkleIMUData.gz*( as2*as3)) - ankleGxBias;
+	CM_Ankle.IMUData.gy = ankleN * (AnkleIMUData.gx*(ac1*as3 + ac2*ac3*as1) + AnkleIMUData.gy*( ac1*ac2*ac3 - as1*as3    ) + AnkleIMUData.gz*(-ac3*as2)) - ankleGyBias;
+	CM_Ankle.IMUData.gz = ankleN * (AnkleIMUData.gx*(as1*as2              ) + AnkleIMUData.gy*( ac1*as2                  ) + AnkleIMUData.gz*( ac2    )) - ankleGzBias;
 
 	CM_Knee.IMUData.ax = kneeN * (KneeIMUData.ax*(kc1*kc3 - kc2*ks1*ks3) + KneeIMUData.ay*(-kc3*ks1 - kc1*kc2*ks3) + KneeIMUData.az*( ks2*ks3)) - kneeAxBias;
 	CM_Knee.IMUData.ay = kneeN * (KneeIMUData.ax*(kc1*ks3 + kc2*kc3*ks1) + KneeIMUData.ay*( kc1*kc2*kc3 - ks1*ks3) + KneeIMUData.az*(-kc3*ks2)) - kneeAyBias;
@@ -391,7 +387,7 @@ void ComputeLimbAngle(void)
 void RunStateMachine(void)
 {
 	static enum StateMachine_e state;
-	static uint32_t count = 0;
+	static uint16_t count = 0;
 
 	if(isFirst)
 	{
@@ -410,6 +406,7 @@ void RunStateMachine(void)
 			state = Stance;
 		}
 		break;
+
 	case Stance:
 		CM_state = 1800;
 		ProsCtrl.eqPoint = CM_Knee.StanceCtrl.eqPoint;

@@ -27,6 +27,6 @@ Core/Startup \
 Drivers/AS5145B \
 Drivers/EPOS4 \
 Drivers/MCP25625 \
-Drivers/MPU9255 \
+Drivers/MPU-9255 \
 Drivers/STM32L4xx_HAL_Driver/Src \
 
