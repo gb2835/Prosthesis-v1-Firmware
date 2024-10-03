@@ -11,7 +11,7 @@ enum TestPrograms_e
 {
 	None,
 	ReadOnly,
-	ConstantTorque,
+	ConstantMotorTorque100nm,
 	MagneticEncoderBias,
 	ImpedanceControl,
 	SimulatedWalking

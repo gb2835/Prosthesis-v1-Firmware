@@ -145,7 +145,7 @@ int main(void)
 
 	struct Configuration_s config;
 	config.Device = Knee;
-	config.Side = Left;
+	config.Side = Right;
 
 
 /*******************************************************************************
@@ -175,15 +175,14 @@ int main(void)
 
 	InitProsthesisControl(config);
 
-	// Remove spikes from beginning
-	for(uint16_t i = 0; i < 1000; i++);
+	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning
 
 
 /*******************************************************************************
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(ImpedanceControl);
+	RequireTestProgram(ReadOnly);
 
 
 /*******************************************************************************

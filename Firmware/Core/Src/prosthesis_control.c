@@ -70,6 +70,7 @@ enum TestPrograms_e testProgram;
 float ankleEncBias, kneeEncBias;
 struct Configuration_s config;
 struct ControlParams_s AnkleProsCtrl, KneeProsCtrl, ProsCtrl;
+struct LoadCell_Data_s LoadCell[3];								// [0] = k-0, [1] = k-1, [2] = k-2
 struct MPU925x_IMUData_s AnkleIMUData, KneeIMUData;
 
 double dt = 1 / 512.0;
@@ -81,12 +82,12 @@ uint8_t isTestProgramRequired = 0;
 
 float CM_lcBot_staticUpperLimit, CM_lcTop_staticUpperLimit;
 struct DeviceParams_s CM_Ankle, CM_Knee;
-struct LoadCell_Data_s CM_LoadCell[3], CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
+struct LoadCell_Data_s CM_LoadCell_Filtered[3];					// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_ankleEncBias, CM_kneeEncBias;
 uint16_t CM_state;
 
 float CM_gain = 0.0f;
-uint8_t CM_start = 0;
+uint8_t CM_startSimulatedWalking = 0;
 
 void GetInputs(void);
 uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -200,8 +201,8 @@ void GetInputs(void)
 		KneeIMUData = MPU925x_ReadIMU();
 	}
 
-	CM_LoadCell->bot[0] = ReadLoadCell(ADC2);
-	CM_LoadCell->top[0] = ReadLoadCell(ADC1);
+	LoadCell->bot[0] = ReadLoadCell(ADC2);
+	LoadCell->top[0] = ReadLoadCell(ADC1);
 }
 
 // Should be moved to ADC driver??
@@ -234,10 +235,10 @@ void ProcessInputs(void)
 			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 		}
 
-		CM_LoadCell->bot[2] = CM_LoadCell->bot[0];
-		CM_LoadCell->top[2] = CM_LoadCell->top[0];
-		CM_LoadCell_Filtered->bot[0] = CM_LoadCell->bot[0];
-		CM_LoadCell_Filtered->top[0] = CM_LoadCell->top[0];
+		LoadCell->bot[2] = LoadCell->bot[0];
+		LoadCell->top[2] = LoadCell->top[0];
+		CM_LoadCell_Filtered->bot[0] = LoadCell->bot[0];
+		CM_LoadCell_Filtered->top[0] = LoadCell->top[0];
 		CM_LoadCell_Filtered->bot[2] = CM_LoadCell_Filtered->bot[0];
 		CM_LoadCell_Filtered->top[2] = CM_LoadCell_Filtered->top[0];
 	}
@@ -256,10 +257,10 @@ void ProcessInputs(void)
 			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 		}
 
-		CM_LoadCell->bot[1] = CM_LoadCell->bot[0];
-		CM_LoadCell->top[1] = CM_LoadCell->top[0];
-		CM_LoadCell_Filtered->bot[0] = CM_LoadCell->bot[0];
-		CM_LoadCell_Filtered->top[0] = CM_LoadCell->top[0];
+		LoadCell->bot[1] = LoadCell->bot[0];
+		LoadCell->top[1] = LoadCell->top[0];
+		CM_LoadCell_Filtered->bot[0] = LoadCell->bot[0];
+		CM_LoadCell_Filtered->top[0] = LoadCell->top[0];
 		CM_LoadCell_Filtered->bot[1] = CM_LoadCell_Filtered->bot[0];
 		CM_LoadCell_Filtered->top[1] = CM_LoadCell_Filtered->top[0];
 	}
@@ -280,14 +281,14 @@ void ProcessInputs(void)
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
 		CM_LoadCell_Filtered->bot[0] =   1.6556 * CM_LoadCell_Filtered->bot[1] - 0.7068 * CM_LoadCell_Filtered->bot[2]
-									   + 0.0128 * CM_LoadCell->bot[0] + 0.0256 * CM_LoadCell->bot[1] + 0.0128 * CM_LoadCell->bot[2];
+									   + 0.0128 * LoadCell->bot[0] + 0.0256 * LoadCell->bot[1] + 0.0128 * LoadCell->bot[2];
 		CM_LoadCell_Filtered->top[0] =   1.6556 * CM_LoadCell_Filtered->top[1] - 0.7068 * CM_LoadCell_Filtered->top[2]
-									   + 0.0128 * CM_LoadCell->top[0] + 0.0256 * CM_LoadCell->top[1] + 0.0128 * CM_LoadCell->top[2];
+									   + 0.0128 * LoadCell->top[0] + 0.0256 * LoadCell->top[1] + 0.0128 * LoadCell->top[2];
 
-		CM_LoadCell->bot[2] = CM_LoadCell->bot[1];
-		CM_LoadCell->bot[1] = CM_LoadCell->bot[0];
-		CM_LoadCell->top[2] = CM_LoadCell->top[1];
-		CM_LoadCell->top[1] = CM_LoadCell->top[0];
+		LoadCell->bot[2] = LoadCell->bot[1];
+		LoadCell->bot[1] = LoadCell->bot[0];
+		LoadCell->top[2] = LoadCell->top[1];
+		LoadCell->top[1] = LoadCell->top[0];
 		CM_LoadCell_Filtered->bot[2] = CM_LoadCell_Filtered->bot[1];
 		CM_LoadCell_Filtered->bot[1] = CM_LoadCell_Filtered->bot[0];
 		CM_LoadCell_Filtered->top[2] = CM_LoadCell_Filtered->top[1];
@@ -401,7 +402,7 @@ void RunStateMachine(void)
 	{
 	case Waiting:
 		CM_state = 1700;
-		if(CM_start)
+		if(CM_startSimulatedWalking)
 		{
 			state = Stance;
 		}
@@ -478,9 +479,10 @@ void RunImpedanceControl(void)
 	float errorPos = ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 
 	//	CM_Ankle.jointTorque_nm = ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Ankle.jointSpeed * CM_gain; ??
-	CM_Knee.jointTorque = -(ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Knee.jointSpeed) * CM_gain;
+	CM_Knee.jointTorque = ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Knee.jointSpeed * CM_gain;
+	float kneeTorqueCorrected = -CM_Knee.jointTorque;										// Knee motor rotates opposite of coordinate system??
 
-	int32_t motorTorque = CM_Knee.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
+	int32_t motorTorque = kneeTorqueCorrected / (torqueConst * gearRatio * nomCurrent) * 1000;
 	EPOS4_SetTorque(kneeCANID, motorTorque);
 }
 
@@ -492,10 +494,10 @@ void RunTestProgram(void)
 		break;
 	case ReadOnly:
 		break;
-	case ConstantTorque:
+	case ConstantMotorTorque100nm:
 	{
 		int32_t torque = 100;
-		EPOS4_SetTorque(kneeCANID, torque);
+		EPOS4_SetTorque(kneeCANID, -torque);
 		break;
 	}
 	case MagneticEncoderBias:
