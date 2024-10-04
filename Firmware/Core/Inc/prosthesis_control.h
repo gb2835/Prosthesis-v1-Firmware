@@ -13,8 +13,7 @@ enum TestPrograms_e
 	ReadOnly,
 	ConstantMotorTorque100nm,
 	MagneticEncoderBias,
-	ImpedanceControl,
-	SimulatedWalking
+	ImpedanceControl
 };
 
 struct Configuration_s

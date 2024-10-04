@@ -34,7 +34,6 @@ uint16_t kneeCANID = 0x601;
 
 enum StateMachine_e
 {
-	Waiting,
 	Stance,
 	SwingFlexion,
 	SwingExtension
@@ -49,7 +48,7 @@ struct ControlParams_s
 
 struct DeviceParams_s
 {
-	double jointAngle[2];	// [0] = k-0, [1] = k-1
+	double jointAngle[2];					// [0] = k-0, [1] = k-1
 	double jointSpeed;
 	double limbAngle;
 	float jointTorque;
@@ -77,17 +76,15 @@ double dt = 1 / 512.0;
 uint8_t isFirst = 1;
 uint8_t isInit = 0;
 uint8_t isSecond = 0;
-uint8_t isSimulatedWalkingRequired = 0;
 uint8_t isTestProgramRequired = 0;
 
 float CM_lcBot_staticUpperLimit, CM_lcTop_staticUpperLimit;
 struct DeviceParams_s CM_Ankle, CM_Knee;
 struct LoadCell_Data_s CM_LoadCell_Filtered[3];					// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_ankleEncBias, CM_kneeEncBias;
-uint16_t CM_state;
 
 float CM_gain = 0.0f;
-uint8_t CM_startSimulatedWalking = 0;
+uint16_t CM_state = 1700;
 
 void GetInputs(void);
 uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -125,7 +122,6 @@ void InitProsthesisControl(struct Configuration_s option)
 	CM_Ankle.SwingExtCtrl.kd = 0.0f;
 	CM_Ankle.SwingExtCtrl.kp = 0.0f;
 
-	CM_Knee.ImpCtrl.eqPoint = 0.0f;
 	CM_Knee.ImpCtrl.kd = 0.0f;
 	CM_Knee.ImpCtrl.kp = 0.0f;
 	CM_Knee.StanceCtrl.eqPoint = -8.0f;
@@ -149,11 +145,7 @@ void RequireTestProgram(enum TestPrograms_e option)
 	testProgram = option;
 
 	if(testProgram != None)
-	{
 		isTestProgramRequired = 1;
-		if(testProgram == SimulatedWalking)
-			isSimulatedWalkingRequired = 1;
-	}
 }
 
 void RunProsthesisControl(void)
@@ -201,8 +193,8 @@ void GetInputs(void)
 		KneeIMUData = MPU925x_ReadIMU();
 	}
 
-	LoadCell->bot[0] = ReadLoadCell(ADC2);
-	LoadCell->top[0] = ReadLoadCell(ADC1);
+	LoadCell->bot[0] = ReadLoadCell(ADC1);
+	LoadCell->top[0] = ReadLoadCell(ADC2);
 }
 
 // Should be moved to ADC driver??
@@ -387,43 +379,17 @@ void ComputeLimbAngle(void)
 
 void RunStateMachine(void)
 {
-	static enum StateMachine_e state;
-	static uint16_t count = 0;
-
-	if(isFirst)
-	{
-		if(isSimulatedWalkingRequired)
-			state = Waiting;
-		else
-			state = Stance;
-	}
+	static enum StateMachine_e state = Stance;
 
 	switch(state)
 	{
-	case Waiting:
-		CM_state = 1700;
-		if(CM_startSimulatedWalking)
-		{
-			state = Stance;
-		}
-		break;
-
 	case Stance:
 		CM_state = 1800;
 		ProsCtrl.eqPoint = CM_Knee.StanceCtrl.eqPoint;
 		ProsCtrl.kd = CM_Knee.StanceCtrl.kd;
 		ProsCtrl.kp = CM_Knee.StanceCtrl.kp;
 
-		if(isSimulatedWalkingRequired)
-		{
-			if(count > 1000)
-			{
-				state = SwingFlexion;
-				count = 0;
-			}
-			else count++;
-		}
-		else if((CM_LoadCell_Filtered->top[0] < CM_lcTop_staticUpperLimit) && (CM_LoadCell_Filtered->bot[0] < CM_lcBot_staticUpperLimit))
+		if((CM_LoadCell_Filtered->top[0] < CM_lcTop_staticUpperLimit) && (CM_LoadCell_Filtered->bot[0] < CM_lcBot_staticUpperLimit))
 			state = SwingFlexion;
 
 		break;
@@ -434,16 +400,7 @@ void RunStateMachine(void)
 		ProsCtrl.kd = CM_Knee.SwingFlexCtrl.kd;
 		ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
 
-		if(isSimulatedWalkingRequired)
-		{
-			if(count > 1000)
-			{
-				state = SwingExtension;
-				count = 0;
-			}
-			else count++;
-		}
-		else if(CM_Knee.jointSpeed > 0)
+		if(CM_Knee.jointSpeed > 0)
 			state = SwingExtension;
 
 		break;
@@ -454,16 +411,7 @@ void RunStateMachine(void)
 		ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
 		ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
 
-		if(isSimulatedWalkingRequired)
-		{
-			if(count > 1000)
-			{
-				state = Stance;
-				count = 0;
-			}
-			else count++;
-		}
-		else if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_staticUpperLimit)
+		if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_staticUpperLimit)
 			state = Stance;
 
 		break;
@@ -545,10 +493,6 @@ void RunTestProgram(void)
 
 		break;
 	}
-	case SimulatedWalking:
-		RunStateMachine();
-		RunImpedanceControl();
-		break;
 	}
 }
 
