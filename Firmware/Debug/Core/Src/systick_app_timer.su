@@ -1,8 +1,0 @@
-../Core/Src/systick_app_timer.c:20:6:systick_app_timer_tickAndProcess	16	static
-../Core/Src/systick_app_timer.c:50:6:systick_app_timer_tick	16	static
-../Core/Src/systick_app_timer.c:65:10:systick_app_timer_process	16	static
-../Core/Src/systick_app_timer.c:99:10:systick_app_timer_channel_delete	16	static
-../Core/Src/systick_app_timer.c:114:10:systick_app_timer_channel_stop	16	static
-../Core/Src/systick_app_timer.c:128:10:systick_app_timer_channel_start	16	static
-../Core/Src/systick_app_timer.c:147:10:systick_app_timer_channel_create	24	static
-../Core/Src/systick_app_timer.c:167:6:systick_app_timer_module_init	8	static

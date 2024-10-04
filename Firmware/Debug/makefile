@@ -16,7 +16,6 @@ RM := rm -rf
 -include Drivers/AS5145B/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
--include Core/Inc/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -39,34 +38,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := prosthesis_knee
+BUILD_ARTIFACT_NAME := prosthesis
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-prosthesis_knee.elf \
+prosthesis.elf \
 
 MAP_FILES += \
-prosthesis_knee.map \
+prosthesis.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-prosthesis_knee.list \
+prosthesis.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: prosthesis_knee.elf secondary-outputs
+main-build: prosthesis.elf secondary-outputs
 
 # Tool invocations
-prosthesis_knee.elf prosthesis_knee.map: $(OBJS) $(USER_OBJS) C:\CubeIDE\ Workspace\Prosthesis\ Firmware\Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "prosthesis_knee.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\CubeIDE Workspace\Prosthesis Firmware\Firmware\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="prosthesis_knee.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+prosthesis.elf prosthesis.map: $(OBJS) $(USER_OBJS) C:\CubeIDE\ Workspace\Prosthesis\ Firmware\Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "prosthesis.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\CubeIDE Workspace\Prosthesis Firmware\Firmware\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="prosthesis.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,14 +74,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-prosthesis_knee.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "prosthesis_knee.list"
+prosthesis.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "prosthesis.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout prosthesis_knee.elf prosthesis_knee.list prosthesis_knee.map
+	-$(RM) default.size.stdout prosthesis.elf prosthesis.list prosthesis.map
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

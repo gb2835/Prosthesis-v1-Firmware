@@ -78,7 +78,6 @@ void SystemClock_Config(void);
 #include "prosthesis_control.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
-#include "systick_app_timer.h"
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
@@ -146,7 +145,7 @@ int main(void)
 
 	struct Configuration_s config;
 	config.Device = Knee;
-	config.Side = Left;
+	config.Side = Right;
 
 
 /*******************************************************************************
@@ -176,15 +175,14 @@ int main(void)
 
 	InitProsthesisControl(config);
 
-	// Remove spikes from beginning
-	for(uint16_t i = 0; i < 1000; i++);
+	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning
 
 
 /*******************************************************************************
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(ImpedanceControl);
+	RequireTestProgram(ReadOnly);
 
 
 /*******************************************************************************
