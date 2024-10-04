@@ -207,8 +207,7 @@
                 "8f9884e79c41a808",
                 "c8e19f82a71c50d2",
                 "6bac4fa1541ebf86",
-                "eb49ac8b370cfa13",
-                "ab7a3499386e7271"
+                "eb49ac8b370cfa13"
             ],
             []
         ]
@@ -308,8 +307,7 @@
                 "75207294711c8117",
                 "64a9b8de668eb1e2",
                 "1e6bfd1c275176cc",
-                "9a5dd4d80482272e",
-                "69af80d8c450a72c"
+                "9a5dd4d80482272e"
             ]
         ]
     },
@@ -347,8 +345,7 @@
                 "75207294711c8117",
                 "64a9b8de668eb1e2",
                 "9a5dd4d80482272e",
-                "1e6bfd1c275176cc",
-                "69af80d8c450a72c"
+                "1e6bfd1c275176cc"
             ]
         ]
     },
@@ -404,7 +401,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1727975544961,
+        "lastImportedTime": 1727977799306,
         "openStatus": false,
         "x": 370,
         "y": 240,
@@ -478,7 +475,7 @@
         "type": "processing",
         "z": "66f7db61d08d5270",
         "groupname": "Load Cells & State",
-        "groupid": "6f95a14a9fd3f260",
+        "groupid": "8d9bf47dca820666",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
@@ -535,7 +532,7 @@
         "type": "ui_chartst",
         "z": "66f7db61d08d5270",
         "group": "bb711eac28c4e56e",
-        "name": "Load Cells",
+        "name": "Load Cells & State",
         "order": 2,
         "width": 11,
         "height": 6,
@@ -544,7 +541,7 @@
         "duration": "10",
         "ymin": "",
         "ymax": "",
-        "x": 1570,
+        "x": 1590,
         "y": 200,
         "wires": []
     },
@@ -719,7 +716,7 @@
         "type": "ui_chartst",
         "z": "66f7db61d08d5270",
         "group": "bb711eac28c4e56e",
-        "name": "Joint & Hip Angle",
+        "name": "Joint & Limb Angle",
         "order": 1,
         "width": 11,
         "height": 6,
@@ -747,7 +744,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1727975535872,
+        "lastImportedTime": 1727979853343,
         "openStatus": true,
         "x": 350,
         "y": 120,
@@ -832,7 +829,7 @@
         "env": [
             {
                 "name": "varfilter",
-                "value": "CM_magEncBias_raw",
+                "value": "CM_kneeEncBias",
                 "type": "str"
             }
         ],
@@ -880,7 +877,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1727975571827,
+        "lastImportedTime": 1727979864326,
         "openStatus": false,
         "x": 390,
         "y": 620,
@@ -1049,51 +1046,6 @@
         "logformat": "stcm",
         "x": 1310,
         "y": 760,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "69af80d8c450a72c",
-        "type": "variables",
-        "z": "66f7db61d08d5270",
-        "groupname": "Start Simulated Walking",
-        "accesspoint": 0,
-        "execonfig": "d09a71d53345556e",
-        "variablelist": [],
-        "triggerstartmode": "manual",
-        "triggername": "CM_startSimulatedWalking",
-        "triggerthreshold": "",
-        "frequency": "",
-        "frequencyType": "0",
-        "snapshotheader": "",
-        "mode": "direct",
-        "lastImportedTime": 1727975590006,
-        "openStatus": false,
-        "x": 390,
-        "y": 800,
-        "wires": [
-            [
-                "696108c592df846f"
-            ],
-            [
-                "ef5fd1bf6fd2434c"
-            ]
-        ]
-    },
-    {
-        "id": "ab7a3499386e7271",
-        "type": "processing",
-        "z": "66f7db61d08d5270",
-        "groupname": "Start Simulated Walking",
-        "groupid": "69af80d8c450a72c",
-        "expressions": [],
-        "statistics": [],
-        "logmode": "no",
-        "logformat": "stcm",
-        "x": 1350,
-        "y": 820,
         "wires": [
             [],
             []
@@ -1785,7 +1737,7 @@
                 "type": 9
             },
             {
-                "address": "0x08007410",
+                "address": "0x08007400",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
@@ -1825,7 +1777,7 @@
                 "type": 10
             },
             {
-                "address": "0x08007420",
+                "address": "0x08007410",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -2177,7 +2129,7 @@
                 "type": 1
             },
             {
-                "address": "0x20000362",
+                "address": "0x20000012",
                 "name": "CM_state",
                 "type": 3,
                 "checked": true
@@ -2298,7 +2250,7 @@
                 "type": 5
             },
             {
-                "address": "0x08007428",
+                "address": "0x08007418",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -2330,8 +2282,8 @@
         ],
         "expand": false,
         "filename": "prosthesis.elf",
-        "exeModifiedTime": 1727975461145,
-        "configLastUpdate": 1727975544603
+        "exeModifiedTime": 1727977732283,
+        "configLastUpdate": 1727977798923
     },
     {
         "id": "2acbcaafe46bc461",
@@ -4586,7 +4538,7 @@
                 "type": 9
             },
             {
-                "address": "0x08007410",
+                "address": "0x08007308",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
@@ -4626,97 +4578,97 @@
                 "type": 10
             },
             {
-                "address": "0x08007420",
+                "address": "0x08007318",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x20000388",
+                "address": "0x20000380",
                 "name": "AS5145B.CLK_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000392",
+                "address": "0x2000038a",
                 "name": "AS5145B.CLK_Pin",
                 "type": 3
             },
             {
-                "address": "0x2000038c",
+                "address": "0x20000384",
                 "name": "AS5145B.CSn_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000394",
+                "address": "0x2000038c",
                 "name": "AS5145B.CSn_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000384",
+                "address": "0x2000037c",
                 "name": "AS5145B.DO_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000390",
+                "address": "0x20000388",
                 "name": "AS5145B.DO_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000399",
+                "address": "0x20000391",
                 "name": "can_tranceiver.ctrl.value",
                 "type": 1
             },
             {
-                "address": "0x2000060c",
+                "address": "0x20000604",
                 "name": "can_tranceiver.currentTransferIndex",
                 "type": 1
             },
             {
-                "address": "0x2000039b",
+                "address": "0x20000393",
                 "name": "can_tranceiver.inte.value",
                 "type": 1
             },
             {
-                "address": "0x2000039a",
+                "address": "0x20000392",
                 "name": "can_tranceiver.intf.value",
                 "type": 1
             },
             {
-                "address": "0x2000060d",
+                "address": "0x20000605",
                 "name": "can_tranceiver.sending",
                 "type": 1
             },
             {
-                "address": "0x20000398",
+                "address": "0x20000390",
                 "name": "can_tranceiver.stat.value",
                 "type": 1
             },
             {
-                "address": "0x200003bf",
+                "address": "0x200003b7",
                 "name": "can_tranceiver.transferBuffer[0].callback",
                 "type": 5
             },
             {
-                "address": "0x2000039c",
+                "address": "0x20000394",
                 "name": "can_tranceiver.transferBuffer[0].ready",
                 "type": 1
             },
             {
-                "address": "0x200003ae",
+                "address": "0x200003a6",
                 "name": "can_tranceiver.transferBuffer[0].transfer.rx[0]",
                 "type": 1
             },
             {
-                "address": "0x200003be",
+                "address": "0x200003b6",
                 "name": "can_tranceiver.transferBuffer[0].transfer.rxLength",
                 "type": 1
             },
             {
-                "address": "0x2000039d",
+                "address": "0x20000395",
                 "name": "can_tranceiver.transferBuffer[0].transfer.tx[0]",
                 "type": 1
             },
             {
-                "address": "0x200003ad",
+                "address": "0x200003a5",
                 "name": "can_tranceiver.transferBuffer[0].transfer.txLength",
                 "type": 1
             },
@@ -4999,13 +4951,7 @@
                 "checked": true
             },
             {
-                "address": "0x20000368",
-                "name": "CM_startSimulatedWalking",
-                "type": 1,
-                "checked": true
-            },
-            {
-                "address": "0x20000362",
+                "address": "0x20000012",
                 "name": "CM_state",
                 "type": 3,
                 "checked": true
@@ -5052,11 +4998,6 @@
             },
             {
                 "address": "0x200001b2",
-                "name": "isSimulatedWalkingRequired",
-                "type": 1
-            },
-            {
-                "address": "0x200001b3",
                 "name": "isTestProgramRequired",
                 "type": 1
             },
@@ -5111,22 +5052,22 @@
                 "type": 10
             },
             {
-                "address": "0x20000614",
+                "address": "0x2000060c",
                 "name": "mpu925x.CS_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000618",
+                "address": "0x20000610",
                 "name": "mpu925x.CS_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000610",
+                "address": "0x20000608",
                 "name": "mpu925x.spiHandle",
                 "type": 5
             },
             {
-                "address": "0x08007428",
+                "address": "0x08007320",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -5158,8 +5099,8 @@
         ],
         "expand": false,
         "filename": "prosthesis.elf",
-        "exeModifiedTime": 1727975461145,
-        "configLastUpdate": 1727975535429
+        "exeModifiedTime": 1727979176494,
+        "configLastUpdate": 1727979852846
     },
     {
         "id": "cb3a29828f9ddcc1",
@@ -5733,7 +5674,7 @@
                 "type": 9
             },
             {
-                "address": "0x08007410",
+                "address": "0x08007308",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
@@ -5773,97 +5714,97 @@
                 "type": 10
             },
             {
-                "address": "0x08007420",
+                "address": "0x08007318",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x20000388",
+                "address": "0x20000380",
                 "name": "AS5145B.CLK_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000392",
+                "address": "0x2000038a",
                 "name": "AS5145B.CLK_Pin",
                 "type": 3
             },
             {
-                "address": "0x2000038c",
+                "address": "0x20000384",
                 "name": "AS5145B.CSn_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000394",
+                "address": "0x2000038c",
                 "name": "AS5145B.CSn_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000384",
+                "address": "0x2000037c",
                 "name": "AS5145B.DO_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000390",
+                "address": "0x20000388",
                 "name": "AS5145B.DO_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000399",
+                "address": "0x20000391",
                 "name": "can_tranceiver.ctrl.value",
                 "type": 1
             },
             {
-                "address": "0x2000060c",
+                "address": "0x20000604",
                 "name": "can_tranceiver.currentTransferIndex",
                 "type": 1
             },
             {
-                "address": "0x2000039b",
+                "address": "0x20000393",
                 "name": "can_tranceiver.inte.value",
                 "type": 1
             },
             {
-                "address": "0x2000039a",
+                "address": "0x20000392",
                 "name": "can_tranceiver.intf.value",
                 "type": 1
             },
             {
-                "address": "0x2000060d",
+                "address": "0x20000605",
                 "name": "can_tranceiver.sending",
                 "type": 1
             },
             {
-                "address": "0x20000398",
+                "address": "0x20000390",
                 "name": "can_tranceiver.stat.value",
                 "type": 1
             },
             {
-                "address": "0x200003bf",
+                "address": "0x200003b7",
                 "name": "can_tranceiver.transferBuffer[0].callback",
                 "type": 5
             },
             {
-                "address": "0x2000039c",
+                "address": "0x20000394",
                 "name": "can_tranceiver.transferBuffer[0].ready",
                 "type": 1
             },
             {
-                "address": "0x200003ae",
+                "address": "0x200003a6",
                 "name": "can_tranceiver.transferBuffer[0].transfer.rx[0]",
                 "type": 1
             },
             {
-                "address": "0x200003be",
+                "address": "0x200003b6",
                 "name": "can_tranceiver.transferBuffer[0].transfer.rxLength",
                 "type": 1
             },
             {
-                "address": "0x2000039d",
+                "address": "0x20000395",
                 "name": "can_tranceiver.transferBuffer[0].transfer.tx[0]",
                 "type": 1
             },
             {
-                "address": "0x200003ad",
+                "address": "0x200003a5",
                 "name": "can_tranceiver.transferBuffer[0].transfer.txLength",
                 "type": 1
             },
@@ -6128,12 +6069,7 @@
                 "type": 10
             },
             {
-                "address": "0x20000368",
-                "name": "CM_startSimulatedWalking",
-                "type": 1
-            },
-            {
-                "address": "0x20000362",
+                "address": "0x20000012",
                 "name": "CM_state",
                 "type": 3
             },
@@ -6179,11 +6115,6 @@
             },
             {
                 "address": "0x200001b2",
-                "name": "isSimulatedWalkingRequired",
-                "type": 1
-            },
-            {
-                "address": "0x200001b3",
                 "name": "isTestProgramRequired",
                 "type": 1
             },
@@ -6238,22 +6169,22 @@
                 "type": 10
             },
             {
-                "address": "0x20000614",
+                "address": "0x2000060c",
                 "name": "mpu925x.CS_GPIOx",
                 "type": 5
             },
             {
-                "address": "0x20000618",
+                "address": "0x20000610",
                 "name": "mpu925x.CS_Pin",
                 "type": 3
             },
             {
-                "address": "0x20000610",
+                "address": "0x20000608",
                 "name": "mpu925x.spiHandle",
                 "type": 5
             },
             {
-                "address": "0x08007428",
+                "address": "0x08007320",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -6285,8 +6216,8 @@
         ],
         "expand": false,
         "filename": "prosthesis.elf",
-        "exeModifiedTime": 1727975461145,
-        "configLastUpdate": 1727975571430
+        "exeModifiedTime": 1727979176494,
+        "configLastUpdate": 1727979863916
     },
     {
         "id": "e00e6fce41d242f1",
@@ -7408,565 +7339,6 @@
         "filename": "prosthesis.elf",
         "exeModifiedTime": 1727975461145,
         "configLastUpdate": 1727975583040
-    },
-    {
-        "id": "d09a71d53345556e",
-        "type": "exe-config",
-        "name": "Start Simulated Walking",
-        "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis.elf",
-        "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
-        "exevariablelist": [
-            {
-                "address": "0x20000018",
-                "name": "accelSensitivity",
-                "type": 9
-            },
-            {
-                "address": "0x08007410",
-                "name": "AHBPrescTable[0]",
-                "type": 1
-            },
-            {
-                "address": "0x200000a8",
-                "name": "ankleEncBias",
-                "type": 9
-            },
-            {
-                "address": "0x20000150",
-                "name": "AnkleIMUData.ax",
-                "type": 10
-            },
-            {
-                "address": "0x20000158",
-                "name": "AnkleIMUData.ay",
-                "type": 10
-            },
-            {
-                "address": "0x20000160",
-                "name": "AnkleIMUData.az",
-                "type": 10
-            },
-            {
-                "address": "0x20000168",
-                "name": "AnkleIMUData.gx",
-                "type": 10
-            },
-            {
-                "address": "0x20000170",
-                "name": "AnkleIMUData.gy",
-                "type": 10
-            },
-            {
-                "address": "0x20000178",
-                "name": "AnkleIMUData.gz",
-                "type": 10
-            },
-            {
-                "address": "0x08007420",
-                "name": "APBPrescTable[0]",
-                "type": 1
-            },
-            {
-                "address": "0x20000388",
-                "name": "AS5145B.CLK_GPIOx",
-                "type": 5
-            },
-            {
-                "address": "0x20000392",
-                "name": "AS5145B.CLK_Pin",
-                "type": 3
-            },
-            {
-                "address": "0x2000038c",
-                "name": "AS5145B.CSn_GPIOx",
-                "type": 5
-            },
-            {
-                "address": "0x20000394",
-                "name": "AS5145B.CSn_Pin",
-                "type": 3
-            },
-            {
-                "address": "0x20000384",
-                "name": "AS5145B.DO_GPIOx",
-                "type": 5
-            },
-            {
-                "address": "0x20000390",
-                "name": "AS5145B.DO_Pin",
-                "type": 3
-            },
-            {
-                "address": "0x20000399",
-                "name": "can_tranceiver.ctrl.value",
-                "type": 1
-            },
-            {
-                "address": "0x2000060c",
-                "name": "can_tranceiver.currentTransferIndex",
-                "type": 1
-            },
-            {
-                "address": "0x2000039b",
-                "name": "can_tranceiver.inte.value",
-                "type": 1
-            },
-            {
-                "address": "0x2000039a",
-                "name": "can_tranceiver.intf.value",
-                "type": 1
-            },
-            {
-                "address": "0x2000060d",
-                "name": "can_tranceiver.sending",
-                "type": 1
-            },
-            {
-                "address": "0x20000398",
-                "name": "can_tranceiver.stat.value",
-                "type": 1
-            },
-            {
-                "address": "0x200003bf",
-                "name": "can_tranceiver.transferBuffer[0].callback",
-                "type": 5
-            },
-            {
-                "address": "0x2000039c",
-                "name": "can_tranceiver.transferBuffer[0].ready",
-                "type": 1
-            },
-            {
-                "address": "0x200003ae",
-                "name": "can_tranceiver.transferBuffer[0].transfer.rx[0]",
-                "type": 1
-            },
-            {
-                "address": "0x200003be",
-                "name": "can_tranceiver.transferBuffer[0].transfer.rxLength",
-                "type": 1
-            },
-            {
-                "address": "0x2000039d",
-                "name": "can_tranceiver.transferBuffer[0].transfer.tx[0]",
-                "type": 1
-            },
-            {
-                "address": "0x200003ad",
-                "name": "can_tranceiver.transferBuffer[0].transfer.txLength",
-                "type": 1
-            },
-            {
-                "address": "0x200001e4",
-                "name": "CM_Ankle.ImpCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200001e8",
-                "name": "CM_Ankle.ImpCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200001ec",
-                "name": "CM_Ankle.ImpCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000218",
-                "name": "CM_Ankle.IMUData.ax",
-                "type": 10
-            },
-            {
-                "address": "0x20000220",
-                "name": "CM_Ankle.IMUData.ay",
-                "type": 10
-            },
-            {
-                "address": "0x20000228",
-                "name": "CM_Ankle.IMUData.az",
-                "type": 10
-            },
-            {
-                "address": "0x20000230",
-                "name": "CM_Ankle.IMUData.gx",
-                "type": 10
-            },
-            {
-                "address": "0x20000238",
-                "name": "CM_Ankle.IMUData.gy",
-                "type": 10
-            },
-            {
-                "address": "0x20000240",
-                "name": "CM_Ankle.IMUData.gz",
-                "type": 10
-            },
-            {
-                "address": "0x200001c0",
-                "name": "CM_Ankle.jointAngle[0]",
-                "type": 10
-            },
-            {
-                "address": "0x200001d0",
-                "name": "CM_Ankle.jointSpeed",
-                "type": 10
-            },
-            {
-                "address": "0x200001e0",
-                "name": "CM_Ankle.jointTorque",
-                "type": 9
-            },
-            {
-                "address": "0x200001d8",
-                "name": "CM_Ankle.limbAngle",
-                "type": 10
-            },
-            {
-                "address": "0x200001f0",
-                "name": "CM_Ankle.StanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200001f4",
-                "name": "CM_Ankle.StanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200001f8",
-                "name": "CM_Ankle.StanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000208",
-                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x2000020c",
-                "name": "CM_Ankle.SwingExtCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000210",
-                "name": "CM_Ankle.SwingExtCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200001fc",
-                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000200",
-                "name": "CM_Ankle.SwingFlexCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000204",
-                "name": "CM_Ankle.SwingFlexCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000364",
-                "name": "CM_gain",
-                "type": 9
-            },
-            {
-                "address": "0x2000026c",
-                "name": "CM_Knee.ImpCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000270",
-                "name": "CM_Knee.ImpCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000274",
-                "name": "CM_Knee.ImpCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200002a0",
-                "name": "CM_Knee.IMUData.ax",
-                "type": 10
-            },
-            {
-                "address": "0x200002a8",
-                "name": "CM_Knee.IMUData.ay",
-                "type": 10
-            },
-            {
-                "address": "0x200002b0",
-                "name": "CM_Knee.IMUData.az",
-                "type": 10
-            },
-            {
-                "address": "0x200002b8",
-                "name": "CM_Knee.IMUData.gx",
-                "type": 10
-            },
-            {
-                "address": "0x200002c0",
-                "name": "CM_Knee.IMUData.gy",
-                "type": 10
-            },
-            {
-                "address": "0x200002c8",
-                "name": "CM_Knee.IMUData.gz",
-                "type": 10
-            },
-            {
-                "address": "0x20000248",
-                "name": "CM_Knee.jointAngle[0]",
-                "type": 10
-            },
-            {
-                "address": "0x20000258",
-                "name": "CM_Knee.jointSpeed",
-                "type": 10
-            },
-            {
-                "address": "0x20000268",
-                "name": "CM_Knee.jointTorque",
-                "type": 9
-            },
-            {
-                "address": "0x20000260",
-                "name": "CM_Knee.limbAngle",
-                "type": 10
-            },
-            {
-                "address": "0x20000278",
-                "name": "CM_Knee.StanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x2000027c",
-                "name": "CM_Knee.StanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000280",
-                "name": "CM_Knee.StanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000290",
-                "name": "CM_Knee.SwingExtCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000294",
-                "name": "CM_Knee.SwingExtCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000298",
-                "name": "CM_Knee.SwingExtCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000284",
-                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000288",
-                "name": "CM_Knee.SwingFlexCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x2000028c",
-                "name": "CM_Knee.SwingFlexCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000360",
-                "name": "CM_kneeEncBias",
-                "type": 3
-            },
-            {
-                "address": "0x200001b4",
-                "name": "CM_lcBot_staticUpperLimit",
-                "type": 9
-            },
-            {
-                "address": "0x200001b8",
-                "name": "CM_lcTop_staticUpperLimit",
-                "type": 9
-            },
-            {
-                "address": "0x200002d0",
-                "name": "CM_LoadCell_Filtered[0].bot[0]",
-                "type": 10
-            },
-            {
-                "address": "0x200002e8",
-                "name": "CM_LoadCell_Filtered[0].top[0]",
-                "type": 10
-            },
-            {
-                "address": "0x20000368",
-                "name": "CM_startSimulatedWalking",
-                "type": 1,
-                "checked": true
-            },
-            {
-                "address": "0x20000362",
-                "name": "CM_state",
-                "type": 3
-            },
-            {
-                "address": "0x200000b1",
-                "name": "config.Device",
-                "type": 2
-            },
-            {
-                "address": "0x200000b0",
-                "name": "config.Side",
-                "type": 2
-            },
-            {
-                "address": "0x20000008",
-                "name": "dt",
-                "type": 10
-            },
-            {
-                "address": "0x2000001c",
-                "name": "gyroSensitivity",
-                "type": 9
-            },
-            {
-                "address": "0x20000010",
-                "name": "isFirst",
-                "type": 1
-            },
-            {
-                "address": "0x200001b0",
-                "name": "isInit",
-                "type": 1
-            },
-            {
-                "address": "0x200000a4",
-                "name": "isProsthesisControlRequired",
-                "type": 1
-            },
-            {
-                "address": "0x200001b1",
-                "name": "isSecond",
-                "type": 1
-            },
-            {
-                "address": "0x200001b2",
-                "name": "isSimulatedWalkingRequired",
-                "type": 1
-            },
-            {
-                "address": "0x200001b3",
-                "name": "isTestProgramRequired",
-                "type": 1
-            },
-            {
-                "address": "0x20000000",
-                "name": "kneeCANID",
-                "type": 3
-            },
-            {
-                "address": "0x200000ac",
-                "name": "kneeEncBias",
-                "type": 9
-            },
-            {
-                "address": "0x20000180",
-                "name": "KneeIMUData.ax",
-                "type": 10
-            },
-            {
-                "address": "0x20000188",
-                "name": "KneeIMUData.ay",
-                "type": 10
-            },
-            {
-                "address": "0x20000190",
-                "name": "KneeIMUData.az",
-                "type": 10
-            },
-            {
-                "address": "0x20000198",
-                "name": "KneeIMUData.gx",
-                "type": 10
-            },
-            {
-                "address": "0x200001a0",
-                "name": "KneeIMUData.gy",
-                "type": 10
-            },
-            {
-                "address": "0x200001a8",
-                "name": "KneeIMUData.gz",
-                "type": 10
-            },
-            {
-                "address": "0x200000c0",
-                "name": "LoadCell[0].bot[0]",
-                "type": 10
-            },
-            {
-                "address": "0x200000d8",
-                "name": "LoadCell[0].top[0]",
-                "type": 10
-            },
-            {
-                "address": "0x20000614",
-                "name": "mpu925x.CS_GPIOx",
-                "type": 5
-            },
-            {
-                "address": "0x20000618",
-                "name": "mpu925x.CS_Pin",
-                "type": 3
-            },
-            {
-                "address": "0x20000610",
-                "name": "mpu925x.spiHandle",
-                "type": 5
-            },
-            {
-                "address": "0x08007428",
-                "name": "MSIRangeTable[0]",
-                "type": 5
-            },
-            {
-                "address": "0x200000b4",
-                "name": "ProsCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000b8",
-                "name": "ProsCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000bc",
-                "name": "ProsCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000014",
-                "name": "SystemCoreClock",
-                "type": 5
-            },
-            {
-                "address": "0x200000a5",
-                "name": "testProgram",
-                "type": 2
-            }
-        ],
-        "expand": false,
-        "filename": "prosthesis.elf",
-        "exeModifiedTime": 1727975461145,
-        "configLastUpdate": 1727975589654
     },
     {
         "id": "17d09b07.741a55",
