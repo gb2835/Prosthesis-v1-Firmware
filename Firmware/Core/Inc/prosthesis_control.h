@@ -9,25 +9,25 @@
 
 enum TestPrograms_e
 {
-	None,
-	ReadOnly,
-	ConstantMotorTorque100nm,
-	MagneticEncoderBias,
-	ImpedanceControl
+	none,
+	readOnly,
+	constantMotorTorque100Nm,
+	magneticEncoderBias,
+	impedanceControl
 };
 
 struct Configuration_s
 {
-	enum Side_e
+	enum
 	{
-		Left,
-		Right
+		left,
+		right
 	} Side;
-	enum Device_e
+	enum
 	{
-		Ankle,
-		Combined,
-		Knee
+		ankle,
+		combined,
+		knee
 	} Device;
 };
 
