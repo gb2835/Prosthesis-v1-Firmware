@@ -2,7 +2,7 @@
 
 /*******************************************************************************
 *
-* TITLE   Prosthesis Firmware
+* TITLE   Prosthesis Firmware v1
 * AUTHOR  Greg Berkeley
 * RELEASE XX/XX/XXXX
 *
@@ -143,9 +143,9 @@ int main(void)
 	MagEnc.CLK_Pin = ENC_CLK_Pin;
 	MagEnc.CSn_Pin = ENC_CSn_Pin;
 
-	struct Configuration_s config;
-	config.Device = Knee;
-	config.Side = Right;
+	struct Configuration_s Config;
+	Config.Device = knee;
+	Config.Side = left;
 
 
 /*******************************************************************************
@@ -173,7 +173,7 @@ int main(void)
 	EPOS4_SetCSTMode(kneeCANID);
 	AS5145B_Init(&MagEnc);
 
-	InitProsthesisControl(config);
+	InitProsthesisControl(Config);
 
 	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning
 
@@ -182,7 +182,7 @@ int main(void)
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(ReadOnly);
+	RequireTestProgram(none);
 
 
 /*******************************************************************************

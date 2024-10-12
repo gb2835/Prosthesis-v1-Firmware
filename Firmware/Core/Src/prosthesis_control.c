@@ -34,9 +34,9 @@ uint16_t kneeCANID = 0x601;
 
 enum StateMachine_e
 {
-	Stance,
-	SwingFlexion,
-	SwingExtension
+	stance,
+	swingFlexion,
+	swingExtension
 };
 
 struct ControlParams_s
@@ -74,17 +74,18 @@ struct MPU925x_IMUData_s AnkleIMUData, KneeIMUData;
 
 double dt = 1 / 512.0;
 uint8_t isFirst = 1;
-uint8_t isInit = 0;
 uint8_t isSecond = 0;
 uint8_t isTestProgramRequired = 0;
 
-float CM_lcBot_staticUpperLimit, CM_lcTop_staticUpperLimit;
+float CM_lcBot_upperBound, CM_lcBot_lowerBound;
+float CM_lcTop_upperBound, CM_lcTop_lowerBound;
+float CM_speedThreshold;
 struct DeviceParams_s CM_Ankle, CM_Knee;
-struct LoadCell_Data_s CM_LoadCell_Filtered[3];					// [0] = k-0, [1] = k-1, [2] = k-2
+struct LoadCell_Data_s CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_ankleEncBias, CM_kneeEncBias;
+uint16_t CM_state;
 
-float CM_gain = 0.0f;
-uint16_t CM_state = 1700;
+float CM_gain = 1.0f;
 
 void GetInputs(void);
 uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -124,35 +125,34 @@ void InitProsthesisControl(struct Configuration_s option)
 
 	CM_Knee.ImpCtrl.kd = 0.0f;
 	CM_Knee.ImpCtrl.kp = 0.0f;
-	CM_Knee.StanceCtrl.eqPoint = -8.0f;
-	CM_Knee.StanceCtrl.kd = 0.05f;
-	CM_Knee.StanceCtrl.kp = 2.5f;
-	CM_Knee.SwingFlexCtrl.eqPoint = -65.0f;
-	CM_Knee.SwingFlexCtrl.kd = 0.02f;
-	CM_Knee.SwingFlexCtrl.kp = 0.15f;
-	CM_Knee.SwingExtCtrl.eqPoint = -40.0f;
-	CM_Knee.SwingExtCtrl.kd = 0.03f;
-	CM_Knee.SwingExtCtrl.kp = 0.1f;
+	CM_Knee.StanceCtrl.eqPoint = 0.0f;
+	CM_Knee.StanceCtrl.kd = 0.0f;
+	CM_Knee.StanceCtrl.kp = 0.0f;
+	CM_Knee.SwingFlexCtrl.eqPoint = 0.0f;
+	CM_Knee.SwingFlexCtrl.kd = 0.0f;
+	CM_Knee.SwingFlexCtrl.kp = 0.0f;
+	CM_Knee.SwingExtCtrl.eqPoint = 0.0f;
+	CM_Knee.SwingExtCtrl.kd = 0.0f;
+	CM_Knee.SwingExtCtrl.kp = 0.0f;
 
-	CM_lcBot_staticUpperLimit = 2300.0f;
-	CM_lcTop_staticUpperLimit = 2300.0f;
+	CM_lcBot_upperBound = 1431.0f;
+	CM_lcBot_lowerBound = 1395.0f;
+	CM_lcTop_upperBound = 1461.0f;
+	CM_lcTop_lowerBound = 1395.0f;
 
-	isInit = 1;
+	CM_speedThreshold = 0.0f;
 }
 
 void RequireTestProgram(enum TestPrograms_e option)
 {
 	testProgram = option;
 
-	if(testProgram != None)
+	if(testProgram != none)
 		isTestProgramRequired = 1;
 }
 
 void RunProsthesisControl(void)
 {
-	if(!isInit)
-		while(1);	// InitProsthesisControl() must be performed
-
 	GetInputs();
 	ProcessInputs();
 
@@ -182,12 +182,12 @@ void RunProsthesisControl(void)
 void GetInputs(void)
 {
 	// Differentiate between two IMUs??
-	if((config.Device == Ankle) || (config.Device == Combined))
+	if((config.Device == ankle) || (config.Device == combined))
 	{
 		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition_Deg() - ankleEncBias;
 		AnkleIMUData = MPU925x_ReadIMU();
 	}
-	else if((config.Device == Knee) || (config.Device == Combined))
+	else if((config.Device == knee) || (config.Device == combined))
 	{
 		CM_Knee.jointAngle[0] = AS5145B_ReadPosition_Deg() - kneeEncBias;
 		KneeIMUData = MPU925x_ReadIMU();
@@ -216,12 +216,12 @@ void ProcessInputs(void)
 	// No filtering of load cells on first or second execution
 	if(isFirst)
 	{
-		if((config.Device == Ankle) || (config.Device == Combined))
+		if((config.Device == ankle) || (config.Device == combined))
 		{
 			CM_Ankle.jointSpeed = 0.0;
 			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 		}
-		else if((config.Device == Knee) || (config.Device == Combined))
+		else if((config.Device == knee) || (config.Device == combined))
 		{
 			CM_Knee.jointSpeed = 0.0;
 			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
@@ -236,13 +236,13 @@ void ProcessInputs(void)
 	}
 	else if(isSecond)
 	{
-		if((config.Device == Ankle) || (config.Device == Combined))
+		if((config.Device == ankle) || (config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
 			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 		}
-		else if((config.Device == Knee) || (config.Device == Combined))
+		else if((config.Device == knee) || (config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
@@ -258,13 +258,13 @@ void ProcessInputs(void)
 	}
 	else
 	{
-		if((config.Device == Ankle) || (config.Device == Combined))
+		if((config.Device == ankle) || (config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
 			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 		}
-		else if((config.Device == Knee) || (config.Device == Combined))
+		else if((config.Device == knee) || (config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
@@ -312,7 +312,7 @@ void CalibrateIMU(void)
 	// Sine and cosine of Euler angles (1 = z angle, 2 = x' angle, 3 = z'' angle)
 	double ac1, ac2, ac3, as1, as2, as3;
 	double kc1, kc2, kc3, ks1, ks2, ks3;
-	if(config.Side == Left)
+	if(config.Side == left)
 	{
 		ac1 = cos(M_PI);
 		ac2 = cos(M_PI);
@@ -379,40 +379,55 @@ void ComputeLimbAngle(void)
 
 void RunStateMachine(void)
 {
-	static enum StateMachine_e state = Stance;
+	static enum StateMachine_e state = stance;
+	static uint8_t isCheckBoundsRequired = 0;
 
 	switch(state)
 	{
-	case Stance:
-		CM_state = 1800;
+	case stance:
+		CM_state = 1120;
+
 		ProsCtrl.eqPoint = CM_Knee.StanceCtrl.eqPoint;
 		ProsCtrl.kd = CM_Knee.StanceCtrl.kd;
 		ProsCtrl.kp = CM_Knee.StanceCtrl.kp;
 
-		if((CM_LoadCell_Filtered->top[0] < CM_lcTop_staticUpperLimit) && (CM_LoadCell_Filtered->bot[0] < CM_lcBot_staticUpperLimit))
-			state = SwingFlexion;
+        if(CM_LoadCell_Filtered->bot[0] < CM_lcBot_lowerBound && CM_LoadCell_Filtered->top[0] > CM_lcTop_upperBound)
+            isCheckBoundsRequired = 1;
+
+		if(isCheckBoundsRequired)
+		{
+			uint8_t lcBotWithinBounds = (CM_LoadCell_Filtered->bot[0] < CM_lcBot_upperBound) && (CM_LoadCell_Filtered->bot[0] > CM_lcBot_lowerBound);
+			uint8_t lcTopWithinBounds = (CM_LoadCell_Filtered->top[0] < CM_lcTop_upperBound) && (CM_LoadCell_Filtered->top[0] > CM_lcTop_lowerBound);
+			if(lcBotWithinBounds && lcTopWithinBounds)
+			{
+				isCheckBoundsRequired = 0;
+				lcBotWithinBounds = 0;
+				lcTopWithinBounds = 0;
+				state = swingFlexion;
+			}
+		}
 
 		break;
 
-	case SwingFlexion:
-		CM_state = 2400;
+	case swingFlexion:
+		CM_state = 1345;
 		ProsCtrl.eqPoint = CM_Knee.SwingFlexCtrl.eqPoint;
 		ProsCtrl.kd = CM_Knee.SwingFlexCtrl.kd;
 		ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
 
-		if(CM_Knee.jointSpeed > 0)
-			state = SwingExtension;
+		if(CM_Knee.jointSpeed > CM_speedThreshold)
+			state = swingExtension;
 
 		break;
 
-	case SwingExtension:
-		CM_state = 2900;
+	case swingExtension:
+		CM_state = 1570;
 		ProsCtrl.eqPoint = CM_Knee.SwingExtCtrl.eqPoint;
 		ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
 		ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
 
-		if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_staticUpperLimit)
-			state = Stance;
+		if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_upperBound)
+			state = stance;
 
 		break;
 	}
@@ -427,7 +442,7 @@ void RunImpedanceControl(void)
 	float errorPos = ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 
 	//	CM_Ankle.jointTorque_nm = ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Ankle.jointSpeed * CM_gain; ??
-	CM_Knee.jointTorque = ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Knee.jointSpeed * CM_gain;
+	CM_Knee.jointTorque = (ProsCtrl.kp*errorPos - ProsCtrl.kd*CM_Knee.jointSpeed) * CM_gain;
 	float kneeTorqueCorrected = -CM_Knee.jointTorque;										// Knee motor rotates opposite of coordinate system??
 
 	int32_t motorTorque = kneeTorqueCorrected / (torqueConst * gearRatio * nomCurrent) * 1000;
@@ -438,17 +453,17 @@ void RunTestProgram(void)
 {
 	switch (testProgram)
 	{
-	case None:
+	case none:
 		break;
-	case ReadOnly:
+	case readOnly:
 		break;
-	case ConstantMotorTorque100nm:
+	case constantMotorTorque100Nm:
 	{
 		int32_t torque = 100;
 		EPOS4_SetTorque(kneeCANID, -torque);
 		break;
 	}
-	case MagneticEncoderBias:
+	case magneticEncoderBias:
 	{
 		uint16_t i;
 
@@ -464,7 +479,7 @@ void RunTestProgram(void)
 
 		break;
 	}
-	case ImpedanceControl:
+	case impedanceControl:
 	{
 		// First compute average of current position and use as equilibrium point
 		// Then run impedance control
