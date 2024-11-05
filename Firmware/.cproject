@@ -88,7 +88,7 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.729314753" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1585774879" name="epos4_new.h" rcbsApplicability="disable" resourcePath="Drivers/EPOS4/epos42.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1585774879" name="epos4_new.h" rcbsApplicability="disable" resourcePath="Drivers/EPOS4/epos4.h" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1351858717" name="mcp25625_new.h" rcbsApplicability="disable" resourcePath="Drivers/MCP25625/mcp25625.h" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="Src/systick_app_timer.c|Inc/systick_app_timer.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
