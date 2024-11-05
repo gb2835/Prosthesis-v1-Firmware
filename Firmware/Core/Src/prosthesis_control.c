@@ -9,9 +9,10 @@
 *
 *******************************************************************************/
 
-#include "as5145b.h"
+#include "as5145b.h" // use DelayUs()??
 #include "EPOS4.h"
 #include "prosthesis_control.h"
+#include "main.h"
 #include <math.h>
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
@@ -68,7 +69,7 @@ struct LoadCell_Data_s
 enum TestPrograms_e testProgram;
 float ankleEncBias, kneeEncBias;
 struct Configuration_s config;
-struct ControlParams_s AnkleProsCtrl, KneeProsCtrl, ProsCtrl;
+struct ControlParams_s ProsCtrl;
 struct LoadCell_Data_s LoadCell[3];								// [0] = k-0, [1] = k-1, [2] = k-2
 struct MPU925x_IMUData_s AnkleIMUData, KneeIMUData;
 
@@ -123,6 +124,7 @@ void InitProsthesisControl(struct Configuration_s option)
 	CM_Ankle.SwingExtCtrl.kd = 0.0f;
 	CM_Ankle.SwingExtCtrl.kp = 0.0f;
 
+	CM_Knee.ImpCtrl.eqPoint = 0.0f;
 	CM_Knee.ImpCtrl.kd = 0.0f;
 	CM_Knee.ImpCtrl.kp = 0.0f;
 	CM_Knee.StanceCtrl.eqPoint = 0.0f;
@@ -135,10 +137,10 @@ void InitProsthesisControl(struct Configuration_s option)
 	CM_Knee.SwingExtCtrl.kd = 0.0f;
 	CM_Knee.SwingExtCtrl.kp = 0.0f;
 
-	CM_lcBot_upperBound = 1431.0f;
-	CM_lcBot_lowerBound = 1395.0f;
-	CM_lcTop_upperBound = 1461.0f;
-	CM_lcTop_lowerBound = 1395.0f;
+	CM_lcBot_lowerBound = 1396.0f;
+	CM_lcBot_upperBound = 1417.0f;
+	CM_lcTop_lowerBound = 1412.0f;
+	CM_lcTop_upperBound = 1434.0f;
 
 	CM_speedThreshold = 0.0f;
 }
@@ -401,8 +403,8 @@ void RunStateMachine(void)
 			if(lcBotWithinBounds && lcTopWithinBounds)
 			{
 				isCheckBoundsRequired = 0;
-				lcBotWithinBounds = 0;
-				lcTopWithinBounds = 0;
+				lcBotWithinBounds = 0; // can delete now??
+				lcTopWithinBounds = 0; // can delete now??
 				state = swingFlexion;
 			}
 		}
@@ -446,7 +448,7 @@ void RunImpedanceControl(void)
 	float kneeTorqueCorrected = -CM_Knee.jointTorque;										// Knee motor rotates opposite of coordinate system??
 
 	int32_t motorTorque = kneeTorqueCorrected / (torqueConst * gearRatio * nomCurrent) * 1000;
-	EPOS4_SetTorque(kneeCANID, motorTorque);
+	EPOS4_WriteTargetTorqueValue(motorTorque);
 }
 
 void RunTestProgram(void)
@@ -457,10 +459,9 @@ void RunTestProgram(void)
 		break;
 	case readOnly:
 		break;
-	case constantMotorTorque100Nm:
+	case constantMotorTorque100Nmm:
 	{
-		int32_t torque = 100;
-		EPOS4_SetTorque(kneeCANID, -torque);
+		EPOS4_WriteTargetTorqueValue(-100); // different sign for ankle??
 		break;
 	}
 	case magneticEncoderBias:

@@ -7,15 +7,16 @@
 * RELEASE XX/XX/XXXX
 *
 * NOTES
-* 1. The below lines can be used to measure PB11 on oscilloscope:
-*     - LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11);
-*     - LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11);
-*     - LL_GPIO_TogglePin(GPIOB, LL_GPIO_PIN_11);
-* 2. Test programs provided prior to main loop to independently test device
+* 1. See "Documents" directory for description of how v1 firmware is used.??
+* 2. The below lines can be used to measure PB11 on oscilloscope:
+*     - LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+*     - LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+*     - LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+* 3. Test programs provided prior to main loop to independently test device
 *    functionality. Firmware halts when a test program is used.
-* 3. Double question marks (??) are commented at locations throughout project
+* 4. Double question marks (??) are commented at locations throughout project
 *    files where possible improvements may be made.
-* 4. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+* 5. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 *    A new magnetic encoder bias position must be found and defined whenever
 *    the magnet is reassembled into the prosthesis device. A test program is
 *    provided to find the bias.
@@ -143,6 +144,45 @@ int main(void)
 	MagEnc.CLK_Pin = ENC_CLK_Pin;
 	MagEnc.CSn_Pin = ENC_CSn_Pin;
 
+  	MCP25625_Inits_t CAN_Controller_Inits;
+  	CAN_Controller_Inits.SPIx = SPI2;
+  	CAN_Controller_Inits.CS_Port = SPI2_CS_GPIO_Port;
+  	CAN_Controller_Inits.csPin = SPI2_CS_Pin;
+  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKPRE = clockoutDiv1;
+  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKEN = clockoutDisabled;
+  	CAN_Controller_Inits.CANCTRL_Reg.Bits.OSM = oneShotModeEnabled;
+  	CAN_Controller_Inits.CANCTRL_Reg.Bits.ABAT = abortAllTransmissions;
+  	CAN_Controller_Inits.CANCTRL_Reg.Bits.REQOP = normalOperationMode;
+  	CAN_Controller_Inits.CNF1_Reg.Bits.BRP = 0;
+  	CAN_Controller_Inits.CNF1_Reg.Bits.SJW = length4xT_Q;
+  	CAN_Controller_Inits.CNF2_Reg.Bits.PRSEG = 1;
+  	CAN_Controller_Inits.CNF2_Reg.Bits.PHSEG1 = 1;
+  	CAN_Controller_Inits.CNF2_Reg.Bits.SAM = busSampledOnceAtSamplePoint;
+  	CAN_Controller_Inits.CNF2_Reg.Bits.BLTMODE = ps2LengthDeterminedByCNF3;
+  	CAN_Controller_Inits.CNF3_Reg.Bits.PHSEG2 = 4;
+  	CAN_Controller_Inits.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsEnabled;
+
+	EPOS4_Inits_t Motor_Inits;
+	Motor_Inits.nodeId = 1;
+	Motor_Inits.Requirements.isFirstStepRequired = 1;
+	Motor_Inits.Requirements.isModeOfOperationRequired = 1;
+	Motor_Inits.FirstStep.CAN_BitRate = rate1000Kbps;
+	Motor_Inits.FirstStep.MotorType = trapezoidalPmBlMotor;
+	Motor_Inits.FirstStep.nominalCurrent = 6600;
+	Motor_Inits.FirstStep.outputCurrentLimit = 29300;
+	Motor_Inits.FirstStep.numberOfPolePairs = 21;
+	Motor_Inits.FirstStep.thermalTimeConstantWinding = 400;
+	Motor_Inits.FirstStep.torqueConstant = 95000;
+	Motor_Inits.FirstStep.maxMotorSpeed = 2384;
+	Motor_Inits.FirstStep.maxGearInputSpeed = 100000;
+	Motor_Inits.FirstStep.sensorsConfiguration = 0x00100000;
+	Motor_Inits.FirstStep.controlStructure = 0x00030111;
+	Motor_Inits.FirstStep.commutationSensors = 0x00000030;
+	Motor_Inits.FirstStep.axisConfigMiscellaneous = 0x00000000;
+	Motor_Inits.FirstStep.currentControllerP_Gain = 643609;
+	Motor_Inits.FirstStep.currentControllerI_Gain = 2791837;
+	Motor_Inits.ModeOfOperation = cyclicSynchronousTorqueMode;
+
 	struct Configuration_s Config;
 	Config.Device = knee;
 	Config.Side = left;
@@ -169,9 +209,8 @@ int main(void)
 	MPU925x_SetAccelSensitivity(mpu925x_accelSensitivity_8g);
 	MPU925x_SetGyroSensitivity(mpu925x_gyroSensitivity_1000dps);
 
-	CAN_configure();
-	EPOS4_SetCSTMode(kneeCANID);
 	AS5145B_Init(&MagEnc);
+	EPOS4_Init(&Motor_Inits, &CAN_Controller_Inits);
 
 	InitProsthesisControl(Config);
 
@@ -182,7 +221,7 @@ int main(void)
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(none);
+	RequireTestProgram(impedanceControl);
 
 
 /*******************************************************************************

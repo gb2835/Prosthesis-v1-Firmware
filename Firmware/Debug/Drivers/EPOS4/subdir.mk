@@ -5,13 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Drivers/EPOS4/EPOS4.c 
+../Drivers/EPOS4/epos4.c 
 
 OBJS += \
-./Drivers/EPOS4/EPOS4.o 
+./Drivers/EPOS4/epos4.o 
 
 C_DEPS += \
-./Drivers/EPOS4/EPOS4.d 
+./Drivers/EPOS4/epos4.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +21,7 @@ Drivers/EPOS4/%.o Drivers/EPOS4/%.su: ../Drivers/EPOS4/%.c Drivers/EPOS4/subdir.
 clean: clean-Drivers-2f-EPOS4
 
 clean-Drivers-2f-EPOS4:
-	-$(RM) ./Drivers/EPOS4/EPOS4.d ./Drivers/EPOS4/EPOS4.o ./Drivers/EPOS4/EPOS4.su
+	-$(RM) ./Drivers/EPOS4/epos4.d ./Drivers/EPOS4/epos4.o ./Drivers/EPOS4/epos4.su
 
 .PHONY: clean-Drivers-2f-EPOS4
 
