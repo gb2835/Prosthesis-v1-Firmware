@@ -11,7 +11,7 @@ enum TestPrograms_e
 {
 	none,
 	readOnly,
-	constantMotorTorque100Nm,
+	constantMotorTorque100Nmm,
 	magneticEncoderBias,
 	impedanceControl
 };

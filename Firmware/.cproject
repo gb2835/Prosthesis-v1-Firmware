@@ -88,12 +88,11 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.729314753" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.993676668" name="systick_app_timer.c" rcbsApplicability="disable" resourcePath="Core/Src/systick_app_timer.c" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.654071136.2081559682">
-						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.654071136.2081559682" name="MCU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.654071136"/>
-					</fileInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1585774879" name="epos4_new.h" rcbsApplicability="disable" resourcePath="Drivers/EPOS4/epos4.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1351858717" name="mcp25625_new.h" rcbsApplicability="disable" resourcePath="Drivers/MCP25625/mcp25625.h" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="Src/systick_app_timer.c|Inc/systick_app_timer.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="MCP25625/mcp25625_old.h|MCP25625/mcp25625_old.c|EPOS4/EPOS4_old.h|EPOS4/EPOS4_old.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
