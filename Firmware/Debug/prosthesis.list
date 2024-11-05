@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020080  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000c933  00000000  00000000  000200b0  2**0
+ 12 .debug_info   0000c92f  00000000  00000000  000200b0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000026c3  00000000  00000000  0002c9e3  2**0
+ 13 .debug_abbrev 000026dd  00000000  00000000  0002c9df  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000d58  00000000  00000000  0002f0a8  2**3
+ 14 .debug_aranges 00000d58  00000000  00000000  0002f0c0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000c10  00000000  00000000  0002fe00  2**3
+ 15 .debug_ranges 00000c10  00000000  00000000  0002fe18  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000239dc  00000000  00000000  00030a10  2**0
+ 16 .debug_macro  000239dc  00000000  00000000  00030a28  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000bfc2  00000000  00000000  000543ec  2**0
+ 17 .debug_line   0000bfc0  00000000  00000000  00054404  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c2989  00000000  00000000  000603ae  2**0
+ 18 .debug_str    000c298f  00000000  00000000  000603c4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  00122d37  2**0
+ 19 .comment      00000050  00000000  00000000  00122d53  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003b2c  00000000  00000000  00122d88  2**2
+ 20 .debug_frame  00003b2c  00000000  00000000  00122da4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3663,8 +3663,8 @@ int main(void)
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(impedanceControl);
- 8001c58:	2004      	movs	r0, #4
+	RequireTestProgram(none);
+ 8001c58:	2000      	movs	r0, #0
  8001c5a:	f000 f96f 	bl	8001f3c <RequireTestProgram>
 * USER MAIN LOOP
 *******************************************************************************/
@@ -4070,19 +4070,19 @@ void InitProsthesisControl(struct Configuration_s option)
  8001eca:	f04f 0200 	mov.w	r2, #0
  8001ece:	651a      	str	r2, [r3, #80]	; 0x50
 
-	CM_lcBot_lowerBound = 1396.0f;
+	CM_lcBot_lowerBound = 1398.0f;
  8001ed0:	4b11      	ldr	r3, [pc, #68]	; (8001f18 <InitProsthesisControl+0x128>)
  8001ed2:	4a12      	ldr	r2, [pc, #72]	; (8001f1c <InitProsthesisControl+0x12c>)
  8001ed4:	601a      	str	r2, [r3, #0]
-	CM_lcBot_upperBound = 1417.0f;
+	CM_lcBot_upperBound = 1425.0f;
  8001ed6:	4b12      	ldr	r3, [pc, #72]	; (8001f20 <InitProsthesisControl+0x130>)
  8001ed8:	4a12      	ldr	r2, [pc, #72]	; (8001f24 <InitProsthesisControl+0x134>)
  8001eda:	601a      	str	r2, [r3, #0]
-	CM_lcTop_lowerBound = 1412.0f;
+	CM_lcTop_lowerBound = 1415.0f;
  8001edc:	4b12      	ldr	r3, [pc, #72]	; (8001f28 <InitProsthesisControl+0x138>)
  8001ede:	4a13      	ldr	r2, [pc, #76]	; (8001f2c <InitProsthesisControl+0x13c>)
  8001ee0:	601a      	str	r2, [r3, #0]
-	CM_lcTop_upperBound = 1434.0f;
+	CM_lcTop_upperBound = 1451.0f;
  8001ee2:	4b13      	ldr	r3, [pc, #76]	; (8001f30 <InitProsthesisControl+0x140>)
  8001ee4:	4a13      	ldr	r2, [pc, #76]	; (8001f34 <InitProsthesisControl+0x144>)
  8001ee6:	601a      	str	r2, [r3, #0]
@@ -4105,13 +4105,13 @@ void InitProsthesisControl(struct Configuration_s option)
  8001f10:	200001c0 	.word	0x200001c0
  8001f14:	20000248 	.word	0x20000248
  8001f18:	200001b0 	.word	0x200001b0
- 8001f1c:	44ae8000 	.word	0x44ae8000
+ 8001f1c:	44aec000 	.word	0x44aec000
  8001f20:	200001ac 	.word	0x200001ac
- 8001f24:	44b12000 	.word	0x44b12000
+ 8001f24:	44b22000 	.word	0x44b22000
  8001f28:	200001b8 	.word	0x200001b8
- 8001f2c:	44b08000 	.word	0x44b08000
+ 8001f2c:	44b0e000 	.word	0x44b0e000
  8001f30:	200001b4 	.word	0x200001b4
- 8001f34:	44b34000 	.word	0x44b34000
+ 8001f34:	44b56000 	.word	0x44b56000
  8001f38:	200001bc 	.word	0x200001bc
 
 08001f3c <RequireTestProgram>:
@@ -8574,10 +8574,6 @@ void EPOS4_Init(EPOS4_Inits_t *Device_Init, MCP25625_Inits_t *MCP25625_Inits)
 			ErrorHandler(modeOfOperationError);
  80042b8:	2008      	movs	r0, #8
  80042ba:	f000 fb25 	bl	8004908 <ErrorHandler>
-
-
-
-
 
 	Device.isInit = 1;
  80042be:	4b04      	ldr	r3, [pc, #16]	; (80042d0 <EPOS4_Init+0xe0>)

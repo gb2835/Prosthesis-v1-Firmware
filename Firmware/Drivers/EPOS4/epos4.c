@@ -87,7 +87,7 @@
 
 typedef enum
 {
-	none,
+	epos4_none,
 	mcpInitError,
 	timeoutError,
 	nodeIdError,
@@ -119,7 +119,7 @@ uint16_t CM_epos4_state = 0;
 uint32_t CM_epos4_abortCode = 0;
 uint32_t CM_epos4_errorHistory1 = 0, CM_epos4_errorHistory2 = 0, CM_epos4_errorHistory3 = 0, CM_epos4_errorHistory4 = 0, CM_epos4_errorHistory5 = 0;
 
-uint8_t CM_epos4_error = none;
+uint8_t CM_epos4_error = epos4_none;
 
 static uint32_t ReadObjectValue(uint16_t index, uint8_t subindex);
 static void WriteObjectValue(uint16_t index, uint8_t subindex, uint32_t value);

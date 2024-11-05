@@ -221,7 +221,7 @@ int main(void)
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(impedanceControl);
+	RequireTestProgram(none);
 
 
 /*******************************************************************************

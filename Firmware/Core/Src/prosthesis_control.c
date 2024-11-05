@@ -137,10 +137,10 @@ void InitProsthesisControl(struct Configuration_s option)
 	CM_Knee.SwingExtCtrl.kd = 0.0f;
 	CM_Knee.SwingExtCtrl.kp = 0.0f;
 
-	CM_lcBot_lowerBound = 1396.0f;
-	CM_lcBot_upperBound = 1417.0f;
-	CM_lcTop_lowerBound = 1412.0f;
-	CM_lcTop_upperBound = 1434.0f;
+	CM_lcBot_lowerBound = 1398.0f;
+	CM_lcBot_upperBound = 1425.0f;
+	CM_lcTop_lowerBound = 1415.0f;
+	CM_lcTop_upperBound = 1451.0f;
 
 	CM_speedThreshold = 0.0f;
 }
@@ -428,7 +428,7 @@ void RunStateMachine(void)
 		ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
 		ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
 
-		if(CM_LoadCell_Filtered->bot[0] > CM_lcBot_upperBound)
+		if(CM_LoadCell_Filtered->top[0] < CM_lcBot_lowerBound)
 			state = stance;
 
 		break;
