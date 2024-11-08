@@ -163,7 +163,7 @@ void EPOS4_Init(EPOS4_Inits_t *Device_Init, MCP25625_Inits_t *MCP25625_Inits)
 //	if(epos4ProductCodeError)
 //		ErrorHandler(productCodeError);
 
-	uint32_t state = ReadObjectValue(STATUSWORD_INDEX, 0) & STATE_MASK;
+	uint16_t state = ReadObjectValue(STATUSWORD_INDEX, 0) & STATE_MASK;
 	if((state == STATE_FAULT) || (state == STATE_FAULT_REACTION_ACTIVE))
 		ErrorHandler(initFaultDetected);
 

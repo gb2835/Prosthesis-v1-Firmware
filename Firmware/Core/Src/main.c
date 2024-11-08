@@ -8,12 +8,12 @@
 *
 * NOTES
 * 1. See "Documents" directory for description of how v1 firmware is used.??
-* 2. The below lines can be used to measure PB11 on oscilloscope:
+* 2. The below lines can be used to measure PB2 on oscilloscope:
 *     - LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *     - LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *     - LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 * 3. Test programs provided prior to main loop to independently test device
-*    functionality. Firmware halts when a test program is used.
+*    functionality.
 * 4. Double question marks (??) are commented at locations throughout project
 *    files where possible improvements may be made.
 * 5. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -163,7 +163,7 @@ int main(void)
   	CAN_Controller_Inits.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsEnabled;
 
 	EPOS4_Inits_t Motor_Inits;
-	Motor_Inits.nodeId = 1;
+	Motor_Inits.nodeId = 2;
 	Motor_Inits.Requirements.isFirstStepRequired = 1;
 	Motor_Inits.Requirements.isModeOfOperationRequired = 1;
 	Motor_Inits.FirstStep.CAN_BitRate = rate1000Kbps;
@@ -184,8 +184,8 @@ int main(void)
 	Motor_Inits.ModeOfOperation = cyclicSynchronousTorqueMode;
 
 	struct Configuration_s Config;
-	Config.Device = knee;
-	Config.Side = left;
+	Config.Device = ankle;
+	Config.Side = right;
 
 
 /*******************************************************************************
@@ -221,7 +221,7 @@ int main(void)
 * USER TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(none);
+	RequireTestProgram(readOnly);
 
 
 /*******************************************************************************

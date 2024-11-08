@@ -63,13 +63,13 @@ typedef union
 		uint8_t unimplemented	:3;
 		enum
 		{
-			wakeUpFilterIsEnabled,
-			wakeUpFilterIsDisabled
+			wakeUpFilterIsDisabled,
+			wakeUpFilterIsEnabled
 		} WAKFIL :1;
 		enum
 		{
+			clockoutPinIsEnabledForclockOutFunction,
 			clockoutPinIsEnabledForSofSignal,
-			clockoutPinIsEnabledForclockOutFunction
 		} SOF :1;
 	} Bits;
 } CNF3_Reg_t;

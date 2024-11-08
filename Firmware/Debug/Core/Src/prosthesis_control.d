@@ -9,7 +9,7 @@ Core/Src/prosthesis_control.o: ../Core/Src/prosthesis_control.c \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Include/mpu_armv7.h \
  ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h \
- ../Drivers/EPOS4/EPOS4.h ../Drivers/MCP25625/mcp25625.h \
+ ../Drivers/EPOS4/epos4.h ../Drivers/MCP25625/mcp25625.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h \
  ../Core/Inc/prosthesis_control.h ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h \
@@ -35,7 +35,7 @@ Core/Src/prosthesis_control.o: ../Core/Src/prosthesis_control.c \
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../Drivers/CMSIS/Include/mpu_armv7.h:
 ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h:
-../Drivers/EPOS4/EPOS4.h:
+../Drivers/EPOS4/epos4.h:
 ../Drivers/MCP25625/mcp25625.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:
 ../Core/Inc/prosthesis_control.h:

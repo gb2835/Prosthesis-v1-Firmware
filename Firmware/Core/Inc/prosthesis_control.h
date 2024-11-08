@@ -32,7 +32,6 @@ struct Configuration_s
 	} Device;
 };
 
-extern uint16_t kneeCANID;
 extern uint8_t isProsthesisControlRequired;
 
 void InitProsthesisControl(struct Configuration_s option);
