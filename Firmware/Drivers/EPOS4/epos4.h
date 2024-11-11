@@ -65,20 +65,19 @@ typedef struct
 
 typedef struct
 {
-	uint8_t nodeId;
 	EPOS4_Requirements_t Requirements;
 	EPOS4_FirstStep_t FirstStep;
 	EPOS4_ModeOfOperation_t ModeOfOperation;
 } EPOS4_Inits_t;
 
-void EPOS4_Init(EPOS4_Inits_t *Device_Init, MCP25625_Inits_t *MCP25625_Inits);
-int32_t EPOS4_ReadPositionActualValue(void);
-int32_t EPOS4_ReadVelocityActualValue(void);
-int32_t EPOS4_ReadVelocityActualValueAveraged(void);
-int16_t EPOS4_ReadTargetTorqueValue(void);
-int16_t EPOS4_ReadTorqueActualValue(void);
-int16_t EPOS4_ReadTorqueActualValueAveraged(void);
-void EPOS4_WriteTargetTorqueValue(int16_t torque);
+void EPOS4_Init(uint8_t nodeId, EPOS4_Inits_t *Device_Init);
+int32_t EPOS4_ReadPositionActualValue(uint8_t nodeId);
+int32_t EPOS4_ReadVelocityActualValue(uint8_t nodeId);
+int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t nodeId);
+int16_t EPOS4_ReadTargetTorqueValue(uint8_t nodeId);
+int16_t EPOS4_ReadTorqueActualValue(uint8_t nodeId);
+int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t nodeId);
+void EPOS4_WriteTargetTorqueValue(uint8_t nodeId, int16_t torque);
 
 
 /*******************************************************************************

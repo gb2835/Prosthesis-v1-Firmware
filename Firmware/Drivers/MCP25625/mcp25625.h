@@ -14,8 +14,10 @@
 // how can error handler tell diff between this and other enums??
 typedef enum
 {
-	mcp25625_ok,
-	mcp25625_initError,
+	mcp25625_noError,
+	mcp25625_resetError,
+	mcp25625_configError,
+	mcp25625_canCtrlError
 } MCP25625_Errors_t;
 
 typedef union
@@ -32,7 +34,7 @@ typedef union
 			length4xT_Q
 		} SJW :2;
 	} Bits;
-} CNF1_Reg_t;
+} MCP25625_CNF1_Reg_t;
 
 typedef union
 {
@@ -52,7 +54,7 @@ typedef union
 			ps2LengthDeterminedByCNF3
 		} BLTMODE :1;
 	} Bits;
-} CNF2_Reg_t;
+} MCP25625_CNF2_Reg_t;
 
 typedef union
 {
@@ -68,11 +70,11 @@ typedef union
 		} WAKFIL :1;
 		enum
 		{
-			clockoutPinIsEnabledForclockOutFunction,
-			clockoutPinIsEnabledForSofSignal,
+			clockoutPinIsEnabledForClockOutFunction,
+			clockoutPinIsEnabledForSofSignal
 		} SOF :1;
 	} Bits;
-} CNF3_Reg_t;
+} MCP25625_CNF3_Reg_t;
 
 typedef union
 {
@@ -112,21 +114,135 @@ typedef union
 	} Bits;
 } MCP25625_CANCTRL_Reg_t;
 
+typedef uint8_t MCP25625_RXBxSIDH_Reg_t;
+
+typedef union
+{
+	uint8_t value;
+	struct
+	{
+		uint8_t EID 			:2;
+		uint8_t unimplemented2	:1;
+		enum
+		{
+			receiveStandardId,
+			receiveExtendedId
+		} IDE	:1;
+		enum
+		{
+			standardFrameReceived,
+			standardRemoteTransmitRequestReceived
+		} SRR	:1;
+		uint8_t SID	:3;
+	} Bits;
+} MCP25625_RXBxSIDL_Reg_t;
+
+typedef uint8_t MCP25625_RXBxEID8_Reg_t;
+typedef uint8_t MCP25625_RXBxEID0_Reg_t;
+
+typedef union
+{
+	uint8_t value;
+	struct
+	{
+		uint8_t DLC	:4;
+		uint8_t RB0	:1;
+		uint8_t RB1	:1;
+		enum
+		{
+			extendedDataFrameReceived,
+			extendedRemoteTransmitRequestReceived
+		} RTR	:1;
+		uint8_t unimplemented7	:1;
+	} Bits;
+} MCP25625_RXBxDLC_Reg_t;
+
+typedef uint8_t MCP25625_RXBxDn_Reg_t;
+
+typedef union
+{
+	uint8_t array[13];
+	struct
+	{
+		MCP25625_RXBxSIDH_Reg_t RXBxSIDH_Reg;
+		MCP25625_RXBxSIDL_Reg_t RXBxSIDL_Reg;
+		MCP25625_RXBxEID8_Reg_t RXBxEIDH_Reg;
+		MCP25625_RXBxEID0_Reg_t RXBxEIDL_Reg;
+		MCP25625_RXBxDLC_Reg_t RXBxDLC_Reg;
+		MCP25625_RXBxDn_Reg_t RXBxDn_Reg[8];
+	} Struct;
+} MCP25625_RXBx_t;
+
+typedef uint8_t MCP25625_TXBxSIDH_Reg_t;
+
+typedef union
+{
+	uint8_t value;
+	struct
+	{
+		uint8_t EID 			:2;
+		uint8_t unimplemented2	:1;
+		enum
+		{
+			transmitStandardId,
+			transmitExtendedId
+		} EXIDE	:1;
+		uint8_t unimplemented4	:1;
+		uint8_t SID				:3;
+	} Bits;
+} MCP25625_TXBxSIDL_Reg_t;
+
+typedef uint8_t MCP25625_TXBxEID8_Reg_t;
+typedef uint8_t MCP25625_TXBxEID0_Reg_t;
+
+typedef union
+{
+	uint8_t value;
+	struct
+	{
+		uint8_t DLC 				:4;
+		uint8_t unimplemented5_4	:2;
+		enum
+		{
+			messageWillBeDataFrame,
+			messageWillBeRemoteTransmitRequest
+		} RTR	:1;
+		uint8_t unused :1;
+	} Bits;
+} MCP25625_TXBxDLC_Reg_t;
+
+typedef uint8_t MCP25625_TXBxDn_Reg_t;
+
+typedef union
+{
+	uint8_t array[13];
+	struct
+	{
+		MCP25625_TXBxSIDH_Reg_t TXBxSIDH_Reg;
+		MCP25625_TXBxSIDL_Reg_t TXBxSIDL_Reg;
+		MCP25625_TXBxEID8_Reg_t TXBxEIDH_Reg;
+		MCP25625_TXBxEID0_Reg_t TXBxEIDL_Reg;
+		MCP25625_TXBxDLC_Reg_t TXBxDLC_Reg;
+		MCP25625_TXBxDn_Reg_t TXBxDn_Reg[8];
+	} Struct;
+} MCP25625_TXBx_t;
+
 typedef struct
 {
 	SPI_TypeDef *SPIx;
 	GPIO_TypeDef *CS_Port;
 	uint16_t csPin;
 	MCP25625_CANCTRL_Reg_t CANCTRL_Reg;
-	CNF1_Reg_t CNF1_Reg;
-	CNF2_Reg_t CNF2_Reg;
-	CNF3_Reg_t CNF3_Reg;
+	MCP25625_CNF1_Reg_t CNF1_Reg;
+	MCP25625_CNF2_Reg_t CNF2_Reg;
+	MCP25625_CNF3_Reg_t CNF3_Reg;
 } MCP25625_Inits_t;
 
-uint8_t MCP25625_Init(MCP25625_Inits_t *Device_Init, uint16_t id, uint8_t nBytes);
-uint8_t MCP25625_LoadTxBufferAtD0(uint8_t *data, uint8_t nBytes);
-uint8_t MCP25625_ReadRxBufferAtD0(uint8_t *data, uint8_t nBytes);
-uint8_t MCP25625_ReadRxBufferAtSIDH(uint8_t *data, uint8_t nDataBytes);
+uint8_t MCP25625_Init(MCP25625_Inits_t *Device_Inits);
+uint8_t MCP25625_LoadTxBufferAtD0(uint8_t *data, uint8_t dataLength);
+uint8_t MCP25625_LoadTxBufferAtSIDH(uint16_t id, uint8_t *data, uint8_t dataLength);
+uint8_t MCP25625_ReadRxBufferAtD0(uint8_t *data, uint8_t dataLength);
+uint8_t MCP25625_ReadRxBufferAtSIDH(MCP25625_RXBx_t *RXBx, uint8_t dataLength);
 
 
 /*******************************************************************************

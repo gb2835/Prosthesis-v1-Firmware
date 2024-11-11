@@ -30,11 +30,13 @@ struct Configuration_s
 		combined,
 		knee
 	} Device;
+	uint8_t ankleMotorId;
+	uint8_t kneeMotorId;
 };
 
 extern uint8_t isProsthesisControlRequired;
 
-void InitProsthesisControl(struct Configuration_s option);
+void InitProsthesisControl(struct Configuration_s *Options);
 void RunProsthesisControl(void);
 void RequireTestProgram(enum TestPrograms_e option);
 

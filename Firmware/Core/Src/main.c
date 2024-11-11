@@ -154,16 +154,16 @@ int main(void)
   	CAN_Controller_Inits.CANCTRL_Reg.Bits.ABAT = abortAllTransmissions;
   	CAN_Controller_Inits.CANCTRL_Reg.Bits.REQOP = normalOperationMode;
   	CAN_Controller_Inits.CNF1_Reg.Bits.BRP = 0;
-  	CAN_Controller_Inits.CNF1_Reg.Bits.SJW = length4xT_Q;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.PRSEG = 1;
+  	CAN_Controller_Inits.CNF1_Reg.Bits.SJW = length1xT_Q;
+  	CAN_Controller_Inits.CNF2_Reg.Bits.PRSEG = 4;
   	CAN_Controller_Inits.CNF2_Reg.Bits.PHSEG1 = 1;
   	CAN_Controller_Inits.CNF2_Reg.Bits.SAM = busSampledOnceAtSamplePoint;
   	CAN_Controller_Inits.CNF2_Reg.Bits.BLTMODE = ps2LengthDeterminedByCNF3;
-  	CAN_Controller_Inits.CNF3_Reg.Bits.PHSEG2 = 4;
-  	CAN_Controller_Inits.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsEnabled;
+  	CAN_Controller_Inits.CNF3_Reg.Bits.PHSEG2 = 1;
+  	CAN_Controller_Inits.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsDisabled;
+  	CAN_Controller_Inits.CNF3_Reg.Bits.SOF = clockoutPinIsEnabledForClockOutFunction;
 
 	EPOS4_Inits_t Motor_Inits;
-	Motor_Inits.nodeId = 2;
 	Motor_Inits.Requirements.isFirstStepRequired = 1;
 	Motor_Inits.Requirements.isModeOfOperationRequired = 1;
 	Motor_Inits.FirstStep.CAN_BitRate = rate1000Kbps;
@@ -175,10 +175,10 @@ int main(void)
 	Motor_Inits.FirstStep.torqueConstant = 95000;
 	Motor_Inits.FirstStep.maxMotorSpeed = 2384;
 	Motor_Inits.FirstStep.maxGearInputSpeed = 100000;
-	Motor_Inits.FirstStep.sensorsConfiguration = 0x00100000;
-	Motor_Inits.FirstStep.controlStructure = 0x00030111;
-	Motor_Inits.FirstStep.commutationSensors = 0x00000030;
-	Motor_Inits.FirstStep.axisConfigMiscellaneous = 0x00000000;
+	Motor_Inits.FirstStep.sensorsConfiguration = 0x00100000; // ??
+	Motor_Inits.FirstStep.controlStructure = 0x00030111; // ??
+	Motor_Inits.FirstStep.commutationSensors = 0x00000030; // ??
+	Motor_Inits.FirstStep.axisConfigMiscellaneous = 0x00000000; // ??
 	Motor_Inits.FirstStep.currentControllerP_Gain = 643609;
 	Motor_Inits.FirstStep.currentControllerI_Gain = 2791837;
 	Motor_Inits.ModeOfOperation = cyclicSynchronousTorqueMode;
@@ -186,6 +186,8 @@ int main(void)
 	struct Configuration_s Config;
 	Config.Device = ankle;
 	Config.Side = right;
+	Config.kneeMotorId = 1;
+	Config.ankleMotorId = 2;
 
 
 /*******************************************************************************
@@ -209,12 +211,19 @@ int main(void)
 	MPU925x_SetAccelSensitivity(mpu925x_accelSensitivity_8g);
 	MPU925x_SetGyroSensitivity(mpu925x_gyroSensitivity_1000dps);
 
+	if(MCP25625_Init(&CAN_Controller_Inits))
+		Error_Handler();
+
+	if((Config.Device == ankle) || (Config.Device == combined))
+		EPOS4_Init(Config.ankleMotorId, &Motor_Inits);
+	if((Config.Device == knee) || (Config.Device == combined))
+		EPOS4_Init(Config.kneeMotorId, &Motor_Inits);
+
 	AS5145B_Init(&MagEnc);
-	EPOS4_Init(&Motor_Inits, &CAN_Controller_Inits);
 
-	InitProsthesisControl(Config);
+	InitProsthesisControl(&Config);
 
-	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning
+	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning??
 
 
 /*******************************************************************************

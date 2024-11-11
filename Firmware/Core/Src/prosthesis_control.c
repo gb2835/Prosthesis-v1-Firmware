@@ -17,6 +17,7 @@
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
 #include <stdint.h>
+#include <string.h>
 #include "stm32l4xx_ll_adc.h"
 
 
@@ -57,6 +58,7 @@ struct DeviceParams_s
 	struct ControlParams_s SwingFlexCtrl;
 	struct ControlParams_s SwingExtCtrl;
 	struct MPU925x_IMUData_s IMUData;
+	uint8_t motorId;
 };
 
 struct LoadCell_Data_s
@@ -67,7 +69,7 @@ struct LoadCell_Data_s
 
 enum TestPrograms_e testProgram;
 float ankleEncBias, kneeEncBias;
-struct Configuration_s config;
+struct Configuration_s Config;
 struct LoadCell_Data_s LoadCell[3];								// [0] = k-0, [1] = k-1, [2] = k-2
 struct MPU925x_IMUData_s AnkleIMUData, KneeIMUData;
 
@@ -99,13 +101,13 @@ void RunTestProgram(void);
 *******************************************************************************/
 
 // Includes variables that are subject to change during testing for convenience
-void InitProsthesisControl(struct Configuration_s option)
+void InitProsthesisControl(struct Configuration_s *Options)
 {
-	config.Device = option.Device;
-	config.Side = option.Side;
+	memcpy(&Config, Options, sizeof(struct Configuration_s));
 
-	if((config.Device == ankle) || (config.Device == combined))
+	if((Config.Device == ankle) || (Config.Device == combined))
 	{
+		CM_Ankle.motorId = Config.ankleMotorId;
 		ankleEncBias = 1325 * AS5145B_RAW2DEG;
 
 		CM_Ankle.ImpCtrl.eqPoint = 0.0f;
@@ -122,8 +124,9 @@ void InitProsthesisControl(struct Configuration_s option)
 		CM_Ankle.SwingExtCtrl.kp = 0.0f;
 	}
 
-	if((config.Device == knee) || (config.Device == combined))
+	if((Config.Device == knee) || (Config.Device == combined))
 	{
+		CM_Knee.motorId = Config.kneeMotorId;
 		kneeEncBias = 2244 * AS5145B_RAW2DEG;
 
 		CM_Knee.ImpCtrl.eqPoint = 0.0f;
@@ -148,10 +151,8 @@ void InitProsthesisControl(struct Configuration_s option)
 	CM_kneeSpeedThreshold = 0.0f;
 }
 
-void RequireTestProgram(enum TestPrograms_e option)
+void RequireTestProgram(enum TestPrograms_e testProgram)
 {
-	testProgram = option;
-
 	if(testProgram != none)
 		isTestProgramRequired = 1;
 }
@@ -187,13 +188,13 @@ void RunProsthesisControl(void)
 void GetInputs(void)
 {
 	// Differentiate between two IMUs??
-	if((config.Device == ankle) || (config.Device == combined))
+	if((Config.Device == ankle) || (Config.Device == combined))
 	{
 		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition_Deg() - ankleEncBias;
 		AnkleIMUData = MPU925x_ReadIMU();
 	}
 
-	if((config.Device == knee) || (config.Device == combined))
+	if((Config.Device == knee) || (Config.Device == combined))
 	{
 		CM_Knee.jointAngle[0] = AS5145B_ReadPosition_Deg() - kneeEncBias;
 		KneeIMUData = MPU925x_ReadIMU();
@@ -203,7 +204,6 @@ void GetInputs(void)
 	LoadCell->top[0] = ReadLoadCell(ADC2);
 }
 
-// Should be moved to ADC driver??
 uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
 {
 	LL_ADC_REG_StartConversion(ADCx);
@@ -217,16 +217,16 @@ void ProcessInputs(void)
 {
 	double tau = 1.0 / (2 * M_PI * 10);		// Time constant for practical differentiator (fc = 10 Hz)
 
-	// Derivative of angle and filtering of load cells
+	// Derivative of joint angle (joint speed) and filtering of load cells
 	if(isFirst)
 	{
-		if((config.Device == ankle) || (config.Device == combined))
+		if((Config.Device == ankle) || (Config.Device == combined))
 		{
 			CM_Ankle.jointSpeed = 0.0;
 			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 		}
 
-		if((config.Device == knee) || (config.Device == combined))
+		if((Config.Device == knee) || (Config.Device == combined))
 		{
 			CM_Knee.jointSpeed = 0.0;
 			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
@@ -241,14 +241,14 @@ void ProcessInputs(void)
 	}
 	else if(isSecond)
 	{
-		if((config.Device == ankle) || (config.Device == combined))
+		if((Config.Device == ankle) || (Config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
 			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 		}
 
-		if((config.Device == knee) || (config.Device == combined))
+		if((Config.Device == knee) || (Config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
@@ -264,14 +264,14 @@ void ProcessInputs(void)
 	}
 	else
 	{
-		if((config.Device == ankle) || (config.Device == combined))
+		if((Config.Device == ankle) || (Config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
 			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 		}
 
-		if((config.Device == knee) || (config.Device == combined))
+		if((Config.Device == knee) || (Config.Device == combined))
 		{
 			// Practical differentiator (bilinear transformation used)
 			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
@@ -311,9 +311,9 @@ void CalibrateIMU(void)
 	// Sine and cosine of Euler angles (1 = z angle, 2 = x' angle, 3 = z'' angle)
 	double c1, c2, c3, s1, s2, s3;
 
-	if((config.Device == ankle) || (config.Device == combined))
+	if((Config.Device == ankle) || (Config.Device == combined))
 	{
-		if(config.Side == left)
+		if(Config.Side == left)
 		{
 			c1 = -1.0;
 			c2 = -1.0;
@@ -340,9 +340,9 @@ void CalibrateIMU(void)
 		CM_Ankle.IMUData.gz = n * (AnkleIMUData.gx*(s1*s2           ) + AnkleIMUData.gy*( c1*s2              ) + AnkleIMUData.gz*( c2   )) - gzBias;
 	}
 
-	if((config.Device == knee) || (config.Device == combined))
+	if((Config.Device == knee) || (Config.Device == combined))
 	{
-		if(config.Side == left)
+		if(Config.Side == left)
 		{
 			c1 = -1.0;
 			c2 = -1.0;
@@ -372,9 +372,9 @@ void CalibrateIMU(void)
 
 void ComputeLimbAngle(void)
 {
-	if((config.Device == ankle) || (config.Device == combined))
+	if((Config.Device == ankle) || (Config.Device == combined))
 	{
-		double accelAngle = (atan(CM_Ankle.IMUData.ax / sqrt(pow(CM_Ankle.IMUData.ay, 2) + pow(CM_Ankle.IMUData.az, 2)))) * 180.0/M_PI;
+		double accelAngle = (atan(CM_Ankle.IMUData.ax / sqrt(pow(CM_Ankle.IMUData.ay, 2) + pow(CM_Ankle.IMUData.az, 2)))) * 180.0 / M_PI;
 		static double compFiltAngle = 0.0;
 		static double dGyroAngle = 0.0;
 
@@ -387,9 +387,9 @@ void ComputeLimbAngle(void)
 		CM_Ankle.limbAngle = compFiltAngle - CM_Ankle.jointAngle[0];
 	}
 
-	if((config.Device == knee) || (config.Device == combined))
+	if((Config.Device == knee) || (Config.Device == combined))
 	{
-		double accelAngle = (atan(CM_Knee.IMUData.ax / sqrt(pow(CM_Knee.IMUData.ay, 2) + pow(CM_Knee.IMUData.az, 2)))) * 180.0/M_PI;
+		double accelAngle = (atan(CM_Knee.IMUData.ax / sqrt(pow(CM_Knee.IMUData.ay, 2) + pow(CM_Knee.IMUData.az, 2)))) * 180.0 / M_PI;
 		static double compFiltAngle = 0.0;
 		static double dGyroAngle = 0.0;
 
@@ -405,14 +405,14 @@ void ComputeLimbAngle(void)
 
 void RunStateMachine(void)
 {
-	if((config.Device == ankle) || (config.Device == combined))
+	if((Config.Device == ankle) || (Config.Device == combined))
 	{
 		CM_Ankle.ProsCtrl.eqPoint = 0.0f;
 		CM_Ankle.ProsCtrl.kd = 0.0f;
 		CM_Ankle.ProsCtrl.kp = 0.0f;
 	}
 
-	if((config.Device == knee) || (config.Device == combined))
+	if((Config.Device == knee) || (Config.Device == combined))
 	{
 		static enum StateMachine_e state = stance;
 		static uint8_t isCheckBoundsRequired = 0;
@@ -473,19 +473,19 @@ void RunImpedanceControl(void)
 {
 	float gearRatio = 40.0f;
 	float nomCurrent = 8.0f;						// is this number accurate??
-	float torqueConst = 60.0f / (2*M_PI * 100);		// Units in N*m/A, for Kv = 100 rpm/V
+	float torqueConst = 60.0f / (2 * M_PI * 100);	// Units in N*m/A, for Kv = 100 rpm/V
 
-	if((config.Device == ankle) || (config.Device == combined))
+	if((Config.Device == ankle) || (Config.Device == combined))
 	{
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 
 		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
 
 		int16_t motorTorque = CM_Ankle.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_WriteTargetTorqueValue(motorTorque);
+		EPOS4_WriteTargetTorqueValue(CM_Ankle.motorId, motorTorque);
 	}
 
-	if((config.Device == knee) || (config.Device == combined))
+	if((Config.Device == knee) || (Config.Device == combined))
 	{
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 
@@ -493,7 +493,7 @@ void RunImpedanceControl(void)
 		float kneeTorqueCorrected = -CM_Knee.jointTorque;												// Knee motor rotates opposite of coordinate system
 
 		int16_t motorTorque = kneeTorqueCorrected / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_WriteTargetTorqueValue(motorTorque);
+		EPOS4_WriteTargetTorqueValue(CM_Knee.motorId, motorTorque);
 	}
 }
 
@@ -507,10 +507,10 @@ void RunTestProgram(void)
 		break;
 	case constantMotorTorque100Nmm:
 	{
-		if(config.Device == ankle)
-			EPOS4_WriteTargetTorqueValue(100);
-		else if(config.Device == knee)
-			EPOS4_WriteTargetTorqueValue(-100);	// Knee motor rotates opposite of coordinate system
+		if(Config.Device == ankle)
+			EPOS4_WriteTargetTorqueValue(CM_Ankle.motorId, 100);
+		else if(Config.Device == knee)
+			EPOS4_WriteTargetTorqueValue(CM_Knee.motorId, -100);	// Knee motor rotates opposite of coordinate system
 
 		break;
 	}
@@ -520,7 +520,7 @@ void RunTestProgram(void)
 
 		uint32_t sum = 0;
 
-		if(config.Device == ankle)
+		if(Config.Device == ankle)
 		{
 			for(i = 0; i < 1000; i++)
 			{
@@ -530,7 +530,7 @@ void RunTestProgram(void)
 
 			CM_ankleEncBias = sum / i;
 		}
-		else if(config.Device == knee)
+		else if(Config.Device == knee)
 		{
 			for(i = 0; i < 1000; i++)
 			{
@@ -545,7 +545,7 @@ void RunTestProgram(void)
 	}
 	case impedanceControl:
 	{
-		if(config.Device == ankle)
+		if(Config.Device == ankle)
 		{
 			if (isFirst)
 			{
@@ -567,7 +567,7 @@ void RunTestProgram(void)
 				CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.ImpCtrl.eqPoint;
 			}
 		}
-		else if(config.Device == knee)
+		else if(Config.Device == knee)
 		{
 			if (isFirst)
 			{
