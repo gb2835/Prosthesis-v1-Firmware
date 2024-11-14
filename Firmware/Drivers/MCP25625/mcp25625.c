@@ -49,10 +49,10 @@
 #define LOAD_TX_BUFFER_2_AT_SIDH	0b01000100
 #define LOAD_TX_BUFFER_2_AT_D0		0b01000101
 #define READ						0b00000011
-#define READ_RX_BUFFER_0_AT_D0		0b10010010
 #define READ_RX_BUFFER_0_AT_SIDH	0b10010000
-#define READ_RX_BUFFER_1_AT_D0		0b10010110
+#define READ_RX_BUFFER_0_AT_D0		0b10010010
 #define READ_RX_BUFFER_1_AT_SIDH	0b10010100
+#define READ_RX_BUFFER_1_AT_D0		0b10010110
 #define READ_STATUS					0b10100000
 #define RESET						0b11000000
 #define RTS_T0						0b10000001
@@ -120,7 +120,6 @@ typedef union
 	} Bits;
 } TXBxCTRL_Reg_t;
 
-// no conflict with other Device_t??
 typedef struct
 {
 	SPI_TypeDef *SPIx;
@@ -215,7 +214,10 @@ uint8_t MCP25625_LoadTxBufferAtD0(uint8_t *data, uint8_t dataLength)
 		LL_SPI_TransmitData8(Device.SPIx, txbxDataAddress);
 
 		for(uint8_t i = 0; i < dataLength; i++)
+		{
+			while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 			LL_SPI_TransmitData8(Device.SPIx, data[i]);
+		}
 
 		while(LL_SPI_GetTxFIFOLevel(Device.SPIx));
 		ClearChipSelect();
@@ -272,7 +274,10 @@ uint8_t MCP25625_LoadTxBufferAtSIDH(uint16_t id, uint8_t *data, uint8_t dataLeng
 
 		uint8_t nBytes = dataLength + 5;						// data register + 5 registers in Rx buffer
 		for(uint8_t i = 0; i < nBytes; i++)
+		{
+			while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 			LL_SPI_TransmitData8(Device.SPIx, TXBx.array[i]);
+		}
 
 		while(LL_SPI_GetTxFIFOLevel(Device.SPIx));
 		ClearChipSelect();
@@ -422,6 +427,7 @@ static void WriteRegisterData(uint8_t startReg, uint8_t *data, uint8_t nDataByte
 
 	while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 	LL_SPI_TransmitData8(Device.SPIx, WRITE);
+	while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 	LL_SPI_TransmitData8(Device.SPIx, startReg);
 
 	for(uint8_t i = 0; i < nDataBytes; i++)
@@ -440,8 +446,11 @@ static void ModifyRegisterBits(uint8_t reg, uint8_t mask, uint8_t data)
 
 	while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 	LL_SPI_TransmitData8(Device.SPIx, BIT_MODIFY);
+	while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 	LL_SPI_TransmitData8(Device.SPIx, reg);
+	while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 	LL_SPI_TransmitData8(Device.SPIx, mask);
+	while(!(LL_SPI_IsActiveFlag_TXE(Device.SPIx)));
 	LL_SPI_TransmitData8(Device.SPIx, data);
 
 	while(LL_SPI_GetTxFIFOLevel(Device.SPIx));
@@ -462,7 +471,7 @@ static void RequestToSend(uint8_t RTS_Tx)
 	ClearChipSelect();
 
 	while(LL_SPI_IsActiveFlag_RXNE(Device.SPIx))
-	LL_SPI_ReceiveData8(Device.SPIx);
+		LL_SPI_ReceiveData8(Device.SPIx);
 }
 
 static uint8_t ReadStatus(void)

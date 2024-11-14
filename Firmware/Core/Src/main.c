@@ -148,12 +148,12 @@ int main(void)
   	CAN_Controller_Inits.SPIx = SPI2;
   	CAN_Controller_Inits.CS_Port = SPI2_CS_GPIO_Port;
   	CAN_Controller_Inits.csPin = SPI2_CS_Pin;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKPRE = clockoutDiv1;
+  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKPRE = clockoutDiv1; // ??
   	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKEN = clockoutDisabled;
   	CAN_Controller_Inits.CANCTRL_Reg.Bits.OSM = oneShotModeEnabled;
   	CAN_Controller_Inits.CANCTRL_Reg.Bits.ABAT = abortAllTransmissions;
   	CAN_Controller_Inits.CANCTRL_Reg.Bits.REQOP = normalOperationMode;
-  	CAN_Controller_Inits.CNF1_Reg.Bits.BRP = 0;
+  	CAN_Controller_Inits.CNF1_Reg.Bits.BRP = 1;
   	CAN_Controller_Inits.CNF1_Reg.Bits.SJW = length1xT_Q;
   	CAN_Controller_Inits.CNF2_Reg.Bits.PRSEG = 4;
   	CAN_Controller_Inits.CNF2_Reg.Bits.PHSEG1 = 1;
@@ -166,7 +166,7 @@ int main(void)
 	EPOS4_Inits_t Motor_Inits;
 	Motor_Inits.Requirements.isFirstStepRequired = 1;
 	Motor_Inits.Requirements.isModeOfOperationRequired = 1;
-	Motor_Inits.FirstStep.CAN_BitRate = rate1000Kbps;
+	Motor_Inits.FirstStep.CAN_BitRate = rate500Kbps;
 	Motor_Inits.FirstStep.MotorType = trapezoidalPmBlMotor;
 	Motor_Inits.FirstStep.nominalCurrent = 6600;
 	Motor_Inits.FirstStep.outputCurrentLimit = 29300;
