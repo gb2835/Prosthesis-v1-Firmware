@@ -69,7 +69,7 @@ struct LoadCell_Data_s
 enum TestPrograms_e testProgram;
 float ankleEncBias, kneeEncBias;
 struct Configuration_s Config;
-struct LoadCell_Data_s LoadCell[3];								// [0] = k-0, [1] = k-1, [2] = k-2
+struct LoadCell_Data_s LoadCell[3];					// [0] = k-0, [1] = k-1, [2] = k-2
 struct MPU925x_IMUData_s AnkleIMUData, KneeIMUData;
 
 double dt = 1 / 512.0;
@@ -81,9 +81,9 @@ float CM_lcBot_upperBound, CM_lcBot_lowerBound;
 float CM_lcTop_upperBound, CM_lcTop_lowerBound;
 float CM_kneeSpeedThreshold;
 struct DeviceParams_s CM_Ankle, CM_Knee;
-struct LoadCell_Data_s CM_LoadCell_Filtered[3];		// [0] = k-0, [1] = k-1, [2] = k-2
+struct LoadCell_Data_s CM_LoadCell_Filtered[3];	// [0] = k-0, [1] = k-1, [2] = k-2
 uint16_t CM_ankleEncBias, CM_kneeEncBias;
-uint16_t CM_kneeState;
+uint16_t CM_state;
 
 void GetInputs(void);
 uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -419,7 +419,7 @@ void RunStateMachine(void)
 		switch(state)
 		{
 		case stance:
-			CM_kneeState = 1120;
+			CM_state = 1120;
 
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.StanceCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.StanceCtrl.kd;
@@ -435,8 +435,6 @@ void RunStateMachine(void)
 				if(lcBotWithinBounds && lcTopWithinBounds)
 				{
 					isCheckBoundsRequired = 0;
-					lcBotWithinBounds = 0; // can delete now??
-					lcTopWithinBounds = 0; // can delete now??
 					state = swingFlexion;
 				}
 			}
@@ -444,7 +442,7 @@ void RunStateMachine(void)
 			break;
 
 		case swingFlexion:
-			CM_kneeState = 1345;
+			CM_state = 1345;
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingFlexCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.SwingFlexCtrl.kd;
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
@@ -455,7 +453,7 @@ void RunStateMachine(void)
 			break;
 
 		case swingExtension:
-			CM_kneeState = 1570;
+			CM_state = 1570;
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingExtCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
@@ -503,19 +501,19 @@ void RunTestProgram(void)
 	{
 	case none:
 		break;
+
 	case readOnly:
 		break;
+
 	case constantMotorTorque100Nmm:
-	{
 		if(Config.Device == ankle || Config.Device == combined)
 			EPOS4_WriteTargetTorqueValue(CM_Ankle.motorId, 100);
 		else if(Config.Device == knee || Config.Device == combined)
 			EPOS4_WriteTargetTorqueValue(CM_Knee.motorId, -100);	// Knee motor rotates opposite of coordinate system
 
 		break;
-	}
+
 	case magneticEncoderBias:
-	{
 		if(Config.Device == ankle || Config.Device == combined)
 		{
 			uint16_t i;
@@ -542,9 +540,8 @@ void RunTestProgram(void)
 		}
 
 		break;
-	}
+
 	case impedanceControl:
-	{
 		if(Config.Device == ankle || Config.Device == combined)
 		{
 			uint16_t i;
@@ -573,7 +570,6 @@ void RunTestProgram(void)
 		RunImpedanceControl();
 
 		break;
-	}
 	}
 }
 
