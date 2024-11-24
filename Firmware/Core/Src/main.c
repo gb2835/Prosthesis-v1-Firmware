@@ -2,16 +2,16 @@
 
 /*******************************************************************************
 *
-* TITLE   Prosthesis Firmware v1
-* AUTHOR  Greg Berkeley
-* RELEASE XX/XX/XXXX
+* TITLE:	Prosthesis v1 Firmware
+* AUTHOR:	Greg Berkeley
+* RELEASE:	XX/XX/XXXX
 *
 * NOTES
 * 1. See "Documents" directory for description of how v1 firmware is used.??
 * 2. The below lines can be used to measure PB2 on oscilloscope:
-*     - LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
-*     - LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
-*     - LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+*		- LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+*		- LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+*		- LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 * 3. Test programs provided prior to main loop to independently test device
 *    functionality.
 * 4. Double question marks (??) are commented at locations throughout project
@@ -76,7 +76,7 @@ void SystemClock_Config(void);
 
 #include "as5145b.h"
 #include "EPOS4.h"
-#include "prosthesis_control.h"
+#include "prosthesis_v1.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
 
