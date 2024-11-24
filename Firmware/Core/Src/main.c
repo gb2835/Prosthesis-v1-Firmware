@@ -76,9 +76,10 @@ void SystemClock_Config(void);
 
 #include "as5145b.h"
 #include "EPOS4.h"
-#include "prosthesis_v1.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
+#include "prosthesis_v1.h"
+#include <string.h>
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
@@ -136,58 +137,87 @@ int main(void)
 * USER DEFINITIONS
 *******************************************************************************/
 
-	AS5145B_Init_t MagEnc;
-	MagEnc.DO_GPIOx = ENC_DO_GPIO_Port;
-	MagEnc.CLK_GPIOx = ENC_CLK_GPIO_Port;
-	MagEnc.CSn_GPIOx = ENC_CSn_GPIO_Port;
-	MagEnc.DO_Pin = ENC_DO_Pin;
-	MagEnc.CLK_Pin = ENC_CLK_Pin;
-	MagEnc.CSn_Pin = ENC_CSn_Pin;
+	AS5145B_t KneeEncoder;
+	KneeEncoder.DO_GPIOx = KNEE_ENCODER_DO_GPIO_Port;
+	KneeEncoder.CLK_GPIOx = KNEE_ENCODER_CLK_GPIO_Port;
+	KneeEncoder.CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
+	KneeEncoder.DO_Pin = KNEE_ENCODER_DO_Pin;
+	KneeEncoder.CLK_Pin = KNEE_ENCODER_CLK_Pin;
+	KneeEncoder.CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
-  	MCP25625_Inits_t CAN_Controller_Inits;
-  	CAN_Controller_Inits.SPIx = SPI2;
-  	CAN_Controller_Inits.CS_Port = SPI2_CS_GPIO_Port;
-  	CAN_Controller_Inits.csPin = SPI2_CS_Pin;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKPRE = clockoutDiv1; // ??
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKEN = clockoutDisabled;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.OSM = oneShotModeEnabled;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.ABAT = abortAllTransmissions;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.REQOP = normalOperationMode;
-  	CAN_Controller_Inits.CNF1_Reg.Bits.BRP = 1;
-  	CAN_Controller_Inits.CNF1_Reg.Bits.SJW = length1xT_Q;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.PRSEG = 4;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.PHSEG1 = 1;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.SAM = busSampledOnceAtSamplePoint;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.BLTMODE = ps2LengthDeterminedByCNF3;
-  	CAN_Controller_Inits.CNF3_Reg.Bits.PHSEG2 = 1;
-  	CAN_Controller_Inits.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsDisabled;
-  	CAN_Controller_Inits.CNF3_Reg.Bits.SOF = clockoutPinIsEnabledForClockOutFunction;
+	AS5145B_t AnkleEncoder; // add pins??
+	AnkleEncoder.DO_GPIOx = KNEE_ENCODER_DO_GPIO_Port;
+	AnkleEncoder.CLK_GPIOx = KNEE_ENCODER_CLK_GPIO_Port;
+	AnkleEncoder.CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
+	AnkleEncoder.DO_Pin = KNEE_ENCODER_DO_Pin;
+	AnkleEncoder.CLK_Pin = KNEE_ENCODER_CLK_Pin;
+	AnkleEncoder.CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
-	EPOS4_Inits_t Motor_Inits;
-	Motor_Inits.Requirements.isFirstStepRequired = 1;
-	Motor_Inits.Requirements.isModeOfOperationRequired = 1;
-	Motor_Inits.FirstStep.CAN_BitRate = rate500Kbps;
-	Motor_Inits.FirstStep.MotorType = trapezoidalPmBlMotor;
-	Motor_Inits.FirstStep.nominalCurrent = 6600;
-	Motor_Inits.FirstStep.outputCurrentLimit = 29300;
-	Motor_Inits.FirstStep.numberOfPolePairs = 21;
-	Motor_Inits.FirstStep.thermalTimeConstantWinding = 400;
-	Motor_Inits.FirstStep.torqueConstant = 95000;
-	Motor_Inits.FirstStep.maxMotorSpeed = 2384;
-	Motor_Inits.FirstStep.maxGearInputSpeed = 100000;
-	Motor_Inits.FirstStep.sensorsConfiguration = 0x00100000; // ??
-	Motor_Inits.FirstStep.controlStructure = 0x00030111; // ??
-	Motor_Inits.FirstStep.commutationSensors = 0x00000030; // ??
-	Motor_Inits.FirstStep.axisConfigMiscellaneous = 0x00000000; // ??
-	Motor_Inits.FirstStep.currentControllerP_Gain = 643609;
-	Motor_Inits.FirstStep.currentControllerI_Gain = 2791837;
-	Motor_Inits.ModeOfOperation = cyclicSynchronousTorqueMode;
+	EPOS4_t AnkleMotor;
+	AnkleMotor.Requirements.isFirstStepRequired = 1;
+	AnkleMotor.Requirements.isModeOfOperationRequired = 1;
+	AnkleMotor.FirstStep.CAN_BitRate = rate500Kbps;
+	AnkleMotor.FirstStep.MotorType = trapezoidalPmBlMotor;
+	AnkleMotor.FirstStep.nominalCurrent = 6600;
+	AnkleMotor.FirstStep.outputCurrentLimit = 29300;
+	AnkleMotor.FirstStep.numberOfPolePairs = 21;
+	AnkleMotor.FirstStep.thermalTimeConstantWinding = 400;
+	AnkleMotor.FirstStep.torqueConstant = 95000;
+	AnkleMotor.FirstStep.maxMotorSpeed = 2384;
+	AnkleMotor.FirstStep.maxGearInputSpeed = 100000;
+	AnkleMotor.FirstStep.sensorsConfiguration = 0x00100000; // ??
+	AnkleMotor.FirstStep.controlStructure = 0x00030111; // ??
+	AnkleMotor.FirstStep.commutationSensors = 0x00000030; // ??
+	AnkleMotor.FirstStep.axisConfigMiscellaneous = 0x00000000; // ??
+	AnkleMotor.FirstStep.currentControllerP_Gain = 643609;
+	AnkleMotor.FirstStep.currentControllerI_Gain = 2791837;
+	AnkleMotor.ModeOfOperation = cyclicSynchronousTorqueMode;
 
-	struct Configuration_s Config;
-	Config.Device = ankle;
-	Config.Side = right;
-	Config.kneeMotorId = 1;
-	Config.ankleMotorId = 2;
+	EPOS4_t KneeMotor;
+	KneeMotor.Requirements.isFirstStepRequired = 1;
+	KneeMotor.Requirements.isModeOfOperationRequired = 1;
+	KneeMotor.FirstStep.CAN_BitRate = rate500Kbps;
+	KneeMotor.FirstStep.MotorType = trapezoidalPmBlMotor;
+	KneeMotor.FirstStep.nominalCurrent = 6600;
+	KneeMotor.FirstStep.outputCurrentLimit = 29300;
+	KneeMotor.FirstStep.numberOfPolePairs = 21;
+	KneeMotor.FirstStep.thermalTimeConstantWinding = 400;
+	KneeMotor.FirstStep.torqueConstant = 95000;
+	KneeMotor.FirstStep.maxMotorSpeed = 2384;
+	KneeMotor.FirstStep.maxGearInputSpeed = 100000;
+	KneeMotor.FirstStep.sensorsConfiguration = 0x00100000; // ??
+	KneeMotor.FirstStep.controlStructure = 0x00030111; // ??
+	KneeMotor.FirstStep.commutationSensors = 0x00000030; // ??
+	KneeMotor.FirstStep.axisConfigMiscellaneous = 0x00000000; // ??
+	KneeMotor.FirstStep.currentControllerP_Gain = 643609;
+	KneeMotor.FirstStep.currentControllerI_Gain = 2791837;
+	KneeMotor.ModeOfOperation = cyclicSynchronousTorqueMode;
+
+  	MCP25625_t CAN_Controller;
+  	memset(&CAN_Controller, 0, sizeof(CAN_Controller));
+  	CAN_Controller.SPIx = SPI2;
+  	CAN_Controller.CS_Port = SPI2_CS_GPIO_Port;
+  	CAN_Controller.csPin = SPI2_CS_Pin;
+  	CAN_Controller.CANCTRL_Reg.Bits.CLKPRE = clockoutDiv1; // ??
+  	CAN_Controller.CANCTRL_Reg.Bits.CLKEN = clockoutDisabled;
+  	CAN_Controller.CANCTRL_Reg.Bits.OSM = oneShotModeEnabled;
+  	CAN_Controller.CANCTRL_Reg.Bits.ABAT = abortAllTransmissions;
+  	CAN_Controller.CANCTRL_Reg.Bits.REQOP = normalOperationMode;
+  	CAN_Controller.CNF1_Reg.Bits.BRP = 1;
+  	CAN_Controller.CNF1_Reg.Bits.SJW = length1xT_Q;
+  	CAN_Controller.CNF2_Reg.Bits.PRSEG = 4;
+  	CAN_Controller.CNF2_Reg.Bits.PHSEG1 = 1;
+  	CAN_Controller.CNF2_Reg.Bits.SAM = busSampledOnceAtSamplePoint;
+  	CAN_Controller.CNF2_Reg.Bits.BLTMODE = ps2LengthDeterminedByCNF3;
+  	CAN_Controller.CNF3_Reg.Bits.PHSEG2 = 1;
+  	CAN_Controller.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsDisabled;
+  	CAN_Controller.CNF3_Reg.Bits.SOF = clockoutPinIsEnabledForClockOutFunction;
+
+	Prosthesis_t Prosthesis;
+	Prosthesis.Joint = ankle;
+	Prosthesis.Side = left;
+	Prosthesis.kneeMotorId = 1;
+	Prosthesis.ankleMotorId = 2;
 
 
 /*******************************************************************************
@@ -211,17 +241,22 @@ int main(void)
 	MPU925x_SetAccelSensitivity(mpu925x_accelSensitivity_8g);
 	MPU925x_SetGyroSensitivity(mpu925x_gyroSensitivity_1000dps);
 
-	if(MCP25625_Init(&CAN_Controller_Inits))
+	if(MCP25625_Init(&CAN_Controller))
 		Error_Handler();
 
-	if((Config.Device == ankle) || (Config.Device == combined))
-		EPOS4_Init(Config.ankleMotorId, &Motor_Inits);
-	if((Config.Device == knee) || (Config.Device == combined))
-		EPOS4_Init(Config.kneeMotorId, &Motor_Inits);
+	if((Prosthesis.Joint == ankle) || (Prosthesis.Joint == combined))
+	{
+		AS5145B_Init(&AnkleEncoder);
+		EPOS4_Init(Prosthesis.ankleMotorId, &AnkleMotor);
+	}
+	if((Prosthesis.Joint == knee) || (Prosthesis.Joint == combined))
+	{
+		AS5145B_Init(&KneeEncoder);
+		EPOS4_Init(Prosthesis.kneeMotorId, &KneeMotor);
+	}
 
-	AS5145B_Init(&MagEnc);
 
-	InitProsthesisControl(&Config);
+	InitProsthesisControl(&Prosthesis);
 
 	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning??
 

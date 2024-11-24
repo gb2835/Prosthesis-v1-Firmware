@@ -2,8 +2,7 @@
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:956:22:LL_GPIO_SetOutputPin	16	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:985:22:LL_GPIO_ResetOutputPin	16	static
 ../Drivers/AS5145B/as5145b.c:56:6:AS5145B_Init	16	static
-../Drivers/AS5145B/as5145b.c:64:23:AS5145B_ReadData	32	static
-../Drivers/AS5145B/as5145b.c:102:10:AS5145B_ReadPosition_Raw	16	static
-../Drivers/AS5145B/as5145b.c:108:7:AS5145B_ReadPosition_Deg	16	static
-../Drivers/AS5145B/as5145b.c:115:9:AS5145B_ReadStatus	16	static
-../Drivers/AS5145B/as5145b.c:128:13:AS5145B_Delay_500ns	16	static,ignoring_inline_asm
+../Drivers/AS5145B/as5145b.c:64:16:AS5145B_ReadData	32	static
+../Drivers/AS5145B/as5145b.c:99:7:AS5145B_ReadPosition	16	static
+../Drivers/AS5145B/as5145b.c:106:9:AS5145B_ReadStatus	16	static
+../Drivers/AS5145B/as5145b.c:119:13:AS5145B_Delay_500ns	16	static,ignoring_inline_asm

@@ -44,7 +44,7 @@
 #define MPU925X_TEMP_ROOMTEMP				21
 #define MPU925X_TEMP_SENSITIVITY			333.87
 
-enum MPU925x_AccelDlpfBandWidth_e
+typedef enum
 {
 	mpu925x_accelDlpfBandWidth_5hz,
 	mpu925x_accelDlpfBandWidth_10hz,
@@ -54,17 +54,17 @@ enum MPU925x_AccelDlpfBandWidth_e
 	mpu925x_accelDlpfBandWidth_184hz,
 	mpu925x_accelDlpfBandWidth_460hz,
 	mpu925x_accelDlpfBandWidth_1130hz
-};
+} MPU925x_AccelDlpfBandWidth_t;
 
-enum MPU925x_AccelSensitivity_e
+typedef enum
 {
 	mpu925x_accelSensitivity_2g,
 	mpu925x_accelSensitivity_4g,
 	mpu925x_accelSensitivity_8g,
 	mpu925x_accelSensitivity_16g
-};
+} MPU925x_AccelSensitivity_t;
 
-enum MPU925x_GyroDlpfBandWidth_e
+typedef enum
 {
 	mpu925x_gyroDlpfBandWidth_5hz,
 	mpu925x_gyroDlpfBandWidth_10hz,
@@ -75,17 +75,17 @@ enum MPU925x_GyroDlpfBandWidth_e
 	mpu925x_gyroDlpfBandWidth_250hz,
 	mpu925x_gyroDlpfBandWidth_3600hz,
 	mpu925x_gyroDlpfBandWidth_8800hz
-};
+} MPU925x_GyroDlpfBandWidth_t;
 
-enum MPU925x_GyroSensitivity_e
+typedef enum
 {
 	mpu925x_gyroSensitivity_250dps,
 	mpu925x_gyroSensitivity_500dps,
 	mpu925x_gyroSensitivity_1000dps,
 	mpu925x_gyroSensitivity_2000dps
-};
+} MPU925x_GyroSensitivity_t;
 
-struct MPU925x_IMUData_s
+typedef struct
 {
    double	ax;
    double	ay;
@@ -93,15 +93,15 @@ struct MPU925x_IMUData_s
    double	gx;
    double	gy;
    double	gz;
-};
+} MPU925x_IMUData_t;
 
 uint8_t MPU925x_Init(SPI_TypeDef *spix, GPIO_TypeDef *cs_gpiox, uint16_t cs_pinx);
-void MPU925x_SetAccelSensitivity(enum MPU925x_AccelSensitivity_e option);
-void MPU925x_SetGyroSensitivity(enum MPU925x_GyroSensitivity_e option);
-void MPU925x_SetAccelDlpfBandwidth(enum MPU925x_AccelDlpfBandWidth_e option);
-void MPU925x_SetGyroDlpfBandwidth(enum MPU925x_GyroDlpfBandWidth_e option);
+void MPU925x_SetAccelSensitivity(MPU925x_AccelSensitivity_t option);
+void MPU925x_SetGyroSensitivity(MPU925x_GyroSensitivity_t option);
+void MPU925x_SetAccelDlpfBandwidth(MPU925x_AccelDlpfBandWidth_t option);
+void MPU925x_SetGyroDlpfBandwidth(MPU925x_GyroDlpfBandWidth_t option);
 void MPU925x_SetSampleRateDiv(uint8_t divider);
-struct MPU925x_IMUData_s MPU925x_ReadIMU(void);
+MPU925x_IMUData_t MPU925x_ReadIMU(void);
 void MPU925x_WriteReg(uint8_t adress, uint8_t data);
 void MPU925x_ReadRegs(uint8_t address, uint8_t *data, uint8_t bytes);
 

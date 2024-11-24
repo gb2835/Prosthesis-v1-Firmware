@@ -149,9 +149,9 @@ static void ClearChipSelect(void); // static inline??
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MCP25625_Init(MCP25625_Inits_t *Device_Inits)
+uint8_t MCP25625_Init(MCP25625_t *Device_Inits)
 {
-	memcpy(&Device, Device_Inits, sizeof(MCP25625_Inits_t));
+	memcpy(&Device, Device_Inits, sizeof(MCP25625_t));
 
 	ClearChipSelect();
 

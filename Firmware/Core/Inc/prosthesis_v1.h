@@ -8,16 +8,16 @@
 #define INC_PROSTHESIS_CONTROL_H_
 
 // i can see this in epos4.c??
-enum TestPrograms_e
+typedef enum
 {
 	none,
 	readOnly,
 	constantMotorTorque100Nmm,
 	magneticEncoderBias,
 	impedanceControl
-};
+} TestPrograms_t;
 
-struct Configuration_s
+typedef struct
 {
 	enum
 	{
@@ -29,16 +29,16 @@ struct Configuration_s
 		ankle,
 		combined,
 		knee
-	} Device;
+	} Joint;
 	uint8_t ankleMotorId;
 	uint8_t kneeMotorId;
-};
+} Prosthesis_t;
 
-extern uint8_t isProsthesisControlRequired;
+extern uint8_t isProsthesisControlRequired; // ??
 
-void InitProsthesisControl(struct Configuration_s *Options);
+void InitProsthesisControl(Prosthesis_t *Options);
 void RunProsthesisControl(void);
-void RequireTestProgram(enum TestPrograms_e option);
+void RequireTestProgram(TestPrograms_t option);
 
 
 /*******************************************************************************

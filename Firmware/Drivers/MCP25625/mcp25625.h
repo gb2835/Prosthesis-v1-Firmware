@@ -236,9 +236,9 @@ typedef struct
 	MCP25625_CNF1_Reg_t CNF1_Reg;
 	MCP25625_CNF2_Reg_t CNF2_Reg;
 	MCP25625_CNF3_Reg_t CNF3_Reg;
-} MCP25625_Inits_t;
+} MCP25625_t;
 
-uint8_t MCP25625_Init(MCP25625_Inits_t *Device_Inits);
+uint8_t MCP25625_Init(MCP25625_t *Device_Inits);
 uint8_t MCP25625_LoadTxBufferAtD0(uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_LoadTxBufferAtSIDH(uint16_t id, uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_ReadRxBufferAtD0(uint8_t *data, uint8_t dataLength);

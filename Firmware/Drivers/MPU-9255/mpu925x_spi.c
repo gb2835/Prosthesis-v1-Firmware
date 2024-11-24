@@ -10,7 +10,6 @@
 *******************************************************************************/
 
 #include "mpu925x_spi.h"
-
 #include "stm32l4xx_ll_gpio.h"
 
 
@@ -50,7 +49,7 @@ uint8_t MPU925x_Init(SPI_TypeDef *spix, GPIO_TypeDef *cs_gpiox, uint16_t cs_pinx
 	return 0;
 }
 
-void MPU925x_SetAccelSensitivity(enum MPU925x_AccelSensitivity_e option)
+void MPU925x_SetAccelSensitivity(MPU925x_AccelSensitivity_t option)
 {
 	uint8_t data;
 
@@ -86,7 +85,7 @@ void MPU925x_SetAccelSensitivity(enum MPU925x_AccelSensitivity_e option)
 	}
 }
 
-void MPU925x_SetGyroSensitivity(enum MPU925x_GyroSensitivity_e option)
+void MPU925x_SetGyroSensitivity(MPU925x_GyroSensitivity_t option)
 {
 	uint8_t data;
 
@@ -122,7 +121,7 @@ void MPU925x_SetGyroSensitivity(enum MPU925x_GyroSensitivity_e option)
 	}
 }
 
-void MPU925x_SetAccelDlpfBandwidth(enum MPU925x_AccelDlpfBandWidth_e option)
+void MPU925x_SetAccelDlpfBandwidth(MPU925x_AccelDlpfBandWidth_t option)
 {
 	uint8_t data;
 
@@ -178,7 +177,7 @@ void MPU925x_SetAccelDlpfBandwidth(enum MPU925x_AccelDlpfBandWidth_e option)
 	}
 }
 
-void MPU925x_SetGyroDlpfBandwidth(enum MPU925x_GyroDlpfBandWidth_e option)
+void MPU925x_SetGyroDlpfBandwidth(MPU925x_GyroDlpfBandWidth_t option)
 {
 	uint8_t data;
 
@@ -246,9 +245,9 @@ void MPU925x_SetSampleRateDiv(uint8_t divider)
 	MPU925x_WriteReg(MPU925X_REG_SMPLRT_DIV, divider);
 }
 
-struct MPU925x_IMUData_s MPU925x_ReadIMU(void)
+MPU925x_IMUData_t MPU925x_ReadIMU(void)
 {
-	struct MPU925x_IMUData_s IMUData;
+	MPU925x_IMUData_t IMUData;
 	uint8_t data[14];
 
 	MPU925x_ReadRegs(MPU925X_REG_ACCEL_XOUT_H, data, 14);

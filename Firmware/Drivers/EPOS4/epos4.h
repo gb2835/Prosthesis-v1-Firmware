@@ -68,9 +68,9 @@ typedef struct
 	EPOS4_Requirements_t Requirements;
 	EPOS4_FirstStep_t FirstStep;
 	EPOS4_ModeOfOperation_t ModeOfOperation;
-} EPOS4_Inits_t;
+} EPOS4_t;
 
-void EPOS4_Init(uint8_t nodeId, EPOS4_Inits_t *Device_Init);
+void EPOS4_Init(uint8_t nodeId, EPOS4_t *Device_Init);
 int32_t EPOS4_ReadPositionActualValue(uint8_t nodeId);
 int32_t EPOS4_ReadVelocityActualValue(uint8_t nodeId);
 int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t nodeId);

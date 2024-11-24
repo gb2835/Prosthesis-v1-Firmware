@@ -101,10 +101,10 @@ void Error_Handler(void);
 #define EPOS4_MISO_GPIO_Port GPIOB
 #define EPOS4_MOSI_Pin LL_GPIO_PIN_15
 #define EPOS4_MOSI_GPIO_Port GPIOB
-#define ENC_CSn_Pin LL_GPIO_PIN_6
-#define ENC_CSn_GPIO_Port GPIOC
-#define ENC_DO_Pin LL_GPIO_PIN_7
-#define ENC_DO_GPIO_Port GPIOC
+#define KNEE_ENCODER_CSn_Pin LL_GPIO_PIN_6
+#define KNEE_ENCODER_CSn_GPIO_Port GPIOC
+#define KNEE_ENCODER_DO_Pin LL_GPIO_PIN_7
+#define KNEE_ENCODER_DO_GPIO_Port GPIOC
 #define IMU_CS_Pin LL_GPIO_PIN_8
 #define IMU_CS_GPIO_Port GPIOA
 #define TMS_Pin LL_GPIO_PIN_13
@@ -113,8 +113,8 @@ void Error_Handler(void);
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin LL_GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-#define ENC_CLK_Pin LL_GPIO_PIN_7
-#define ENC_CLK_GPIO_Port GPIOB
+#define KNEE_ENCODER_CLK_Pin LL_GPIO_PIN_7
+#define KNEE_ENCODER_CLK_GPIO_Port GPIOB
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */

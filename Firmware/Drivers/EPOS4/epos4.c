@@ -138,9 +138,9 @@ static void ErrorHandler(uint16_t cobId, Errors_t error);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-void EPOS4_Init(uint8_t nodeId, EPOS4_Inits_t *Device_Init)
+void EPOS4_Init(uint8_t nodeId, EPOS4_t *Device_Init)
 {
-	memcpy(&Device, Device_Init, sizeof(EPOS4_Inits_t));
+	memcpy(&Device, Device_Init, sizeof(EPOS4_t));
 
 	uint16_t cobId = nodeId + 0x600;
 
