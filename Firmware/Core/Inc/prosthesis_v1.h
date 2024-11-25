@@ -7,7 +7,6 @@
 #ifndef INC_PROSTHESIS_CONTROL_H_
 #define INC_PROSTHESIS_CONTROL_H_
 
-// i can see this in epos4.c??
 typedef enum
 {
 	none,
@@ -34,7 +33,7 @@ typedef struct
 	uint8_t kneeMotorId;
 } Prosthesis_t;
 
-extern uint8_t isProsthesisControlRequired; // ??
+extern uint8_t isProsthesisControlRequired;
 
 void InitProsthesisControl(Prosthesis_t *Options);
 void RunProsthesisControl(void);

@@ -11,7 +11,6 @@
 #include "stm32l4xx_ll_gpio.h"
 #include "stm32l4xx_ll_spi.h"
 
-// how can error handler tell diff between this and other enums??
 typedef enum
 {
 	mcp25625_noError,

@@ -137,14 +137,6 @@ int main(void)
 * USER DEFINITIONS
 *******************************************************************************/
 
-	AS5145B_t KneeEncoder;
-	KneeEncoder.DO_GPIOx = KNEE_ENCODER_DO_GPIO_Port;
-	KneeEncoder.CLK_GPIOx = KNEE_ENCODER_CLK_GPIO_Port;
-	KneeEncoder.CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
-	KneeEncoder.DO_Pin = KNEE_ENCODER_DO_Pin;
-	KneeEncoder.CLK_Pin = KNEE_ENCODER_CLK_Pin;
-	KneeEncoder.CSn_Pin = KNEE_ENCODER_CSn_Pin;
-
 	AS5145B_t AnkleEncoder; // add pins??
 	AnkleEncoder.DO_GPIOx = KNEE_ENCODER_DO_GPIO_Port;
 	AnkleEncoder.CLK_GPIOx = KNEE_ENCODER_CLK_GPIO_Port;
@@ -152,6 +144,14 @@ int main(void)
 	AnkleEncoder.DO_Pin = KNEE_ENCODER_DO_Pin;
 	AnkleEncoder.CLK_Pin = KNEE_ENCODER_CLK_Pin;
 	AnkleEncoder.CSn_Pin = KNEE_ENCODER_CSn_Pin;
+
+	AS5145B_t KneeEncoder;
+	KneeEncoder.DO_GPIOx = KNEE_ENCODER_DO_GPIO_Port;
+	KneeEncoder.CLK_GPIOx = KNEE_ENCODER_CLK_GPIO_Port;
+	KneeEncoder.CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
+	KneeEncoder.DO_Pin = KNEE_ENCODER_DO_Pin;
+	KneeEncoder.CLK_Pin = KNEE_ENCODER_CLK_Pin;
+	KneeEncoder.CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
 	EPOS4_t AnkleMotor;
 	AnkleMotor.Requirements.isFirstStepRequired = 1;
@@ -236,6 +236,8 @@ int main(void)
 	LL_ADC_Enable(ADC1);
 	LL_ADC_Enable(ADC2);
 
+	LL_mDelay(10);	// Remove spikes from beginning
+
 	if(MPU925x_Init(SPI1, IMU_CS_GPIO_Port, IMU_CS_Pin))
 		Error_Handler();
 	MPU925x_SetAccelSensitivity(mpu925x_accelSensitivity_8g);
@@ -255,10 +257,8 @@ int main(void)
 		EPOS4_Init(Prosthesis.kneeMotorId, &KneeMotor);
 	}
 
-
 	InitProsthesisControl(&Prosthesis);
 
-	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning??
 
 
 /*******************************************************************************
@@ -280,6 +280,7 @@ int main(void)
 		  isProsthesisControlRequired = 0;
 	  }
 
+	  // use this for can reads??
 
 /******************************************************************************/
 

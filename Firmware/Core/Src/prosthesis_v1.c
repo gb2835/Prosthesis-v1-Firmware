@@ -25,7 +25,7 @@
 * PUBLIC DEFINITIONS
 *******************************************************************************/
 
-uint8_t isProsthesisControlRequired = 0; // can this be defined in header??
+uint8_t isProsthesisControlRequired = 0;
 
 
 /*******************************************************************************
@@ -66,33 +66,33 @@ typedef struct
 	double top[3];
 } LoadCell_Data_t;
 
-TestPrograms_t testProgram;
-float ankleEncBias, kneeEncBias;
-Prosthesis_t Device;
-LoadCell_Data_t LoadCell[3];					// [0] = k-0, [1] = k-1, [2] = k-2
-MPU925x_IMUData_t AnkleIMUData, KneeIMUData;
+static TestPrograms_t testProgram;
+static float ankleEncBias, kneeEncBias;
+static Prosthesis_t Device;
+static LoadCell_Data_t LoadCell[3];					// [0] = k-0, [1] = k-1, [2] = k-2
+static MPU925x_IMUData_t AnkleIMUData, KneeIMUData;
 
-double dt = 1 / 512.0;
-uint8_t isFirst = 1;
-uint8_t isSecond = 0;
-uint8_t isTestProgramRequired = 0;
+static double dt = 1 / 512.0;
+static uint8_t isFirst = 1;
+static uint8_t isSecond = 0;
+static uint8_t isTestProgramRequired = 0;
 
-float CM_lcBot_upperBound, CM_lcBot_lowerBound;
-float CM_lcTop_upperBound, CM_lcTop_lowerBound;
-float CM_kneeSpeedThreshold, CM_ankleSpeedThreshold;
-DeviceParams_t CM_Ankle, CM_Knee;
-LoadCell_Data_t CM_LoadCell_Filtered[3];				// [0] = k-0, [1] = k-1, [2] = k-2
-uint16_t CM_ankleEncBias, CM_kneeEncBias;
-uint16_t CM_state;
+static float CM_lcBot_upperBound, CM_lcBot_lowerBound;
+static float CM_lcTop_upperBound, CM_lcTop_lowerBound;
+static float CM_kneeSpeedThreshold, CM_ankleSpeedThreshold;
+static DeviceParams_t CM_Ankle, CM_Knee;
+static LoadCell_Data_t CM_LoadCell_Filtered[3];				// [0] = k-0, [1] = k-1, [2] = k-2
+static uint16_t CM_ankleEncBias, CM_kneeEncBias;
+static uint16_t CM_state;
 
-void GetInputs(void);
-uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
-void ProcessInputs(void);
-void CalibrateIMU(void);
-void ComputeLimbAngle(void);
-void RunStateMachine(void);
-void RunImpedanceControl(void);
-void RunTestProgram(void);
+static void GetInputs(void);
+static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
+static void ProcessInputs(void);
+static void CalibrateIMU(void);
+static void ComputeLimbAngle(void);
+static void RunStateMachine(void);
+static void RunImpedanceControl(void);
+static void RunTestProgram(void);
 
 
 /*******************************************************************************
@@ -156,9 +156,8 @@ void RunProsthesisControl(void)
 * PRIVATE FUNCTIONS
 *******************************************************************************/
 
-void GetInputs(void)
+static void GetInputs(void)
 {
-	// Differentiate between two IMUs??
 	if((Device.Joint == ankle) || (Device.Joint == combined))
 	{
 		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition() - ankleEncBias;
@@ -175,7 +174,7 @@ void GetInputs(void)
 	LoadCell->top[0] = ReadLoadCell(ADC2);
 }
 
-uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
+static uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
 {
 	LL_ADC_REG_StartConversion(ADCx);
 	while ( !LL_ADC_IsActiveFlag_EOC(ADCx) );
@@ -184,7 +183,7 @@ uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
 	return data;
 }
 
-void ProcessInputs(void)
+static void ProcessInputs(void)
 {
 	double tau = 1.0 / (2 * M_PI * 10);		// Time constant for practical differentiator (fc = 10 Hz)
 
@@ -269,7 +268,7 @@ void ProcessInputs(void)
 	ComputeLimbAngle();
 }
 
-void CalibrateIMU(void)
+static void CalibrateIMU(void)
 {
 	double axBias = 0.0;
 	double ayBias = 0.0;
@@ -341,7 +340,7 @@ void CalibrateIMU(void)
 	}
 }
 
-void ComputeLimbAngle(void)
+static void ComputeLimbAngle(void)
 {
 	if((Device.Joint == ankle) || (Device.Joint == combined))
 	{
@@ -374,7 +373,7 @@ void ComputeLimbAngle(void)
 	}
 }
 
-void RunStateMachine(void)
+static void RunStateMachine(void)
 {
 	if((Device.Joint == ankle) || (Device.Joint == combined))
 	{
@@ -438,7 +437,7 @@ void RunStateMachine(void)
 	}
 }
 
-void RunImpedanceControl(void)
+static void RunImpedanceControl(void)
 {
 	float gearRatio = 40.0f;
 	float nomCurrent = 8.0f;						// is this number accurate??
@@ -467,7 +466,7 @@ void RunImpedanceControl(void)
 	}
 }
 
-void RunTestProgram(void)
+static void RunTestProgram(void)
 {
 	switch (testProgram)
 	{
