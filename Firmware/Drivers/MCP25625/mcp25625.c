@@ -1,8 +1,8 @@
 /*******************************************************************************
 *
-* TITLE		Driver for Microchip MCP25625 CAN Controller
-* AUTHOR	Greg Berkeley
-* RELEASE	??
+* TITLE:	Driver for Microchip MCP25625 CAN Controller
+* AUTHOR:	Greg Berkeley
+* RELEASE:	??
 *
 * NOTES
 * 1. This driver is based on:

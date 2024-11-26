@@ -1,23 +1,25 @@
 /*******************************************************************************
- *
- * TITLE:	Driver for AMS AS5145B Magnetic Rotary Encoder
- * AUTHOR:	Greg Berkeley
- * RELEASE:	05/07/2024
- *
- * NOTES
- * 1. This driver is based on
- * 		- Product Document AS5145H/AS5145A/AS5145B
- *			- Document Number: N/A
- *			- Revision: v2-02
- * 2. Unless otherwise specified, units are
- * 		- Angles = degrees
- * 3. Only SSI functionality is used in this driver.
- * 4. Minimum delays between clock edges are required for this device. This
- *    driver is configured for the scenario where there is no clock pin (i.e.
- *    SPI) but a GPIO output pin instead. Thus a delay function is used to
- *    generate the required delays.
- *
- ******************************************************************************/
+*
+* TITLE:	Driver for AMS AS5145B Magnetic Rotary Encoder
+* AUTHOR:	Greg Berkeley
+* RELEASE:	05/07/2024
+*
+* NOTES
+* 1. This driver is based on
+* 		- Product Document AS5145H/AS5145A/AS5145B
+*			- Document Number: N/A
+*			- Revision: v2-02
+* 2. Unless otherwise specified, units are
+* 		- Angles = degrees
+* 2. #define NUMBER_OF_DEVICES must be updated to (at least) the number of
+*    devices used.
+* 3. Only SSI functionality is used in this driver.
+* 4. Minimum delays between clock edges are required for this device. This
+*    driver is configured for the scenario where there is no clock pin (i.e.
+*    SPI) but a GPIO output pin instead. Thus a delay function is used to
+*    generate the required delays.
+*
+*******************************************************************************/
 
 #include "as5145b.h"
 #include <string.h>
@@ -28,7 +30,7 @@
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-#define NUMBER_OF_DEVICES	2 // in header file instead??
+#define NUMBER_OF_DEVICES	2
 #define TIMERX				TIM6 // is this the right way to do this??
 #define TIMERX_RATE_MHZ		10
 

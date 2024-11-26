@@ -8,6 +8,8 @@
 * 1. Unless otherwise specified, units are
 * 		- Accelerometer = g's
 * 		- Gyroscope     = degrees/second
+* 2. #define NUMBER_OF_DEVICES must be updated to (at least) the number of
+*    devices used.
 *
 *******************************************************************************/
 
