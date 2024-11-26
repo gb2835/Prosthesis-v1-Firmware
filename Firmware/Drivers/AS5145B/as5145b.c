@@ -1,8 +1,8 @@
 /*******************************************************************************
  *
- * TITLE   Driver for AMS AS5145B Magnetic Rotary Encoder
- * AUTHOR  Greg Berkeley
- * RELEASE 05/07/2024
+ * TITLE:	Driver for AMS AS5145B Magnetic Rotary Encoder
+ * AUTHOR:	Greg Berkeley
+ * RELEASE:	05/07/2024
  *
  * NOTES
  * 1. This driver is based on
@@ -10,29 +10,25 @@
  *			- Document Number: N/A
  *			- Revision: v2-02
  * 2. Only SSI functionality is used in this driver.
- * 3. The DS requires minimum delays in the clock frequency for the device. This
+ * 3. Minimum delays between clock edges are required for this device. This
  *    driver is configured for the scenario where there is no clock pin (i.e.
- *    SPI) but a GPIO output pin instead. The delay function Delay_500ns is thus
- *    used to generate the clock delays. The delays are configured according to
- *    Figure 10 and Figure 13 in DS for 80 MHz SYSCLK. For a slower SYSCLK the
- *    delays will be longer. Since the delays needed for the device are minimums,
- *    slower delays do not affect functionality but do however affect MCU
- *    performance due to longer delays.
- * 4. The Delay_500ns function was generated based on the following process:
- *    First, an oscope was used to measure how fast a pin goes HIGH then LOW.
- *    Then, the for loops were placed between the HIGH and LOW and tuned to get
- *    an extra 500 nanoseconds. Thus, it is a very approximate function for
- *    generating 500 nanosecond delays.
+ *    SPI) but a GPIO output pin instead. Thus a delay function is used to
+ *    generate the required delays.
  *
  ******************************************************************************/
 
 #include "as5145b.h"
 #include <string.h>
+#include "utilities.h"
 
 
 /*******************************************************************************
 * PRIVATE DEFINITIONS
 *******************************************************************************/
+
+#define NUMBER_OF_DEVICES	2 // in header file instead??
+#define TIMERX				TIM6 // is this the right way to do this??
+#define TIMERX_RATE_MHZ		10
 
 typedef struct
 {
@@ -42,70 +38,77 @@ typedef struct
 	uint16_t DO_Pin;
 	uint16_t CLK_Pin;
 	uint16_t CSn_Pin;
+	uint8_t isInit;
 } Device_t;
 
-static Device_t Device;
+static Device_t Device[NUMBER_OF_DEVICES];
 
-static void AS5145B_Delay_500ns(void);
+static inline void SetChipSelect(uint8_t deviceIndex);
+static inline void ClearChipSelect(uint8_t deviceIndex);
+static inline void RaiseClockEdge(uint8_t deviceIndex);
+static inline void LowerClockEdge(uint8_t deviceIndex);
+static inline uint8_t ReadDO_Pin(uint8_t deviceIndex);
 
 
 /*******************************************************************************
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-void AS5145B_Init(AS5145B_t *AS5145B_Init)
+void AS5145B_Init(uint8_t deviceIndex, AS5145B_t *Device_Init)
 {
-	memcpy( &Device, AS5145B_Init, sizeof(AS5145B_t) );
+	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(AS5145B_t));
 
-	LL_GPIO_SetOutputPin(Device.CSn_GPIOx, Device.CSn_Pin);
-	LL_GPIO_SetOutputPin(Device.CLK_GPIOx, Device.CLK_Pin);
+	ClearChipSelect(deviceIndex);
+	RaiseClockEdge(deviceIndex);
+
+	Device[deviceIndex].isInit = 1;
 }
 
-AS5145B_Data_t AS5145B_ReadData(void)
+AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 {
-	LL_GPIO_ResetOutputPin(Device.CSn_GPIOx, Device.CSn_Pin);
-	AS5145B_Delay_500ns();											// Delay of 500 ns minimum required for t_(CLK FE)
+	SetChipSelect(deviceIndex);
+	DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CLK FE)
 
 	// Read angular position from first 12 bits (MSB first)
 	AS5145B_Data_t Data;
 	memset(&Data, 0, sizeof(Data)); // debug check this??
 	for(int i = 12-1; i >= 0; i--)
 	{
-		LL_GPIO_ResetOutputPin(Device.CLK_GPIOx, Device.CLK_Pin);
-		AS5145B_Delay_500ns();																// Delay of 500 ns minimum required for T_(CLK/2)
-		LL_GPIO_SetOutputPin(Device.CLK_GPIOx, Device.CLK_Pin);
-		AS5145B_Delay_500ns();																// Delay of 500 ns minimum required for T_(CLK/2)
-		uint8_t temp  = LL_GPIO_IsInputPinSet(Device.DO_GPIOx, Device.DO_Pin) & 0x01;
+		LowerClockEdge(deviceIndex);
+		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		RaiseClockEdge(deviceIndex);
+		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		uint8_t temp = ReadDO_Pin(deviceIndex);
 		Data.position |= (temp) << i;
 	}
 
 	// Read remaining 6 status bits (MSB first)
 	for(int i = 6-1; i >= 0; i--)
 	{
-		LL_GPIO_ResetOutputPin(Device.CLK_GPIOx, Device.CLK_Pin);
-		AS5145B_Delay_500ns();																// Delay of 500 ns minimum required for T_(CLK/2)
-		LL_GPIO_SetOutputPin(Device.CLK_GPIOx, Device.CLK_Pin);
-		AS5145B_Delay_500ns();																// Delay of 500 ns minimum required for T_(CLK/2)
-		uint8_t temp  = LL_GPIO_IsInputPinSet(Device.DO_GPIOx, Device.DO_Pin) & 0x01;
+		LowerClockEdge(deviceIndex);
+		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		RaiseClockEdge(deviceIndex);
+		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		uint8_t temp = ReadDO_Pin(deviceIndex);
 		Data.status  |= (temp) << i;
 	}
 
-	LL_GPIO_SetOutputPin(Device.CSn_GPIOx, Device.CSn_Pin);
-	AS5145B_Delay_500ns();											// Delay of 500 ns minimum required for t_(CSn)
+	ClearChipSelect(deviceIndex);
+	DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CSn)
 
 	return Data;
 }
 
-float AS5145B_ReadPosition(void)
+float AS5145B_ReadPosition(uint8_t deviceIndex)
 {
-	AS5145B_Data_t Data = AS5145B_ReadData();
+	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
 	float position = (float) Data.position * AS5145B_RAW2DEG;
 	return position;
 }
 
-uint8_t AS5145B_ReadStatus(void)
+uint8_t AS5145B_ReadStatus(uint8_t deviceIndex)
 {
-	AS5145B_Data_t Data = AS5145B_ReadData();
+	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
 	uint8_t status = Data.status;
 	return status;
 }
@@ -115,14 +118,29 @@ uint8_t AS5145B_ReadStatus(void)
 * PRIVATE FUNCTIONS
 *******************************************************************************/
 
-// See NOTES at the top of this file for more information
-static void AS5145B_Delay_500ns(void)
+static inline void ClearChipSelect(uint8_t deviceIndex)
 {
-	for(uint8_t i = 0; i < 2; i++)
-	{
-		for(uint8_t j = 0; j < 3; j++)
-			__NOP();
-	}
+	LL_GPIO_SetOutputPin(Device[deviceIndex].CSn_GPIOx, Device[deviceIndex].CSn_Pin);
+}
+
+static inline void SetChipSelect(uint8_t deviceIndex)
+{
+	LL_GPIO_ResetOutputPin(Device[deviceIndex].CSn_GPIOx, Device[deviceIndex].CSn_Pin);
+}
+
+static inline void RaiseClockEdge(uint8_t deviceIndex)
+{
+	LL_GPIO_SetOutputPin(Device[deviceIndex].CLK_GPIOx, Device[deviceIndex].CLK_Pin);
+}
+
+static inline void LowerClockEdge(uint8_t deviceIndex)
+{
+	LL_GPIO_SetOutputPin(Device[deviceIndex].CLK_GPIOx, Device[deviceIndex].CLK_Pin);
+}
+
+static inline uint8_t ReadDO_Pin(uint8_t deviceIndex)
+{
+	return LL_GPIO_IsInputPinSet(Device[deviceIndex].DO_GPIOx, Device[deviceIndex].DO_Pin) & 0x01; // 0x01??
 }
 
 

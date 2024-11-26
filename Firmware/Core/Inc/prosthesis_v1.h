@@ -9,6 +9,12 @@
 
 typedef enum
 {
+	AnkleEncoderIndex,
+	KneeEncoderIndex
+} EncoderIndices_e;
+
+typedef enum
+{
 	none,
 	readOnly,
 	constantMotorTorque100Nmm,

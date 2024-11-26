@@ -160,13 +160,13 @@ static void GetInputs(void)
 {
 	if((Device.Joint == ankle) || (Device.Joint == combined))
 	{
-		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition() - ankleEncBias;
+		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition(AnkleEncoderIndex) - ankleEncBias;
 		AnkleIMUData = MPU925x_ReadIMU();
 	}
 
 	if((Device.Joint == knee) || (Device.Joint == combined))
 	{
-		CM_Knee.jointAngle[0] = AS5145B_ReadPosition() - kneeEncBias;
+		CM_Knee.jointAngle[0] = AS5145B_ReadPosition(KneeEncoderIndex) - kneeEncBias;
 		KneeIMUData = MPU925x_ReadIMU();
 	}
 
@@ -491,7 +491,7 @@ static void RunTestProgram(void)
 			uint32_t sum = 0;
 			for(i = 0; i < 1000; i++)
 			{
-				AS5145B_Data_t Data = AS5145B_ReadData();
+				AS5145B_Data_t Data = AS5145B_ReadData(AnkleEncoderIndex);
 				sum += Data.position;
 			}
 
@@ -503,7 +503,7 @@ static void RunTestProgram(void)
 			uint32_t sum = 0;
 			for(i = 0; i < 1000; i++)
 			{
-				AS5145B_Data_t Data = AS5145B_ReadData();
+				AS5145B_Data_t Data = AS5145B_ReadData(KneeEncoderIndex);
 				sum += Data.position;
 			}
 
@@ -519,7 +519,7 @@ static void RunTestProgram(void)
 			float sum = 0.0f;
 			for(i = 0; i < 1000; i++)
 			{
-				float position = AS5145B_ReadPosition();
+				float position = AS5145B_ReadPosition(AnkleEncoderIndex);
 				sum += position;
 			}
 
@@ -531,7 +531,7 @@ static void RunTestProgram(void)
 			float sum = 0.0f;
 			for(i = 0; i < 1000; i++)
 			{
-				float position = AS5145B_ReadPosition();
+				float position = AS5145B_ReadPosition(KneeEncoderIndex);
 				sum += position;
 			}
 

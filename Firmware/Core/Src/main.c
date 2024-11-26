@@ -31,6 +31,7 @@
 #include "adc.h"
 #include "lptim.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -79,6 +80,7 @@ void SystemClock_Config(void);
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
 #include "prosthesis_v1.h"
+#include "stm32l4xx_ll_tim.h"
 #include <string.h>
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
@@ -125,6 +127,7 @@ int main(void)
   MX_SPI2_Init();
   MX_ADC2_Init();
   MX_ADC1_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -214,7 +217,7 @@ int main(void)
   	CAN_Controller.CNF3_Reg.Bits.SOF = clockoutPinIsEnabledForClockOutFunction;
 
 	Prosthesis_t Prosthesis;
-	Prosthesis.Joint = ankle;
+	Prosthesis.Joint = ankle; // remove this??
 	Prosthesis.Side = left;
 	Prosthesis.kneeMotorId = 1;
 	Prosthesis.ankleMotorId = 2;
@@ -231,12 +234,14 @@ int main(void)
 	LL_LPTIM_SetAutoReload(LPTIM2, LPTIM2_PERIOD);
 	LL_LPTIM_StartCounter(LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS);
 
+	LL_TIM_EnableCounter(TIM6);
+
 	LL_SPI_Enable(SPI1);
 	LL_SPI_Enable(SPI2);
 	LL_ADC_Enable(ADC1);
 	LL_ADC_Enable(ADC2);
 
-	LL_mDelay(10);	// Remove spikes from beginning
+	LL_mDelay(10);	// Allow startup delays for devices
 
 	if(MPU925x_Init(SPI1, IMU_CS_GPIO_Port, IMU_CS_Pin))
 		Error_Handler();
@@ -246,14 +251,14 @@ int main(void)
 	if(MCP25625_Init(&CAN_Controller))
 		Error_Handler();
 
-	if((Prosthesis.Joint == ankle) || (Prosthesis.Joint == combined))
+	if(Prosthesis.Joint == ankle || Prosthesis.Joint == combined) // check this??
 	{
-		AS5145B_Init(&AnkleEncoder);
+		AS5145B_Init(AnkleEncoderIndex, &AnkleEncoder);
 		EPOS4_Init(Prosthesis.ankleMotorId, &AnkleMotor);
 	}
 	if((Prosthesis.Joint == knee) || (Prosthesis.Joint == combined))
 	{
-		AS5145B_Init(&KneeEncoder);
+		AS5145B_Init(KneeEncoderIndex, &KneeEncoder);
 		EPOS4_Init(Prosthesis.kneeMotorId, &KneeMotor);
 	}
 

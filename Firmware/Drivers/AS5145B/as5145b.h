@@ -1,11 +1,6 @@
 /*******************************************************************************
  *
- * TITLE   Driver for AMS AS5145B Magnetic Rotary Encoder
- * AUTHOR  Greg Berkeley
- * RELEASE 05/07/2024
- *
- * NOTES
- * 1. See source file for more information.
+ * See source file for more information.
  *
  ******************************************************************************/
 
@@ -14,7 +9,7 @@
 
 #include "stm32l4xx_ll_gpio.h"
 
-#define AS5145B_RAW2DEG	360/4096.0f
+#define AS5145B_RAW2DEG				360/4096.0f
 
 typedef struct
 {
@@ -32,10 +27,10 @@ typedef struct
 	uint8_t	status;
 } AS5145B_Data_t;
 
-void AS5145B_Init(AS5145B_t *dev);
-AS5145B_Data_t AS5145B_ReadData(void);
-float AS5145B_ReadPosition(void);
-uint8_t AS5145B_ReadStatus(void);
+void AS5145B_Init(uint8_t deviceIndex, AS5145B_t *Device_Init);
+AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex);
+float AS5145B_ReadPosition(uint8_t deviceIndex);
+uint8_t AS5145B_ReadStatus(uint8_t deviceIndex);
 
 
 /*******************************************************************************
