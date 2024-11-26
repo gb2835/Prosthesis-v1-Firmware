@@ -9,8 +9,10 @@
  * 		- Product Document AS5145H/AS5145A/AS5145B
  *			- Document Number: N/A
  *			- Revision: v2-02
- * 2. Only SSI functionality is used in this driver.
- * 3. Minimum delays between clock edges are required for this device. This
+ * 2. Unless otherwise specified, units are
+ * 		- Angles = degrees
+ * 3. Only SSI functionality is used in this driver.
+ * 4. Minimum delays between clock edges are required for this device. This
  *    driver is configured for the scenario where there is no clock pin (i.e.
  *    SPI) but a GPIO output pin instead. Thus a delay function is used to
  *    generate the required delays.
@@ -56,6 +58,9 @@ static inline uint8_t ReadDO_Pin(uint8_t deviceIndex);
 
 void AS5145B_Init(uint8_t deviceIndex, AS5145B_t *Device_Init)
 {
+	if(deviceIndex++ > NUMBER_OF_DEVICES)
+		__NOP(); // add assert??
+
 	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(AS5145B_t));
 
 	ClearChipSelect(deviceIndex);
@@ -102,15 +107,19 @@ AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 float AS5145B_ReadPosition(uint8_t deviceIndex)
 {
 	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
-	float position = (float) Data.position * AS5145B_RAW2DEG;
-	return position;
+	return (float) Data.position * AS5145B_RAW2DEG; // (float)??
+}
+
+uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex)
+{
+	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
+	return Data.position;
 }
 
 uint8_t AS5145B_ReadStatus(uint8_t deviceIndex)
 {
 	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
-	uint8_t status = Data.status;
-	return status;
+	return Data.status;
 }
 
 

@@ -9,8 +9,8 @@
 *     - MCP25625 CAN Controller with Integrated Transceiver
 *        - Document Number: DS20005282C
 * 2. Only standard data frames are used.
-* 3. Polling is used (no interrupts).
-* 4. All TX buffers are set to lowest message priority (TXP = 00).??
+* 3. Interrupts are not used.
+* 4. All TX buffers are set to lowest message priority (TXP = 00).
 * 5. All RX buffers are set to receive any message.
 *
 *******************************************************************************/

@@ -4,7 +4,7 @@
 *
 * TITLE:	Prosthesis v1 Firmware
 * AUTHOR:	Greg Berkeley
-* RELEASE:	XX/XX/XXXX
+* RELEASE:	??
 *
 * NOTES
 * 1. See "Documents" directory for description of how v1 firmware is used.??
@@ -219,7 +219,7 @@ int main(void)
 	Prosthesis_t Prosthesis;
 	Prosthesis.Joint = ankle; // remove this??
 	Prosthesis.Side = left;
-	Prosthesis.kneeMotorId = 1;
+	Prosthesis.kneeMotorId = 1; // add to epos4_t?? do all this in ProsInit() instead??
 	Prosthesis.ankleMotorId = 2;
 
 

@@ -30,6 +30,7 @@ typedef struct
 void AS5145B_Init(uint8_t deviceIndex, AS5145B_t *Device_Init);
 AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex);
 float AS5145B_ReadPosition(uint8_t deviceIndex);
+uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex);
 uint8_t AS5145B_ReadStatus(uint8_t deviceIndex);
 
 

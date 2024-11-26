@@ -2,14 +2,18 @@
 *
 * TITLE:	Application for Prosthesis v1
 * AUTHOR:	Greg Berkeley
-* RELEASE:	XX/XX/XXXX
+* RELEASE:	??
 *
 * NOTES
-* 1. Units ??.
+* 1. Unless otherwise specified, units are
+* 		- Angle     = degrees
+* 		- Torque    = N*m
+* 		- Speed     = degrees/second
+* 		- Load Cell = ADC
 *
 *******************************************************************************/
 
-#include "as5145b.h" // use DelayUs()??
+#include "as5145b.h"
 #include "epos4.h"
 #include "main.h"
 #include <math.h>
@@ -270,19 +274,27 @@ static void ProcessInputs(void)
 
 static void CalibrateIMU(void)
 {
-	double axBias = 0.0;
-	double ayBias = 0.0;
-	double azBias = 0.0;
-	double gxBias = 0.0;
-	double gyBias = 0.0;
-	double gzBias = 0.0;
-	double n = 1.0;			// For normalization
+	double axBias;
+	double ayBias;
+	double azBias;
+	double gxBias;
+	double gyBias;
+	double gzBias;
+	double n;
 
 	// Sine and cosine of Euler angles (1 = z angle, 2 = x' angle, 3 = z'' angle)
 	double c1, c2, c3, s1, s2, s3;
 
 	if((Device.Joint == ankle) || (Device.Joint == combined))
 	{
+		axBias = 0.0;
+		ayBias = 0.0;
+		azBias = 0.0;
+		gxBias = 0.0;
+		gyBias = 0.0;
+		gzBias = 0.0;
+		n = 1.0;
+
 		if(Device.Side == left)
 		{
 			c1 = -1.0;
@@ -312,6 +324,14 @@ static void CalibrateIMU(void)
 
 	if((Device.Joint == knee) || (Device.Joint == combined))
 	{
+		axBias = 0.0;
+		ayBias = 0.0;
+		azBias = 0.0;
+		gxBias = 0.0;
+		gyBias = 0.0;
+		gzBias = 0.0;
+		n = 1.0;
+
 		if(Device.Side == left)
 		{
 			c1 = -1.0;
@@ -490,10 +510,7 @@ static void RunTestProgram(void)
 			uint16_t i;
 			uint32_t sum = 0;
 			for(i = 0; i < 1000; i++)
-			{
-				AS5145B_Data_t Data = AS5145B_ReadData(AnkleEncoderIndex);
-				sum += Data.position;
-			}
+				sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
 
 			CM_ankleEncBias = sum / i;
 		}
@@ -502,10 +519,7 @@ static void RunTestProgram(void)
 			uint16_t i;
 			uint32_t sum = 0;
 			for(i = 0; i < 1000; i++)
-			{
-				AS5145B_Data_t Data = AS5145B_ReadData(KneeEncoderIndex);
-				sum += Data.position;
-			}
+				sum += AS5145B_ReadPosition_Raw(KneeEncoderIndex);
 
 			CM_kneeEncBias = sum / i;
 		}
