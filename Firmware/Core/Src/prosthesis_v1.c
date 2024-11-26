@@ -55,12 +55,12 @@ typedef struct
 	double jointAngle[2];			// [0] = k-0, [1] = k-1
 	double jointSpeed;
 	double limbAngle;
+	double limbSpeed;
 	float jointTorque;
 	ControlParams_t ProsCtrl;
 	ControlParams_t StanceCtrl;
 	ControlParams_t SwingFlexCtrl;
 	ControlParams_t SwingExtCtrl;
-	MPU925x_IMUData_t IMUData;
 	uint8_t motorId;
 } DeviceParams_t;
 
@@ -74,7 +74,7 @@ static TestPrograms_t testProgram;
 static float ankleEncBias, kneeEncBias;
 static Prosthesis_t Device;
 static LoadCell_Data_t LoadCell[3];					// [0] = k-0, [1] = k-1, [2] = k-2
-static MPU925x_IMUData_t AnkleIMUData, KneeIMUData;
+static MPU925x_IMU_Data_t IMU_Data;
 
 static double dt = 1 / 512.0;
 static uint8_t isFirst = 1;
@@ -85,6 +85,7 @@ static float CM_lcBot_upperBound, CM_lcBot_lowerBound;
 static float CM_lcTop_upperBound, CM_lcTop_lowerBound;
 static float CM_kneeSpeedThreshold, CM_ankleSpeedThreshold;
 static DeviceParams_t CM_Ankle, CM_Knee;
+static MPU925x_IMU_Data_t CM_IMU_Data;
 static LoadCell_Data_t CM_LoadCell_Filtered[3];				// [0] = k-0, [1] = k-1, [2] = k-2
 static uint16_t CM_ankleEncBias, CM_kneeEncBias;
 static uint16_t CM_state;
@@ -165,17 +166,17 @@ static void GetInputs(void)
 	if((Device.Joint == ankle) || (Device.Joint == combined))
 	{
 		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition(AnkleEncoderIndex) - ankleEncBias;
-		AnkleIMUData = MPU925x_ReadIMU();
 	}
 
 	if((Device.Joint == knee) || (Device.Joint == combined))
 	{
 		CM_Knee.jointAngle[0] = AS5145B_ReadPosition(KneeEncoderIndex) - kneeEncBias;
-		KneeIMUData = MPU925x_ReadIMU();
 	}
 
 	LoadCell->bot[0] = ReadLoadCell(ADC1);
 	LoadCell->top[0] = ReadLoadCell(ADC2);
+
+	IMU_Data = MPU925x_ReadIMU(0);
 }
 
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
@@ -274,101 +275,52 @@ static void ProcessInputs(void)
 
 static void CalibrateIMU(void)
 {
-	double axBias;
-	double ayBias;
-	double azBias;
-	double gxBias;
-	double gyBias;
-	double gzBias;
-	double n;
+	double axBias = 0.0;
+	double ayBias = 0.0;
+	double azBias = 0.0;
+	double gxBias = 0.0;
+	double gyBias = 0.0;
+	double gzBias = 0.0;
+	double n = 1.0;
 
 	// Sine and cosine of Euler angles (1 = z angle, 2 = x' angle, 3 = z'' angle)
 	double c1, c2, c3, s1, s2, s3;
-
-	if((Device.Joint == ankle) || (Device.Joint == combined))
+	if(Device.Side == left)
 	{
-		axBias = 0.0;
-		ayBias = 0.0;
-		azBias = 0.0;
-		gxBias = 0.0;
-		gyBias = 0.0;
-		gzBias = 0.0;
-		n = 1.0;
-
-		if(Device.Side == left)
-		{
-			c1 = -1.0;
-			c2 = -1.0;
-			c3 = 1.0;
-			s1 = 0.0;
-			s2 = 0.0;
-			s3 = 0.0;
-		}
-		else
-		{
-			c1 = 1.0;
-			c2 = 1.0;
-			c3 = 1.0;
-			s1 = 0.0;
-			s2 = 0.0;
-			s3 = 0.0;
-		}
-
-		CM_Ankle.IMUData.ax = n * (AnkleIMUData.ax*(c1*c3 - c2*s1*s3) + AnkleIMUData.ay*(-c3*s1    - c1*c2*s3) + AnkleIMUData.az*( s2*s3)) - axBias;
-		CM_Ankle.IMUData.ay = n * (AnkleIMUData.ax*(c1*s3 + c2*c3*s1) + AnkleIMUData.ay*( c1*c2*c3 - s1*s3   ) + AnkleIMUData.az*(-c3*s2)) - ayBias;
-		CM_Ankle.IMUData.az = n * (AnkleIMUData.ax*(s1*s2           ) + AnkleIMUData.ay*( c1*s2              ) + AnkleIMUData.az*( c2   )) - azBias;
-		CM_Ankle.IMUData.gx = n * (AnkleIMUData.gx*(c1*c3 - c2*s1*s3) + AnkleIMUData.gy*(-c3*s1    - c1*c2*s3) + AnkleIMUData.gz*( s2*s3)) - gxBias;
-		CM_Ankle.IMUData.gy = n * (AnkleIMUData.gx*(c1*s3 + c2*c3*s1) + AnkleIMUData.gy*( c1*c2*c3 - s1*s3   ) + AnkleIMUData.gz*(-c3*s2)) - gyBias;
-		CM_Ankle.IMUData.gz = n * (AnkleIMUData.gx*(s1*s2           ) + AnkleIMUData.gy*( c1*s2              ) + AnkleIMUData.gz*( c2   )) - gzBias;
+		c1 = -1.0;
+		c2 = -1.0;
+		c3 = 1.0;
+		s1 = 0.0;
+		s2 = 0.0;
+		s3 = 0.0;
+	}
+	else
+	{
+		c1 = 1.0;
+		c2 = 1.0;
+		c3 = 1.0;
+		s1 = 0.0;
+		s2 = 0.0;
+		s3 = 0.0;
 	}
 
-	if((Device.Joint == knee) || (Device.Joint == combined))
-	{
-		axBias = 0.0;
-		ayBias = 0.0;
-		azBias = 0.0;
-		gxBias = 0.0;
-		gyBias = 0.0;
-		gzBias = 0.0;
-		n = 1.0;
-
-		if(Device.Side == left)
-		{
-			c1 = -1.0;
-			c2 = -1.0;
-			c3 = 1.0;
-			s1 = 0.0;
-			s2 = 0.0;
-			s3 = 0.0;
-		}
-		else
-		{
-			c1 = 1.0;
-			c2 = 1.0;
-			c3 = 1.0;
-			s1 = 0.0;
-			s2 = 0.0;
-			s3 = 0.0;
-		}
-
-		CM_Knee.IMUData.ax = n * (KneeIMUData.ax*(c1*c3 - c2*s1*s3) + KneeIMUData.ay*(-c3*s1 - c1*c2*s3) + KneeIMUData.az*( s2*s3)) - axBias;
-		CM_Knee.IMUData.ay = n * (KneeIMUData.ax*(c1*s3 + c2*c3*s1) + KneeIMUData.ay*( c1*c2*c3 - s1*s3) + KneeIMUData.az*(-c3*s2)) - ayBias;
-		CM_Knee.IMUData.az = n * (KneeIMUData.ax*(s1*s2           ) + KneeIMUData.ay*( c1*s2           ) + KneeIMUData.az*( c2   )) - azBias;
-		CM_Knee.IMUData.gx = n * (KneeIMUData.gx*(c1*c3 - c2*s1*s3) + KneeIMUData.gy*(-c3*s1 - c1*c2*s3) + KneeIMUData.gz*( s2*s3)) - gxBias;
-		CM_Knee.IMUData.gy = n * (KneeIMUData.gx*(c1*s3 + c2*c3*s1) + KneeIMUData.gy*( c1*c2*c3 - s1*s3) + KneeIMUData.gz*(-c3*s2)) - gyBias;
-		CM_Knee.IMUData.gz = n * (KneeIMUData.gx*(s1*s2           ) + KneeIMUData.gy*( c1*s2           ) + KneeIMUData.gz*( c2   )) - gzBias;
-	}
+	CM_IMU_Data.ax = n * (IMU_Data.ax*(c1*c3 - c2*s1*s3) + IMU_Data.ay*(-c3*s1    - c1*c2*s3) + IMU_Data.az*( s2*s3)) - axBias;
+	CM_IMU_Data.ay = n * (IMU_Data.ax*(c1*s3 + c2*c3*s1) + IMU_Data.ay*( c1*c2*c3 - s1*s3   ) + IMU_Data.az*(-c3*s2)) - ayBias;
+	CM_IMU_Data.az = n * (IMU_Data.ax*(s1*s2           ) + IMU_Data.ay*( c1*s2              ) + IMU_Data.az*( c2   )) - azBias;
+	CM_IMU_Data.gx = n * (IMU_Data.gx*(c1*c3 - c2*s1*s3) + IMU_Data.gy*(-c3*s1    - c1*c2*s3) + IMU_Data.gz*( s2*s3)) - gxBias;
+	CM_IMU_Data.gy = n * (IMU_Data.gx*(c1*s3 + c2*c3*s1) + IMU_Data.gy*( c1*c2*c3 - s1*s3   ) + IMU_Data.gz*(-c3*s2)) - gyBias;
+	CM_IMU_Data.gz = n * (IMU_Data.gx*(s1*s2           ) + IMU_Data.gy*( c1*s2              ) + IMU_Data.gz*( c2   )) - gzBias;
 }
 
 static void ComputeLimbAngle(void)
 {
 	if((Device.Joint == ankle) || (Device.Joint == combined))
 	{
-		double accelAngle = (atan(CM_Ankle.IMUData.ax / sqrt(pow(CM_Ankle.IMUData.ay, 2) + pow(CM_Ankle.IMUData.az, 2)))) * 180.0 / M_PI;
+		double accelAngle = (atan(CM_IMU_Data.ax / sqrt(pow(CM_IMU_Data.ay, 2) + pow(CM_IMU_Data.az, 2)))) * 180.0 / M_PI;
 		static double compFiltAngle = 0.0;
 		static double dGyroAngle = 0.0;
 
-		dGyroAngle = dt/2 * (CM_Ankle.IMUData.gz + dGyroAngle);	// Change in angle from gyro (trapezoidal used)
+		dGyroAngle = dt/2 * (CM_IMU_Data.gz + dGyroAngle);	// Change in angle from gyro (trapezoidal used)
 
 		// Complementary filter (optimal alpha value found from trial and error experiment of MSE)
 		double alpha = 0.002;
@@ -379,11 +331,11 @@ static void ComputeLimbAngle(void)
 
 	if((Device.Joint == knee) || (Device.Joint == combined))
 	{
-		double accelAngle = (atan(CM_Knee.IMUData.ax / sqrt(pow(CM_Knee.IMUData.ay, 2) + pow(CM_Knee.IMUData.az, 2)))) * 180.0 / M_PI;
+		double accelAngle = (atan(CM_IMU_Data.ax / sqrt(pow(CM_IMU_Data.ay, 2) + pow(CM_IMU_Data.az, 2)))) * 180.0 / M_PI;
 		static double compFiltAngle = 0.0;
 		static double dGyroAngle = 0.0;
 
-		dGyroAngle = dt/2 * (CM_Knee.IMUData.gz + dGyroAngle);	// Change in angle from gyro (trapezoidal used)
+		dGyroAngle = dt/2 * (CM_IMU_Data.gz + dGyroAngle);	// Change in angle from gyro (trapezoidal used)
 
 		// Complementary filter (optimal alpha value found from trial and error experiment of MSE)
 		double alpha = 0.002;

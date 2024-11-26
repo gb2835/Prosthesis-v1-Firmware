@@ -216,6 +216,11 @@ int main(void)
   	CAN_Controller.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsDisabled;
   	CAN_Controller.CNF3_Reg.Bits.SOF = clockoutPinIsEnabledForClockOutFunction;
 
+  	MPU925x_t IMU;
+  	IMU.SPI_Handle = SPI1;
+  	IMU.CS_GPIOx = IMU_CS_GPIO_Port;
+  	IMU.csPin = IMU_CS_Pin;
+
 	Prosthesis_t Prosthesis;
 	Prosthesis.Joint = ankle; // remove this??
 	Prosthesis.Side = left;
@@ -243,10 +248,10 @@ int main(void)
 
 	LL_mDelay(10);	// Allow startup delays for devices
 
-	if(MPU925x_Init(SPI1, IMU_CS_GPIO_Port, IMU_CS_Pin))
+	if(MPU925x_Init(0, &IMU))
 		Error_Handler();
-	MPU925x_SetAccelSensitivity(mpu925x_accelSensitivity_8g);
-	MPU925x_SetGyroSensitivity(mpu925x_gyroSensitivity_1000dps);
+	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g); // could this be better??
+	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 
 	if(MCP25625_Init(&CAN_Controller))
 		Error_Handler();
