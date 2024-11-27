@@ -151,12 +151,12 @@ static inline void ClearChipSelect(uint8_t deviceIndex);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_t *Device_Inits)
+uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_t *Device_Init) //Init not Inits??
 {
 	if(deviceIndex++ > MCP25625_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
 
-	memcpy(&Device[deviceIndex], &Device_Inits[deviceIndex], sizeof(MCP25625_t));
+	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(MCP25625_t)); // size of like this??
 
 	ClearChipSelect(deviceIndex);
 

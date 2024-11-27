@@ -61,7 +61,6 @@ typedef struct
 	ControlParams_t StanceCtrl;
 	ControlParams_t SwingFlexCtrl;
 	ControlParams_t SwingExtCtrl;
-	uint8_t motorId;
 } DeviceParams_t;
 
 typedef struct
@@ -111,9 +110,6 @@ void InitProsthesisControl(Prosthesis_t *Device_Init)
 
 	memset(&CM_Ankle, 0, sizeof(CM_Ankle)); // check this??
 	memset(&CM_Knee, 0, sizeof(CM_Knee));
-
-	CM_Ankle.motorId = Device.ankleMotorId;
-	CM_Knee.motorId = Device.kneeMotorId;
 
 	ankleEncBias = 1325 * AS5145B_RAW2DEG;
 	kneeEncBias = 2244 * AS5145B_RAW2DEG;
@@ -423,7 +419,7 @@ static void RunImpedanceControl(void)
 		float correctedTorque = -CM_Ankle.jointTorque;														// Ankle motor rotates opposite of coordinate system
 
 		int16_t motorTorque = correctedTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_WriteTargetTorqueValue(AnkleMotorIndex, CM_Ankle.motorId, motorTorque);
+		EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);
 	}
 
 	if((Device.Joint == knee) || (Device.Joint == combined))
@@ -434,7 +430,7 @@ static void RunImpedanceControl(void)
 		float correctedTorque = -CM_Knee.jointTorque;													// Knee motor rotates opposite of coordinate system
 
 		int16_t motorTorque = correctedTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_WriteTargetTorqueValue(KneeMotorIndex, CM_Knee.motorId, motorTorque);
+		EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, motorTorque);
 	}
 }
 
@@ -450,9 +446,9 @@ static void RunTestProgram(void)
 
 	case constantMotorTorque100Nmm:
 		if(Device.Joint == ankle || Device.Joint == combined)
-			EPOS4_WriteTargetTorqueValue(AnkleMotorIndex, CM_Ankle.motorId, -100);	// Ankle motor rotates opposite of coordinate system
+			EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, -100);	// Ankle motor rotates opposite of coordinate system
 		else if(Device.Joint == knee || Device.Joint == combined)
-			EPOS4_WriteTargetTorqueValue(KneeMotorIndex, CM_Knee.motorId, -100);	// Knee motor rotates opposite of coordinate system
+			EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -100);	// Knee motor rotates opposite of coordinate system
 
 		break;
 

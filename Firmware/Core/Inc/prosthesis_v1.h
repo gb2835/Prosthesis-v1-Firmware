@@ -9,15 +9,21 @@
 
 typedef enum
 {
+	AnkleCAN_ControllerIndex,
+	KneeCAN_ControllerIndex
+} CAN_ControllerIndex_e;
+
+typedef enum
+{
 	AnkleEncoderIndex,
 	KneeEncoderIndex
 } EncoderIndex_e;
 
 typedef enum
 {
-	AnkleMotorIndex,
-	KneeMotorIndex
-} MotorIndex_e;
+	AnkleMotorControllerIndex,
+	KneeMotorControllerIndex
+} MotorControllerIndex_e;
 
 typedef enum
 {
