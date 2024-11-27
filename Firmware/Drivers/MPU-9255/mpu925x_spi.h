@@ -106,9 +106,9 @@ typedef struct
 	SPI_TypeDef *SPI_Handle;
 	GPIO_TypeDef *CS_GPIOx;
 	uint16_t csPin;
-} MPU925x_t;
+} MPU925x_Init_t;
 
-uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_t *Device_Init);
+uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init);
 void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_t sensitivity);
 void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_t sensitivity);
 void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_t bandwidth);

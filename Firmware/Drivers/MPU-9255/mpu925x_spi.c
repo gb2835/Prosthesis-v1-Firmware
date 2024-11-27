@@ -44,12 +44,12 @@ static inline void SetChipSelect(uint8_t deviceIndex);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_t *Device_Init)
+uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init)
 {
 	if(deviceIndex++ > NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
 
-	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(MPU925x_t));
+	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(Device_Init[deviceIndex]));
 
 	ClearChipSelect(deviceIndex);
 

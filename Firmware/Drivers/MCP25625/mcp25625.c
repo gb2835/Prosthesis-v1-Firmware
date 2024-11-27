@@ -92,33 +92,33 @@ typedef union
 	{
 		enum
 		{
-			lowestMessagePriority,
-			lowIntermediateMessagePriority,
-			highIntermediateMessagePriority,
-			highestMessagePriority
+			LowestMessagePriority,
+			LowIntermediateMessagePriority,
+			HighIntermediateMessagePriority,
+			HighestMessagePriority
 		} TXP :2;
-		uint8_t unimplemented1 :1;
+		uint8_t Unimplemented1 :1;
 		enum
 		{
-			notPendingTransmission,
-			pendingTransmission
+			NotPendingTransmission,
+			PendingTransmission
 		} TXREQ :1;
 		enum
 		{
-			noBusErrorDuringTransmission,
-			busErrorDuringTransmission
+			NoBusErrorDuringTransmission,
+			BusErrorDuringTransmission
 		} TXERR :1;
 		enum
 		{
-			noArbirtationLost,
-			arbitrationLost
+			NoArbirtationLost,
+			ArbitrationLost
 		} MLOA :1;
 		enum
 		{
-			messageAborted,
-			transmissionSuccessful
+			MessageAborted,
+			TransmissionSuccessful
 		} ABTF :1;
-		uint8_t unimplemented7 :1;
+		uint8_t Unimplemented7 :1;
 	} Bits;
 } TXBxCTRL_Reg_t;
 
@@ -151,12 +151,12 @@ static inline void ClearChipSelect(uint8_t deviceIndex);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_t *Device_Init) //Init not Inits??
+uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Init) //Init not Inits??
 {
 	if(deviceIndex++ > MCP25625_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
 
-	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(MCP25625_t)); // size of like this??
+	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(Device_Init[deviceIndex]));
 
 	ClearChipSelect(deviceIndex);
 
@@ -165,7 +165,7 @@ uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_t *Device_Init) //Init not I
 	uint8_t canCtrlReg;
 	ReadRegisterData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
 	if(canCtrlReg != CANCTRL_RESET_VALUE)
-		return mcp25625_resetError;
+		return MCP25625_ResetError;
 
 	InitRXBx(deviceIndex);
 
@@ -175,16 +175,16 @@ uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_t *Device_Init) //Init not I
 	ReadRegisterData(deviceIndex, CNF3_REG, configRegs, sizeof(configRegs));
 	for(uint8_t i = 0; i < sizeof(configRegs); i++)
 		if(configRegs[i] != configRegValues[i])
-			return mcp25625_configError;
+			return MCP25625_ConfigError;
 
 	WriteRegisterData(deviceIndex, CANCTRL_REG, &Device[deviceIndex].CANCTRL_Reg.value, sizeof(Device[deviceIndex].CANCTRL_Reg.value));
 	ReadRegisterData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
 	if(canCtrlReg != Device[deviceIndex].CANCTRL_Reg.value)
-		return mcp25625_canCtrlError;
+		return MCP25625_CANCTRL_Error;
 
 	Device[deviceIndex].isInit = 1;
 
-	return mcp25625_noError;
+	return MCP25625_NoError;
 }
 
 uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength)
@@ -267,7 +267,7 @@ uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *d
 		MCP25625_TXBx_t TXBx;
 		memset(&TXBx, 0, sizeof(TXBx));
 		TXBx.Struct.TXBxSIDH_Reg = id >> 3;
-		TXBx.Struct.TXBxSIDL_Reg.Bits.EXIDE = transmitStandardId;
+		TXBx.Struct.TXBxSIDL_Reg.Bits.EXIDE = TransmitStandardID;
 		TXBx.Struct.TXBxSIDL_Reg.Bits.SID = id & 0x07;
 		TXBx.Struct.TXBxDLC_Reg.Bits.DLC = dataLength;
 		for(uint8_t i = 0; i < dataLength; i++)

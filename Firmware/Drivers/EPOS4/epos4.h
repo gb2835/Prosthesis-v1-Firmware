@@ -11,38 +11,38 @@
 
 typedef enum
 {
-	cyclicSynchronousTorqueMode
+	CyclicSynchronousTorqueMode
 } EPOS4_ModeOfOperation_t;
 
 typedef struct
 {
 	enum
 	{
-		rate1000Kbps,
-		rate800Kbps,
-		rate500Kbps,
-		rate250Kbps,
-		rate125Kbps,
-		__reserved,
-		rate50Kbps,
-		rate20Kbps,
-		__notSupported10Kbps,
-		automaticBitRateDetection
+		Rate1000Kbps,
+		Rate800Kbps,
+		Rate500Kbps,
+		Rate250Kbps,
+		Rate125Kbps,
+		__Reserved,
+		Rate50Kbps,
+		Rate20Kbps,
+		__NotSupported10Kbps,
+		AutomaticBitRateDetection
 	} CAN_BitRate; 							// 0x2001-00, should these all be EPOS4_??
 	enum
 	{
-		__noOption0,
-		phaseModulatedDcMotor,
-		__noOption2,
-		__noOption3,
-		__noOption4,
-		__noOption5,
-		__noOption6,
-		__noOption7,
-		__noOption8,
-		__noOption9,
-		sinusoidalPmBlMotor,
-		trapezoidalPmBlMotor
+		__NoOption0,
+		PhaseModulatedDcMotor,
+		__NoOption2,
+		__NoOption3,
+		__NoOption4,
+		__NoOption5,
+		__NoOption6,
+		__NoOption7,
+		__NoOption8,
+		__NoOption9,
+		SinusoidalPmBlMotor,
+		TrapezoidalPmBlMotor
 	} MotorType; 							// 0x6402-00, should these all be EPOS4_??
 	uint32_t nominalCurrent;				// 0x3001-01, units in mA
 	uint32_t outputCurrentLimit;			// 0x3001-02, units in mA
@@ -72,9 +72,9 @@ typedef struct
 	EPOS4_Requirements_t Requirements;
 	EPOS4_FirstStep_t FirstStep;
 	EPOS4_ModeOfOperation_t ModeOfOperation;
-} EPOS4_t;
+} EPOS4_Init_t;
 
-void EPOS4_Init(uint8_t deviceIndex, EPOS4_t *Device_Init);
+void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init);
 int32_t EPOS4_ReadPositionActualValue(uint8_t deviceIndex);
 int32_t EPOS4_ReadVelocityActualValue(uint8_t deviceIndex);
 int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t deviceIndex);

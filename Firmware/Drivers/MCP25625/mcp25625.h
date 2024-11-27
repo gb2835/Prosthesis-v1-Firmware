@@ -15,10 +15,10 @@
 
 typedef enum
 {
-	mcp25625_noError,
-	mcp25625_resetError,
-	mcp25625_configError,
-	mcp25625_canCtrlError
+	MCP25625_NoError,
+	MCP25625_ResetError,
+	MCP25625_ConfigError,
+	MCP25625_CANCTRL_Error
 } MCP25625_Errors_t;
 
 typedef union
@@ -29,10 +29,10 @@ typedef union
 		uint8_t BRP	:6;
 		enum
 		{
-			length1xT_Q,
-			length2xT_Q,
-			length3xT_Q,
-			length4xT_Q
+			Length1xT_Q,
+			Length2xT_Q,
+			Length3xT_Q,
+			Length4xT_Q
 		} SJW :2;
 	} Bits;
 } MCP25625_CNF1_Reg_t;
@@ -46,13 +46,13 @@ typedef union
 		uint8_t PHSEG1	:3;
 		enum
 		{
-			busSampledOnceAtSamplePoint,
-			busSampledThreeTimesAtSamePoint
+			BusSampledOnceAtSamplePoint,
+			BusSampledThreeTimesAtSamePoint
 		} SAM :1;
 		enum
 		{
-			ps2LengthIsGreaterOfPs1AndIpt,
-			ps2LengthDeterminedByCNF3
+			PS2LengthIsGreaterOfPS1AndIPT, // ipt??
+			PS2LengthDeterminedByCNF3
 		} BLTMODE :1;
 	} Bits;
 } MCP25625_CNF2_Reg_t;
@@ -63,16 +63,16 @@ typedef union
 	struct
 	{
 		uint8_t PHSEG2			:3;
-		uint8_t unimplemented	:3;
+		uint8_t Unimplemented	:3;
 		enum
 		{
-			wakeUpFilterIsDisabled,
-			wakeUpFilterIsEnabled
+			WakeUpFilterIsDisabled,
+			WakeUpFilterIsEnabled
 		} WAKFIL :1;
 		enum
 		{
-			clockoutPinIsEnabledForClockOutFunction,
-			clockoutPinIsEnabledForSofSignal
+			ClockoutPinIsEnabledForClockOutFunction,
+			ClockoutPinIsEnabledForSOF_Signal
 		} SOF :1;
 	} Bits;
 } MCP25625_CNF3_Reg_t;
@@ -84,33 +84,33 @@ typedef union
 	{
 		enum
 		{
-			clockoutDiv1,
-			clockoutDiv2,
-			clockoutDiv4,
-			clockoutDiv8
+			ClockoutDiv1,
+			ClockoutDiv2,
+			ClockoutDiv4,
+			ClockoutDiv8
 		} CLKPRE :2;
 		enum
 		{
-			clockoutDisabled,
-			clockoutEnabled
+			ClockoutDisabled,
+			ClockoutEnabled
 		} CLKEN :1;
 		enum
 		{
-			oneShotModeDisabled,
-			oneShotModeEnabled
+			OneShotModeDisabled,
+			OneShotModeEnabled
 		} OSM :1;
 		enum
 		{
-			abortAllTransmissions,
-			abortAllPendingTransmitBuffers
+			AbortAllTransmissions,
+			AbortAllPendingTransmitBuffers
 		} ABAT :1;
 		enum
 		{
-			normalOperationMode,
-			sleepMode,
-			loopBackMode,
-			listenOnlyMode,
-			configurationMode
+			NormalOperationMode,
+			SleepMode,
+			LoopBackMode,
+			ListenOnlyMode,
+			ConfigurationMode
 		} REQOP :3;
 	} Bits;
 } MCP25625_CANCTRL_Reg_t;
@@ -123,16 +123,16 @@ typedef union
 	struct
 	{
 		uint8_t EID 			:2;
-		uint8_t unimplemented2	:1;
+		uint8_t Unimplemented2	:1;
 		enum
 		{
-			receiveStandardId,
-			receiveExtendedId
+			ReceiveStandardID,
+			ReceiveExtendedID
 		} IDE	:1;
 		enum
 		{
-			standardFrameReceived,
-			standardRemoteTransmitRequestReceived
+			StandardFrameReceived,
+			StandardRemoteTransmitRequestReceived
 		} SRR	:1;
 		uint8_t SID	:3;
 	} Bits;
@@ -151,10 +151,10 @@ typedef union
 		uint8_t RB1	:1;
 		enum
 		{
-			extendedDataFrameReceived,
-			extendedRemoteTransmitRequestReceived
+			ExtendedDataFrameReceived,
+			ExtendedRemoteTransmitRequestReceived
 		} RTR	:1;
-		uint8_t unimplemented7	:1;
+		uint8_t Unimplemented7	:1;
 	} Bits;
 } MCP25625_RXBxDLC_Reg_t;
 
@@ -182,13 +182,13 @@ typedef union
 	struct
 	{
 		uint8_t EID 			:2;
-		uint8_t unimplemented2	:1;
+		uint8_t Unimplemented2	:1;
 		enum
 		{
-			transmitStandardId,
-			transmitExtendedId
+			TransmitStandardID,
+			TransmitExtendedID
 		} EXIDE	:1;
-		uint8_t unimplemented4	:1;
+		uint8_t Unimplemented4	:1;
 		uint8_t SID				:3;
 	} Bits;
 } MCP25625_TXBxSIDL_Reg_t;
@@ -202,13 +202,13 @@ typedef union
 	struct
 	{
 		uint8_t DLC 				:4;
-		uint8_t unimplemented5_4	:2;
+		uint8_t Unimplemented4_5	:2;
 		enum
 		{
-			messageWillBeDataFrame,
-			messageWillBeRemoteTransmitRequest
+			MessageWillBeDataFrame,
+			MessageWillBeRemoteTransmitRequest
 		} RTR	:1;
-		uint8_t unused :1;
+		uint8_t Unused :1;
 	} Bits;
 } MCP25625_TXBxDLC_Reg_t;
 
@@ -237,9 +237,9 @@ typedef struct
 	MCP25625_CNF1_Reg_t CNF1_Reg;
 	MCP25625_CNF2_Reg_t CNF2_Reg;
 	MCP25625_CNF3_Reg_t CNF3_Reg;
-} MCP25625_t;
+} MCP25625_Init_t;
 
-uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_t *Device_Inits);
+uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits);
 uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_ReadRxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);

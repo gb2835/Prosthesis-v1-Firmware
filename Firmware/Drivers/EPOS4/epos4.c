@@ -92,16 +92,16 @@
 
 typedef enum
 {
-	noError,
-	timeoutError,
-	nodeIdError,
-	productCodeError,
-	initFaultDetected,
-	disableVoltageError,
-	firstStepError,
-	modeOfOperationError,
-	deviceError,
-	abortError
+	NoError,
+	TimeoutError,
+	NodeIdError,
+	ProductCodeError,
+	InitFaultDetected,
+	DisableVoltageError,
+	FirstStepError,
+	ModeOfOperationError,
+	DeviceError,
+	AbortError
 } Errors_t;
 
 typedef struct
@@ -120,7 +120,7 @@ static Device_t Device[EPOS4_NUMBER_OF_DEVICES];
 static uint8_t errorHasOccurred = 0;
 
 static uint8_t CM_epos4_abortLowByte = 0, CM_epos4_abortHighByte = 0, CM_epos4_abortSubindex = 0;
-static uint8_t CM_epos4_error = noError, CM_epos4_numOfErrors = 0;
+static uint8_t CM_epos4_error = NoError, CM_epos4_numOfErrors = 0;
 static uint16_t CM_epos4_state = 0;
 static uint32_t CM_epos4_abortCode = 0;
 static uint32_t CM_epos4_errorHistory1 = 0, CM_epos4_errorHistory2 = 0, CM_epos4_errorHistory3 = 0, CM_epos4_errorHistory4 = 0, CM_epos4_errorHistory5 = 0;
@@ -142,14 +142,14 @@ static void ErrorHandler(uint8_t deviceIndex, Errors_t error);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-void EPOS4_Init(uint8_t deviceIndex, EPOS4_t *Device_Init)
+void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 {
-	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(EPOS4_t));
+	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(Device_Init[deviceIndex]));
 
 	Device[deviceIndex].cobId = Device[deviceIndex].nodeId + 0x600;
 
 	if(ReadObjectValue(deviceIndex, NODE_ID_INDEX, 0) != Device[deviceIndex].nodeId)	// timeout if turned off??
-		ErrorHandler(deviceIndex, nodeIdError);
+		ErrorHandler(deviceIndex, NodeIdError);
 
 	uint8_t epos4ProductCodeError = 1;
 	uint16_t hwVersions[6] = {0x6050, 0x6150, 0x6551, 0x6552, 0x6350, 0x6450};
@@ -163,22 +163,22 @@ void EPOS4_Init(uint8_t deviceIndex, EPOS4_t *Device_Init)
 		}
 	}
 	if(epos4ProductCodeError)
-		ErrorHandler(deviceIndex, productCodeError);
+		ErrorHandler(deviceIndex, ProductCodeError);
 
 	uint16_t state = ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK;
 	if((state == STATE_FAULT) || (state == STATE_FAULT_REACTION_ACTIVE))
-		ErrorHandler(deviceIndex, initFaultDetected);
+		ErrorHandler(deviceIndex, InitFaultDetected);
 
 	WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
 	while((ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_SWITCH_ON_DISABLED); // timeout??
 
 	if(Device[deviceIndex].Requirements.isFirstStepRequired)
 		if(WriteFirstStepObjects(deviceIndex, Device[deviceIndex].FirstStep))
-			ErrorHandler(deviceIndex, firstStepError);
+			ErrorHandler(deviceIndex, FirstStepError);
 
 	if(Device[deviceIndex].Requirements.isModeOfOperationRequired)
 		if(WriteModeOfOperation(deviceIndex, Device[deviceIndex].ModeOfOperation))
-			ErrorHandler(deviceIndex, modeOfOperationError);
+			ErrorHandler(deviceIndex, ModeOfOperationError);
 
 	Device[deviceIndex].isInit = 1;
 }
@@ -296,7 +296,7 @@ static void CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx)
 	uint8_t cobIdEmcy = Device[deviceIndex].nodeId + 0x80;
 	uint16_t cobId = (uint16_t) ((RXBx->Struct.RXBxSIDH_Reg << 3) + (RXBx->Struct.RXBxSIDL_Reg.value >> 5));
 	if(cobId == cobIdEmcy)
-		ErrorHandler(deviceIndex, deviceError);
+		ErrorHandler(deviceIndex, DeviceError);
 }
 
 static void CheckForAbort(uint8_t deviceIndex, uint8_t *data)
@@ -308,7 +308,7 @@ static void CheckForAbort(uint8_t deviceIndex, uint8_t *data)
 		CM_epos4_abortSubindex = data[3];
 		CM_epos4_abortCode = ParseValueFromData(data);
 
-		ErrorHandler(deviceIndex, abortError);
+		ErrorHandler(deviceIndex, AbortError);
 	}
 }
 
@@ -393,7 +393,7 @@ static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_t
 {
 	switch (modeOfOperation)
 	{
-	case cyclicSynchronousTorqueMode:
+	case CyclicSynchronousTorqueMode:
 	{
 		WriteObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, 0);
 		if(ReadObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0) != 0)

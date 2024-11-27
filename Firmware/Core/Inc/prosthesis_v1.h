@@ -21,41 +21,43 @@ typedef enum
 
 typedef enum
 {
+	Ankle,
+	Combined,
+	Knee
+} Joint_e;
+
+typedef enum
+{
 	AnkleMotorControllerIndex,
 	KneeMotorControllerIndex
 } MotorControllerIndex_e;
 
 typedef enum
 {
-	none,
-	readOnly,
-	constantMotorTorque100Nmm,
-	magneticEncoderBias,
-	impedanceControl
-} TestPrograms_t;
+	Left,
+	Right
+} Side_e;
+
+typedef enum
+{
+	None,
+	ReadOnly,
+	ConstantMotorTorque100Nmm,
+	EncoderBias,
+	ImpedanceControl
+} TestPrograms_e;
 
 typedef struct
 {
-	enum
-	{
-		left,
-		right
-	} Side;
-	enum
-	{
-		ankle,
-		combined,
-		knee
-	} Joint;
-	uint8_t ankleMotorId;
-	uint8_t kneeMotorId;
-} Prosthesis_t;
+	Side_e Side;
+	Joint_e Joint;
+} Prosthesis_Init_t;
 
 extern uint8_t isProsthesisControlRequired;
 
-void InitProsthesisControl(Prosthesis_t *Options);
+void InitProsthesisControl(Prosthesis_Init_t *Device_Init);
 void RunProsthesisControl(void);
-void RequireTestProgram(TestPrograms_t option);
+void RequireTestProgram(TestPrograms_e testProgram);
 
 
 /*******************************************************************************
