@@ -9,6 +9,7 @@
 
 #include "stm32l4xx_ll_gpio.h"
 
+#define AS5145B_NUMBER_OF_DEVICES	2
 #define AS5145B_RAW2DEG				360/4096.0f
 
 typedef struct

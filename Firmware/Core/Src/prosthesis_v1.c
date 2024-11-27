@@ -423,7 +423,7 @@ static void RunImpedanceControl(void)
 		float correctedTorque = -CM_Ankle.jointTorque;														// Ankle motor rotates opposite of coordinate system
 
 		int16_t motorTorque = correctedTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_WriteTargetTorqueValue(CM_Ankle.motorId, motorTorque);
+		EPOS4_WriteTargetTorqueValue(AnkleMotorIndex, CM_Ankle.motorId, motorTorque);
 	}
 
 	if((Device.Joint == knee) || (Device.Joint == combined))
@@ -434,7 +434,7 @@ static void RunImpedanceControl(void)
 		float correctedTorque = -CM_Knee.jointTorque;													// Knee motor rotates opposite of coordinate system
 
 		int16_t motorTorque = correctedTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_WriteTargetTorqueValue(CM_Knee.motorId, motorTorque);
+		EPOS4_WriteTargetTorqueValue(KneeMotorIndex, CM_Knee.motorId, motorTorque);
 	}
 }
 
@@ -450,9 +450,9 @@ static void RunTestProgram(void)
 
 	case constantMotorTorque100Nmm:
 		if(Device.Joint == ankle || Device.Joint == combined)
-			EPOS4_WriteTargetTorqueValue(CM_Ankle.motorId, -100);	// Ankle motor rotates opposite of coordinate system
+			EPOS4_WriteTargetTorqueValue(AnkleMotorIndex, CM_Ankle.motorId, -100);	// Ankle motor rotates opposite of coordinate system
 		else if(Device.Joint == knee || Device.Joint == combined)
-			EPOS4_WriteTargetTorqueValue(CM_Knee.motorId, -100);	// Knee motor rotates opposite of coordinate system
+			EPOS4_WriteTargetTorqueValue(KneeMotorIndex, CM_Knee.motorId, -100);	// Knee motor rotates opposite of coordinate system
 
 		break;
 

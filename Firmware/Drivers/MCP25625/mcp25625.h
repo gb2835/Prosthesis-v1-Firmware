@@ -11,6 +11,8 @@
 #include "stm32l4xx_ll_gpio.h"
 #include "stm32l4xx_ll_spi.h"
 
+#define MCP25625_NUMBER_OF_DEVICES	2
+
 typedef enum
 {
 	mcp25625_noError,
@@ -237,11 +239,11 @@ typedef struct
 	MCP25625_CNF3_Reg_t CNF3_Reg;
 } MCP25625_t;
 
-uint8_t MCP25625_Init(MCP25625_t *Device_Inits);
-uint8_t MCP25625_LoadTxBufferAtD0(uint8_t *data, uint8_t dataLength);
-uint8_t MCP25625_LoadTxBufferAtSIDH(uint16_t id, uint8_t *data, uint8_t dataLength);
-uint8_t MCP25625_ReadRxBufferAtD0(uint8_t *data, uint8_t dataLength);
-uint8_t MCP25625_ReadRxBufferAtSIDH(MCP25625_RXBx_t *RXBx, uint8_t dataLength);
+uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_t *Device_Inits);
+uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);
+uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *data, uint8_t dataLength);
+uint8_t MCP25625_ReadRxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);
+uint8_t MCP25625_ReadRxBufferAtSIDH(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx, uint8_t dataLength);
 
 
 /*******************************************************************************

@@ -12,11 +12,13 @@
 *     - EPOS4 Positioning Controllers Firmware Specification
 *        - Document Number: rel8234
 *      	 - Edition: November 2018
-* 2. STO pins are not controlled in this driver.
-* 3. Only CST mode is provided.
+* 2. #define EPOS4_NUMBER_OF_DEVICES must be updated to (at least) the number
+*    of devices used.
+* 3. STO pins are not controlled in this driver.
+* 4. Only CST mode is provided.
 *     - Quick stop function is not provided, thus deceleration parameters are not set for CST mode.
 *     - Only parameters for CST are included in EPOS4_FirstStep_t.
-* 4. FirstStep can be used to either initialize the device or check parameters already set by EPOS Studio.
+* 5. FirstStep can be used to either initialize the device or check parameters already set by EPOS Studio.
 *    CAN_BitRate in FirstStep cannot be initialized from this driver, only checked.
 *
 *******************************************************************************/
@@ -110,7 +112,7 @@ typedef struct
 	uint8_t isInit;
 } Device_t;
 
-static Device_t Device;
+static Device_t Device[EPOS4_NUMBER_OF_DEVICES];
 
 static uint8_t errorHasOccurred = 0;
 
@@ -120,35 +122,35 @@ static uint16_t CM_epos4_state = 0;
 static uint32_t CM_epos4_abortCode = 0;
 static uint32_t CM_epos4_errorHistory1 = 0, CM_epos4_errorHistory2 = 0, CM_epos4_errorHistory3 = 0, CM_epos4_errorHistory4 = 0, CM_epos4_errorHistory5 = 0;
 
-static uint32_t ReadObjectValue(uint16_t cobId, uint16_t index, uint8_t subindex);
-static void WriteObjectValue(uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value);
+static uint32_t ReadObjectValue(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex);
+static void WriteObjectValue(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value);
 static uint32_t ParseValueFromData(uint8_t *data);
-static void SDO_Upload(uint16_t cobId, uint16_t index, uint8_t subindex, MCP25625_RXBx_t *RXBx);
-static void SDO_Download(uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value, MCP25625_RXBx_t *RXBx);
-static void CheckForError(uint8_t nodeId, MCP25625_RXBx_t *RXBx);
-static void CheckForAbort(uint16_t cobId, uint8_t *data);
+static void SDO_Upload(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex, MCP25625_RXBx_t *RXBx);
+static void SDO_Download(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value, MCP25625_RXBx_t *RXBx);
+static void CheckForError(uint8_t deviceIndex, uint8_t nodeId, MCP25625_RXBx_t *RXBx);
+static void CheckForAbort(uint8_t deviceIndex, uint16_t cobId, uint8_t *data);
 static void FrameData(uint8_t *data, uint8_t byte0, uint16_t index, uint8_t subindex, uint32_t value);
-static uint8_t WriteFirstStepObjects(uint16_t cobId, EPOS4_FirstStep_t FirstStep);
-static uint8_t WriteModeOfOperation(uint16_t cobId, EPOS4_ModeOfOperation_t modeOfOperation);
-static void ErrorHandler(uint16_t cobId, Errors_t error);
+static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, uint16_t cobId, EPOS4_FirstStep_t FirstStep);
+static uint8_t WriteModeOfOperation(uint8_t deviceIndex, uint16_t cobId, EPOS4_ModeOfOperation_t modeOfOperation);
+static void ErrorHandler(uint8_t deviceIndex, uint16_t cobId, Errors_t error);
 
 
 /*******************************************************************************
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-void EPOS4_Init(uint8_t nodeId, EPOS4_t *Device_Init)
+void EPOS4_Init(uint8_t deviceIndex, uint8_t nodeId, EPOS4_t *Device_Init)
 {
-	memcpy(&Device, Device_Init, sizeof(EPOS4_t));
+	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(EPOS4_t));
 
 	uint16_t cobId = nodeId + 0x600;
 
-	if(ReadObjectValue(cobId, NODE_ID_INDEX, 0) != nodeId)	// timeout if turned off??
-		ErrorHandler(cobId, nodeIdError);
+	if(ReadObjectValue(deviceIndex, cobId, NODE_ID_INDEX, 0) != nodeId)	// timeout if turned off??
+		ErrorHandler(deviceIndex, cobId, nodeIdError);
 
 	uint8_t epos4ProductCodeError = 1;
 	uint16_t hwVersions[6] = {0x6050, 0x6150, 0x6551, 0x6552, 0x6350, 0x6450};
-	uint16_t productCode = ReadObjectValue(cobId, IDENTITY_OBJECT_INDEX, PRODUCT_CODE_SUBINDEX) >> 16;
+	uint16_t productCode = ReadObjectValue(deviceIndex, cobId, IDENTITY_OBJECT_INDEX, PRODUCT_CODE_SUBINDEX) >> 16;
 	for(uint8_t i = 0; i < 6; i++)
 	{
 		if(productCode == hwVersions[i])
@@ -158,94 +160,94 @@ void EPOS4_Init(uint8_t nodeId, EPOS4_t *Device_Init)
 		}
 	}
 	if(epos4ProductCodeError)
-		ErrorHandler(cobId, productCodeError);
+		ErrorHandler(deviceIndex, cobId, productCodeError);
 
-	uint16_t state = ReadObjectValue(cobId, STATUSWORD_INDEX, 0) & STATE_MASK;
+	uint16_t state = ReadObjectValue(deviceIndex, cobId, STATUSWORD_INDEX, 0) & STATE_MASK;
 	if((state == STATE_FAULT) || (state == STATE_FAULT_REACTION_ACTIVE))
-		ErrorHandler(cobId, initFaultDetected);
+		ErrorHandler(deviceIndex, cobId, initFaultDetected);
 
-	WriteObjectValue(cobId, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
-	while((ReadObjectValue(cobId, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_SWITCH_ON_DISABLED); // timeout??
+	WriteObjectValue(deviceIndex, cobId, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
+	while((ReadObjectValue(deviceIndex, cobId, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_SWITCH_ON_DISABLED); // timeout??
 
-	if(Device.Requirements.isFirstStepRequired)
-		if(WriteFirstStepObjects(cobId, Device.FirstStep))
-			ErrorHandler(cobId, firstStepError);
+	if(Device[deviceIndex].Requirements.isFirstStepRequired)
+		if(WriteFirstStepObjects(deviceIndex, cobId, Device[deviceIndex].FirstStep))
+			ErrorHandler(deviceIndex, cobId, firstStepError);
 
-	if(Device.Requirements.isModeOfOperationRequired)
-		if(WriteModeOfOperation(cobId, Device.ModeOfOperation))
-			ErrorHandler(cobId, modeOfOperationError);
+	if(Device[deviceIndex].Requirements.isModeOfOperationRequired)
+		if(WriteModeOfOperation(deviceIndex, cobId, Device[deviceIndex].ModeOfOperation))
+			ErrorHandler(deviceIndex, cobId, modeOfOperationError);
 
-	Device.isInit = 1;
+	Device[deviceIndex].isInit = 1;
 }
 
-int32_t EPOS4_ReadPositionActualValue(uint8_t nodeId)
+int32_t EPOS4_ReadPositionActualValue(uint8_t deviceIndex, uint8_t nodeId)
 {
-	if(!Device.isInit)
+	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
 	uint16_t cobId = nodeId + 0x600;
 
-	return (int32_t) ReadObjectValue(cobId, POSITION_ACTUAL_VALUE_INDEX, 0);
+	return (int32_t) ReadObjectValue(deviceIndex, cobId, POSITION_ACTUAL_VALUE_INDEX, 0);
 }
 
-int32_t EPOS4_ReadVelocityActualValue(uint8_t nodeId)
+int32_t EPOS4_ReadVelocityActualValue(uint8_t deviceIndex, uint8_t nodeId)
 {
-	if(!Device.isInit)
+	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
 	uint16_t cobId = nodeId + 0x600;
 
-	return (int32_t) ReadObjectValue(cobId, VELOCITY_ACTUAL_VALUE_INDEX, 0);
+	return (int32_t) ReadObjectValue(deviceIndex, cobId, VELOCITY_ACTUAL_VALUE_INDEX, 0);
 }
 
-int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t nodeId)
+int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t deviceIndex, uint8_t nodeId)
 {
-	if(!Device.isInit)
+	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
 	uint16_t cobId = nodeId + 0x600;
 
-	return (int32_t) ReadObjectValue(cobId, VELOCITY_ACTUAL_VALUE_AVERAGED_INDEX, VELOCITY_ACTUAL_VALUE_AVERAGED_SUBINDEX);
+	return (int32_t) ReadObjectValue(deviceIndex, cobId, VELOCITY_ACTUAL_VALUE_AVERAGED_INDEX, VELOCITY_ACTUAL_VALUE_AVERAGED_SUBINDEX);
 }
 
-int16_t EPOS4_ReadTargetTorqueValue(uint8_t nodeId)
+int16_t EPOS4_ReadTargetTorqueValue(uint8_t deviceIndex, uint8_t nodeId)
 {
-	if(!Device.isInit)
+	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
 	uint16_t cobId = nodeId + 0x600;
 
-	return (int16_t) ReadObjectValue(cobId, TARGET_TORQUE_INDEX, 0);
+	return (int16_t) ReadObjectValue(deviceIndex, cobId, TARGET_TORQUE_INDEX, 0);
 }
 
-int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t nodeId)
+int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t deviceIndex, uint8_t nodeId)
 {
-	if(!Device.isInit)
+	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
 	uint16_t cobId = nodeId + 0x600;
 
-	return (int16_t) ReadObjectValue(cobId, TORQUE_ACTUAL_VALUE_AVERAGED_INDEX, TORQUE_ACTUAL_VALUE_AVERAGED_SUBINDEX);
+	return (int16_t) ReadObjectValue(deviceIndex, cobId, TORQUE_ACTUAL_VALUE_AVERAGED_INDEX, TORQUE_ACTUAL_VALUE_AVERAGED_SUBINDEX);
 }
 
-int16_t EPOS4_ReadTorqueActualValue(uint8_t nodeId)
+int16_t EPOS4_ReadTorqueActualValue(uint8_t deviceIndex, uint8_t nodeId)
 {
-	if(!Device.isInit)
+	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
 	uint16_t cobId = nodeId + 0x600;
 
-	return (int16_t) ReadObjectValue(cobId, TORQUE_ACTUAL_VALUE_INDEX, 0);
+	return (int16_t) ReadObjectValue(deviceIndex, cobId, TORQUE_ACTUAL_VALUE_INDEX, 0);
 }
 
-void EPOS4_WriteTargetTorqueValue(uint8_t nodeId, int16_t torque)
+void EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, uint8_t nodeId, int16_t torque)
 {
-	if(!Device.isInit)
+	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
 	uint16_t cobId = nodeId + 0x600;
 
-	WriteObjectValue(cobId, TARGET_TORQUE_INDEX, 0, torque);
+	WriteObjectValue(deviceIndex, cobId, TARGET_TORQUE_INDEX, 0, torque);
 }
 
 
@@ -253,34 +255,34 @@ void EPOS4_WriteTargetTorqueValue(uint8_t nodeId, int16_t torque)
 * PRIVATE FUNCTIONS
 *******************************************************************************/
 
-static uint32_t ReadObjectValue(uint16_t cobId, uint16_t index, uint8_t subindex)
+static uint32_t ReadObjectValue(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex)
 {
 	MCP25625_RXBx_t RXBx;
-	SDO_Upload(cobId, index, subindex, &RXBx);
+	SDO_Upload(deviceIndex, cobId, index, subindex, &RXBx);
 
 	if(!errorHasOccurred)
 	{
 		uint8_t nodeId = cobId - 0x600;
-		CheckForError(nodeId, &RXBx);
+		CheckForError(deviceIndex, nodeId, &RXBx);
 	}
 
-	CheckForAbort(cobId, RXBx.Struct.RXBxDn_Reg);
+	CheckForAbort(deviceIndex, cobId, RXBx.Struct.RXBxDn_Reg);
 
 	return ParseValueFromData(RXBx.Struct.RXBxDn_Reg);
 }
 
-static void WriteObjectValue(uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value)
+static void WriteObjectValue(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value)
 {
 	MCP25625_RXBx_t	RXBx;
-	SDO_Download(cobId, index, subindex, value, &RXBx);
+	SDO_Download(deviceIndex, cobId, index, subindex, value, &RXBx);
 
 	if(!errorHasOccurred)
 	{
 		uint8_t nodeId = cobId - 0x600;
-		CheckForError(nodeId, &RXBx);
+		CheckForError(deviceIndex, nodeId, &RXBx);
 	}
 
-	CheckForAbort(cobId, RXBx.Struct.RXBxDn_Reg);
+	CheckForAbort(deviceIndex, cobId, RXBx.Struct.RXBxDn_Reg);
 }
 
 static uint32_t ParseValueFromData(uint8_t *data)
@@ -288,31 +290,31 @@ static uint32_t ParseValueFromData(uint8_t *data)
 	return (uint32_t) ((data[7] << 24) + (data[6] << 16) + (data[5] << 8) + data[4]);
 }
 
-static void SDO_Upload(uint16_t cobId, uint16_t index, uint8_t subindex, MCP25625_RXBx_t *RXBx)
+static void SDO_Upload(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex, MCP25625_RXBx_t *RXBx)
 {
 	uint8_t data[8];
 	FrameData(data, CLIENT_UPLOAD, index, subindex, 0);
-	while(MCP25625_LoadTxBufferAtSIDH(cobId, data, 8));
-	while(MCP25625_ReadRxBufferAtSIDH(RXBx, 8));
+	while(MCP25625_LoadTxBufferAtSIDH(deviceIndex, cobId, data, 8));
+	while(MCP25625_ReadRxBufferAtSIDH(deviceIndex, RXBx, 8));
 }
 
-static void SDO_Download(uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value, MCP25625_RXBx_t *RXBx)
+static void SDO_Download(uint8_t deviceIndex, uint16_t cobId, uint16_t index, uint8_t subindex, uint32_t value, MCP25625_RXBx_t *RXBx)
 {
 	uint8_t data[8];
 	FrameData(data, EXPEDITED_CLIENT_DOWNLOAD, index, subindex, value);
-	while(MCP25625_LoadTxBufferAtSIDH(cobId, data, 8));
-	while(MCP25625_ReadRxBufferAtSIDH(RXBx, 8));
+	while(MCP25625_LoadTxBufferAtSIDH(deviceIndex, cobId, data, 8));
+	while(MCP25625_ReadRxBufferAtSIDH(deviceIndex, RXBx, 8));
 }
 
-static void CheckForError(uint8_t nodeId, MCP25625_RXBx_t *RXBx)
+static void CheckForError(uint8_t deviceIndex, uint8_t nodeId, MCP25625_RXBx_t *RXBx)
 {
 	uint8_t cobIdEmcy = nodeId + 0x80;
 	uint16_t cobId = (uint16_t) ((RXBx->Struct.RXBxSIDH_Reg << 3) + (RXBx->Struct.RXBxSIDL_Reg.value >> 5));
 	if(cobId == cobIdEmcy)
-		ErrorHandler(cobId, deviceError);
+		ErrorHandler(deviceIndex, cobId, deviceError);
 }
 
-static void CheckForAbort(uint16_t cobId, uint8_t *data)
+static void CheckForAbort(uint8_t deviceIndex, uint16_t cobId, uint8_t *data)
 {
 	if(data[0] >> 7)
 	{
@@ -321,7 +323,7 @@ static void CheckForAbort(uint16_t cobId, uint8_t *data)
 		CM_epos4_abortSubindex = data[3];
 		CM_epos4_abortCode = ParseValueFromData(data);
 
-		ErrorHandler(cobId, abortError);
+		ErrorHandler(deviceIndex, cobId, abortError);
 	}
 }
 
@@ -337,93 +339,93 @@ static void FrameData(uint8_t *data, uint8_t byte0, uint16_t index, uint8_t subi
 	data[7] = (0x00 | value >> 24);
 }
 
-static uint8_t WriteFirstStepObjects(uint16_t cobId, EPOS4_FirstStep_t FirstStep)
+static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, uint16_t cobId, EPOS4_FirstStep_t FirstStep)
 {
-	WriteObjectValue(cobId, CAN_BITRATE_INDEX, 0, FirstStep.CAN_BitRate);
-	if(ReadObjectValue(cobId, CAN_BITRATE_INDEX, 0) != FirstStep.CAN_BitRate)
+	WriteObjectValue(deviceIndex, cobId, CAN_BITRATE_INDEX, 0, FirstStep.CAN_BitRate);
+	if(ReadObjectValue(deviceIndex, cobId, CAN_BITRATE_INDEX, 0) != FirstStep.CAN_BitRate)
 		return 1;
 
-	WriteObjectValue(cobId, MOTOR_TYPE_INDEX, 0, FirstStep.MotorType);
-	if(ReadObjectValue(cobId, MOTOR_TYPE_INDEX, 0) != FirstStep.MotorType)
+	WriteObjectValue(deviceIndex, cobId, MOTOR_TYPE_INDEX, 0, FirstStep.MotorType);
+	if(ReadObjectValue(deviceIndex, cobId, MOTOR_TYPE_INDEX, 0) != FirstStep.MotorType)
 		return 1;
 
-	WriteObjectValue(cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX, FirstStep.nominalCurrent);
-	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX) != FirstStep.nominalCurrent)
+	WriteObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX, FirstStep.nominalCurrent);
+	if(ReadObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX) != FirstStep.nominalCurrent)
 		return 1;
 
-	WriteObjectValue(cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX, FirstStep.outputCurrentLimit);
-	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX) != FirstStep.outputCurrentLimit)
+	WriteObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX, FirstStep.outputCurrentLimit);
+	if(ReadObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX) != FirstStep.outputCurrentLimit)
 		return 1;
 
-	WriteObjectValue(cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX, FirstStep.numberOfPolePairs);
-	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX) != FirstStep.numberOfPolePairs)
+	WriteObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX, FirstStep.numberOfPolePairs);
+	if(ReadObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX) != FirstStep.numberOfPolePairs)
 		return 1;
 
-	WriteObjectValue(cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX, FirstStep.thermalTimeConstantWinding);
-	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX) != FirstStep.thermalTimeConstantWinding)
+	WriteObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX, FirstStep.thermalTimeConstantWinding);
+	if(ReadObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX) != FirstStep.thermalTimeConstantWinding)
 		return 1;
 
-	WriteObjectValue(cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX, FirstStep.torqueConstant);
-	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX) != FirstStep.torqueConstant)
+	WriteObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX, FirstStep.torqueConstant);
+	if(ReadObjectValue(deviceIndex, cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX) != FirstStep.torqueConstant)
 		return 1;
 
-	WriteObjectValue(cobId, MAX_MOTOR_SPEED_INDEX, 0, FirstStep.maxMotorSpeed);
-	if(ReadObjectValue(cobId, MAX_MOTOR_SPEED_INDEX, 0) != FirstStep.maxMotorSpeed)
+	WriteObjectValue(deviceIndex, cobId, MAX_MOTOR_SPEED_INDEX, 0, FirstStep.maxMotorSpeed);
+	if(ReadObjectValue(deviceIndex, cobId, MAX_MOTOR_SPEED_INDEX, 0) != FirstStep.maxMotorSpeed)
 		return 1;
 
-	WriteObjectValue(cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX, FirstStep.maxGearInputSpeed);
-	if(ReadObjectValue(cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX) != FirstStep.maxGearInputSpeed)
+	WriteObjectValue(deviceIndex, cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX, FirstStep.maxGearInputSpeed);
+	if(ReadObjectValue(deviceIndex, cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX) != FirstStep.maxGearInputSpeed)
 		return 1;
 
-	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX, FirstStep.sensorsConfiguration);
-	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX) != FirstStep.sensorsConfiguration)
+	WriteObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX, FirstStep.sensorsConfiguration);
+	if(ReadObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX) != FirstStep.sensorsConfiguration)
 		return 1;
 
-	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX, FirstStep.controlStructure);
-	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX) != FirstStep.controlStructure)
+	WriteObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX, FirstStep.controlStructure);
+	if(ReadObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX) != FirstStep.controlStructure)
 		return 1;
 
-	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX, FirstStep.commutationSensors);
-	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX) != FirstStep.commutationSensors)
+	WriteObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX, FirstStep.commutationSensors);
+	if(ReadObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX) != FirstStep.commutationSensors)
 		return 1;
 
-	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX, FirstStep.axisConfigMiscellaneous);
-	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX) != FirstStep.axisConfigMiscellaneous)
+	WriteObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX, FirstStep.axisConfigMiscellaneous);
+	if(ReadObjectValue(deviceIndex, cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX) != FirstStep.axisConfigMiscellaneous)
 		return 1;
 
-	WriteObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX, FirstStep.currentControllerP_Gain);
-	if(ReadObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX) != FirstStep.currentControllerP_Gain)
+	WriteObjectValue(deviceIndex, cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX, FirstStep.currentControllerP_Gain);
+	if(ReadObjectValue(deviceIndex, cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX) != FirstStep.currentControllerP_Gain)
 		return 1;
 
-	WriteObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX, FirstStep.currentControllerI_Gain);
-	if(ReadObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX) != FirstStep.currentControllerI_Gain)
+	WriteObjectValue(deviceIndex, cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX, FirstStep.currentControllerI_Gain);
+	if(ReadObjectValue(deviceIndex, cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX) != FirstStep.currentControllerI_Gain)
 		return 1;
 
 	return 0;
 }
 
-static uint8_t WriteModeOfOperation(uint16_t cobId, EPOS4_ModeOfOperation_t modeOfOperation)
+static uint8_t WriteModeOfOperation(uint8_t deviceIndex, uint16_t cobId, EPOS4_ModeOfOperation_t modeOfOperation)
 {
 	switch (modeOfOperation)
 	{
 	case cyclicSynchronousTorqueMode:
 	{
-		WriteObjectValue(cobId, TARGET_TORQUE_INDEX, 0, 0);
-		if(ReadObjectValue(cobId, TARGET_TORQUE_INDEX, 0) != 0)
+		WriteObjectValue(deviceIndex, cobId, TARGET_TORQUE_INDEX, 0, 0);
+		if(ReadObjectValue(deviceIndex, cobId, TARGET_TORQUE_INDEX, 0) != 0)
 			return 1;
 
-		WriteObjectValue(cobId, MODES_OF_OPERATION_INDEX, 0, CST_MODE);
-		if(ReadObjectValue(cobId, MODES_OF_OPERATION_INDEX, 0) != CST_MODE)
+		WriteObjectValue(deviceIndex, cobId, MODES_OF_OPERATION_INDEX, 0, CST_MODE);
+		if(ReadObjectValue(deviceIndex, cobId, MODES_OF_OPERATION_INDEX, 0) != CST_MODE)
 			return 1;
 
-		WriteObjectValue(cobId, CONTROLWORD_INDEX, 0, CTRLCMD_SHUTDOWN);
-		while((ReadObjectValue(cobId, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_READY_TO_SWITCH_ON); // timeout??
+		WriteObjectValue(deviceIndex, cobId, CONTROLWORD_INDEX, 0, CTRLCMD_SHUTDOWN);
+		while((ReadObjectValue(deviceIndex, cobId, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_READY_TO_SWITCH_ON); // timeout??
 
-		WriteObjectValue(cobId, CONTROLWORD_INDEX, 0, CTRLCMD_SWITCH_ON_AND_ENABLE);
-		while((ReadObjectValue(cobId, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_OPERATION_ENABLED); // timeout??
+		WriteObjectValue(deviceIndex, cobId, CONTROLWORD_INDEX, 0, CTRLCMD_SWITCH_ON_AND_ENABLE);
+		while((ReadObjectValue(deviceIndex, cobId, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_OPERATION_ENABLED); // timeout??
 
-		WriteObjectValue(cobId, TORQUE_OFFSET_INDEX, 0, 0);
-		if(ReadObjectValue(cobId, TORQUE_OFFSET_INDEX, 0) != 0)
+		WriteObjectValue(deviceIndex, cobId, TORQUE_OFFSET_INDEX, 0, 0);
+		if(ReadObjectValue(deviceIndex, cobId, TORQUE_OFFSET_INDEX, 0) != 0)
 			return 1;
 
 		return 0;
@@ -434,22 +436,22 @@ static uint8_t WriteModeOfOperation(uint16_t cobId, EPOS4_ModeOfOperation_t mode
 }
 
 // right way to do this??
-static void ErrorHandler(uint16_t cobId, Errors_t error)
+static void ErrorHandler(uint8_t deviceIndex, uint16_t cobId, Errors_t error)
 {
 	errorHasOccurred = 1;
 
 	CM_epos4_error = error;
-	CM_epos4_numOfErrors = ReadObjectValue(cobId, ERROR_HISTORY_INDEX, NUMBER_OF_ERRORS_SUBINDEX);
-	CM_epos4_state = ReadObjectValue(cobId, STATUSWORD_INDEX, 0) & STATE_MASK;
-	CM_epos4_errorHistory1 = ReadObjectValue(cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_1_SUBINDEX);
-	CM_epos4_errorHistory2 = ReadObjectValue(cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_2_SUBINDEX);
-	CM_epos4_errorHistory3 = ReadObjectValue(cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_3_SUBINDEX);
-	CM_epos4_errorHistory4 = ReadObjectValue(cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_4_SUBINDEX);
-	CM_epos4_errorHistory5 = ReadObjectValue(cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_5_SUBINDEX);
+	CM_epos4_numOfErrors = ReadObjectValue(deviceIndex, cobId, ERROR_HISTORY_INDEX, NUMBER_OF_ERRORS_SUBINDEX);
+	CM_epos4_state = ReadObjectValue(deviceIndex, cobId, STATUSWORD_INDEX, 0) & STATE_MASK;
+	CM_epos4_errorHistory1 = ReadObjectValue(deviceIndex, cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_1_SUBINDEX);
+	CM_epos4_errorHistory2 = ReadObjectValue(deviceIndex, cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_2_SUBINDEX);
+	CM_epos4_errorHistory3 = ReadObjectValue(deviceIndex, cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_3_SUBINDEX);
+	CM_epos4_errorHistory4 = ReadObjectValue(deviceIndex, cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_4_SUBINDEX);
+	CM_epos4_errorHistory5 = ReadObjectValue(deviceIndex, cobId, ERROR_HISTORY_INDEX, ERROR_HISTORY_5_SUBINDEX);
 
 	while(1)
 	{
-		WriteObjectValue(cobId, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
+		WriteObjectValue(deviceIndex, cobId, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
 	}
 }
 

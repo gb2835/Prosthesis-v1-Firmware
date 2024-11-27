@@ -11,8 +11,8 @@
 *			- Revision: v2-02
 * 2. Unless otherwise specified, units are
 * 		- Angles = degrees
-* 2. #define NUMBER_OF_DEVICES must be updated to (at least) the number of
-*    devices used.
+* 2. #define AS5145B_NUMBER_OF_DEVICES must be updated to (at least) the number
+*    of devices used.
 * 3. Only SSI functionality is used in this driver.
 * 4. Minimum delays between clock edges are required for this device. This
 *    driver is configured for the scenario where there is no clock pin (i.e.
@@ -30,7 +30,6 @@
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-#define NUMBER_OF_DEVICES	2
 #define TIMERX				TIM6 // is this the right way to do this??
 #define TIMERX_RATE_MHZ		10
 
@@ -45,7 +44,7 @@ typedef struct
 	uint8_t isInit;
 } Device_t;
 
-static Device_t Device[NUMBER_OF_DEVICES];
+static Device_t Device[AS5145B_NUMBER_OF_DEVICES];
 
 static inline void SetChipSelect(uint8_t deviceIndex);
 static inline void ClearChipSelect(uint8_t deviceIndex);
@@ -60,7 +59,7 @@ static inline uint8_t ReadDO_Pin(uint8_t deviceIndex);
 
 void AS5145B_Init(uint8_t deviceIndex, AS5145B_t *Device_Init)
 {
-	if(deviceIndex++ > NUMBER_OF_DEVICES)
+	if(deviceIndex++ > AS5145B_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
 
 	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(AS5145B_t));

@@ -7,6 +7,8 @@
 #include "mcp25625.h"
 #include <stdint.h>
 
+#define EPOS4_NUMBER_OF_DEVICES	2
+
 typedef enum
 {
 	cyclicSynchronousTorqueMode
@@ -70,14 +72,14 @@ typedef struct
 	EPOS4_ModeOfOperation_t ModeOfOperation;
 } EPOS4_t;
 
-void EPOS4_Init(uint8_t nodeId, EPOS4_t *Device_Init);
-int32_t EPOS4_ReadPositionActualValue(uint8_t nodeId);
-int32_t EPOS4_ReadVelocityActualValue(uint8_t nodeId);
-int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t nodeId);
-int16_t EPOS4_ReadTargetTorqueValue(uint8_t nodeId);
-int16_t EPOS4_ReadTorqueActualValue(uint8_t nodeId);
-int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t nodeId);
-void EPOS4_WriteTargetTorqueValue(uint8_t nodeId, int16_t torque);
+void EPOS4_Init(uint8_t deviceIndex, uint8_t nodeId, EPOS4_t *Device_Init);
+int32_t EPOS4_ReadPositionActualValue(uint8_t deviceIndex, uint8_t nodeId);
+int32_t EPOS4_ReadVelocityActualValue(uint8_t deviceIndex, uint8_t nodeId);
+int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t deviceIndex, uint8_t nodeId);
+int16_t EPOS4_ReadTargetTorqueValue(uint8_t deviceIndex, uint8_t nodeId);
+int16_t EPOS4_ReadTorqueActualValue(uint8_t deviceIndex, uint8_t nodeId);
+int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t deviceIndex, uint8_t nodeId);
+void EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, uint8_t nodeId, int16_t torque);
 
 
 /*******************************************************************************
