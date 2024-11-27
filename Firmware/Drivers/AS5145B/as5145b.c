@@ -30,8 +30,8 @@
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-#define TIMERX				TIM6 // is this the right way to do this??
-#define TIMERX_RATE_MHZ		10
+#define DELAY_TIMX				TIM6 // is this the right way to do this??
+#define DELAY_TIMX_RATE_MHZ		10
 
 typedef struct
 {
@@ -76,34 +76,32 @@ AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 		__NOP(); // add assert??
 
 	SetChipSelect(deviceIndex);
-	DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CLK FE)
+	DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CLK FE)
 
 	// Read angular position from first 12 bits (MSB first)
 	AS5145B_Data_t Data;
-	memset(&Data, 0, sizeof(Data)); // debug check this??
+	memset(&Data, 0, sizeof(Data));
 	for(int i = 12-1; i >= 0; i--)
 	{
 		LowerClockEdge(deviceIndex);
-		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
 		RaiseClockEdge(deviceIndex);
-		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
-		uint8_t temp = ReadDO_Pin(deviceIndex);
-		Data.position |= (temp) << i;
+		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		Data.position |= ReadDO_Pin(deviceIndex) << i;
 	}
 
 	// Read remaining 6 status bits (MSB first)
 	for(int i = 6-1; i >= 0; i--)
 	{
 		LowerClockEdge(deviceIndex);
-		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
 		RaiseClockEdge(deviceIndex);
-		DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
-		uint8_t temp = ReadDO_Pin(deviceIndex);
-		Data.status  |= (temp) << i;
+		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		Data.status  |= ReadDO_Pin(deviceIndex) << i;
 	}
 
 	ClearChipSelect(deviceIndex);
-	DelayUs(TIMERX, 1, TIMERX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CSn)
+	DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CSn)
 
 	return Data;
 }
@@ -114,7 +112,7 @@ float AS5145B_ReadPosition(uint8_t deviceIndex)
 		__NOP(); // add assert??
 
 	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
-	return (float) Data.position * AS5145B_RAW2DEG; // (float)??
+	return Data.position * AS5145B_RAW2DEG;
 }
 
 uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex)

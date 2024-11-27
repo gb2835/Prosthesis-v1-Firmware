@@ -51,7 +51,7 @@ typedef union
 		} SAM :1;
 		enum
 		{
-			PS2LengthIsGreaterOfPS1AndIPT, // ipt??
+			PS2LengthIsGreaterOfPS1AndIPT,
 			PS2LengthDeterminedByCNF3
 		} BLTMODE :1;
 	} Bits;

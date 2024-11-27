@@ -420,7 +420,6 @@ static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_t
 	return 1;
 }
 
-// right way to do this??
 static void ErrorHandler(uint8_t deviceIndex, Errors_t error)
 {
 	errorHasOccurred = 1;

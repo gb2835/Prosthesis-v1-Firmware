@@ -20,6 +20,7 @@
 #include "mcp25625.h"
 #include "stm32l4xx_ll_utils.h"
 #include "string.h"
+#include "utilities.h"
 
 
 /*******************************************************************************
@@ -68,6 +69,9 @@
 #define TX0REQ_STATUS_MASK			0b00000100
 #define TX1REQ_STATUS_MASK			0b00010000
 #define TX2REQ_STATUS_MASK			0b01000000
+
+#define DELAY_TIMX				TIM6 // is this the right way to do this??
+#define DELAY_TIMX_RATE_MHZ		10
 
 typedef union
 {
@@ -138,9 +142,9 @@ static Device_t Device[MCP25625_NUMBER_OF_DEVICES];
 
 static void InitRXBx(uint8_t deviceIndex);
 static void ResetDevice(uint8_t deviceIndex);
-static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nBytes);
-static void WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nBytes);
-static void ModifyRegisterBits(uint8_t deviceIndex, uint8_t reg, uint8_t mask, uint8_t data);
+static void ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
+static void WriteRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
+static void ModifyRegBits(uint8_t deviceIndex, uint8_t reg, uint8_t mask, uint8_t data);
 static void RequestToSend(uint8_t deviceIndex, uint8_t RTS_Tx);
 static uint8_t ReadStatus(uint8_t deviceIndex);
 static inline void SetChipSelect(uint8_t deviceIndex);
@@ -151,7 +155,7 @@ static inline void ClearChipSelect(uint8_t deviceIndex);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Init) //Init not Inits??
+uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Init)
 {
 	if(deviceIndex++ > MCP25625_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
@@ -163,7 +167,7 @@ uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Init) //Init 
 	ResetDevice(deviceIndex);
 
 	uint8_t canCtrlReg;
-	ReadRegisterData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
+	ReadRegData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
 	if(canCtrlReg != CANCTRL_RESET_VALUE)
 		return MCP25625_ResetError;
 
@@ -171,14 +175,14 @@ uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Init) //Init 
 
 	uint8_t configRegs[3];
 	uint8_t configRegValues[3] = {Device[deviceIndex].CNF3_Reg.value, Device[deviceIndex].CNF2_Reg.value, Device[deviceIndex].CNF1_Reg.value};
-	WriteRegisterData(deviceIndex, CNF3_REG, configRegValues, sizeof(configRegValues));
-	ReadRegisterData(deviceIndex, CNF3_REG, configRegs, sizeof(configRegs));
+	WriteRegData(deviceIndex, CNF3_REG, configRegValues, sizeof(configRegValues));
+	ReadRegData(deviceIndex, CNF3_REG, configRegs, sizeof(configRegs));
 	for(uint8_t i = 0; i < sizeof(configRegs); i++)
 		if(configRegs[i] != configRegValues[i])
 			return MCP25625_ConfigError;
 
-	WriteRegisterData(deviceIndex, CANCTRL_REG, &Device[deviceIndex].CANCTRL_Reg.value, sizeof(Device[deviceIndex].CANCTRL_Reg.value));
-	ReadRegisterData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
+	WriteRegData(deviceIndex, CANCTRL_REG, &Device[deviceIndex].CANCTRL_Reg.value, sizeof(Device[deviceIndex].CANCTRL_Reg.value));
+	ReadRegData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
 	if(canCtrlReg != Device[deviceIndex].CANCTRL_Reg.value)
 		return MCP25625_CANCTRL_Error;
 
@@ -382,8 +386,8 @@ uint8_t MCP25625_ReadRxBufferAtSIDH(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx, 
 static void InitRXBx(uint8_t deviceIndex)
 {
 	// Set RXBx to receive any message
-	ModifyRegisterBits(deviceIndex, RXB0CTRL_REG, 0b01100000, 0b01100000);
-	ModifyRegisterBits(deviceIndex, RXB1CTRL_REG, 0b01100000, 0b01100000);
+	ModifyRegBits(deviceIndex, RXB0CTRL_REG, 0b01100000, 0b01100000);
+	ModifyRegBits(deviceIndex, RXB1CTRL_REG, 0b01100000, 0b01100000);
 }
 
 static void ResetDevice(uint8_t deviceIndex)
@@ -399,10 +403,10 @@ static void ResetDevice(uint8_t deviceIndex)
 	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
-	LL_mDelay(1);	// Minimum 2 us required (t_RL), usdelay()??
+	DelayUs(DELAY_TIMX, 2, DELAY_TIMX_RATE_MHZ);	// Minimum 2 us required (t_RL)
 }
 
-static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes)
+static void ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nDataBytes)
 {
 	SetChipSelect(deviceIndex);
 
@@ -412,7 +416,7 @@ static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *dat
 	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
-	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startReg);
+	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startAddress);
 	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
@@ -427,14 +431,14 @@ static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *dat
 	ClearChipSelect(deviceIndex);
 }
 
-static void WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes)
+static void WriteRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nDataBytes)
 {
 	SetChipSelect(deviceIndex);
 
 	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, WRITE);
 	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
-	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startReg);
+	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startAddress);
 
 	for(uint8_t i = 0; i < nDataBytes; i++)
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, data[i]);
@@ -446,14 +450,14 @@ static void WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *da
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 }
 
-static void ModifyRegisterBits(uint8_t deviceIndex, uint8_t reg, uint8_t mask, uint8_t data)
+static void ModifyRegBits(uint8_t deviceIndex, uint8_t address, uint8_t mask, uint8_t data)
 {
 	SetChipSelect(deviceIndex);
 
 	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, BIT_MODIFY);
 	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
-	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, reg);
+	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, address);
 	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, mask);
 	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));

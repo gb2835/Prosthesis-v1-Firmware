@@ -108,7 +108,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 {
 	memcpy(&Device, Device_Init, sizeof(&Device_Init));
 
-	memset(&CM_Ankle, 0, sizeof(CM_Ankle)); // check this??
+	memset(&CM_Ankle, 0, sizeof(CM_Ankle));
 	memset(&CM_Knee, 0, sizeof(CM_Knee));
 
 	ankleEncBias = 1325 * AS5145B_RAW2DEG;
@@ -178,9 +178,8 @@ static void GetInputs(void)
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
 {
 	LL_ADC_REG_StartConversion(ADCx);
-	while ( !LL_ADC_IsActiveFlag_EOC(ADCx) );
-	LL_ADC_ClearFlag_EOC(ADCx);								// remove this??
-	uint16_t data = LL_ADC_REG_ReadConversionData12(ADCx);	// Change resolution??
+	while (!LL_ADC_IsActiveFlag_EOC(ADCx));
+	uint16_t data = LL_ADC_REG_ReadConversionData12(ADCx);
 	return data;
 }
 
@@ -408,8 +407,8 @@ static void RunStateMachine(void)
 static void RunImpedanceControl(void)
 {
 	float gearRatio = 40.0f;
-	float nomCurrent = 8.0f;						// is this number accurate??
-	float torqueConst = 60.0f / (2 * M_PI * 100);	// Units in N*m/A, for Kv = 100 rpm/V
+	float nomCurrent = 8.0f;
+	float torqueConst = 60.0f / (2 * M_PI * 100);	// For Kv = 100 rpm/V
 
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
 	{
@@ -485,7 +484,7 @@ static void RunTestProgram(void)
 				sum += position;
 			}
 
-			CM_Ankle.ProsCtrl.eqPoint = sum / i - ankleEncBias; // (float)??
+			CM_Ankle.ProsCtrl.eqPoint = sum / i - ankleEncBias;
 		}
 		else if(Device.Joint == Knee || Device.Joint == Combined)
 		{

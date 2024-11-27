@@ -44,6 +44,8 @@
 #define MPU925X_TEMP_ROOMTEMP				21
 #define MPU925X_TEMP_SENSITIVITY			333.87
 
+#define MPU925X_NUMBER_OF_DEVICES	1
+
 typedef enum
 {
 	MPU925x_AccelDLPF_BandWidth_5hz,
@@ -53,7 +55,6 @@ typedef enum
 	MPU925x_AccelDLPF_BandWidth_92hz,
 	MPU925x_AccelDLPF_BandWidth_184hz,
 	MPU925x_AccelDLPF_BandWidth_460hz,
-	MPU925x_AccelDLPF_BandWidth_1130hz
 } MPU925x_AccelDLPF_BandWidth_t;
 
 typedef enum
@@ -79,8 +80,6 @@ typedef enum
 	MPU925x_GyroDLPF_BandWidth_92hz,
 	MPU925x_GyroDLPF_BandWidth_184hz,
 	MPU925x_GyroDLPF_BandWidth_250hz,
-	MPU925x_GyroDLPF_BandWidth_3600hz,
-	MPU925x_GyroDLPF_BandWidth_8800hz
 } MPU925x_GyroDLPF_BandWidth_t;
 
 typedef enum
@@ -115,8 +114,6 @@ void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWi
 void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_t bandwidth);
 void MPU925x_SetSampleRateDiv(uint8_t deviceIndex, uint8_t divider);
 MPU925x_IMU_Data_t MPU925x_ReadIMU(uint8_t deviceIndex);
-void MPU925x_WriteReg(uint8_t deviceIndex, uint8_t address, uint8_t data); // regs??
-void MPU925x_ReadRegs(uint8_t deviceIndex, uint8_t startAdress, uint8_t *data, uint8_t bytes); // startRegs??
 
 
 /*******************************************************************************

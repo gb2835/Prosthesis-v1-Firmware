@@ -42,7 +42,6 @@
 void MX_GPIO_Init(void)
 {
 
-  LL_EXTI_InitTypeDef EXTI_InitStruct = {0};
   LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
@@ -52,33 +51,24 @@ void MX_GPIO_Init(void)
   LL_AHB2_GRP1_EnableClock(LL_AHB2_GRP1_PERIPH_GPIOB);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOB, OSCOPE_Pin|SPI2_CS_Pin|KNEE_ENCODER_CLK_Pin);
+  LL_GPIO_ResetOutputPin(GPIOC, ANKLE_ENCODER_CSn_Pin|ANKLE_CAN_CONTROLLER_CS_Pin|KNEE_ENCODER_CSn_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(KNEE_ENCODER_CSn_GPIO_Port, KNEE_ENCODER_CSn_Pin);
+  LL_GPIO_ResetOutputPin(GPIOB, OSCOPE_Pin|KNEE_CAN_CONTROLLER_CS_Pin|ENCODER_CLK_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
 
   /**/
-  LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTC, LL_SYSCFG_EXTI_LINE13);
+  GPIO_InitStruct.Pin = ANKLE_ENCODER_CSn_Pin|ANKLE_CAN_CONTROLLER_CS_Pin|KNEE_ENCODER_CSn_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /**/
-  EXTI_InitStruct.Line_0_31 = LL_EXTI_LINE_13;
-  EXTI_InitStruct.Line_32_63 = LL_EXTI_LINE_NONE;
-  EXTI_InitStruct.LineCommand = ENABLE;
-  EXTI_InitStruct.Mode = LL_EXTI_MODE_IT;
-  EXTI_InitStruct.Trigger = LL_EXTI_TRIGGER_FALLING;
-  LL_EXTI_Init(&EXTI_InitStruct);
-
-  /**/
-  LL_GPIO_SetPinPull(B1_GPIO_Port, B1_Pin, LL_GPIO_PULL_NO);
-
-  /**/
-  LL_GPIO_SetPinMode(B1_GPIO_Port, B1_Pin, LL_GPIO_MODE_INPUT);
-
-  /**/
-  GPIO_InitStruct.Pin = OSCOPE_Pin|SPI2_CS_Pin|KNEE_ENCODER_CLK_Pin;
+  GPIO_InitStruct.Pin = OSCOPE_Pin|KNEE_CAN_CONTROLLER_CS_Pin|ENCODER_CLK_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -86,18 +76,10 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = KNEE_ENCODER_CSn_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(KNEE_ENCODER_CSn_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = KNEE_ENCODER_DO_Pin;
+  GPIO_InitStruct.Pin = ENCODER_DO_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(KNEE_ENCODER_DO_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(ENCODER_DO_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = IMU_CS_Pin;
