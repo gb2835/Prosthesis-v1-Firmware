@@ -19,7 +19,7 @@ typedef enum
 	MCP25625_ResetError,
 	MCP25625_ConfigError,
 	MCP25625_CANCTRL_Error
-} MCP25625_Errors_t;
+} MCP25625_Error_e;
 
 typedef union
 {

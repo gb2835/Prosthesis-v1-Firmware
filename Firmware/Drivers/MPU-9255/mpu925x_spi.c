@@ -71,7 +71,7 @@ uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init)
 	return MPU925x_NoError;
 }
 
-void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_t sensitivity)
+void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_e sensitivity)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
@@ -109,7 +109,7 @@ void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_t
 	}
 }
 
-void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_t sensitivity)
+void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_e sensitivity)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
@@ -147,7 +147,7 @@ void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_t s
 	}
 }
 
-void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_t BandWidth)
+void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_e BandWidth)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
@@ -199,7 +199,7 @@ void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWi
 	}
 }
 
-void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_t BandWidth)
+void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_e BandWidth)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??

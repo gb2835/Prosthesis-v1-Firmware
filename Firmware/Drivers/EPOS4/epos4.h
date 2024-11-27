@@ -14,6 +14,7 @@ typedef enum
 	CyclicSynchronousTorqueMode
 } EPOS4_ModeOfOperation_t;
 
+// take enums out of structs??
 typedef struct
 {
 	enum

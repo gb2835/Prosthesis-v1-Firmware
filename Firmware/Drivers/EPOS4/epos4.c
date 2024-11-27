@@ -102,7 +102,7 @@ typedef enum
 	ModeOfOperationError,
 	DeviceError,
 	AbortError
-} Errors_t;
+} Error_e;
 
 typedef struct
 {
@@ -135,7 +135,7 @@ static void CheckForAbort(uint8_t deviceIndex, uint8_t *data);
 static void FrameData(uint8_t *data, uint8_t byte0, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
 static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, EPOS4_FirstStep_t FirstStep);
 static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_t modeOfOperation);
-static void ErrorHandler(uint8_t deviceIndex, Errors_t error);
+static void ErrorHandler(uint8_t deviceIndex, Error_e error);
 
 
 /*******************************************************************************
@@ -420,7 +420,7 @@ static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_t
 	return 1;
 }
 
-static void ErrorHandler(uint8_t deviceIndex, Errors_t error)
+static void ErrorHandler(uint8_t deviceIndex, Error_e error)
 {
 	errorHasOccurred = 1;
 

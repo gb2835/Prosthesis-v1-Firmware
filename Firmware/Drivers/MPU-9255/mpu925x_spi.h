@@ -55,7 +55,7 @@ typedef enum
 	MPU925x_AccelDLPF_BandWidth_92hz,
 	MPU925x_AccelDLPF_BandWidth_184hz,
 	MPU925x_AccelDLPF_BandWidth_460hz,
-} MPU925x_AccelDLPF_BandWidth_t;
+} MPU925x_AccelDLPF_BandWidth_e;
 
 typedef enum
 {
@@ -63,7 +63,7 @@ typedef enum
 	MPU925x_AccelSensitivity_4g,
 	MPU925x_AccelSensitivity_8g,
 	MPU925x_AccelSensitivity_16g
-} MPU925x_AccelSensitivity_t;
+} MPU925x_AccelSensitivity_e;
 
 typedef enum
 {
@@ -80,7 +80,7 @@ typedef enum
 	MPU925x_GyroDLPF_BandWidth_92hz,
 	MPU925x_GyroDLPF_BandWidth_184hz,
 	MPU925x_GyroDLPF_BandWidth_250hz,
-} MPU925x_GyroDLPF_BandWidth_t;
+} MPU925x_GyroDLPF_BandWidth_e;
 
 typedef enum
 {
@@ -88,7 +88,7 @@ typedef enum
 	MPU925x_GyroSensitivity_500dps,
 	MPU925x_GyroSensitivity_1000dps,
 	MPU925x_GyroSensitivity_2000dps
-} MPU925x_GyroSensitivity_t;
+} MPU925x_GyroSensitivity_e;
 
 typedef struct
 {
@@ -108,10 +108,10 @@ typedef struct
 } MPU925x_Init_t;
 
 uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init);
-void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_t sensitivity);
-void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_t sensitivity);
-void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_t bandwidth);
-void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_t bandwidth);
+void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_e sensitivity);
+void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_e sensitivity);
+void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_e bandwidth);
+void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_e bandwidth);
 void MPU925x_SetSampleRateDiv(uint8_t deviceIndex, uint8_t divider);
 MPU925x_IMU_Data_t MPU925x_ReadIMU(uint8_t deviceIndex);
 
