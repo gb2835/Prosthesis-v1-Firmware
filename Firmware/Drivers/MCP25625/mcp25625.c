@@ -156,10 +156,10 @@ static inline void ClearChipSelect(uint8_t deviceIndex);
 
 uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Init)
 {
-	if(deviceIndex++ > MCP25625_NUMBER_OF_DEVICES)
+	if(deviceIndex + 1 > MCP25625_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
 
-	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(Device_Init[deviceIndex]));
+	memcpy(&Device[deviceIndex], Device_Init, sizeof(MCP25625_Init_t));
 
 	ClearChipSelect(deviceIndex);
 
@@ -218,7 +218,6 @@ uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t da
 	{
 		SetChipSelect(deviceIndex);
 
-		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, txbxDataAddress);
 
 		for(uint8_t i = 0; i < dataLength; i++)
@@ -228,10 +227,10 @@ uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t da
 		}
 
 		while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-		ClearChipSelect(deviceIndex);
-
 		while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 			LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+
+		ClearChipSelect(deviceIndex);
 
 		RequestToSend(deviceIndex, rtsTx);
 
@@ -278,10 +277,9 @@ uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *d
 
 		SetChipSelect(deviceIndex);
 
-		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, txbxDataAddress);
 
-		uint8_t nBytes = dataLength + 5;						// data register + 5 registers in Rx buffer
+		uint8_t nBytes = dataLength + 5;	// data length + 5 registers in Rx buffer
 		for(uint8_t i = 0; i < nBytes; i++)
 		{
 			while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
@@ -289,13 +287,13 @@ uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *d
 		}
 
 		while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-		ClearChipSelect(deviceIndex);
-
 		while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 			LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
-		RequestToSend(deviceIndex, rtsTx);
+		ClearChipSelect(deviceIndex);
 
+		RequestToSend(deviceIndex, rtsTx);
+		
 		return 0;
 	}
 
@@ -318,14 +316,12 @@ uint8_t MCP25625_ReadRxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t da
 	{
 		SetChipSelect(deviceIndex);
 
-		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, rxbxDataAddress);
 		while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 		for(uint8_t i = 0; i < dataLength; i++)
 		{
-			while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 			LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
 			while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 			data[i] = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
@@ -355,15 +351,13 @@ uint8_t MCP25625_ReadRxBufferAtSIDH(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx, 
 	{
 		SetChipSelect(deviceIndex);
 
-		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, rxbxSIDH_Address);
 		while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
-		uint8_t nBytes = dataLength + 5;						// data register + 5 registers in Rx buffer
+		uint8_t nBytes = dataLength + 5;	// data length + 5 registers in Rx buffer
 		for(uint8_t i = 0; i < nBytes; i++)
 		{
-			while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 			LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
 			while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 			RXBx->array[i] = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
@@ -393,35 +387,33 @@ static void ResetDevice(uint8_t deviceIndex)
 {
 	SetChipSelect(deviceIndex);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, RESET);
+//	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
+//	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-	ClearChipSelect(deviceIndex);
-
 	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+		
+	ClearChipSelect(deviceIndex);
 
-	DelayUs(DELAY_TIMX, 2, DELAY_TIMX_RATE_MHZ);	// Minimum 2 us required (t_RL)
+//	DelayUs(DELAY_TIMX, 2, DELAY_TIMX_RATE_MHZ);	// Minimum 2 us required (t_RL)
+
+	LL_mDelay(1);
 }
 
 static void ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nDataBytes)
 {
 	SetChipSelect(deviceIndex);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, READ);
-	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
-	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
-
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startAddress);
-	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
-	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
+	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
+		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	for(uint8_t i = 0; i < nDataBytes; i++)
 	{
-		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
 		while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 		data[i] = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
@@ -434,66 +426,65 @@ static void WriteRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *dat
 {
 	SetChipSelect(deviceIndex);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, WRITE);
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startAddress);
 
 	for(uint8_t i = 0; i < nDataBytes; i++)
+	{
+		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, data[i]);
+	}
 
 	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-	ClearChipSelect(deviceIndex);
-
 	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+		
+	ClearChipSelect(deviceIndex);
 }
 
 static void ModifyRegBits(uint8_t deviceIndex, uint8_t address, uint8_t mask, uint8_t data)
 {
 	SetChipSelect(deviceIndex);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, BIT_MODIFY);
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, address);
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, mask);
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
+	
+	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));	// STM has 3 byte Tx FIFO for 8 bit transmission
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, data);
 
 	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-	ClearChipSelect(deviceIndex);
-
 	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+		
+	ClearChipSelect(deviceIndex);
 }
 
 static void RequestToSend(uint8_t deviceIndex, uint8_t RTS_Tx)
 {
 	SetChipSelect(deviceIndex);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, RTS_Tx);
+//	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
+//	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
-	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-	ClearChipSelect(deviceIndex);
-
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));		// block until fifo is cleared
 	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
-		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);// clear rx fifo
+		
+	ClearChipSelect(deviceIndex);
 }
 
 static uint8_t ReadStatus(uint8_t deviceIndex)
 {
 	SetChipSelect(deviceIndex);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, READ_STATUS);
+	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
 	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
-	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
 	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 	uint8_t status = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 

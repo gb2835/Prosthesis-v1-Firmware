@@ -147,7 +147,10 @@ static void ErrorHandler(uint8_t deviceIndex, Error_e error);
 
 void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 {
-	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(Device_Init[deviceIndex]));
+	if(deviceIndex + 1 > EPOS4_NUMBER_OF_DEVICES)
+		__NOP(); // add assert??
+
+	memcpy(&Device[deviceIndex], Device_Init, sizeof(EPOS4_Init_t));
 
 	Device[deviceIndex].cobId = Device[deviceIndex].nodeId + 0x600;
 

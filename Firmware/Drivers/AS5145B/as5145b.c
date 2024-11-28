@@ -23,7 +23,7 @@
 #include <string.h>
 #include "utilities.h"
 
-#include <assert.h>
+
 /*******************************************************************************
 * PRIVATE DEFINITIONS
 *******************************************************************************/
@@ -57,10 +57,10 @@ static inline uint8_t ReadDO_Pin(uint8_t deviceIndex);
 
 void AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
 {
-	if(deviceIndex++ > AS5145B_NUMBER_OF_DEVICES)
+	if(deviceIndex + 1 > AS5145B_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
 
-	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(Device_Init[deviceIndex]));
+	memcpy(&Device[deviceIndex], Device_Init, sizeof(AS5145B_Init_t));
 
 	ClearChipSelect(deviceIndex);
 	RaiseClockEdge(deviceIndex);
@@ -153,7 +153,7 @@ static inline void RaiseClockEdge(uint8_t deviceIndex)
 
 static inline void LowerClockEdge(uint8_t deviceIndex)
 {
-	LL_GPIO_SetOutputPin(Device[deviceIndex].CLK_GPIOx, Device[deviceIndex].CLK_Pin);
+	LL_GPIO_ResetOutputPin(Device[deviceIndex].CLK_GPIOx, Device[deviceIndex].CLK_Pin);
 }
 
 static inline uint8_t ReadDO_Pin(uint8_t deviceIndex)

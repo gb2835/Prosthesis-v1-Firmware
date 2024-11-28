@@ -53,10 +53,10 @@ static void ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data
 
 uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init)
 {
-	if(deviceIndex++ > MPU925X_NUMBER_OF_DEVICES)
+	if(deviceIndex + 1 > MPU925X_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
 
-	memcpy(&Device[deviceIndex], &Device_Init[deviceIndex], sizeof(Device_Init[deviceIndex]));
+	memcpy(&Device[deviceIndex], Device_Init, sizeof(MPU925x_Init_t));
 
 	ClearChipSelect(deviceIndex);
 
