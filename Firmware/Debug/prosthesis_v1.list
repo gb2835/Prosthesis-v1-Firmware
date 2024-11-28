@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0002007c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000e96d  00000000  00000000  000200ac  2**0
+ 12 .debug_info   0000e96a  00000000  00000000  000200ac  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000027c9  00000000  00000000  0002ea19  2**0
+ 13 .debug_abbrev 000027ad  00000000  00000000  0002ea16  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000e78  00000000  00000000  000311e8  2**3
+ 14 .debug_aranges 00000e78  00000000  00000000  000311c8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000d38  00000000  00000000  00032060  2**3
+ 15 .debug_ranges 00000d38  00000000  00000000  00032040  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000250a6  00000000  00000000  00032d98  2**0
+ 16 .debug_macro  000250a6  00000000  00000000  00032d78  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000d131  00000000  00000000  00057e3e  2**0
+ 17 .debug_line   0000d131  00000000  00000000  00057e1e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c93c2  00000000  00000000  00064f6f  2**0
+ 18 .debug_str    000c93cc  00000000  00000000  00064f4f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0012e331  2**0
+ 19 .comment      00000050  00000000  00000000  0012e31b  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004070  00000000  00000000  0012e384  2**2
+ 20 .debug_frame  00004070  00000000  00000000  0012e36c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3227,126 +3227,126 @@ int main(void)
  8001946:	2340      	movs	r3, #64	; 0x40
  8001948:	f8a7 30cc 	strh.w	r3, [r7, #204]	; 0xcc
 
-	EPOS4_Init_t Motor_Init[EPOS4_NUMBER_OF_DEVICES];
-	Motor_Init[AnkleMotorControllerIndex].nodeId = 2;
+	EPOS4_Init_t MotorController_Init[EPOS4_NUMBER_OF_DEVICES];
+	MotorController_Init[AnkleMotorControllerIndex].nodeId = 2;
  800194c:	2302      	movs	r3, #2
  800194e:	f887 3030 	strb.w	r3, [r7, #48]	; 0x30
-	Motor_Init[AnkleMotorControllerIndex].mcpIndex = AnkleCAN_ControllerIndex;
+	MotorController_Init[AnkleMotorControllerIndex].mcpIndex = AnkleCAN_ControllerIndex;
  8001952:	2300      	movs	r3, #0
  8001954:	f887 3031 	strb.w	r3, [r7, #49]	; 0x31
-	Motor_Init[AnkleMotorControllerIndex].Requirements.isFirstStepRequired = 1;
+	MotorController_Init[AnkleMotorControllerIndex].Requirements.isFirstStepRequired = 1;
  8001958:	2301      	movs	r3, #1
  800195a:	f887 3032 	strb.w	r3, [r7, #50]	; 0x32
-	Motor_Init[AnkleMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
+	MotorController_Init[AnkleMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
  800195e:	2301      	movs	r3, #1
  8001960:	f887 3033 	strb.w	r3, [r7, #51]	; 0x33
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps;
  8001964:	2302      	movs	r3, #2
  8001966:	f887 3034 	strb.w	r3, [r7, #52]	; 0x34
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
  800196a:	230b      	movs	r3, #11
  800196c:	f887 3035 	strb.w	r3, [r7, #53]	; 0x35
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 6600;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 6600;
  8001970:	f641 13c8 	movw	r3, #6600	; 0x19c8
  8001974:	63bb      	str	r3, [r7, #56]	; 0x38
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
  8001976:	f247 2374 	movw	r3, #29300	; 0x7274
  800197a:	63fb      	str	r3, [r7, #60]	; 0x3c
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
  800197c:	2315      	movs	r3, #21
  800197e:	f887 3040 	strb.w	r3, [r7, #64]	; 0x40
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
  8001982:	f44f 73c8 	mov.w	r3, #400	; 0x190
  8001986:	f8a7 3042 	strh.w	r3, [r7, #66]	; 0x42
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.torqueConstant = 95000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.torqueConstant = 95000;
  800198a:	4bb6      	ldr	r3, [pc, #728]	; (8001c64 <main+0x39c>)
  800198c:	647b      	str	r3, [r7, #68]	; 0x44
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
  800198e:	f44f 6315 	mov.w	r3, #2384	; 0x950
  8001992:	64bb      	str	r3, [r7, #72]	; 0x48
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
  8001994:	4bb4      	ldr	r3, [pc, #720]	; (8001c68 <main+0x3a0>)
  8001996:	64fb      	str	r3, [r7, #76]	; 0x4c
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
  8001998:	f44f 1380 	mov.w	r3, #1048576	; 0x100000
  800199c:	653b      	str	r3, [r7, #80]	; 0x50
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
  800199e:	4bb3      	ldr	r3, [pc, #716]	; (8001c6c <main+0x3a4>)
  80019a0:	657b      	str	r3, [r7, #84]	; 0x54
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
  80019a2:	2330      	movs	r3, #48	; 0x30
  80019a4:	65bb      	str	r3, [r7, #88]	; 0x58
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
  80019a6:	2300      	movs	r3, #0
  80019a8:	65fb      	str	r3, [r7, #92]	; 0x5c
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
  80019aa:	4bb1      	ldr	r3, [pc, #708]	; (8001c70 <main+0x3a8>)
  80019ac:	663b      	str	r3, [r7, #96]	; 0x60
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
  80019ae:	4bb1      	ldr	r3, [pc, #708]	; (8001c74 <main+0x3ac>)
  80019b0:	667b      	str	r3, [r7, #100]	; 0x64
-	Motor_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
+	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
  80019b2:	2300      	movs	r3, #0
  80019b4:	f887 3068 	strb.w	r3, [r7, #104]	; 0x68
 
-	Motor_Init[KneeMotorControllerIndex].nodeId = 1;
+	MotorController_Init[KneeMotorControllerIndex].nodeId = 1;
  80019b8:	2301      	movs	r3, #1
  80019ba:	f887 306c 	strb.w	r3, [r7, #108]	; 0x6c
-	Motor_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
+	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
  80019be:	2301      	movs	r3, #1
  80019c0:	f887 306d 	strb.w	r3, [r7, #109]	; 0x6d
-	Motor_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
+	MotorController_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
  80019c4:	2301      	movs	r3, #1
  80019c6:	f887 306e 	strb.w	r3, [r7, #110]	; 0x6e
-	Motor_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
+	MotorController_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
  80019ca:	2301      	movs	r3, #1
  80019cc:	f887 306f 	strb.w	r3, [r7, #111]	; 0x6f
-	Motor_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps; // separate first step??
  80019d0:	2302      	movs	r3, #2
  80019d2:	f887 3070 	strb.w	r3, [r7, #112]	; 0x70
-	Motor_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
  80019d6:	230b      	movs	r3, #11
  80019d8:	f887 3071 	strb.w	r3, [r7, #113]	; 0x71
-	Motor_Init[KneeMotorControllerIndex].FirstStep.nominalCurrent = 6600;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.nominalCurrent = 6600;
  80019dc:	f641 13c8 	movw	r3, #6600	; 0x19c8
  80019e0:	677b      	str	r3, [r7, #116]	; 0x74
-	Motor_Init[KneeMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
  80019e2:	f247 2374 	movw	r3, #29300	; 0x7274
  80019e6:	67bb      	str	r3, [r7, #120]	; 0x78
-	Motor_Init[KneeMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
  80019e8:	2315      	movs	r3, #21
  80019ea:	f887 307c 	strb.w	r3, [r7, #124]	; 0x7c
-	Motor_Init[KneeMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
  80019ee:	f44f 73c8 	mov.w	r3, #400	; 0x190
  80019f2:	f8a7 307e 	strh.w	r3, [r7, #126]	; 0x7e
-	Motor_Init[KneeMotorControllerIndex].FirstStep.torqueConstant = 95000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.torqueConstant = 95000;
  80019f6:	4b9b      	ldr	r3, [pc, #620]	; (8001c64 <main+0x39c>)
  80019f8:	f8c7 3080 	str.w	r3, [r7, #128]	; 0x80
-	Motor_Init[KneeMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
  80019fc:	f44f 6315 	mov.w	r3, #2384	; 0x950
  8001a00:	f8c7 3084 	str.w	r3, [r7, #132]	; 0x84
-	Motor_Init[KneeMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
  8001a04:	4b98      	ldr	r3, [pc, #608]	; (8001c68 <main+0x3a0>)
  8001a06:	f8c7 3088 	str.w	r3, [r7, #136]	; 0x88
-	Motor_Init[KneeMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
  8001a0a:	f44f 1380 	mov.w	r3, #1048576	; 0x100000
  8001a0e:	f8c7 308c 	str.w	r3, [r7, #140]	; 0x8c
-	Motor_Init[KneeMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
  8001a12:	4b96      	ldr	r3, [pc, #600]	; (8001c6c <main+0x3a4>)
  8001a14:	f8c7 3090 	str.w	r3, [r7, #144]	; 0x90
-	Motor_Init[KneeMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
  8001a18:	2330      	movs	r3, #48	; 0x30
  8001a1a:	f8c7 3094 	str.w	r3, [r7, #148]	; 0x94
-	Motor_Init[KneeMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
  8001a1e:	2300      	movs	r3, #0
  8001a20:	f8c7 3098 	str.w	r3, [r7, #152]	; 0x98
-	Motor_Init[KneeMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
  8001a24:	4b92      	ldr	r3, [pc, #584]	; (8001c70 <main+0x3a8>)
  8001a26:	f8c7 309c 	str.w	r3, [r7, #156]	; 0x9c
-	Motor_Init[KneeMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
  8001a2a:	4b92      	ldr	r3, [pc, #584]	; (8001c74 <main+0x3ac>)
  8001a2c:	f8c7 30a0 	str.w	r3, [r7, #160]	; 0xa0
-	Motor_Init[KneeMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
+	MotorController_Init[KneeMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode; // separate mode of operation??
  8001a30:	2300      	movs	r3, #0
  8001a32:	f887 30a4 	strb.w	r3, [r7, #164]	; 0xa4
 
@@ -3559,9 +3559,9 @@ int main(void)
  8001ba4:	4603      	mov	r3, r0
  8001ba6:	2b00      	cmp	r3, #0
  8001ba8:	d001      	beq.n	8001bae <main+0x2e6>
-		Error_Handler();
+		Error_Handler(); // ??
  8001baa:	f000 f8d3 	bl	8001d54 <Error_Handler>
-	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
+	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g); // add to MPU925x_Init()??
  8001bae:	2102      	movs	r1, #2
  8001bb0:	2000      	movs	r0, #0
  8001bb2:	f003 fdb1 	bl	8005718 <MPU925x_SetAccelSensitivity>
@@ -3596,7 +3596,7 @@ int main(void)
 			Error_Handler();
  8001be8:	f000 f8b4 	bl	8001d54 <Error_Handler>
 
-		EPOS4_Init(AnkleMotorControllerIndex, &Motor_Init[AnkleMotorControllerIndex]);
+		EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
  8001bec:	f107 0330 	add.w	r3, r7, #48	; 0x30
  8001bf0:	4619      	mov	r1, r3
  8001bf2:	2000      	movs	r0, #0
@@ -3629,7 +3629,7 @@ int main(void)
 			Error_Handler();
  8001c26:	f000 f895 	bl	8001d54 <Error_Handler>
 
-		EPOS4_Init(KneeMotorControllerIndex, &Motor_Init[KneeMotorControllerIndex]);
+		EPOS4_Init(KneeMotorControllerIndex, &MotorController_Init[KneeMotorControllerIndex]);
  8001c2a:	f107 0330 	add.w	r3, r7, #48	; 0x30
  8001c2e:	333c      	adds	r3, #60	; 0x3c
  8001c30:	4619      	mov	r1, r3

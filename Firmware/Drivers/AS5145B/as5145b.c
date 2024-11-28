@@ -11,13 +11,11 @@
 *			- Revision: v2-02
 * 2. Unless otherwise specified, units are
 * 		- Angles = degrees
-* 2. #define AS5145B_NUMBER_OF_DEVICES must be updated to (at least) the number
-*    of devices used.
+* 2. #define AS5145B_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
 * 3. Only SSI functionality is used in this driver.
-* 4. Minimum delays between clock edges are required for this device. This
-*    driver is configured for the scenario where there is no clock pin (i.e.
-*    SPI) but a GPIO output pin instead. Thus a delay function is used to
-*    generate the required delays.
+* 4. Minimum delays between clock edges are required for this device.
+*    This driver is configured for the scenario where there is no clock pin (i.e. SPI) but a GPIO output pin instead.
+*    Thus a delay function is used to generate the clock.
 *
 *******************************************************************************/
 

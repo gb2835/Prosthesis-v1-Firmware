@@ -8,8 +8,7 @@
 * 1. This driver is based on:
 *     - MCP25625 CAN Controller with Integrated Transceiver
 *        - Document Number: DS20005282C
-* 2. #define MCP25625_NUMBER_OF_DEVICES must be updated to (at least) the number
-*    of devices used.
+* 2. #define MCP25625_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
 * 3. Only standard data frames are used.
 * 4. Interrupts are not used.
 * 5. All TX buffers are set to lowest message priority (TXP = 00).

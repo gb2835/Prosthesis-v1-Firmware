@@ -6,14 +6,17 @@
 *
 * NOTES
 * 1. This driver is based on:
-*     - EPOS4 Application Notes
-*        - Document Number: rel8760
-*        - Revision: 2019-11
-*     - EPOS4 Positioning Controllers Firmware Specification
-*        - Document Number: rel8234
-*      	 - Edition: November 2018
-* 2. #define EPOS4_NUMBER_OF_DEVICES must be updated to (at least) the number
-*    of devices used.
+*		- EPOS4 Application Notes
+*			- Document Number: rel8760
+*			- Revision: 2019-11
+*		- EPOS4 Positioning Controllers Firmware Specification
+*			- Document Number: rel8234
+*			- Edition: November 2018
+* 2. Unless otherwise specified, units are
+*		Position = increment
+*		Torque   = N*mm
+*		Speed    = rev/min ??
+* 2. #define EPOS4_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
 * 3. STO pins are not controlled in this driver.
 * 4. Only CST mode is provided.
 *     - Quick stop function is not provided, thus deceleration parameters are not set for CST mode.

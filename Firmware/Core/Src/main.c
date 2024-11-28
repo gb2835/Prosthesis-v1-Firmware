@@ -11,12 +11,10 @@
 *		- LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *		- LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *		- LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
-* 2. Test programs provided prior to main loop to independently test device
-*    functionality.
+* 2. Test programs provided prior to main loop to independently test device functionality.
 * 3. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*    A new magnetic encoder bias position must be found and defined whenever
-*    the magnet is reassembled into the prosthesis device. A test program is
-*    provided to find the bias.
+*    A new magnetic encoder bias position must be found and defined whenever the magnet is reassembled into the prosthesis device.
+*    A test program is provided to find the bias.
 *    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 *
 *******************************************************************************/
@@ -150,48 +148,48 @@ int main(void)
 	Encoder_Init[KneeEncoderIndex].CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
 	Encoder_Init[KneeEncoderIndex].CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
-	EPOS4_Init_t Motor_Init[EPOS4_NUMBER_OF_DEVICES];
-	Motor_Init[AnkleMotorControllerIndex].nodeId = 2;
-	Motor_Init[AnkleMotorControllerIndex].mcpIndex = AnkleCAN_ControllerIndex;
-	Motor_Init[AnkleMotorControllerIndex].Requirements.isFirstStepRequired = 1;
-	Motor_Init[AnkleMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 6600;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.torqueConstant = 95000;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
-	Motor_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
-	Motor_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
+	EPOS4_Init_t MotorController_Init[EPOS4_NUMBER_OF_DEVICES];
+	MotorController_Init[AnkleMotorControllerIndex].nodeId = 2;
+	MotorController_Init[AnkleMotorControllerIndex].mcpIndex = AnkleCAN_ControllerIndex;
+	MotorController_Init[AnkleMotorControllerIndex].Requirements.isFirstStepRequired = 1;
+	MotorController_Init[AnkleMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 6600;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.torqueConstant = 95000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
+	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
 
-	Motor_Init[KneeMotorControllerIndex].nodeId = 1;
-	Motor_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
-	Motor_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
-	Motor_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.nominalCurrent = 6600;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.torqueConstant = 95000;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
-	Motor_Init[KneeMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
-	Motor_Init[KneeMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
+	MotorController_Init[KneeMotorControllerIndex].nodeId = 1;
+	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
+	MotorController_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
+	MotorController_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps; // separate first step??
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.nominalCurrent = 6600;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.torqueConstant = 95000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
+	MotorController_Init[KneeMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode; // separate mode of operation??
 
   	MCP25625_Init_t CAN_Controller_Init[MCP25625_NUMBER_OF_DEVICES];
   	memset(&CAN_Controller_Init, 0, sizeof(CAN_Controller_Init));
@@ -260,8 +258,8 @@ int main(void)
 	LL_mDelay(10);	// Allow startup delays for devices
 
 	if(MPU925x_Init(0, &IMU_Init))
-		Error_Handler();
-	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
+		Error_Handler(); // ??
+	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g); // add to MPU925x_Init()??
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 
 
@@ -272,7 +270,7 @@ int main(void)
 		if(MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]))
 			Error_Handler();
 
-		EPOS4_Init(AnkleMotorControllerIndex, &Motor_Init[AnkleMotorControllerIndex]);
+		EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
 	}
 	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
 	{
@@ -281,7 +279,7 @@ int main(void)
 		if(MCP25625_Init(KneeCAN_ControllerIndex, &CAN_Controller_Init[KneeCAN_ControllerIndex]))
 			Error_Handler();
 
-		EPOS4_Init(KneeMotorControllerIndex, &Motor_Init[KneeMotorControllerIndex]);
+		EPOS4_Init(KneeMotorControllerIndex, &MotorController_Init[KneeMotorControllerIndex]);
 	}
 
 	InitProsthesisControl(&Prosthesis_Init);
@@ -307,6 +305,7 @@ int main(void)
 	  }
 
 	  // use this for can reads??
+
 
 /******************************************************************************/
 
