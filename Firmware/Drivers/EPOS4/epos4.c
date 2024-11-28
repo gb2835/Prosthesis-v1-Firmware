@@ -340,65 +340,65 @@ static void FrameData(uint8_t *data, uint8_t byte0, uint16_t index, uint8_t subi
 
 static uint8_t WriteFirstStepObjects(uint16_t cobId, EPOS4_FirstStep_t FirstStep)
 {
-//	WriteObjectValue(cobId, CAN_BITRATE_INDEX, 0, FirstStep.CAN_BitRate);
-//	if(ReadObjectValue(cobId, CAN_BITRATE_INDEX, 0) != FirstStep.CAN_BitRate)
-//		return 1;
-//
-//	WriteObjectValue(cobId, MOTOR_TYPE_INDEX, 0, FirstStep.MotorType);
-//	if(ReadObjectValue(cobId, MOTOR_TYPE_INDEX, 0) != FirstStep.MotorType)
-//		return 1;
-//
-//	WriteObjectValue(cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX, FirstStep.nominalCurrent);
-//	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX) != FirstStep.nominalCurrent)
-//		return 1;
-//
-//	WriteObjectValue(cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX, FirstStep.outputCurrentLimit);
-//	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX) != FirstStep.outputCurrentLimit)
-//		return 1;
-//
-//	WriteObjectValue(cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX, FirstStep.numberOfPolePairs);
-//	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX) != FirstStep.numberOfPolePairs)
-//		return 1;
-//
-//	WriteObjectValue(cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX, FirstStep.thermalTimeConstantWinding);
-//	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX) != FirstStep.thermalTimeConstantWinding)
-//		return 1;
-//
-//	WriteObjectValue(cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX, FirstStep.torqueConstant);
-//	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX) != FirstStep.torqueConstant)
-//		return 1;
-//
-//	WriteObjectValue(cobId, MAX_MOTOR_SPEED_INDEX, 0, FirstStep.maxMotorSpeed);
-//	if(ReadObjectValue(cobId, MAX_MOTOR_SPEED_INDEX, 0) != FirstStep.maxMotorSpeed)
-//		return 1;
-//
-//	WriteObjectValue(cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX, FirstStep.maxGearInputSpeed);
-//	if(ReadObjectValue(cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX) != FirstStep.maxGearInputSpeed)
-//		return 1;
-//
-//	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX, FirstStep.sensorsConfiguration);
-//	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX) != FirstStep.sensorsConfiguration)
-//		return 1;
-//
-//	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX, FirstStep.controlStructure);
-//	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX) != FirstStep.controlStructure)
-//		return 1;
-//
-//	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX, FirstStep.commutationSensors);
-//	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX) != FirstStep.commutationSensors)
-//		return 1;
-//
-//	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX, FirstStep.axisConfigMiscellaneous);
-//	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX) != FirstStep.axisConfigMiscellaneous)
-//		return 1;
-//
-//	WriteObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX, FirstStep.currentControllerP_Gain);
-//	if(ReadObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX) != FirstStep.currentControllerP_Gain)
-//		return 1;
-//
-//	WriteObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX, FirstStep.currentControllerI_Gain);
-//	if(ReadObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX) != FirstStep.currentControllerI_Gain)
-//		return 1;
+	WriteObjectValue(cobId, CAN_BITRATE_INDEX, 0, FirstStep.CAN_BitRate);
+	if(ReadObjectValue(cobId, CAN_BITRATE_INDEX, 0) != FirstStep.CAN_BitRate)
+		return 1;
+
+	WriteObjectValue(cobId, MOTOR_TYPE_INDEX, 0, FirstStep.MotorType);
+	if(ReadObjectValue(cobId, MOTOR_TYPE_INDEX, 0) != FirstStep.MotorType)
+		return 1;
+
+	WriteObjectValue(cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX, FirstStep.nominalCurrent);
+	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX) != FirstStep.nominalCurrent)
+		return 1;
+
+	WriteObjectValue(cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX, FirstStep.outputCurrentLimit);
+	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX) != FirstStep.outputCurrentLimit)
+		return 1;
+
+	WriteObjectValue(cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX, FirstStep.numberOfPolePairs);
+	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX) != FirstStep.numberOfPolePairs)
+		return 1;
+
+	WriteObjectValue(cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX, FirstStep.thermalTimeConstantWinding);
+	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX) != FirstStep.thermalTimeConstantWinding)
+		return 1;
+
+	WriteObjectValue(cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX, FirstStep.torqueConstant);
+	if(ReadObjectValue(cobId, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX) != FirstStep.torqueConstant)
+		return 1;
+
+	WriteObjectValue(cobId, MAX_MOTOR_SPEED_INDEX, 0, FirstStep.maxMotorSpeed);
+	if(ReadObjectValue(cobId, MAX_MOTOR_SPEED_INDEX, 0) != FirstStep.maxMotorSpeed)
+		return 1;
+
+	WriteObjectValue(cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX, FirstStep.maxGearInputSpeed);
+	if(ReadObjectValue(cobId, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX) != FirstStep.maxGearInputSpeed)
+		return 1;
+
+	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX, FirstStep.sensorsConfiguration);
+	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX) != FirstStep.sensorsConfiguration)
+		return 1;
+
+	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX, FirstStep.controlStructure);
+	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX) != FirstStep.controlStructure)
+		return 1;
+
+	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX, FirstStep.commutationSensors);
+	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX) != FirstStep.commutationSensors)
+		return 1;
+
+	WriteObjectValue(cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX, FirstStep.axisConfigMiscellaneous);
+	if(ReadObjectValue(cobId, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX) != FirstStep.axisConfigMiscellaneous)
+		return 1;
+
+	WriteObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX, FirstStep.currentControllerP_Gain);
+	if(ReadObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX) != FirstStep.currentControllerP_Gain)
+		return 1;
+
+	WriteObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX, FirstStep.currentControllerI_Gain);
+	if(ReadObjectValue(cobId, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX) != FirstStep.currentControllerI_Gain)
+		return 1;
 
 	return 0;
 }
