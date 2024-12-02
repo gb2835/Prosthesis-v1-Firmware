@@ -79,6 +79,7 @@ void SystemClock_Config(void);
 #include "prosthesis_control.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
+#include <string.h>
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
@@ -145,6 +146,7 @@ int main(void)
 	MagEnc.CSn_Pin = ENC_CSn_Pin;
 
   	MCP25625_Inits_t CAN_Controller_Inits;
+  	memset(&CAN_Controller_Inits, 0, sizeof(CAN_Controller_Inits));
   	CAN_Controller_Inits.SPIx = SPI2;
   	CAN_Controller_Inits.CS_Port = SPI2_CS_GPIO_Port;
   	CAN_Controller_Inits.csPin = SPI2_CS_Pin;
