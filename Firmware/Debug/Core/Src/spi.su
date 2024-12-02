@@ -3,6 +3,8 @@
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_bus.h:1673:22:LL_APB2_GRP1_EnableClock	24	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:426:22:LL_SPI_SetStandard	16	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:874:22:LL_SPI_DisableNSSPulseMgt	16	static
-../Core/Src/spi.c:28:6:MX_SPI1_Init	72	static
-../Core/Src/spi.c:78:6:MX_SPI2_Init	72	static
-../Core/Src/spi.c:128:6:MX_SPI3_Init	72	static
+../Core/Src/spi.c:30:6:MX_SPI1_Init	72	static
+../Core/Src/spi.c:80:6:MX_SPI2_Init	72	static
+../Core/Src/spi.c:130:6:MX_SPI3_Init	8	static
+../Core/Src/spi.c:164:6:HAL_SPI_MspInit	48	static
+../Core/Src/spi.c:203:6:HAL_SPI_MspDeInit	16	static

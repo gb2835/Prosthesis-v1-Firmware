@@ -263,7 +263,6 @@ int main(void)
 	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g); // add to MPU925x_Init()??
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 
-
 	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
 	{
 		AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);

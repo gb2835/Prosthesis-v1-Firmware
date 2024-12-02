@@ -41,7 +41,9 @@ uint8_t isProsthesisControlRequired = 0;
 
 typedef enum
 {
-	Stance,
+	EarlyStance,
+	MidStance,
+	LateStance,
 	SwingFlexion,
 	SwingExtension
 } StateMachine_e;
@@ -90,7 +92,8 @@ static DeviceParams_t CM_Ankle, CM_Knee;
 static MPU925x_IMU_Data_t CM_IMU_Data;
 static LoadCell_Data_t CM_LoadCell_Filtered[3];				// [0] = k-0, [1] = k-1, [2] = k-2
 static uint16_t CM_ankleEncBias, CM_kneeEncBias;
-static uint16_t CM_state;
+
+static uint16_t CM_state = 1200;
 
 static void GetInputs(void);
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -354,13 +357,13 @@ static void RunStateMachine(void)
 
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
 	{
-		static StateMachine_e State = Stance;
+		static StateMachine_e State = EarlyStance;
 		static uint8_t isCheckBoundsRequired = 0;
 
 		switch(State)
 		{
-		case Stance:
-			CM_state = 1120;
+		case EarlyStance:
+			CM_state = 1200;
 
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.StanceCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.StanceCtrl.kd;
@@ -382,8 +385,18 @@ static void RunStateMachine(void)
 
 			break;
 
+		case MidStance:
+			CM_state = 1300;
+
+			break;
+
+		case LateStance:
+			CM_state = 1400;
+
+			break;
+
 		case SwingFlexion:
-			CM_state = 1345;
+			CM_state = 1500;
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingFlexCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.SwingFlexCtrl.kd;
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
@@ -394,13 +407,13 @@ static void RunStateMachine(void)
 			break;
 
 		case SwingExtension:
-			CM_state = 1570;
+			CM_state = 1600;
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingExtCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
 
 			if(CM_LoadCell_Filtered->top[0] < CM_lcBot_lowerBound)
-				State = Stance;
+				State = EarlyStance;
 
 			break;
 		}
