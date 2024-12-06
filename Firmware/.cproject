@@ -89,10 +89,15 @@
 						</toolChain>
 					</folderInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1585774879" name="epos4_new.h" rcbsApplicability="disable" resourcePath="Drivers/EPOS4/epos4.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.452970188" name="epos4.h" rcbsApplicability="disable" resourcePath="Drivers/EPOS4/epos4_brett.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.391221079" name="mcp25625_new.h" rcbsApplicability="disable" resourcePath="Drivers/MCP25625/mcp25625_brett.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.2136806396" name="mcp25625_greg.c" rcbsApplicability="disable" resourcePath="Drivers/MCP25625/mcp25625_greg.c" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.654071136.763634913">
+						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.654071136.763634913" name="MCU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.654071136"/>
+					</fileInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1351858717" name="mcp25625_new.h" rcbsApplicability="disable" resourcePath="Drivers/MCP25625/mcp25625.h" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="Src/systick_app_timer.c|Inc/systick_app_timer.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry excluding="MCP25625/mcp25625_new.c|MCP25625/mcp25625_old.h|MCP25625/mcp25625_old.c|EPOS4/EPOS4_old.h|EPOS4/EPOS4_old.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="MCP25625/mcp25625_greg.c|MCP25625/mcp25625_brett.h|MCP25625/mcp25625_brett.c|EPOS4/epos4_brett.h|EPOS4/epos4.h|EPOS4/epos4_brett.c|MCP25625/mcp25625_greg.h|MCP25625/mcp25625_new.h|MCP25625/mcp25625_new.c|MCP25625/mcp25625_old.h|MCP25625/mcp25625_old.c|EPOS4/EPOS4_old.h|EPOS4/EPOS4_old.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
