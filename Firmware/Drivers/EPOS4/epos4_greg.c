@@ -113,7 +113,7 @@ typedef struct
 	uint8_t mcpIndex;
 	EPOS4_Requirements_t Requirements;
 	EPOS4_FirstStep_t FirstStep;
-	EPOS4_ModeOfOperation_t ModeOfOperation;
+	EPOS4_ModeOfOperation_e ModeOfOperation;
 	uint16_t cobId;
 	uint8_t isInit;
 } Device_t;
@@ -137,7 +137,7 @@ static void CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx);
 static void CheckForAbort(uint8_t deviceIndex, uint8_t *data);
 static void FrameData(uint8_t *data, uint8_t byte0, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
 static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, EPOS4_FirstStep_t FirstStep);
-static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_t modeOfOperation);
+static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e modeOfOperation);
 static void ErrorHandler(uint8_t deviceIndex, Error_e error);
 
 
@@ -396,7 +396,7 @@ static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, EPOS4_FirstStep_t Firs
 	return 0;
 }
 
-static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_t modeOfOperation)
+static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e modeOfOperation)
 {
 	switch (modeOfOperation)
 	{

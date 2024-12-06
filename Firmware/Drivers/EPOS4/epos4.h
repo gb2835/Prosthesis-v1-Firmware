@@ -12,7 +12,7 @@
 typedef enum
 {
 	CyclicSynchronousTorqueMode
-} EPOS4_ModeOfOperation_t;
+} EPOS4_ModeOfOperation_e;
 
 // take enums out of structs??
 typedef struct
@@ -72,7 +72,7 @@ typedef struct
 	uint8_t mcpIndex;
 	EPOS4_Requirements_t Requirements;
 	EPOS4_FirstStep_t FirstStep;
-	EPOS4_ModeOfOperation_t ModeOfOperation;
+	EPOS4_ModeOfOperation_e ModeOfOperation;
 } EPOS4_Init_t;
 
 void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init);

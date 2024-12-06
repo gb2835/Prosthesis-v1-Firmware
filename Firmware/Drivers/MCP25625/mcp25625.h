@@ -26,14 +26,14 @@ typedef union
 	uint8_t value;
 	struct
 	{
-		uint8_t BRP	:6;
+		uint8_t BRP			:6;
 		enum
 		{
 			Length1xT_Q,
 			Length2xT_Q,
 			Length3xT_Q,
 			Length4xT_Q
-		} SJW :2;
+		} SJW				:2;
 	} Bits;
 } MCP25625_CNF1_Reg_t;
 
@@ -42,18 +42,18 @@ typedef union
 	uint8_t value;
 	struct
 	{
-		uint8_t PRSEG	:3;
-		uint8_t PHSEG1	:3;
+		uint8_t PRSEG						:3;
+		uint8_t PHSEG1						:3;
 		enum
 		{
 			BusSampledOnceAtSamplePoint,
 			BusSampledThreeTimesAtSamePoint
-		} SAM :1;
+		} SAM 								:1;
 		enum
 		{
 			PS2LengthIsGreaterOfPS1AndIPT,
 			PS2LengthDeterminedByCNF3
-		} BLTMODE :1;
+		} BLTMODE							:1;
 	} Bits;
 } MCP25625_CNF2_Reg_t;
 
@@ -62,18 +62,18 @@ typedef union
 	uint8_t value;
 	struct
 	{
-		uint8_t PHSEG2			:3;
-		uint8_t Unimplemented	:3;
+		uint8_t PHSEG2									:3;
+		uint8_t Unimplemented							:3;
 		enum
 		{
 			WakeUpFilterIsDisabled,
 			WakeUpFilterIsEnabled
-		} WAKFIL :1;
+		} WAKFIL 										:1;
 		enum
 		{
 			ClockoutPinIsEnabledForClockOutFunction,
 			ClockoutPinIsEnabledForSOF_Signal
-		} SOF :1;
+		} SOF 											:1;
 	} Bits;
 } MCP25625_CNF3_Reg_t;
 
@@ -88,22 +88,22 @@ typedef union
 			ClockoutDiv2,
 			ClockoutDiv4,
 			ClockoutDiv8
-		} CLKPRE :2;
+		} CLKPRE							:2;
 		enum
 		{
 			ClockoutDisabled,
 			ClockoutEnabled
-		} CLKEN :1;
+		} CLKEN								:1;
 		enum
 		{
 			OneShotModeDisabled,
 			OneShotModeEnabled
-		} OSM :1;
+		} OSM								:1;
 		enum
 		{
 			AbortAllTransmissions,
 			AbortAllPendingTransmitBuffers
-		} ABAT :1;
+		} ABAT								:1;
 		enum
 		{
 			NormalOperationMode,
@@ -111,7 +111,7 @@ typedef union
 			LoopBackMode,
 			ListenOnlyMode,
 			ConfigurationMode
-		} REQOP :3;
+		} REQOP								:3;
 	} Bits;
 } MCP25625_CANCTRL_Reg_t;
 
@@ -122,19 +122,19 @@ typedef union
 	uint8_t value;
 	struct
 	{
-		uint8_t EID 			:2;
-		uint8_t Unimplemented2	:1;
+		uint8_t EID 								:2;
+		uint8_t Unimplemented2						:1;
 		enum
 		{
 			ReceiveStandardID,
 			ReceiveExtendedID
-		} IDE	:1;
+		} IDE										:1;
 		enum
 		{
 			StandardFrameReceived,
 			StandardRemoteTransmitRequestReceived
-		} SRR	:1;
-		uint8_t SID	:3;
+		} SRR										:1;
+		uint8_t SID									:3;
 	} Bits;
 } MCP25625_RXBxSIDL_Reg_t;
 
@@ -146,15 +146,15 @@ typedef union
 	uint8_t value;
 	struct
 	{
-		uint8_t DLC	:4;
-		uint8_t RB0	:1;
-		uint8_t RB1	:1;
+		uint8_t DLC									:4;
+		uint8_t RB0									:1;
+		uint8_t RB1									:1;
 		enum
 		{
 			ExtendedDataFrameReceived,
 			ExtendedRemoteTransmitRequestReceived
-		} RTR	:1;
-		uint8_t Unimplemented7	:1;
+		} RTR										:1;
+		uint8_t Unimplemented7						:1;
 	} Bits;
 } MCP25625_RXBxDLC_Reg_t;
 
@@ -187,7 +187,7 @@ typedef union
 		{
 			TransmitStandardID,
 			TransmitExtendedID
-		} EXIDE	:1;
+		} EXIDE					:1;
 		uint8_t Unimplemented4	:1;
 		uint8_t SID				:3;
 	} Bits;
@@ -201,14 +201,14 @@ typedef union
 	uint8_t value;
 	struct
 	{
-		uint8_t DLC 				:4;
-		uint8_t Unimplemented4_5	:2;
+		uint8_t DLC 							:4;
+		uint8_t Unimplemented4_5				:2;
 		enum
 		{
 			MessageWillBeDataFrame,
 			MessageWillBeRemoteTransmitRequest
-		} RTR	:1;
-		uint8_t Unused :1;
+		} RTR									:1;
+		uint8_t Unused 							:1;
 	} Bits;
 } MCP25625_TXBxDLC_Reg_t;
 
