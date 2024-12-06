@@ -170,7 +170,7 @@ int main(void)
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
 	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
 
-	MotorController_Init[KneeMotorControllerIndex].nodeId = 2;
+	MotorController_Init[KneeMotorControllerIndex].nodeId = 1;
 	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
