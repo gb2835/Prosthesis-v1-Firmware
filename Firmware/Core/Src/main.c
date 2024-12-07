@@ -149,7 +149,7 @@ int main(void)
 	Encoder_Init[KneeEncoderIndex].CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
 	EPOS4_Init_t MotorController_Init[EPOS4_NUMBER_OF_DEVICES];
-	MotorController_Init[AnkleMotorControllerIndex].nodeId = 2;
+	MotorController_Init[AnkleMotorControllerIndex].nodeId = 2; // switch??
 	MotorController_Init[AnkleMotorControllerIndex].mcpIndex = AnkleCAN_ControllerIndex;
 	MotorController_Init[AnkleMotorControllerIndex].Requirements.isFirstStepRequired = 1;
 	MotorController_Init[AnkleMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
@@ -170,11 +170,11 @@ int main(void)
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
 	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
 
-	MotorController_Init[KneeMotorControllerIndex].nodeId = 1;
+	MotorController_Init[KneeMotorControllerIndex].nodeId = 1; // switch??
 	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate1000Kbps; // separate first step??
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps; // separate first step??
 	MotorController_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
 	MotorController_Init[KneeMotorControllerIndex].FirstStep.nominalCurrent = 6600;
 	MotorController_Init[KneeMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
@@ -217,7 +217,7 @@ int main(void)
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.OSM = OneShotModeEnabled;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.ABAT = AbortAllTransmissions;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.REQOP = NormalOperationMode;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 0;
+  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 1;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.SJW = Length1xT_Q;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PRSEG = 4;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PHSEG1 = 1;
@@ -233,7 +233,7 @@ int main(void)
   	IMU_Init.csPin = IMU_CS_Pin;
 
 	Prosthesis_Init_t Prosthesis_Init;
-	Prosthesis_Init.Joint = Ankle;
+	Prosthesis_Init.Joint = Knee;
 	Prosthesis_Init.Side = Left;
 
 

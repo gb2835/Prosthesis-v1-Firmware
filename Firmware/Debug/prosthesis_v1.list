@@ -3301,8 +3301,8 @@ int main(void)
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
  80019c8:	2301      	movs	r3, #1
  80019ca:	f887 306f 	strb.w	r3, [r7, #111]	; 0x6f
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate1000Kbps; // separate first step??
- 80019ce:	2300      	movs	r3, #0
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps; // separate first step??
+ 80019ce:	2302      	movs	r3, #2
  80019d0:	f887 3070 	strb.w	r3, [r7, #112]	; 0x70
 	MotorController_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
  80019d4:	230b      	movs	r3, #11
@@ -3447,170 +3447,170 @@ int main(void)
  8001aee:	f897 302a 	ldrb.w	r3, [r7, #42]	; 0x2a
  8001af2:	f36f 1347 	bfc	r3, #5, #3
  8001af6:	f887 302a 	strb.w	r3, [r7, #42]	; 0x2a
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 0;
+  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 1;
  8001afa:	f897 302b 	ldrb.w	r3, [r7, #43]	; 0x2b
- 8001afe:	f36f 0305 	bfc	r3, #0, #6
- 8001b02:	f887 302b 	strb.w	r3, [r7, #43]	; 0x2b
+ 8001afe:	2201      	movs	r2, #1
+ 8001b00:	f362 0305 	bfi	r3, r2, #0, #6
+ 8001b04:	f887 302b 	strb.w	r3, [r7, #43]	; 0x2b
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.SJW = Length1xT_Q;
- 8001b06:	f897 302b 	ldrb.w	r3, [r7, #43]	; 0x2b
- 8001b0a:	f36f 1387 	bfc	r3, #6, #2
- 8001b0e:	f887 302b 	strb.w	r3, [r7, #43]	; 0x2b
+ 8001b08:	f897 302b 	ldrb.w	r3, [r7, #43]	; 0x2b
+ 8001b0c:	f36f 1387 	bfc	r3, #6, #2
+ 8001b10:	f887 302b 	strb.w	r3, [r7, #43]	; 0x2b
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PRSEG = 4;
- 8001b12:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
- 8001b16:	2204      	movs	r2, #4
- 8001b18:	f362 0302 	bfi	r3, r2, #0, #3
- 8001b1c:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
+ 8001b14:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
+ 8001b18:	2204      	movs	r2, #4
+ 8001b1a:	f362 0302 	bfi	r3, r2, #0, #3
+ 8001b1e:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PHSEG1 = 1;
- 8001b20:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
- 8001b24:	2201      	movs	r2, #1
- 8001b26:	f362 03c5 	bfi	r3, r2, #3, #3
- 8001b2a:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
+ 8001b22:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
+ 8001b26:	2201      	movs	r2, #1
+ 8001b28:	f362 03c5 	bfi	r3, r2, #3, #3
+ 8001b2c:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.SAM = BusSampledOnceAtSamplePoint;
- 8001b2e:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
- 8001b32:	f36f 1386 	bfc	r3, #6, #1
- 8001b36:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
+ 8001b30:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
+ 8001b34:	f36f 1386 	bfc	r3, #6, #1
+ 8001b38:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.BLTMODE = PS2LengthDeterminedByCNF3;
- 8001b3a:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
- 8001b3e:	f043 0380 	orr.w	r3, r3, #128	; 0x80
- 8001b42:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
+ 8001b3c:	f897 302c 	ldrb.w	r3, [r7, #44]	; 0x2c
+ 8001b40:	f043 0380 	orr.w	r3, r3, #128	; 0x80
+ 8001b44:	f887 302c 	strb.w	r3, [r7, #44]	; 0x2c
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF3_Reg.Bits.PHSEG2 = 1;
- 8001b46:	f897 302d 	ldrb.w	r3, [r7, #45]	; 0x2d
- 8001b4a:	2201      	movs	r2, #1
- 8001b4c:	f362 0302 	bfi	r3, r2, #0, #3
- 8001b50:	f887 302d 	strb.w	r3, [r7, #45]	; 0x2d
+ 8001b48:	f897 302d 	ldrb.w	r3, [r7, #45]	; 0x2d
+ 8001b4c:	2201      	movs	r2, #1
+ 8001b4e:	f362 0302 	bfi	r3, r2, #0, #3
+ 8001b52:	f887 302d 	strb.w	r3, [r7, #45]	; 0x2d
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF3_Reg.Bits.WAKFIL = WakeUpFilterIsDisabled;
- 8001b54:	f897 302d 	ldrb.w	r3, [r7, #45]	; 0x2d
- 8001b58:	f36f 1386 	bfc	r3, #6, #1
- 8001b5c:	f887 302d 	strb.w	r3, [r7, #45]	; 0x2d
+ 8001b56:	f897 302d 	ldrb.w	r3, [r7, #45]	; 0x2d
+ 8001b5a:	f36f 1386 	bfc	r3, #6, #1
+ 8001b5e:	f887 302d 	strb.w	r3, [r7, #45]	; 0x2d
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF3_Reg.Bits.SOF = ClockoutPinIsEnabledForClockOutFunction;
- 8001b60:	f897 302d 	ldrb.w	r3, [r7, #45]	; 0x2d
- 8001b64:	f36f 13c7 	bfc	r3, #7, #1
- 8001b68:	f887 302d 	strb.w	r3, [r7, #45]	; 0x2d
+ 8001b62:	f897 302d 	ldrb.w	r3, [r7, #45]	; 0x2d
+ 8001b66:	f36f 13c7 	bfc	r3, #7, #1
+ 8001b6a:	f887 302d 	strb.w	r3, [r7, #45]	; 0x2d
 
   	MPU925x_Init_t IMU_Init;
   	IMU_Init.SPI_Handle = SPI1;
- 8001b6c:	4b3c      	ldr	r3, [pc, #240]	; (8001c60 <main+0x398>)
- 8001b6e:	607b      	str	r3, [r7, #4]
+ 8001b6e:	4b3c      	ldr	r3, [pc, #240]	; (8001c60 <main+0x398>)
+ 8001b70:	607b      	str	r3, [r7, #4]
   	IMU_Init.CS_GPIOx = IMU_CS_GPIO_Port;
- 8001b70:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
- 8001b74:	60bb      	str	r3, [r7, #8]
+ 8001b72:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
+ 8001b76:	60bb      	str	r3, [r7, #8]
   	IMU_Init.csPin = IMU_CS_Pin;
- 8001b76:	f44f 7380 	mov.w	r3, #256	; 0x100
- 8001b7a:	81bb      	strh	r3, [r7, #12]
+ 8001b78:	f44f 7380 	mov.w	r3, #256	; 0x100
+ 8001b7c:	81bb      	strh	r3, [r7, #12]
 
 	Prosthesis_Init_t Prosthesis_Init;
 	Prosthesis_Init.Joint = Ankle;
- 8001b7c:	2300      	movs	r3, #0
- 8001b7e:	707b      	strb	r3, [r7, #1]
+ 8001b7e:	2300      	movs	r3, #0
+ 8001b80:	707b      	strb	r3, [r7, #1]
 	Prosthesis_Init.Side = Left;
- 8001b80:	2300      	movs	r3, #0
- 8001b82:	703b      	strb	r3, [r7, #0]
+ 8001b82:	2300      	movs	r3, #0
+ 8001b84:	703b      	strb	r3, [r7, #0]
 
 /*******************************************************************************
 * USER INITIALIZATIONS
 *******************************************************************************/
 
 	LL_SYSTICK_EnableIT();
- 8001b84:	f7ff fe4c 	bl	8001820 <LL_SYSTICK_EnableIT>
+ 8001b86:	f7ff fe4b 	bl	8001820 <LL_SYSTICK_EnableIT>
 
 	LL_LPTIM_Enable(LPTIM2);
- 8001b88:	4836      	ldr	r0, [pc, #216]	; (8001c64 <main+0x39c>)
- 8001b8a:	f7ff fc57 	bl	800143c <LL_LPTIM_Enable>
+ 8001b8a:	4836      	ldr	r0, [pc, #216]	; (8001c64 <main+0x39c>)
+ 8001b8c:	f7ff fc56 	bl	800143c <LL_LPTIM_Enable>
 	LL_LPTIM_EnableIT_ARRM(LPTIM2);
- 8001b8e:	4835      	ldr	r0, [pc, #212]	; (8001c64 <main+0x39c>)
- 8001b90:	f7ff fc8a 	bl	80014a8 <LL_LPTIM_EnableIT_ARRM>
+ 8001b90:	4834      	ldr	r0, [pc, #208]	; (8001c64 <main+0x39c>)
+ 8001b92:	f7ff fc89 	bl	80014a8 <LL_LPTIM_EnableIT_ARRM>
 	LL_LPTIM_SetAutoReload(LPTIM2, LPTIM2_PERIOD);
- 8001b94:	213f      	movs	r1, #63	; 0x3f
- 8001b96:	4833      	ldr	r0, [pc, #204]	; (8001c64 <main+0x39c>)
- 8001b98:	f7ff fc73 	bl	8001482 <LL_LPTIM_SetAutoReload>
+ 8001b96:	213f      	movs	r1, #63	; 0x3f
+ 8001b98:	4832      	ldr	r0, [pc, #200]	; (8001c64 <main+0x39c>)
+ 8001b9a:	f7ff fc72 	bl	8001482 <LL_LPTIM_SetAutoReload>
 	LL_LPTIM_StartCounter(LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS);
- 8001b9c:	2104      	movs	r1, #4
- 8001b9e:	4831      	ldr	r0, [pc, #196]	; (8001c64 <main+0x39c>)
- 8001ba0:	f7ff fc5c 	bl	800145c <LL_LPTIM_StartCounter>
+ 8001b9e:	2104      	movs	r1, #4
+ 8001ba0:	4830      	ldr	r0, [pc, #192]	; (8001c64 <main+0x39c>)
+ 8001ba2:	f7ff fc5b 	bl	800145c <LL_LPTIM_StartCounter>
 
 	LL_TIM_EnableCounter(TIM6);
- 8001ba4:	4830      	ldr	r0, [pc, #192]	; (8001c68 <main+0x3a0>)
- 8001ba6:	f7ff fe7f 	bl	80018a8 <LL_TIM_EnableCounter>
+ 8001ba6:	4830      	ldr	r0, [pc, #192]	; (8001c68 <main+0x3a0>)
+ 8001ba8:	f7ff fe7e 	bl	80018a8 <LL_TIM_EnableCounter>
 
 	LL_SPI_Enable(SPI1);
- 8001baa:	482d      	ldr	r0, [pc, #180]	; (8001c60 <main+0x398>)
- 8001bac:	f7ff fe6c 	bl	8001888 <LL_SPI_Enable>
+ 8001bac:	482c      	ldr	r0, [pc, #176]	; (8001c60 <main+0x398>)
+ 8001bae:	f7ff fe6b 	bl	8001888 <LL_SPI_Enable>
 	LL_SPI_Enable(SPI2);
- 8001bb0:	482a      	ldr	r0, [pc, #168]	; (8001c5c <main+0x394>)
- 8001bb2:	f7ff fe69 	bl	8001888 <LL_SPI_Enable>
+ 8001bb2:	482a      	ldr	r0, [pc, #168]	; (8001c5c <main+0x394>)
+ 8001bb4:	f7ff fe68 	bl	8001888 <LL_SPI_Enable>
 	LL_SPI_Enable(SPI3);
- 8001bb6:	4828      	ldr	r0, [pc, #160]	; (8001c58 <main+0x390>)
- 8001bb8:	f7ff fe66 	bl	8001888 <LL_SPI_Enable>
+ 8001bb8:	4827      	ldr	r0, [pc, #156]	; (8001c58 <main+0x390>)
+ 8001bba:	f7ff fe65 	bl	8001888 <LL_SPI_Enable>
 	LL_ADC_Enable(ADC1);
- 8001bbc:	482b      	ldr	r0, [pc, #172]	; (8001c6c <main+0x3a4>)
- 8001bbe:	f7ff fc29 	bl	8001414 <LL_ADC_Enable>
+ 8001bbe:	482b      	ldr	r0, [pc, #172]	; (8001c6c <main+0x3a4>)
+ 8001bc0:	f7ff fc28 	bl	8001414 <LL_ADC_Enable>
 	LL_ADC_Enable(ADC2);
- 8001bc2:	482b      	ldr	r0, [pc, #172]	; (8001c70 <main+0x3a8>)
- 8001bc4:	f7ff fc26 	bl	8001414 <LL_ADC_Enable>
+ 8001bc4:	482a      	ldr	r0, [pc, #168]	; (8001c70 <main+0x3a8>)
+ 8001bc6:	f7ff fc25 	bl	8001414 <LL_ADC_Enable>
 
 	LL_mDelay(10);	// Allow startup delays for devices
- 8001bc8:	200a      	movs	r0, #10
- 8001bca:	f005 f86d 	bl	8006ca8 <LL_mDelay>
+ 8001bca:	200a      	movs	r0, #10
+ 8001bcc:	f005 f86c 	bl	8006ca8 <LL_mDelay>
 
 	if(MPU925x_Init(0, &IMU_Init))
- 8001bce:	1d3b      	adds	r3, r7, #4
- 8001bd0:	4619      	mov	r1, r3
- 8001bd2:	2000      	movs	r0, #0
- 8001bd4:	f003 fbfe 	bl	80053d4 <MPU925x_Init>
- 8001bd8:	4603      	mov	r3, r0
- 8001bda:	2b00      	cmp	r3, #0
- 8001bdc:	d001      	beq.n	8001be2 <main+0x31a>
+ 8001bd0:	1d3b      	adds	r3, r7, #4
+ 8001bd2:	4619      	mov	r1, r3
+ 8001bd4:	2000      	movs	r0, #0
+ 8001bd6:	f003 fbfd 	bl	80053d4 <MPU925x_Init>
+ 8001bda:	4603      	mov	r3, r0
+ 8001bdc:	2b00      	cmp	r3, #0
+ 8001bde:	d001      	beq.n	8001be4 <main+0x31c>
 		Error_Handler(); // ??
- 8001bde:	f000 f8d5 	bl	8001d8c <Error_Handler>
+ 8001be0:	f000 f8d4 	bl	8001d8c <Error_Handler>
 	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g); // add to MPU925x_Init()??
- 8001be2:	2102      	movs	r1, #2
- 8001be4:	2000      	movs	r0, #0
- 8001be6:	f003 fc2f 	bl	8005448 <MPU925x_SetAccelSensitivity>
+ 8001be4:	2102      	movs	r1, #2
+ 8001be6:	2000      	movs	r0, #0
+ 8001be8:	f003 fc2e 	bl	8005448 <MPU925x_SetAccelSensitivity>
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
- 8001bea:	2102      	movs	r1, #2
- 8001bec:	2000      	movs	r0, #0
- 8001bee:	f003 fcbb 	bl	8005568 <MPU925x_SetGyroSensitivity>
+ 8001bec:	2102      	movs	r1, #2
+ 8001bee:	2000      	movs	r0, #0
+ 8001bf0:	f003 fcba 	bl	8005568 <MPU925x_SetGyroSensitivity>
 
 	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
- 8001bf2:	787b      	ldrb	r3, [r7, #1]
- 8001bf4:	2b00      	cmp	r3, #0
- 8001bf6:	d002      	beq.n	8001bfe <main+0x336>
- 8001bf8:	787b      	ldrb	r3, [r7, #1]
- 8001bfa:	2b01      	cmp	r3, #1
- 8001bfc:	d116      	bne.n	8001c2c <main+0x364>
+ 8001bf4:	787b      	ldrb	r3, [r7, #1]
+ 8001bf6:	2b00      	cmp	r3, #0
+ 8001bf8:	d002      	beq.n	8001c00 <main+0x338>
+ 8001bfa:	787b      	ldrb	r3, [r7, #1]
+ 8001bfc:	2b01      	cmp	r3, #1
+ 8001bfe:	d116      	bne.n	8001c2e <main+0x366>
 	{
 		AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);
- 8001bfe:	f107 03a8 	add.w	r3, r7, #168	; 0xa8
- 8001c02:	4619      	mov	r1, r3
- 8001c04:	2000      	movs	r0, #0
- 8001c06:	f002 f8d3 	bl	8003db0 <AS5145B_Init>
+ 8001c00:	f107 03a8 	add.w	r3, r7, #168	; 0xa8
+ 8001c04:	4619      	mov	r1, r3
+ 8001c06:	2000      	movs	r0, #0
+ 8001c08:	f002 f8d2 	bl	8003db0 <AS5145B_Init>
 
 		if(MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]))
- 8001c0a:	f107 0310 	add.w	r3, r7, #16
- 8001c0e:	4619      	mov	r1, r3
- 8001c10:	2000      	movs	r0, #0
- 8001c12:	f002 ffaf 	bl	8004b74 <MCP25625_Init>
- 8001c16:	4603      	mov	r3, r0
- 8001c18:	2b00      	cmp	r3, #0
- 8001c1a:	d001      	beq.n	8001c20 <main+0x358>
+ 8001c0c:	f107 0310 	add.w	r3, r7, #16
+ 8001c10:	4619      	mov	r1, r3
+ 8001c12:	2000      	movs	r0, #0
+ 8001c14:	f002 ffae 	bl	8004b74 <MCP25625_Init>
+ 8001c18:	4603      	mov	r3, r0
+ 8001c1a:	2b00      	cmp	r3, #0
+ 8001c1c:	d001      	beq.n	8001c22 <main+0x35a>
 			Error_Handler();
- 8001c1c:	f000 f8b6 	bl	8001d8c <Error_Handler>
+ 8001c1e:	f000 f8b5 	bl	8001d8c <Error_Handler>
 
 		EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
- 8001c20:	f107 0330 	add.w	r3, r7, #48	; 0x30
- 8001c24:	4619      	mov	r1, r3
- 8001c26:	2000      	movs	r0, #0
- 8001c28:	f002 fa76 	bl	8004118 <EPOS4_Init>
+ 8001c22:	f107 0330 	add.w	r3, r7, #48	; 0x30
+ 8001c26:	4619      	mov	r1, r3
+ 8001c28:	2000      	movs	r0, #0
+ 8001c2a:	f002 fa75 	bl	8004118 <EPOS4_Init>
 	}
 	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
- 8001c2c:	787b      	ldrb	r3, [r7, #1]
- 8001c2e:	2b02      	cmp	r3, #2
- 8001c30:	d020      	beq.n	8001c74 <main+0x3ac>
- 8001c32:	787b      	ldrb	r3, [r7, #1]
- 8001c34:	2b01      	cmp	r3, #1
- 8001c36:	d137      	bne.n	8001ca8 <main+0x3e0>
- 8001c38:	e01c      	b.n	8001c74 <main+0x3ac>
- 8001c3a:	bf00      	nop
+ 8001c2e:	787b      	ldrb	r3, [r7, #1]
+ 8001c30:	2b02      	cmp	r3, #2
+ 8001c32:	d01f      	beq.n	8001c74 <main+0x3ac>
+ 8001c34:	787b      	ldrb	r3, [r7, #1]
+ 8001c36:	2b01      	cmp	r3, #1
+ 8001c38:	d136      	bne.n	8001ca8 <main+0x3e0>
+ 8001c3a:	e01b      	b.n	8001c74 <main+0x3ac>
  8001c3c:	48000800 	.word	0x48000800
  8001c40:	48000400 	.word	0x48000400
  8001c44:	00017318 	.word	0x00017318
