@@ -4,10 +4,20 @@
 *
 *******************************************************************************/
 
+#ifndef INC_EPOS4_H_
+#define INC_EPOS4_H_
+
 #include "mcp25625.h"
 #include <stdint.h>
 
 #define EPOS4_NUMBER_OF_DEVICES	2
+
+typedef enum
+{
+	EPOS4_NoError,
+	EPOS4_FaultError,
+	EPOS4_AbortError
+} EPOS4_Error_e;
 
 typedef enum
 {
@@ -83,8 +93,11 @@ int16_t EPOS4_ReadTargetTorqueValue(uint8_t deviceIndex);
 int16_t EPOS4_ReadTorqueActualValue(uint8_t deviceIndex);
 int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t deviceIndex);
 void EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque);
+void EPOS4_DisableVoltage(uint8_t deviceIndex);
 
 
 /*******************************************************************************
 * END
 *******************************************************************************/
+
+#endif /* INC_EPOS4_H_ */

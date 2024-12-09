@@ -245,6 +245,11 @@ void EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque)
 	WriteObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, torque);
 }
 
+void EPOS4_DisableVoltage(uint8_t deviceIndex)
+{
+	WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
+}
+
 
 /*******************************************************************************
 * PRIVATE FUNCTIONS

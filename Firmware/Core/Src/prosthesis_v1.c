@@ -6,7 +6,7 @@
 *
 * NOTES
 * 1. Unless otherwise specified, units are
-* 		- Accelerometer = g's
+* 		- Accelerometer	= g's
 * 		- Angle         = degrees
 * 		- Current       = Amperes
 * 		- Gyroscope     = degress/second

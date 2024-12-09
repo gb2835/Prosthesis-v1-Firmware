@@ -1,0 +1,30 @@
+Core/Src/error_handler.o: ../Core/Src/error_handler.c \
+ ../Core/Inc/error_handler.h ../Drivers/AS5145B/as5145b.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h \
+ ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
+ ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h \
+ ../Drivers/CMSIS/Include/core_cm4.h \
+ ../Drivers/CMSIS/Include/cmsis_version.h \
+ ../Drivers/CMSIS/Include/cmsis_compiler.h \
+ ../Drivers/CMSIS/Include/cmsis_gcc.h \
+ ../Drivers/CMSIS/Include/mpu_armv7.h \
+ ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h \
+ ../Drivers/EPOS4/epos4.h ../Drivers/MCP25625/mcp25625.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h \
+ ../Drivers/MPU-9255/mpu925x_spi.h ../Core/Inc/prosthesis_v1.h
+../Core/Inc/error_handler.h:
+../Drivers/AS5145B/as5145b.h:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:
+../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
+../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l476xx.h:
+../Drivers/CMSIS/Include/core_cm4.h:
+../Drivers/CMSIS/Include/cmsis_version.h:
+../Drivers/CMSIS/Include/cmsis_compiler.h:
+../Drivers/CMSIS/Include/cmsis_gcc.h:
+../Drivers/CMSIS/Include/mpu_armv7.h:
+../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h:
+../Drivers/EPOS4/epos4.h:
+../Drivers/MCP25625/mcp25625.h:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:
+../Drivers/MPU-9255/mpu925x_spi.h:
+../Core/Inc/prosthesis_v1.h:

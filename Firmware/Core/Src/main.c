@@ -247,9 +247,11 @@ int main(void)
 
 		EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
 	}
+
 	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
 	{
-		AS5145B_Init(KneeEncoderIndex, &Encoder_Init[KneeEncoderIndex]);
+		if(AS5145B_Init(KneeEncoderIndex, &Encoder_Init[KneeEncoderIndex]))
+			Error_Handler();
 
 		if(MCP25625_Init(KneeCAN_ControllerIndex, &CAN_Controller_Init[KneeCAN_ControllerIndex]))
 			Error_Handler();
