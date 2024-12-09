@@ -11,7 +11,7 @@
 *		- LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *		- LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *		- LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
-* 2. Test programs provided prior to main loop to independently test device functionality.
+* 2. Test programs provided prior to main loop to test device functionality.
 * 3. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 *    A new magnetic encoder bias position must be found and defined whenever the magnet is reassembled into the prosthesis device.
 *    A test program is provided to find the bias.
@@ -174,7 +174,7 @@ int main(void)
 	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate500Kbps; // separate first step??
+	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate1000Kbps; // separate first step??
 	MotorController_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
 	MotorController_Init[KneeMotorControllerIndex].FirstStep.nominalCurrent = 6600;
 	MotorController_Init[KneeMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
@@ -217,7 +217,7 @@ int main(void)
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.OSM = OneShotModeEnabled;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.ABAT = AbortAllTransmissions;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.REQOP = NormalOperationMode;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 1;
+  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 0;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.SJW = Length1xT_Q;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PRSEG = 4;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PHSEG1 = 1;
@@ -233,7 +233,7 @@ int main(void)
   	IMU_Init.csPin = IMU_CS_Pin;
 
 	Prosthesis_Init_t Prosthesis_Init;
-	Prosthesis_Init.Joint = Knee;
+	Prosthesis_Init.Joint = Ankle;
 	Prosthesis_Init.Side = Left;
 
 

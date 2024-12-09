@@ -117,6 +117,8 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	memset(&CM_Ankle, 0, sizeof(CM_Ankle));
 	memset(&CM_Knee, 0, sizeof(CM_Knee));
 
+	CM_Ankle.ProsCtrl.kp = 1;
+
 	ankleEncBias = 1325 * AS5145B_RAW2DEG;
 	kneeEncBias = 2244 * AS5145B_RAW2DEG;
 
@@ -129,8 +131,9 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	CM_lcTop_upperBound = 1451.0f;
 }
 
-void RequireTestProgram(TestPrograms_e testProgram)
+void RequireTestProgram(TestPrograms_e option)
 {
+	testProgram = option;
 	if(testProgram != None)
 		isTestProgramRequired = 1;
 }
@@ -430,7 +433,7 @@ static void RunImpedanceControl(void)
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
 		int16_t motorTorque = CM_Ankle.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;			// Units are N*mm
-		EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, -motorTorque);								// Ankle joint rotates opposite of coordinate system
+		EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);								// Ankle joint rotates opposite of coordinate system
 
 	}
 
@@ -486,30 +489,33 @@ static void RunTestProgram(void)
 		break;
 
 	case ImpedanceControl:
-		if(Device.Joint == Ankle || Device.Joint == Combined)
+		if(isFirst)
 		{
-			uint16_t i;
-			float sum = 0.0f;
-			for(i = 0; i < 1000; i++)
+			if(Device.Joint == Ankle || Device.Joint == Combined)
 			{
-				float position = AS5145B_ReadPosition(AnkleEncoderIndex);
-				sum += position;
+				uint16_t i;
+				float sum = 0.0f;
+				for(i = 0; i < 1000; i++)
+				{
+					float position = AS5145B_ReadPosition(AnkleEncoderIndex);
+					sum += position;
+				}
+
+				CM_Ankle.ProsCtrl.eqPoint = sum / i - ankleEncBias;
 			}
 
-			CM_Ankle.ProsCtrl.eqPoint = sum / i - ankleEncBias;
-		}
-
-		if(Device.Joint == Knee || Device.Joint == Combined)
-		{
-			uint16_t i;
-			float sum = 0.0f;
-			for(i = 0; i < 1000; i++)
+			if(Device.Joint == Knee || Device.Joint == Combined)
 			{
-				float position = AS5145B_ReadPosition(KneeEncoderIndex);
-				sum += position;
-			}
+				uint16_t i;
+				float sum = 0.0f;
+				for(i = 0; i < 1000; i++)
+				{
+					float position = AS5145B_ReadPosition(KneeEncoderIndex);
+					sum += position;
+				}
 
-			CM_Knee.ProsCtrl.eqPoint = sum / i - kneeEncBias;
+				CM_Knee.ProsCtrl.eqPoint = sum / i - kneeEncBias;
+			}
 		}
 
 		RunImpedanceControl();
