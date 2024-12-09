@@ -24,7 +24,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h \
  ../Core/Inc/adc.h ../Core/Inc/main.h ../Core/Inc/lptim.h \
  ../Core/Inc/spi.h ../Core/Inc/tim.h ../Core/Inc/usart.h \
- ../Core/Inc/gpio.h ../Drivers/AS5145B/as5145b.h ../Drivers/EPOS4/EPOS4.h \
+ ../Core/Inc/gpio.h ../Drivers/AS5145B/as5145b.h ../Drivers/EPOS4/epos4.h \
  ../Drivers/MCP25625/mcp25625.h ../Drivers/MPU-9255/mpu925x_spi.h \
  ../Core/Inc/prosthesis_v1.h
 ../Core/Inc/main.h:
@@ -59,7 +59,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/usart.h:
 ../Core/Inc/gpio.h:
 ../Drivers/AS5145B/as5145b.h:
-../Drivers/EPOS4/EPOS4.h:
+../Drivers/EPOS4/epos4.h:
 ../Drivers/MCP25625/mcp25625.h:
 ../Drivers/MPU-9255/mpu925x_spi.h:
 ../Core/Inc/prosthesis_v1.h:

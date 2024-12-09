@@ -28,8 +28,16 @@
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
+
+
+
+
+
 #define DELAY_TIMX				TIM6 // is this the right way to do this??
 #define DELAY_TIMX_RATE_MHZ		10
+
+
+
 
 typedef struct
 {
@@ -55,7 +63,7 @@ static inline uint8_t ReadDO_Pin(uint8_t deviceIndex);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-void AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
+AS5145B_Error_e AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
 {
 	if(deviceIndex + 1 > AS5145B_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
@@ -66,6 +74,12 @@ void AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
 	RaiseClockEdge(deviceIndex);
 
 	Device[deviceIndex].isInit = 1;
+
+	uint8_t status = AS5145B_ReadStatus(deviceIndex);
+	if((status & 0b111001) != 0b100000)
+		return AS5145B_InitError;
+
+	return AS5145B_NoError;
 }
 
 AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)

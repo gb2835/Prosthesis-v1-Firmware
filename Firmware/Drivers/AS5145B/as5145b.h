@@ -12,6 +12,12 @@
 #define AS5145B_NUMBER_OF_DEVICES	2
 #define AS5145B_RAW2DEG				360/4096.0f
 
+typedef enum
+{
+	AS5145B_NoError,
+	AS5145B_InitError
+} AS5145B_Error_e;
+
 typedef struct
 {
 	int16_t	position;
@@ -28,7 +34,7 @@ typedef struct
 	uint16_t		CSn_Pin;
 } AS5145B_Init_t;
 
-void AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init);
+AS5145B_Error_e AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init);
 AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex);
 float AS5145B_ReadPosition(uint8_t deviceIndex);
 uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex);

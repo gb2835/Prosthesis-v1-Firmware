@@ -265,7 +265,8 @@ int main(void)
 
 	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
 	{
-		AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);
+		if(AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]))
+			Error_Handler();
 
 		if(MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]))
 			Error_Handler();
