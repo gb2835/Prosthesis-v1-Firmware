@@ -143,6 +143,8 @@ int main(void)
 	Encoder_Init[AnkleEncoderIndex].DO_Pin = ENCODER_DO_Pin;
 	Encoder_Init[AnkleEncoderIndex].CLK_Pin = ENCODER_CLK_Pin;
 	Encoder_Init[AnkleEncoderIndex].CSn_Pin = KNEE_ENCODER_CSn_Pin;
+	Encoder_Init[AnkleEncoderIndex].TIMx = TIM6;
+	Encoder_Init[AnkleEncoderIndex].timerRateMHz = 10;
 
 	memcpy(&Encoder_Init[KneeEncoderIndex], &Encoder_Init[AnkleEncoderIndex], sizeof(Encoder_Init[AnkleEncoderIndex]));
 	Encoder_Init[KneeEncoderIndex].CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
@@ -170,26 +172,10 @@ int main(void)
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
 	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
 
+	memcpy(&MotorController_Init[KneeMotorControllerIndex], &MotorController_Init[AnkleMotorControllerIndex], sizeof(MotorController_Init[AnkleMotorControllerIndex]));
 	MotorController_Init[KneeMotorControllerIndex].nodeId = 1; // switch??
 	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
 	MotorController_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
-	MotorController_Init[KneeMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.CAN_BitRate = Rate1000Kbps; // separate first step??
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.nominalCurrent = 6600;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.torqueConstant = 95000;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
-	MotorController_Init[KneeMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
-	MotorController_Init[KneeMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode; // separate mode of operation??
 
   	MCP25625_Init_t CAN_Controller_Init[MCP25625_NUMBER_OF_DEVICES];
   	memset(&CAN_Controller_Init, 0, sizeof(CAN_Controller_Init));
@@ -210,22 +196,10 @@ int main(void)
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.WAKFIL = WakeUpFilterIsDisabled;
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.SOF = ClockoutPinIsEnabledForClockOutFunction;
 
+  	memcpy(&CAN_Controller_Init[KneeCAN_ControllerIndex], &CAN_Controller_Init[AnkleCAN_ControllerIndex], sizeof(CAN_Controller_Init[AnkleCAN_ControllerIndex]));
   	CAN_Controller_Init[KneeCAN_ControllerIndex].SPIx = SPI2;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].CS_Port = KNEE_CAN_CONTROLLER_CS_GPIO_Port;
   	CAN_Controller_Init[KneeCAN_ControllerIndex].csPin = KNEE_CAN_CONTROLLER_CS_Pin;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.CLKEN = ClockoutDisabled;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.OSM = OneShotModeEnabled;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.ABAT = AbortAllTransmissions;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CANCTRL_Reg.Bits.REQOP = NormalOperationMode;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 0;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF1_Reg.Bits.SJW = Length1xT_Q;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PRSEG = 4;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.PHSEG1 = 1;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.SAM = BusSampledOnceAtSamplePoint;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF2_Reg.Bits.BLTMODE = PS2LengthDeterminedByCNF3;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF3_Reg.Bits.PHSEG2 = 1;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF3_Reg.Bits.WAKFIL = WakeUpFilterIsDisabled;
-  	CAN_Controller_Init[KneeCAN_ControllerIndex].CNF3_Reg.Bits.SOF = ClockoutPinIsEnabledForClockOutFunction;
 
   	MPU925x_Init_t IMU_Init;
   	IMU_Init.SPI_Handle = SPI1;
@@ -260,7 +234,7 @@ int main(void)
 
 	if(MPU925x_Init(0, &IMU_Init))
 		Error_Handler(); // ??
-	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g); // add to MPU925x_Init()??
+	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 
 	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))

@@ -13,14 +13,13 @@
 
 #define MCP25625_NUMBER_OF_DEVICES	2
 
-// how can error handler tell diff between this and other enums??
 typedef enum
 {
-	mcp25625_noError,
-	mcp25625_resetError,
-	mcp25625_configError,
-	mcp25625_canCtrlError
-} MCP25625_Errors_t;
+	MCP25625_NoError,
+	MCP25625_ResetError,
+	MCP25625_ConfigError,
+	MCP25625_CANCTRL_Error
+} MCP25625_Error_e;
 
 typedef union
 {
@@ -52,7 +51,7 @@ typedef union
 		} SAM :1;
 		enum
 		{
-			PS2LengthIsGreaterOfPs1AndIPT,
+			PS2LengthIsGreaterOfPS1AndIPT,
 			PS2LengthDeterminedByCNF3
 		} BLTMODE :1;
 	} Bits;
@@ -240,7 +239,7 @@ typedef struct
 	MCP25625_CNF3_Reg_t CNF3_Reg;
 } MCP25625_Init_t;
 
-uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits);
+MCP25625_Error_e MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits);
 uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_ReadRxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);

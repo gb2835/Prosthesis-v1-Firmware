@@ -8,6 +8,7 @@
 * 1. This driver is based on:
 *     - MCP25625 CAN Controller with Integrated Transceiver
 *        - Document Number: DS20005282C
+* 2. #define MCP25625_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
 * 2. Only standard data frames are used.
 * 3. Polling is used (no interrupts).
 * 4. All TX buffers are set to lowest message priority (TXP = 00).??
@@ -17,7 +18,7 @@
 
 #include "mcp25625.h"
 #include "stm32l4xx_ll_utils.h"
-#include "string.h"
+#include <string.h>
 
 
 /*******************************************************************************
@@ -90,33 +91,33 @@ typedef union
 	{
 		enum
 		{
-			lowestMessagePriority,
-			lowIntermediateMessagePriority,
-			highIntermediateMessagePriority,
-			highestMessagePriority
+			LowestMessagePriority,
+			LowIntermediateMessagePriority,
+			HighIntermediateMessagePriority,
+			HighestMessagePriority
 		} TXP :2;
-		uint8_t unimplemented1 :1;
+		uint8_t Unimplemented1 :1;
 		enum
 		{
-			notPendingTransmission,
-			pendingTransmission
+			NotPendingTransmission,
+			PendingTransmission
 		} TXREQ :1;
 		enum
 		{
-			noBusErrorDuringTransmission,
-			busErrorDuringTransmission
+			NoBusErrorDuringTransmission,
+			BusErrorDuringTransmission
 		} TXERR :1;
 		enum
 		{
-			noArbirtationLost,
-			arbitrationLost
+			NoArbirtationLost,
+			ArbitrationLost
 		} MLOA :1;
 		enum
 		{
-			messageAborted,
-			transmissionSuccessful
+			MessageAborted,
+			TransmissionSuccessful
 		} ABTF :1;
-		uint8_t unimplemented7 :1;
+		uint8_t Unimplemented7 :1;
 	} Bits;
 } TXBxCTRL_Reg_t;
 
@@ -149,7 +150,7 @@ static void ClearChipSelect(uint8_t deviceIndex); // static inline??
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits)
+MCP25625_Error_e MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits)
 {
 	if(deviceIndex + 1 > MCP25625_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
@@ -157,13 +158,12 @@ uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits)
 	memcpy(&Device[deviceIndex], Device_Inits, sizeof(MCP25625_Init_t));
 
 	ClearChipSelect(deviceIndex);
-
 	ResetDevice(deviceIndex);
 
 	uint8_t canCtrlReg;
 	ReadRegisterData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
 	if(canCtrlReg != CANCTRL_RESET_VALUE)
-		return mcp25625_resetError;
+		return MCP25625_ResetError;
 
 	InitRXBx(deviceIndex);
 
@@ -173,16 +173,16 @@ uint8_t MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits)
 	ReadRegisterData(deviceIndex, CNF3_REG, configRegs, sizeof(configRegs));
 	for(uint8_t i = 0; i < sizeof(configRegs); i++)
 		if(configRegs[i] != configRegValues[i])
-			return mcp25625_configError;
+			return MCP25625_ConfigError;
 
 	WriteRegisterData(deviceIndex, CANCTRL_REG, &Device[deviceIndex].CANCTRL_Reg.value, sizeof(Device[deviceIndex].CANCTRL_Reg.value));
 	ReadRegisterData(deviceIndex, CANCTRL_REG, &canCtrlReg, sizeof(canCtrlReg));
 	if(canCtrlReg != Device[deviceIndex].CANCTRL_Reg.value)
-		return mcp25625_canCtrlError;
+		return MCP25625_CANCTRL_Error;
 
 	Device[deviceIndex].isInit = 1;
 
-	return mcp25625_noError;
+	return MCP25625_NoError;
 }
 
 uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength)
@@ -393,7 +393,7 @@ static void ResetDevice(uint8_t deviceIndex)
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	ClearChipSelect(deviceIndex);
-	LL_mDelay(1);	// Minimum 2 us required (t_RL)
+	LL_mDelay(1);					// Minimum 2 us required (t_RL)
 }
 
 static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes)

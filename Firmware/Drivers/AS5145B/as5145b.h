@@ -14,8 +14,8 @@
 
 typedef enum
 {
-	AS5145B_NoError,
-	AS5145B_InitError
+	AS5145B_NoError = 0,
+	AS5145B_StatusError = 0x100
 } AS5145B_Error_e;
 
 typedef struct
@@ -26,12 +26,14 @@ typedef struct
 
 typedef struct
 {
-	GPIO_TypeDef	*DO_GPIOx;
-	GPIO_TypeDef	*CLK_GPIOx;
-	GPIO_TypeDef	*CSn_GPIOx;
-	uint16_t		DO_Pin;
-	uint16_t		CLK_Pin;
-	uint16_t		CSn_Pin;
+	GPIO_TypeDef *DO_GPIOx;
+	GPIO_TypeDef *CLK_GPIOx;
+	GPIO_TypeDef *CSn_GPIOx;
+	uint16_t DO_Pin;
+	uint16_t CLK_Pin;
+	uint16_t CSn_Pin;
+	TIM_TypeDef *TIMx;
+	uint8_t timerRateMHz;
 } AS5145B_Init_t;
 
 AS5145B_Error_e AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init);

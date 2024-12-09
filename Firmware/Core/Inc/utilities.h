@@ -27,10 +27,10 @@
  *  500			~500.0
  *  1000		~998.0
  */
-static inline void DelayUs(TIM_TypeDef *TIMx, uint16_t useconds, uint8_t clockRateMHz)
+static inline void DelayUs(TIM_TypeDef *TIMx, uint8_t timerRateMHz, uint16_t useconds)
 {
 	TIMx->CNT = 0;
-	uint16_t duration = useconds * clockRateMHz;
+	uint16_t duration = useconds * timerRateMHz;
 	while(TIMx->CNT < duration);
 }
 

@@ -28,17 +28,6 @@
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-
-
-
-
-
-#define DELAY_TIMX				TIM6 // is this the right way to do this??
-#define DELAY_TIMX_RATE_MHZ		10
-
-
-
-
 typedef struct
 {
 	GPIO_TypeDef *DO_GPIOx;
@@ -47,6 +36,8 @@ typedef struct
 	uint16_t DO_Pin;
 	uint16_t CLK_Pin;
 	uint16_t CSn_Pin;
+	TIM_TypeDef *TIMx;
+	uint8_t timerRateMHz;
 	uint8_t isInit;
 } Device_t;
 
@@ -73,11 +64,11 @@ AS5145B_Error_e AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
 	ClearChipSelect(deviceIndex);
 	RaiseClockEdge(deviceIndex);
 
-	Device[deviceIndex].isInit = 1;
-
 	uint8_t status = AS5145B_ReadStatus(deviceIndex);
 	if((status & 0b111001) != 0b100000)
-		return AS5145B_InitError;
+		return AS5145B_StatusError;
+
+	Device[deviceIndex].isInit = 1;
 
 	return AS5145B_NoError;
 }
@@ -88,32 +79,32 @@ AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 		__NOP(); // add assert??
 
 	SetChipSelect(deviceIndex);
-	DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CLK FE)
+	DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
 
-	// Read angular position from first 12 bits (MSB first)
 	AS5145B_Data_t Data;
 	memset(&Data, 0, sizeof(Data));
 	for(int i = 12-1; i >= 0; i--)
 	{
 		LowerClockEdge(deviceIndex);
-		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
 		RaiseClockEdge(deviceIndex);
-		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
+
 		Data.position |= ReadDO_Pin(deviceIndex) << i;
 	}
 
-	// Read remaining 6 status bits (MSB first)
 	for(int i = 6-1; i >= 0; i--)
 	{
 		LowerClockEdge(deviceIndex);
-		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
+		DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
 		RaiseClockEdge(deviceIndex);
-		DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for T_(CLK/2)
-		Data.status  |= ReadDO_Pin(deviceIndex) << i;
+		DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
+
+		Data.status |= ReadDO_Pin(deviceIndex) << i;
 	}
 
 	ClearChipSelect(deviceIndex);
-	DelayUs(DELAY_TIMX, 1, DELAY_TIMX_RATE_MHZ);	// Delay of 500 ns minimum required for t_(CSn)
+	DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
 
 	return Data;
 }

@@ -19,7 +19,7 @@
 * 2. #define EPOS4_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
 * 3. STO pins are not controlled in this driver.
 * 4. Only CST mode is provided.
-*     - Quick stop function is not provided, thus deceleration parameters are not set for CST mode.
+*     - Quick stop function is not provided, thus deceleration parameters are not set for CST mode. ??
 *     - Only parameters for CST are included in EPOS4_FirstStep_t.
 * 5. FirstStep can be used to either initialize the device or check parameters already set by EPOS Studio.
 *    CAN_BitRate in FirstStep cannot be initialized from this driver, only checked.
@@ -28,7 +28,7 @@
 
 #include "epos4.h"
 #include "mcp25625.h"
-#include "string.h"
+#include <string.h>
 
 
 /*******************************************************************************
@@ -152,9 +152,8 @@ void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 
 	memcpy(&Device[deviceIndex], Device_Init, sizeof(EPOS4_Init_t));
 
-	Device[deviceIndex].cobId = Device[deviceIndex].nodeId + 0x600;
+	Device[deviceIndex].cobId = Device[deviceIndex].nodeId + 0x0600;
 
-	uint32_t temp = ReadObjectValue(deviceIndex, NODE_ID_INDEX, 0);
 	if(ReadObjectValue(deviceIndex, NODE_ID_INDEX, 0) != Device[deviceIndex].nodeId)	// timeout if turned off??
 		ErrorHandler(deviceIndex, NodeIdError);
 
@@ -401,7 +400,6 @@ static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e
 	switch (modeOfOperation)
 	{
 	case CyclicSynchronousTorqueMode:
-	{
 		WriteObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, 0);
 		if(ReadObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0) != 0)
 			return 1;
@@ -421,7 +419,6 @@ static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e
 			return 1;
 
 		return 0;
-	}
 	}
 
 	return 1;

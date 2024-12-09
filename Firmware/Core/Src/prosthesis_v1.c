@@ -117,7 +117,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	memset(&CM_Ankle, 0, sizeof(CM_Ankle));
 	memset(&CM_Knee, 0, sizeof(CM_Knee));
 
-	CM_Ankle.ProsCtrl.kp = 1;
+	CM_Ankle.ProsCtrl.kp = 1; // ??
 
 	ankleEncBias = 1325 * AS5145B_RAW2DEG;
 	kneeEncBias = 2244 * AS5145B_RAW2DEG;

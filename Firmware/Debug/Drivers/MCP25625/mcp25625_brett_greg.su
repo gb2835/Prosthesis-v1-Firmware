@@ -5,7 +5,7 @@
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:1008:26:LL_SPI_GetTxFIFOLevel	16	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:1333:25:LL_SPI_ReceiveData8	16	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:1356:22:LL_SPI_TransmitData8	24	static
-../Drivers/MCP25625/mcp25625_brett_greg.c:152:9:MCP25625_Init	32	static,ignoring_inline_asm
+../Drivers/MCP25625/mcp25625_brett_greg.c:153:18:MCP25625_Init	32	static,ignoring_inline_asm
 ../Drivers/MCP25625/mcp25625_brett_greg.c:188:9:MCP25625_LoadTxBufferAtD0	24	static,ignoring_inline_asm
 ../Drivers/MCP25625/mcp25625_brett_greg.c:238:9:MCP25625_LoadTxBufferAtSIDH	40	static,ignoring_inline_asm
 ../Drivers/MCP25625/mcp25625_brett_greg.c:300:9:MCP25625_ReadRxBufferAtD0	32	static,ignoring_inline_asm
