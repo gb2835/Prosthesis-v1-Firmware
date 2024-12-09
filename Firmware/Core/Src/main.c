@@ -71,7 +71,7 @@ void SystemClock_Config(void);
 *******************************************************************************/
 
 #include "as5145b.h"
-#include "EPOS4.h"
+#include "epos42.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
 #include "prosthesis_v1.h"
