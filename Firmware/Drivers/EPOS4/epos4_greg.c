@@ -93,20 +93,6 @@
 #define CST_MODE					0x0A
 #define EXPEDITED_CLIENT_DOWNLOAD	0b00100010
 
-typedef enum
-{
-	NoError,
-	TimeoutError,
-	NodeIdError,
-	ProductCodeError,
-	InitFaultDetected,
-	DisableVoltageError,
-	FirstStepError,
-	ModeOfOperationError,
-	DeviceError,
-	AbortError
-} Error_e;
-
 typedef struct
 {
 	uint8_t nodeId;
@@ -123,7 +109,7 @@ static Device_t Device[EPOS4_NUMBER_OF_DEVICES];
 static uint8_t errorHasOccurred = 0;
 
 static uint8_t CM_epos4_abortLowByte = 0, CM_epos4_abortHighByte = 0, CM_epos4_abortSubindex = 0;
-static uint8_t CM_epos4_error = NoError, CM_epos4_numOfErrors = 0;
+static uint8_t CM_epos4_error = EPOS4_NoError, CM_epos4_numOfErrors = 0;
 static uint16_t CM_epos4_state = 0;
 static uint32_t CM_epos4_abortCode = 0;
 static uint32_t CM_epos4_errorHistory1 = 0, CM_epos4_errorHistory2 = 0, CM_epos4_errorHistory3 = 0, CM_epos4_errorHistory4 = 0, CM_epos4_errorHistory5 = 0;
@@ -138,14 +124,14 @@ static void CheckForAbort(uint8_t deviceIndex, uint8_t *data);
 static void FrameData(uint8_t *data, uint8_t byte0, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
 static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, EPOS4_FirstStep_t FirstStep);
 static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e modeOfOperation);
-static void ErrorHandler(uint8_t deviceIndex, Error_e error);
+static void ErrorHandler(uint8_t deviceIndex, EPOS4_Error_e error);
 
 
 /*******************************************************************************
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
+EPOS4_Error_e EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 {
 	if(deviceIndex + 1 > EPOS4_NUMBER_OF_DEVICES)
 		__NOP(); // add assert??
@@ -155,7 +141,7 @@ void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 	Device[deviceIndex].cobId = Device[deviceIndex].nodeId + 0x0600;
 
 	if(ReadObjectValue(deviceIndex, NODE_ID_INDEX, 0) != Device[deviceIndex].nodeId)	// timeout if turned off??
-		ErrorHandler(deviceIndex, NodeIdError);
+		return EPOS4_NodeIdError;
 
 	uint8_t epos4ProductCodeError = 1;
 	uint16_t hwVersions[6] = {0x6050, 0x6150, 0x6551, 0x6552, 0x6350, 0x6450};
@@ -169,24 +155,26 @@ void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 		}
 	}
 	if(epos4ProductCodeError)
-		ErrorHandler(deviceIndex, ProductCodeError);
+		return EPOS4_ProductCodeError;
 
 	uint16_t state = ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK;
 	if((state == STATE_FAULT) || (state == STATE_FAULT_REACTION_ACTIVE))
-		ErrorHandler(deviceIndex, InitFaultDetected);
+		return EPOS4_InitFaultDetected;
 
 	WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
 	while((ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_SWITCH_ON_DISABLED); // timeout??
 
 	if(Device[deviceIndex].Requirements.isFirstStepRequired)
 		if(WriteFirstStepObjects(deviceIndex, Device[deviceIndex].FirstStep))
-			ErrorHandler(deviceIndex, FirstStepError);
+			return EPOS4_FirstStepError;
 
 	if(Device[deviceIndex].Requirements.isModeOfOperationRequired)
 		if(WriteModeOfOperation(deviceIndex, Device[deviceIndex].ModeOfOperation))
-			ErrorHandler(deviceIndex, ModeOfOperationError);
+			return EPOS4_ModeOfOperationError;
 
 	Device[deviceIndex].isInit = 1;
+
+	return EPOS4_NoError;
 }
 
 int32_t EPOS4_ReadPositionActualValue(uint8_t deviceIndex)
@@ -307,7 +295,7 @@ static void CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx)
 	uint8_t cobIdEmcy = Device[deviceIndex].nodeId + 0x80;
 	uint16_t cobId = (uint16_t) ((RXBx->Struct.RXBxSIDH_Reg << 3) + (RXBx->Struct.RXBxSIDL_Reg.value >> 5));
 	if(cobId == cobIdEmcy)
-		ErrorHandler(deviceIndex, DeviceError);
+		ErrorHandler(deviceIndex, EPOS4_FaultError);
 }
 
 static void CheckForAbort(uint8_t deviceIndex, uint8_t *data)
@@ -319,7 +307,7 @@ static void CheckForAbort(uint8_t deviceIndex, uint8_t *data)
 		CM_epos4_abortSubindex = data[3];
 		CM_epos4_abortCode = ParseValueFromData(data);
 
-		ErrorHandler(deviceIndex, AbortError);
+		ErrorHandler(deviceIndex, EPOS4_AbortError);
 	}
 }
 
@@ -429,7 +417,7 @@ static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e
 	return 1;
 }
 
-static void ErrorHandler(uint8_t deviceIndex, Error_e error)
+static void ErrorHandler(uint8_t deviceIndex, EPOS4_Error_e error)
 {
 	errorHasOccurred = 1;
 

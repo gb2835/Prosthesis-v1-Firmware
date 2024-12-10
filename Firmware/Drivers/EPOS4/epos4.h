@@ -15,6 +15,13 @@
 typedef enum
 {
 	EPOS4_NoError,
+	EPOS4_TimeoutError,
+	EPOS4_NodeIdError,
+	EPOS4_ProductCodeError,
+	EPOS4_InitFaultDetected,
+	EPOS4_DisableVoltageError,
+	EPOS4_FirstStepError,
+	EPOS4_ModeOfOperationError,
 	EPOS4_FaultError,
 	EPOS4_AbortError
 } EPOS4_Error_e;
@@ -85,7 +92,7 @@ typedef struct
 	EPOS4_ModeOfOperation_e ModeOfOperation;
 } EPOS4_Init_t;
 
-void EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init);
+EPOS4_Error_e EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init);
 int32_t EPOS4_ReadPositionActualValue(uint8_t deviceIndex);
 int32_t EPOS4_ReadVelocityActualValue(uint8_t deviceIndex);
 int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t deviceIndex);

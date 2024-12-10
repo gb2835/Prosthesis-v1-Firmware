@@ -1,6 +1,15 @@
 /*******************************************************************************
 *
-* See source file for more information.
+* TITLE:	Error Handler for Prosthesis v1
+* AUTHOR:	Greg Berkeley
+* RELEASE:	??
+*
+* NOTES
+* 1. Summary of LED status below.
+* 		- Green		= no error
+* 		- Yellow	= initialization error
+* 		- Orange	= EPOS4 abort error
+* 		- Red		= EPOS4 fault error
 *
 *******************************************************************************/
 

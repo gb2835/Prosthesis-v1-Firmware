@@ -72,6 +72,7 @@ void SystemClock_Config(void);
 
 #include "as5145b.h"
 #include "epos4.h"
+#include "error_handler.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
 #include "prosthesis_v1.h"
@@ -232,31 +233,40 @@ int main(void)
 
 	LL_mDelay(10);	// Allow startup delays for devices
 
-	if(MPU925x_Init(0, &IMU_Init))
-		Error_Handler(); // ??
+	MPU925x_Error_e error = MPU925x_Init(0, &IMU_Init);
+	if(error)
+		ErrorHandler_MPU925x(0, error);
 	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 
 	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
 	{
-		if(AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]))
-			Error_Handler();
+		AS5145B_Error_e error = AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);
+		if(error)
+			ErrorHandler_AS5145B(AnkleEncoderIndex, error);
 
-		if(MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]))
-			Error_Handler();
+		error = (MCP25625_Error_e) MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]);
+		if(error)
+			ErrorHandler_MCP25625(AnkleCAN_ControllerIndex, error);
 
-		EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
+		error = (EPOS4_Error_e) EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
+		if(error)
+			ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
 	}
 
 	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
 	{
-		if(AS5145B_Init(KneeEncoderIndex, &Encoder_Init[KneeEncoderIndex]))
-			Error_Handler();
+		AS5145B_Error_e error = AS5145B_Init(KneeEncoderIndex, &Encoder_Init[KneeEncoderIndex]);
+		if(error)
+			ErrorHandler_AS5145B(KneeEncoderIndex, error);
 
-		if(MCP25625_Init(KneeCAN_ControllerIndex, &CAN_Controller_Init[KneeCAN_ControllerIndex]))
-			Error_Handler();
+		error = (MCP25625_Error_e) MCP25625_Init(KneeCAN_ControllerIndex, &CAN_Controller_Init[KneeCAN_ControllerIndex]);
+		if(error)
+			ErrorHandler_MCP25625(KneeCAN_ControllerIndex, error);
 
-		EPOS4_Init(KneeMotorControllerIndex, &MotorController_Init[KneeMotorControllerIndex]);
+		error = (EPOS4_Error_e) EPOS4_Init(KneeMotorControllerIndex, &MotorController_Init[KneeMotorControllerIndex]);
+		if(error)
+			ErrorHandler_EPOS4(KneeMotorControllerIndex, error);
 	}
 
 	InitProsthesisControl(&Prosthesis_Init);
