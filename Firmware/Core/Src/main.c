@@ -207,9 +207,11 @@ int main(void)
   	IMU_Init.CS_GPIOx = IMU_CS_GPIO_Port;
   	IMU_Init.csPin = IMU_CS_Pin;
 
-	Prosthesis_Init_t Prosthesis_Init;
+  	Prosthesis_Init_t Prosthesis_Init;
 	Prosthesis_Init.Joint = Ankle;
 	Prosthesis_Init.Side = Left;
+
+	joint = Prosthesis_Init.Joint;
 
 
 /*******************************************************************************
@@ -233,40 +235,40 @@ int main(void)
 
 	LL_mDelay(10);	// Allow startup delays for devices
 
-	MPU925x_Error_e error = MPU925x_Init(0, &IMU_Init);
-	if(error)
-		ErrorHandler_MPU925x(0, error);
+	MPU925x_Error_e imuError = MPU925x_Init(0, &IMU_Init);
+	if(imuError)
+		ErrorHandler_MPU925x(0, imuError);
 	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 
 	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
 	{
-		AS5145B_Error_e error = AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);
-		if(error)
-			ErrorHandler_AS5145B(AnkleEncoderIndex, error);
+		AS5145B_Error_e encoderError = AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);
+		if(encoderError)
+			ErrorHandler_AS5145B(AnkleEncoderIndex, encoderError);
 
-		error = (MCP25625_Error_e) MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]);
-		if(error)
-			ErrorHandler_MCP25625(AnkleCAN_ControllerIndex, error);
+		MCP25625_Error_e canControllerError = MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]);
+		if(canControllerError)
+			ErrorHandler_MCP25625(AnkleCAN_ControllerIndex, canControllerError);
 
-		error = (EPOS4_Error_e) EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
-		if(error)
-			ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
+		EPOS4_Error_e motorControllerError = EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
+		if(motorControllerError)
+			ErrorHandler_EPOS4(AnkleMotorControllerIndex, motorControllerError);
 	}
 
 	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
 	{
-		AS5145B_Error_e error = AS5145B_Init(KneeEncoderIndex, &Encoder_Init[KneeEncoderIndex]);
-		if(error)
-			ErrorHandler_AS5145B(KneeEncoderIndex, error);
+		AS5145B_Error_e encoderError = AS5145B_Init(KneeEncoderIndex, &Encoder_Init[KneeEncoderIndex]);
+		if(encoderError)
+			ErrorHandler_AS5145B(KneeEncoderIndex, encoderError);
 
-		error = (MCP25625_Error_e) MCP25625_Init(KneeCAN_ControllerIndex, &CAN_Controller_Init[KneeCAN_ControllerIndex]);
-		if(error)
-			ErrorHandler_MCP25625(KneeCAN_ControllerIndex, error);
+		MCP25625_Error_e canControllerError = MCP25625_Init(KneeCAN_ControllerIndex, &CAN_Controller_Init[KneeCAN_ControllerIndex]);
+		if(canControllerError)
+			ErrorHandler_MCP25625(KneeCAN_ControllerIndex, canControllerError);
 
-		error = (EPOS4_Error_e) EPOS4_Init(KneeMotorControllerIndex, &MotorController_Init[KneeMotorControllerIndex]);
-		if(error)
-			ErrorHandler_EPOS4(KneeMotorControllerIndex, error);
+		EPOS4_Error_e motorControllerError = EPOS4_Init(KneeMotorControllerIndex, &MotorController_Init[KneeMotorControllerIndex]);
+		if(motorControllerError)
+			ErrorHandler_EPOS4(KneeMotorControllerIndex, motorControllerError);
 	}
 
 	InitProsthesisControl(&Prosthesis_Init);

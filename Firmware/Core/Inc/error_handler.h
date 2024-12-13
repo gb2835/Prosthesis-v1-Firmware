@@ -1,15 +1,6 @@
 /*******************************************************************************
 *
-* TITLE:	Error Handler for Prosthesis v1
-* AUTHOR:	Greg Berkeley
-* RELEASE:	??
-*
-* NOTES
-* 1. Summary of LED status below.
-* 		- Green		= no error
-* 		- Yellow	= initialization error
-* 		- Orange	= EPOS4 abort error
-* 		- Red		= EPOS4 fault error
+* See source file for more information.
 *
 *******************************************************************************/
 
@@ -20,6 +11,8 @@
 #include "epos4.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
+
+extern uint8_t joint;
 
 void ErrorHandler_AS5145B(uint8_t deviceIndex, AS5145B_Error_e error);
 void ErrorHandler_EPOS4(uint8_t deviceIndex, EPOS4_Error_e error);

@@ -65,7 +65,7 @@ AS5145B_Error_e AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
 	RaiseClockEdge(deviceIndex);
 
 	uint8_t status = AS5145B_ReadStatus(deviceIndex);
-	if((status & 0b111001) != 0b100000)
+	if((status & 0b111000) != 0b100000)
 		return AS5145B_StatusError;
 
 	Device[deviceIndex].isInit = 1;
