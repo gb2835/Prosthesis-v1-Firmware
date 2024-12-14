@@ -18,6 +18,7 @@
 
 #include "as5145b.h"
 #include "epos4.h"
+#include "error_handler.h"
 #include "main.h"
 #include <math.h>
 #include "mcp25625.h"
@@ -116,8 +117,6 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 
 	memset(&CM_Ankle, 0, sizeof(CM_Ankle));
 	memset(&CM_Knee, 0, sizeof(CM_Knee));
-
-	CM_Ankle.ProsCtrl.kp = 1; // ??
 
 	ankleEncBias = 1325 * AS5145B_RAW2DEG;
 	kneeEncBias = 2244 * AS5145B_RAW2DEG;
@@ -432,8 +431,10 @@ static void RunImpedanceControl(void)
 	{
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
-		int16_t motorTorque = CM_Ankle.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;			// Units are N*mm
-		EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);								// Ankle joint rotates opposite of coordinate system
+		int16_t motorTorque = CM_Ankle.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
+		EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);
+		if(error)
+			ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
 
 	}
 
@@ -441,8 +442,10 @@ static void RunImpedanceControl(void)
 	{
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 		CM_Knee.jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
-		int16_t motorTorque = CM_Knee.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;		// Units are N*mm
-		EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -motorTorque);							// Knee joint rotates opposite of coordinate system
+		int16_t motorTorque = CM_Knee.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
+		EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -motorTorque);		// Knee joint rotates opposite of coordinate system
+		if(error)
+			ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
 	}
 }
 
@@ -458,7 +461,7 @@ static void RunTestProgram(void)
 
 	case ConstantMotorTorque100Nmm:
 		if(Device.Joint == Ankle || Device.Joint == Combined)
-			EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, -100);	// Ankle joint rotates opposite of coordinate system
+			EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, 100);
 
 		if(Device.Joint == Knee || Device.Joint == Combined)
 			EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -100);	// Knee joint rotates opposite of coordinate system

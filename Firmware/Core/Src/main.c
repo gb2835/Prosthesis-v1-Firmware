@@ -75,14 +75,16 @@ void SystemClock_Config(void);
 #include "error_handler.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
-#include "prosthesis_v1.h"
 #include "stm32l4xx_ll_tim.h"
 #include <string.h>
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
+Prosthesis_Init_t Prosthesis_Init;
+
 
 /******************************************************************************/
+
 /* USER CODE END 0 */
 
 /**
@@ -140,10 +142,10 @@ int main(void)
 	AS5145B_Init_t Encoder_Init[AS5145B_NUMBER_OF_DEVICES];
 	Encoder_Init[AnkleEncoderIndex].DO_GPIOx = ENCODER_DO_GPIO_Port;
 	Encoder_Init[AnkleEncoderIndex].CLK_GPIOx = ENCODER_CLK_GPIO_Port;
-	Encoder_Init[AnkleEncoderIndex].CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
+	Encoder_Init[AnkleEncoderIndex].CSn_GPIOx = ANKLE_ENCODER_CSn_GPIO_Port;
 	Encoder_Init[AnkleEncoderIndex].DO_Pin = ENCODER_DO_Pin;
 	Encoder_Init[AnkleEncoderIndex].CLK_Pin = ENCODER_CLK_Pin;
-	Encoder_Init[AnkleEncoderIndex].CSn_Pin = KNEE_ENCODER_CSn_Pin;
+	Encoder_Init[AnkleEncoderIndex].CSn_Pin = ANKLE_ENCODER_CSn_Pin;
 	Encoder_Init[AnkleEncoderIndex].TIMx = TIM6;
 	Encoder_Init[AnkleEncoderIndex].timerRateMHz = 10;
 
@@ -207,12 +209,8 @@ int main(void)
   	IMU_Init.CS_GPIOx = IMU_CS_GPIO_Port;
   	IMU_Init.csPin = IMU_CS_Pin;
 
-  	Prosthesis_Init_t Prosthesis_Init;
-	Prosthesis_Init.Joint = Ankle;
-	Prosthesis_Init.Side = Left;
-
-	joint = Prosthesis_Init.Joint;
-
+  	Prosthesis_Init.Joint = Ankle;
+  	Prosthesis_Init.Side = Left;
 
 /*******************************************************************************
 * USER INITIALIZATIONS

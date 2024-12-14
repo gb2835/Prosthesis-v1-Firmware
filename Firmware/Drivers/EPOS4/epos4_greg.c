@@ -13,14 +13,13 @@
 *			- Document Number: rel8234
 *			- Edition: November 2018
 * 2. Unless otherwise specified, units are
-*		Position = increment
 *		Torque   = N*mm
-*		Speed    = rev/min ??
 * 2. #define EPOS4_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
 * 3. STO pins are not controlled in this driver.
 * 4. Only CST mode is provided.
 *     - Quick stop function is not provided, thus deceleration parameters are not set for CST mode. ??
 *     - Only parameters for CST are included in EPOS4_FirstStep_t.
+*     - CST mode sets target torque and torque offset to zero.
 * 5. FirstStep can be used to either initialize the device or check parameters already set by EPOS Studio.
 *    CAN_BitRate in FirstStep cannot be initialized from this driver, only checked.
 *
@@ -35,17 +34,8 @@
 * PRIVATE DEFINTIONS
 *******************************************************************************/
 
-#define ERROR_REG_INDEX							0x1001
-#define ERROR_HISTORY_INDEX						0x1003
-#define NUMBER_OF_ERRORS_SUBINDEX				0
-#define ERROR_HISTORY_1_SUBINDEX				1
-#define ERROR_HISTORY_2_SUBINDEX				2
-#define ERROR_HISTORY_3_SUBINDEX				3
-#define ERROR_HISTORY_4_SUBINDEX				4
-#define ERROR_HISTORY_5_SUBINDEX				5
 #define IDENTITY_OBJECT_INDEX					0x1018
 #define PRODUCT_CODE_SUBINDEX					2
-#define NODE_ID_INDEX							0x2000
 #define CAN_BITRATE_INDEX						0x2001
 #define AXIS_CONFIGURATION_INDEX				0x3000
 #define SENSOR_CONFIGURATION_SUBINDEX			1
@@ -63,17 +53,10 @@
 #define CURRENT_CTRL_PARAMETER_SET_INDEX		0x30A0
 #define CURRENT_CONTROLLER_P_GAIN_SUBINDEX		1
 #define CURRENT_CONTROLLER_I_GAIN_SUBINDEX		2
-#define TORQUE_ACTUAL_VALUE_AVERAGED_INDEX		0x30D2
-#define TORQUE_ACTUAL_VALUE_AVERAGED_SUBINDEX	1
-#define VELOCITY_ACTUAL_VALUE_AVERAGED_INDEX	0x30D3
-#define VELOCITY_ACTUAL_VALUE_AVERAGED_SUBINDEX	1
 #define CONTROLWORD_INDEX						0x6040
 #define STATUSWORD_INDEX						0x6041
 #define MODES_OF_OPERATION_INDEX				0x6060
-#define POSITION_ACTUAL_VALUE_INDEX				0x6064
-#define VELOCITY_ACTUAL_VALUE_INDEX				0x606C
 #define TARGET_TORQUE_INDEX						0x6071
-#define TORQUE_ACTUAL_VALUE_INDEX				0x6077
 #define MAX_MOTOR_SPEED_INDEX					0x6080
 #define TORQUE_OFFSET_INDEX						0x60B2
 #define MOTOR_TYPE_INDEX						0x6402
@@ -106,25 +89,12 @@ typedef struct
 
 static Device_t Device[EPOS4_NUMBER_OF_DEVICES];
 
-static uint8_t errorHasOccurred = 0;
-
-static uint8_t CM_epos4_abortLowByte = 0, CM_epos4_abortHighByte = 0, CM_epos4_abortSubindex = 0;
-static uint8_t CM_epos4_error = EPOS4_NoError, CM_epos4_numOfErrors = 0;
-static uint16_t CM_epos4_state = 0;
-static uint32_t CM_epos4_abortCode = 0;
-static uint32_t CM_epos4_errorHistory1 = 0, CM_epos4_errorHistory2 = 0, CM_epos4_errorHistory3 = 0, CM_epos4_errorHistory4 = 0, CM_epos4_errorHistory5 = 0;
-
-static uint32_t ReadObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex);
-static void WriteObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
-static uint32_t ParseValueFromData(uint8_t *data);
+static void ParseValueFromData(uint32_t *value, uint8_t *data);
 static void SDO_Upload(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, MCP25625_RXBx_t *RXBx);
 static void SDO_Download(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value, MCP25625_RXBx_t *RXBx);
-static void CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx);
-static void CheckForAbort(uint8_t deviceIndex, uint8_t *data);
 static void FrameData(uint8_t *data, uint8_t byte0, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
 static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, EPOS4_FirstStep_t FirstStep);
 static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e modeOfOperation);
-static void ErrorHandler(uint8_t deviceIndex, EPOS4_Error_e error);
 
 
 /*******************************************************************************
@@ -140,15 +110,14 @@ EPOS4_Error_e EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 
 	Device[deviceIndex].cobId = Device[deviceIndex].nodeId + 0x0600;
 
-	if(ReadObjectValue(deviceIndex, NODE_ID_INDEX, 0) != Device[deviceIndex].nodeId)	// timeout if turned off??
-		return EPOS4_NodeIdError;
-
 	uint8_t epos4ProductCodeError = 1;
 	uint16_t hwVersions[6] = {0x6050, 0x6150, 0x6551, 0x6552, 0x6350, 0x6450};
-	uint16_t productCode = ReadObjectValue(deviceIndex, IDENTITY_OBJECT_INDEX, PRODUCT_CODE_SUBINDEX) >> 16;
+	uint32_t value;
+	EPOS4_ReadObjectValue(deviceIndex, IDENTITY_OBJECT_INDEX, PRODUCT_CODE_SUBINDEX, &value);
+	value = value >> 16;
 	for(uint8_t i = 0; i < 6; i++)
 	{
-		if(productCode == hwVersions[i])
+		if(value == hwVersions[i])
 		{
 			epos4ProductCodeError = 0;
 			break;
@@ -157,12 +126,17 @@ EPOS4_Error_e EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 	if(epos4ProductCodeError)
 		return EPOS4_ProductCodeError;
 
-	uint16_t state = ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK;
-	if((state == STATE_FAULT) || (state == STATE_FAULT_REACTION_ACTIVE))
+	EPOS4_ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0, &value);
+	value = value & STATE_MASK;
+	if((value == STATE_FAULT) || (value == STATE_FAULT_REACTION_ACTIVE))
 		return EPOS4_InitFaultDetected;
 
-	WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
-	while((ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_SWITCH_ON_DISABLED); // timeout??
+	EPOS4_DisableVoltage(deviceIndex);
+	do
+	{
+		EPOS4_ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0, &value);
+		value = value & STATE_MASK;
+	} while(value != STATE_SWITCH_ON_DISABLED); // timeout??
 
 	if(Device[deviceIndex].Requirements.isFirstStepRequired)
 		if(WriteFirstStepObjects(deviceIndex, Device[deviceIndex].FirstStep))
@@ -177,65 +151,80 @@ EPOS4_Error_e EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init)
 	return EPOS4_NoError;
 }
 
-int32_t EPOS4_ReadPositionActualValue(uint8_t deviceIndex)
+EPOS4_Error_e EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
-	return (int32_t) ReadObjectValue(deviceIndex, POSITION_ACTUAL_VALUE_INDEX, 0);
+	EPOS4_Error_e error = EPOS4_WriteObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, torque);
+	if(error)
+		return error;
+
+	return EPOS4_NoError;
 }
 
-int32_t EPOS4_ReadVelocityActualValue(uint8_t deviceIndex)
+EPOS4_Error_e EPOS4_DisableVoltage(uint8_t deviceIndex)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
-	return (int32_t) ReadObjectValue(deviceIndex, VELOCITY_ACTUAL_VALUE_INDEX, 0);
+	EPOS4_Error_e error = EPOS4_WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
+	if(error)
+		return error;
+
+	return EPOS4_NoError;
 }
 
-int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t deviceIndex)
+EPOS4_Error_e EPOS4_ReadObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t *value)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
-	return (int32_t) ReadObjectValue(deviceIndex, VELOCITY_ACTUAL_VALUE_AVERAGED_INDEX, VELOCITY_ACTUAL_VALUE_AVERAGED_SUBINDEX);
+	MCP25625_RXBx_t RXBx;
+	SDO_Upload(deviceIndex, objectIndex, objectSubindex, &RXBx);
+
+	if(EPOS4_CheckForError(deviceIndex, &RXBx))
+		return EPOS4_FaultError;
+	if(EPOS4_CheckForAbort(deviceIndex, RXBx.Struct.RXBxDn_Reg))
+		return EPOS4_AbortError;
+
+	ParseValueFromData(value, RXBx.Struct.RXBxDn_Reg);
+
+	return EPOS4_NoError;
 }
 
-int16_t EPOS4_ReadTargetTorqueValue(uint8_t deviceIndex)
+EPOS4_Error_e EPOS4_WriteObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value)
 {
 	if(!Device[deviceIndex].isInit)
 		__NOP(); // add assert??
 
-	return (int16_t) ReadObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0);
+	MCP25625_RXBx_t	RXBx;
+	SDO_Download(deviceIndex, objectIndex, objectSubindex, value, &RXBx);
+
+	if(EPOS4_CheckForError(deviceIndex, &RXBx))
+		return EPOS4_FaultError;
+	if(EPOS4_CheckForAbort(deviceIndex, RXBx.Struct.RXBxDn_Reg))
+		return EPOS4_AbortError;
+
+	return EPOS4_NoError;
 }
 
-int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t deviceIndex)
+EPOS4_Error_e EPOS4_CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx)
 {
-	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+	uint8_t cobIdEmcy = Device[deviceIndex].nodeId + 0x80;
+	uint16_t cobId = (uint16_t) ((RXBx->Struct.RXBxSIDH_Reg << 3) + (RXBx->Struct.RXBxSIDL_Reg.value >> 5));
+	if(cobId == cobIdEmcy)
+		return EPOS4_FaultError;
 
-	return (int16_t) ReadObjectValue(deviceIndex, TORQUE_ACTUAL_VALUE_AVERAGED_INDEX, TORQUE_ACTUAL_VALUE_AVERAGED_SUBINDEX);
+	return EPOS4_NoError;
 }
 
-int16_t EPOS4_ReadTorqueActualValue(uint8_t deviceIndex)
+EPOS4_Error_e EPOS4_CheckForAbort(uint8_t deviceIndex, uint8_t *data)
 {
-	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+	if(data[0] >> 7)
+		return EPOS4_AbortError;
 
-	return (int16_t) ReadObjectValue(deviceIndex, TORQUE_ACTUAL_VALUE_INDEX, 0);
-}
-
-void EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque)
-{
-	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
-
-	WriteObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, torque);
-}
-
-void EPOS4_DisableVoltage(uint8_t deviceIndex)
-{
-	WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
+	return EPOS4_NoError;
 }
 
 
@@ -243,35 +232,9 @@ void EPOS4_DisableVoltage(uint8_t deviceIndex)
 * PRIVATE FUNCTIONS
 *******************************************************************************/
 
-static uint32_t ReadObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex)
+static void ParseValueFromData(uint32_t *value, uint8_t *data)
 {
-	MCP25625_RXBx_t RXBx;
-	SDO_Upload(deviceIndex, objectIndex, objectSubindex, &RXBx);
-
-	if(!errorHasOccurred)
-	{
-		CheckForError(deviceIndex, &RXBx);
-	}
-
-	CheckForAbort(deviceIndex, RXBx.Struct.RXBxDn_Reg);
-
-	return ParseValueFromData(RXBx.Struct.RXBxDn_Reg);
-}
-
-static void WriteObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value)
-{
-	MCP25625_RXBx_t	RXBx;
-	SDO_Download(deviceIndex, objectIndex, objectSubindex, value, &RXBx);
-
-	if(!errorHasOccurred)
-		CheckForError(deviceIndex, &RXBx);
-
-	CheckForAbort(deviceIndex, RXBx.Struct.RXBxDn_Reg);
-}
-
-static uint32_t ParseValueFromData(uint8_t *data)
-{
-	return (uint32_t) ((data[7] << 24) + (data[6] << 16) + (data[5] << 8) + data[4]);
+	value[0] = ((data[7] << 24) + (data[6] << 16) + (data[5] << 8) + data[4]);
 }
 
 static void SDO_Upload(uint8_t deviceIndex, uint16_t index, uint8_t subindex, MCP25625_RXBx_t *RXBx)
@@ -290,27 +253,6 @@ static void SDO_Download(uint8_t deviceIndex, uint16_t index, uint8_t subindex, 
 	while(MCP25625_ReadRxBufferAtSIDH(Device[deviceIndex].mcpIndex, RXBx, 8));
 }
 
-static void CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx)
-{
-	uint8_t cobIdEmcy = Device[deviceIndex].nodeId + 0x80;
-	uint16_t cobId = (uint16_t) ((RXBx->Struct.RXBxSIDH_Reg << 3) + (RXBx->Struct.RXBxSIDL_Reg.value >> 5));
-	if(cobId == cobIdEmcy)
-		ErrorHandler(deviceIndex, EPOS4_FaultError);
-}
-
-static void CheckForAbort(uint8_t deviceIndex, uint8_t *data)
-{
-	if(data[0] >> 7)
-	{
-		CM_epos4_abortLowByte = data[1];
-		CM_epos4_abortHighByte = data[2];
-		CM_epos4_abortSubindex = data[3];
-		CM_epos4_abortCode = ParseValueFromData(data);
-
-		ErrorHandler(deviceIndex, EPOS4_AbortError);
-	}
-}
-
 static void FrameData(uint8_t *data, uint8_t byte0, uint16_t index, uint8_t subindex, uint32_t value)
 {
 	data[0] = byte0;
@@ -325,64 +267,81 @@ static void FrameData(uint8_t *data, uint8_t byte0, uint16_t index, uint8_t subi
 
 static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, EPOS4_FirstStep_t FirstStep)
 {
-	WriteObjectValue(deviceIndex, CAN_BITRATE_INDEX, 0, FirstStep.CAN_BitRate);
-	if(ReadObjectValue(deviceIndex, CAN_BITRATE_INDEX, 0) != FirstStep.CAN_BitRate)
+	uint32_t value;
+
+	EPOS4_WriteObjectValue(deviceIndex, CAN_BITRATE_INDEX, 0, FirstStep.CAN_BitRate);
+	EPOS4_ReadObjectValue(deviceIndex, CAN_BITRATE_INDEX, 0, &value);
+	if(value != FirstStep.CAN_BitRate)
 		return 1;
 
-	WriteObjectValue(deviceIndex, MOTOR_TYPE_INDEX, 0, FirstStep.MotorType);
-	if(ReadObjectValue(deviceIndex, MOTOR_TYPE_INDEX, 0) != FirstStep.MotorType)
+	EPOS4_WriteObjectValue(deviceIndex, MOTOR_TYPE_INDEX, 0, FirstStep.MotorType);
+	EPOS4_ReadObjectValue(deviceIndex, MOTOR_TYPE_INDEX, 0, &value);
+	if(value != FirstStep.MotorType)
 		return 1;
 
-	WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX, FirstStep.nominalCurrent);
-	if(ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX) != FirstStep.nominalCurrent)
+	EPOS4_WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX, FirstStep.nominalCurrent);
+	EPOS4_ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, NOMINAL_CURRENT_SUBINDEX, &value);
+	if(value != FirstStep.nominalCurrent)
 		return 1;
 
-	WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX, FirstStep.outputCurrentLimit);
-	if(ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX) != FirstStep.outputCurrentLimit)
+	EPOS4_WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX, FirstStep.outputCurrentLimit);
+	EPOS4_ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, OUTPUT_CURRENT_LIMIT_SUBINDEX, &value);
+	if(value != FirstStep.outputCurrentLimit)
 		return 1;
 
-	WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX, FirstStep.numberOfPolePairs);
-	if(ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX) != FirstStep.numberOfPolePairs)
+	EPOS4_WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX, FirstStep.numberOfPolePairs);
+	EPOS4_ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, NUMBER_OF_POLE_PAIRS_SUBINDEX, &value);
+	if(value != FirstStep.numberOfPolePairs)
 		return 1;
 
-	WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX, FirstStep.thermalTimeConstantWinding);
-	if(ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX) != FirstStep.thermalTimeConstantWinding)
+	EPOS4_WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX, FirstStep.thermalTimeConstantWinding);
+	EPOS4_ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX, THERMAL_TIME_CONSTANT_WINDING_SUBINDEX, &value);
+	if(value != FirstStep.thermalTimeConstantWinding)
 		return 1;
 
-	WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX, FirstStep.torqueConstant);
-	if(ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX) != FirstStep.torqueConstant)
+	EPOS4_WriteObjectValue(deviceIndex, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX, FirstStep.torqueConstant);
+	EPOS4_ReadObjectValue(deviceIndex, MOTOR_DATA_INDEX,TORQUE_CONSTANT_SUBINDEX, &value);
+	if(value != FirstStep.torqueConstant)
 		return 1;
 
-	WriteObjectValue(deviceIndex, MAX_MOTOR_SPEED_INDEX, 0, FirstStep.maxMotorSpeed);
-	if(ReadObjectValue(deviceIndex, MAX_MOTOR_SPEED_INDEX, 0) != FirstStep.maxMotorSpeed)
+	EPOS4_WriteObjectValue(deviceIndex, MAX_MOTOR_SPEED_INDEX, 0, FirstStep.maxMotorSpeed);
+	EPOS4_ReadObjectValue(deviceIndex, MAX_MOTOR_SPEED_INDEX, 0, &value);
+	if(value != FirstStep.maxMotorSpeed)
 		return 1;
 
-	WriteObjectValue(deviceIndex, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX, FirstStep.maxGearInputSpeed);
-	if(ReadObjectValue(deviceIndex, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX) != FirstStep.maxGearInputSpeed)
+	EPOS4_WriteObjectValue(deviceIndex, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX, FirstStep.maxGearInputSpeed);
+	EPOS4_ReadObjectValue(deviceIndex, GEAR_CONFIGURATION_INDEX, MAX_GEAR_INPUT_SPEED_SUBINDEX, &value);
+	if(value != FirstStep.maxGearInputSpeed)
 		return 1;
 
-	WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX, FirstStep.sensorsConfiguration);
-	if(ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX) != FirstStep.sensorsConfiguration)
+	EPOS4_WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX, FirstStep.sensorsConfiguration);
+	EPOS4_ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, SENSOR_CONFIGURATION_SUBINDEX, &value);
+	if(value != FirstStep.sensorsConfiguration)
 		return 1;
 
-	WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX, FirstStep.controlStructure);
-	if(ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX) != FirstStep.controlStructure)
+	EPOS4_WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX, FirstStep.controlStructure);
+	EPOS4_ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, CONTROL_STRUCTURE_SUBINDEX, &value);
+	if(value != FirstStep.controlStructure)
 		return 1;
 
-	WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX, FirstStep.commutationSensors);
-	if(ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX) != FirstStep.commutationSensors)
+	EPOS4_WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX, FirstStep.commutationSensors);
+	EPOS4_ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, COMMUTATION_SENSORS_SUBINDEX, &value);
+	if(value != FirstStep.commutationSensors)
 		return 1;
 
-	WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX, FirstStep.axisConfigMiscellaneous);
-	if(ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX) != FirstStep.axisConfigMiscellaneous)
+	EPOS4_WriteObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX, FirstStep.axisConfigMiscellaneous);
+	EPOS4_ReadObjectValue(deviceIndex, AXIS_CONFIGURATION_INDEX, AXIS_CONFIG_MISCELLANEOUS_SUBINDEX, &value);
+	if(value != FirstStep.axisConfigMiscellaneous)
 		return 1;
 
-	WriteObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX, FirstStep.currentControllerP_Gain);
-	if(ReadObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX) != FirstStep.currentControllerP_Gain)
+	EPOS4_WriteObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX, FirstStep.currentControllerP_Gain);
+	EPOS4_ReadObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_P_GAIN_SUBINDEX, &value);
+	if(value != FirstStep.currentControllerP_Gain)
 		return 1;
 
-	WriteObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX, FirstStep.currentControllerI_Gain);
-	if(ReadObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX) != FirstStep.currentControllerI_Gain)
+	EPOS4_WriteObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX, FirstStep.currentControllerI_Gain);
+	EPOS4_ReadObjectValue(deviceIndex, CURRENT_CTRL_PARAMETER_SET_INDEX, CURRENT_CONTROLLER_I_GAIN_SUBINDEX, &value);
+	if(value != FirstStep.currentControllerI_Gain)
 		return 1;
 
 	return 0;
@@ -390,50 +349,43 @@ static uint8_t WriteFirstStepObjects(uint8_t deviceIndex, EPOS4_FirstStep_t Firs
 
 static uint8_t WriteModeOfOperation(uint8_t deviceIndex, EPOS4_ModeOfOperation_e modeOfOperation)
 {
+	uint32_t value;
 	switch (modeOfOperation)
 	{
 	case CyclicSynchronousTorqueMode:
-		WriteObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, 0);
-		if(ReadObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0) != 0)
+		EPOS4_WriteObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, 0);
+		EPOS4_ReadObjectValue(deviceIndex, TARGET_TORQUE_INDEX, 0, &value);
+		if(value != 0)
 			return 1;
 
-		WriteObjectValue(deviceIndex, MODES_OF_OPERATION_INDEX, 0, CST_MODE);
-		if(ReadObjectValue(deviceIndex, MODES_OF_OPERATION_INDEX, 0) != CST_MODE)
+		EPOS4_WriteObjectValue(deviceIndex, MODES_OF_OPERATION_INDEX, 0, CST_MODE);
+		EPOS4_ReadObjectValue(deviceIndex, MODES_OF_OPERATION_INDEX, 0, &value);
+		if(value != CST_MODE)
 			return 1;
 
-		WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_SHUTDOWN);
-		while((ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_READY_TO_SWITCH_ON); // timeout??
+		EPOS4_WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_SHUTDOWN);
+		do
+		{
+			EPOS4_ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0, &value);
+			value = value & STATE_MASK;
+		} while(value != STATE_READY_TO_SWITCH_ON); // timeout??
 
-		WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_SWITCH_ON_AND_ENABLE);
-		while((ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK) != STATE_OPERATION_ENABLED); // timeout??
+		EPOS4_WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_SWITCH_ON_AND_ENABLE);
+		do
+		{
+			EPOS4_ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0, &value);
+			value = value & STATE_MASK;
+		} while(value != STATE_OPERATION_ENABLED); // timeout??
 
-		WriteObjectValue(deviceIndex, TORQUE_OFFSET_INDEX, 0, 0);
-		if(ReadObjectValue(deviceIndex, TORQUE_OFFSET_INDEX, 0) != 0)
+		EPOS4_WriteObjectValue(deviceIndex, TORQUE_OFFSET_INDEX, 0, 0);
+		EPOS4_ReadObjectValue(deviceIndex, TORQUE_OFFSET_INDEX, 0, &value);
+		if(value != 0)
 			return 1;
 
 		return 0;
 	}
 
 	return 1;
-}
-
-static void ErrorHandler(uint8_t deviceIndex, EPOS4_Error_e error)
-{
-	errorHasOccurred = 1;
-
-	CM_epos4_error = error;
-	CM_epos4_numOfErrors = ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, NUMBER_OF_ERRORS_SUBINDEX);
-	CM_epos4_state = ReadObjectValue(deviceIndex, STATUSWORD_INDEX, 0) & STATE_MASK;
-	CM_epos4_errorHistory1 = ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_1_SUBINDEX);
-	CM_epos4_errorHistory2 = ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_2_SUBINDEX);
-	CM_epos4_errorHistory3 = ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_3_SUBINDEX);
-	CM_epos4_errorHistory4 = ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_4_SUBINDEX);
-	CM_epos4_errorHistory5 = ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_5_SUBINDEX);
-
-	while(1)
-	{
-		WriteObjectValue(deviceIndex, CONTROLWORD_INDEX, 0, CTRLCMD_DISABLE_VOLTAGE);
-	}
 }
 
 

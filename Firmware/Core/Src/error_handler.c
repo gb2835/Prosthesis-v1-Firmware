@@ -14,7 +14,7 @@
 *******************************************************************************/
 
 #include "error_handler.h"
-#include "prosthesis_v1.h"
+#include "main.h"
 
 typedef enum
 {
@@ -35,8 +35,6 @@ typedef enum
 	MPU925x__InitError
 } LED_Code_e;
 
-uint8_t joint = Ankle;
-
 static LED_Color_e CM_ledColor = Green;
 static LED_Code_e CM_ledCode = NoError;
 
@@ -54,10 +52,10 @@ void ErrorHandler_EPOS4(uint8_t deviceIndex, EPOS4_Error_e error)
 		CM_ledColor = Red;
 		CM_ledCode = EPOS4__FaultError;
 
-		if((joint == Ankle) || (joint == Combined))
+		if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
 			EPOS4_DisableVoltage(AnkleMotorControllerIndex);
 
-		if((joint == Knee) || (joint == Combined))
+		if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
 			EPOS4_DisableVoltage(KneeMotorControllerIndex);
 	}
 	else if(error == EPOS4_AbortError)
@@ -65,10 +63,10 @@ void ErrorHandler_EPOS4(uint8_t deviceIndex, EPOS4_Error_e error)
 		CM_ledColor = Orange;
 		CM_ledCode = EPOS4__AbortError;
 
-		if((joint == Ankle) || (joint == Combined))
+		if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
 			EPOS4_DisableVoltage(AnkleMotorControllerIndex);
 
-		if((joint == Knee) || (joint == Combined))
+		if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
 			EPOS4_DisableVoltage(KneeMotorControllerIndex);
 	}
 	else

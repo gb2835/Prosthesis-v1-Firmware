@@ -22,7 +22,8 @@ Core/Src/stm32l4xx_it.o: ../Core/Src/stm32l4xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_tim.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h \
- ../Core/Inc/stm32l4xx_it.h ../Core/Inc/prosthesis_v1.h
+ ../Core/Inc/prosthesis_v1.h ../Core/Inc/stm32l4xx_it.h \
+ ../Core/Inc/prosthesis_v1.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h:
 ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h:
@@ -47,5 +48,6 @@ Core/Src/stm32l4xx_it.o: ../Core/Src/stm32l4xx_it.c ../Core/Inc/main.h \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_tim.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:
+../Core/Inc/prosthesis_v1.h:
 ../Core/Inc/stm32l4xx_it.h:
 ../Core/Inc/prosthesis_v1.h:

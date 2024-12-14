@@ -16,7 +16,6 @@ typedef enum
 {
 	EPOS4_NoError,
 	EPOS4_TimeoutError,
-	EPOS4_NodeIdError,
 	EPOS4_ProductCodeError,
 	EPOS4_InitFaultDetected,
 	EPOS4_DisableVoltageError,
@@ -93,14 +92,12 @@ typedef struct
 } EPOS4_Init_t;
 
 EPOS4_Error_e EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init);
-int32_t EPOS4_ReadPositionActualValue(uint8_t deviceIndex);
-int32_t EPOS4_ReadVelocityActualValue(uint8_t deviceIndex);
-int32_t EPOS4_ReadVelocityActualValueAveraged(uint8_t deviceIndex);
-int16_t EPOS4_ReadTargetTorqueValue(uint8_t deviceIndex);
-int16_t EPOS4_ReadTorqueActualValue(uint8_t deviceIndex);
-int16_t EPOS4_ReadTorqueActualValueAveraged(uint8_t deviceIndex);
-void EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque);
-void EPOS4_DisableVoltage(uint8_t deviceIndex);
+EPOS4_Error_e EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque);
+EPOS4_Error_e EPOS4_DisableVoltage(uint8_t deviceIndex);
+EPOS4_Error_e EPOS4_ReadObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t *value);
+EPOS4_Error_e EPOS4_WriteObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
+EPOS4_Error_e EPOS4_CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx);
+EPOS4_Error_e EPOS4_CheckForAbort(uint8_t deviceIndex, uint8_t *data);
 
 
 /*******************************************************************************
