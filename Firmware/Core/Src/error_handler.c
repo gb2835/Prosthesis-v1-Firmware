@@ -18,12 +18,6 @@
 
 typedef enum
 {
-	Green,
-	Red
-} LED_Color_e;
-
-typedef enum
-{
 	NoError,
 	Ankle_AS5145B_InitError,
 	Ankle_EPOS4_InitError,
@@ -38,13 +32,10 @@ typedef enum
 	MPU925x_InitError
 } LED_Code_e;
 
-static LED_Color_e CM_ledColor = Green;
 static LED_Code_e CM_ledCode = NoError;
 
 void ErrorHandler_AS5145B(EncoderIndex_e deviceIndex, AS5145B_Error_e error)
 {
-	CM_ledColor = Red;
-
 	if(deviceIndex == AnkleEncoderIndex)
 		CM_ledCode = Ankle_AS5145B_InitError;
 	else
@@ -55,8 +46,6 @@ void ErrorHandler_AS5145B(EncoderIndex_e deviceIndex, AS5145B_Error_e error)
 
 void ErrorHandler_EPOS4(MotorControllerIndex_e deviceIndex, EPOS4_Error_e error)
 {
-	CM_ledColor = Red;
-
 	if(deviceIndex == AnkleMotorControllerIndex)
 	{
 		if(error == EPOS4_FaultError)
@@ -81,8 +70,6 @@ void ErrorHandler_EPOS4(MotorControllerIndex_e deviceIndex, EPOS4_Error_e error)
 
 void ErrorHandler_MCP25625(uint8_t deviceIndex, MCP25625_Error_e error)
 {
-	CM_ledColor = Red;
-
 	if(deviceIndex == AnkleCAN_ControllerIndex)
 		CM_ledCode = Ankle_MCP25625_InitError;
 	else
@@ -93,7 +80,6 @@ void ErrorHandler_MCP25625(uint8_t deviceIndex, MCP25625_Error_e error)
 
 void ErrorHandler_MPU925x(MPU925x_Error_e error)
 {
-	CM_ledColor = Red;
 	CM_ledCode = MPU925x_InitError;
 	while(1);
 }
