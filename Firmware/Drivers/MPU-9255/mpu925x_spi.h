@@ -90,14 +90,18 @@ typedef enum
 	MPU925x_GyroSensitivity_2000dps
 } MPU925x_GyroSensitivity_e;
 
-typedef struct
+typedef union
 {
-   double ax;
-   double ay;
-   double az;
-   double gx;
-   double gy;
-   double gz;
+	double array[6];
+	struct
+	{
+	   double ax;
+	   double ay;
+	   double az;
+	   double gx;
+	   double gy;
+	   double gz;
+	} Struct;
 } MPU925x_IMU_Data_t;
 
 typedef struct

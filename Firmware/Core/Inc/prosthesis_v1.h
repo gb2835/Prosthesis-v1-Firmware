@@ -42,10 +42,9 @@ typedef enum
 {
 	None,
 	ReadOnly,
-	ConstantMotorTorque100Nmm,
 	EncoderBias,
 	ImpedanceControl
-} TestPrograms_e;
+} TestProgram_e;
 
 typedef struct
 {
@@ -57,7 +56,7 @@ extern uint8_t isProsthesisControlRequired;
 
 void InitProsthesisControl(Prosthesis_Init_t *Device_Init);
 void RunProsthesisControl(void);
-void RequireTestProgram(TestPrograms_e testProgram);
+void RequireTestProgram(TestProgram_e testProgram);
 
 
 /*******************************************************************************

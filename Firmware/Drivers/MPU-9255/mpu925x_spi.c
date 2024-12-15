@@ -38,8 +38,8 @@ typedef struct
 } Device_t;
 
 static Device_t Device[MPU925X_NUMBER_OF_DEVICES];
-static float accelSensitivity = MPU925X_ACCEL_SENSITIVITY_2G;	// ±2g is default
-static float gyroSensitivity = MPU925X_GYRO_SENSITIVITY_250DPS;	// ±250°/s is default
+static float accelSensitivity = MPU925X_ACCEL_SENSITIVITY_2G;	// ±2 g is default
+static float gyroSensitivity = MPU925X_GYRO_SENSITIVITY_250DPS;	// ±250 degrees/second is default
 
 static void ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
 static void WriteRegData(uint8_t deviceIndex, uint8_t startAdress, uint8_t *data, uint8_t nBytes);
@@ -276,12 +276,12 @@ MPU925x_IMU_Data_t MPU925x_ReadIMU(uint8_t deviceIndex)
 	int16_t gy = ((int16_t) data[10] << 8) | data[11];
 	int16_t gz = ((int16_t) data[12] << 8) | data[13];
 
-	IMU_Data.ax = ax / accelSensitivity;
-	IMU_Data.ay = ay / accelSensitivity;
-	IMU_Data.az = az / accelSensitivity;
-	IMU_Data.gx = gx / gyroSensitivity;
-	IMU_Data.gy = gy / gyroSensitivity;
-	IMU_Data.gz = gz / gyroSensitivity;
+	IMU_Data.Struct.ax = ax / accelSensitivity;
+	IMU_Data.Struct.ay = ay / accelSensitivity;
+	IMU_Data.Struct.az = az / accelSensitivity;
+	IMU_Data.Struct.gx = gx / gyroSensitivity;
+	IMU_Data.Struct.gy = gy / gyroSensitivity;
+	IMU_Data.Struct.gz = gz / gyroSensitivity;
 
 	return IMU_Data;
 }
