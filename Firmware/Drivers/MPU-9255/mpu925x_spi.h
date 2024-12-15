@@ -114,6 +114,8 @@ void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWi
 void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_e bandwidth);
 void MPU925x_SetSampleRateDiv(uint8_t deviceIndex, uint8_t divider);
 MPU925x_IMU_Data_t MPU925x_ReadIMU(uint8_t deviceIndex);
+void MPU925x_ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
+void MPU925x_WriteRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
 
 
 /*******************************************************************************

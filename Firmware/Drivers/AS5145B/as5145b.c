@@ -43,6 +43,7 @@ typedef struct
 
 static Device_t Device[AS5145B_NUMBER_OF_DEVICES];
 
+static uint8_t ReadStatus(uint8_t deviceIndex);
 static inline void SetChipSelect(uint8_t deviceIndex);
 static inline void ClearChipSelect(uint8_t deviceIndex);
 static inline void RaiseClockEdge(uint8_t deviceIndex);
@@ -57,14 +58,14 @@ static inline uint8_t ReadDO_Pin(uint8_t deviceIndex);
 AS5145B_Error_e AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
 {
 	if(deviceIndex + 1 > AS5145B_NUMBER_OF_DEVICES)
-		__NOP(); // add assert??
+		while(1);
 
 	memcpy(&Device[deviceIndex], Device_Init, sizeof(AS5145B_Init_t));
 
 	ClearChipSelect(deviceIndex);
 	RaiseClockEdge(deviceIndex);
 
-	uint8_t status = AS5145B_ReadStatus(deviceIndex);
+	uint8_t status = ReadStatus(deviceIndex);
 	if((status & 0b111000) != 0b100000)
 		return AS5145B_StatusError;
 
@@ -76,7 +77,7 @@ AS5145B_Error_e AS5145B_Init(uint8_t deviceIndex, AS5145B_Init_t *Device_Init)
 AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 {
 	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+		while(1);
 
 	SetChipSelect(deviceIndex);
 	DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
@@ -112,7 +113,7 @@ AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 float AS5145B_ReadPosition(uint8_t deviceIndex)
 {
 	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+		while(1);
 
 	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
 	return Data.position * AS5145B_RAW2DEG;
@@ -121,7 +122,7 @@ float AS5145B_ReadPosition(uint8_t deviceIndex)
 uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex)
 {
 	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+		while(1);
 
 	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
 	return Data.position;
@@ -130,16 +131,22 @@ uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex)
 uint8_t AS5145B_ReadStatus(uint8_t deviceIndex)
 {
 	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+		while(1);
 
-	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
-	return Data.status;
+	return ReadStatus(deviceIndex);
 }
 
 
 /*******************************************************************************
 * PRIVATE FUNCTIONS
 *******************************************************************************/
+
+static uint8_t ReadStatus(uint8_t deviceIndex)
+{
+	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
+	return Data.status;
+}
+
 
 static inline void ClearChipSelect(uint8_t deviceIndex)
 {
@@ -163,7 +170,7 @@ static inline void LowerClockEdge(uint8_t deviceIndex)
 
 static inline uint8_t ReadDO_Pin(uint8_t deviceIndex)
 {
-	return LL_GPIO_IsInputPinSet(Device[deviceIndex].DO_GPIOx, Device[deviceIndex].DO_Pin) & 0x01; // 0x01??
+	return LL_GPIO_IsInputPinSet(Device[deviceIndex].DO_GPIOx, Device[deviceIndex].DO_Pin) & 0x01;
 }
 
 

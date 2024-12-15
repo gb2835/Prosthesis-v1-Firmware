@@ -4,7 +4,7 @@
 *
 * TITLE:	Prosthesis v1 Firmware
 * AUTHOR:	Greg Berkeley
-* RELEASE:	??
+* RELEASE:	12/15/2024
 *
 * NOTES
 * 1. The below lines can be used to measure PB2 on oscilloscope:
@@ -154,12 +154,12 @@ int main(void)
 	Encoder_Init[KneeEncoderIndex].CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
 	EPOS4_Init_t MotorController_Init[EPOS4_NUMBER_OF_DEVICES];
-	MotorController_Init[AnkleMotorControllerIndex].nodeId = 2; // switch??
+	MotorController_Init[AnkleMotorControllerIndex].nodeId = 2;
 	MotorController_Init[AnkleMotorControllerIndex].mcpIndex = AnkleCAN_ControllerIndex;
 	MotorController_Init[AnkleMotorControllerIndex].Requirements.isFirstStepRequired = 1;
 	MotorController_Init[AnkleMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
-	MotorController_Init[AnkleMotorControllerIndex].FirstStep.CAN_BitRate = Rate1000Kbps;
-	MotorController_Init[AnkleMotorControllerIndex].FirstStep.MotorType = TrapezoidalPmBlMotor;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.CAN_BitRate = EPOS4_Rate1000Kbps;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.MotorType = EPOS4_TrapezoidalPmBlMotor;
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 6600;
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
@@ -173,31 +173,30 @@ int main(void)
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
-	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = CyclicSynchronousTorqueMode;
+	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = EPOS4_CyclicSynchronousTorqueMode;
 
 	memcpy(&MotorController_Init[KneeMotorControllerIndex], &MotorController_Init[AnkleMotorControllerIndex], sizeof(MotorController_Init[AnkleMotorControllerIndex]));
-	MotorController_Init[KneeMotorControllerIndex].nodeId = 1; // switch??
+	MotorController_Init[KneeMotorControllerIndex].nodeId = 1;
 	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
-	MotorController_Init[KneeMotorControllerIndex].Requirements.isFirstStepRequired = 1;
 
   	MCP25625_Init_t CAN_Controller_Init[MCP25625_NUMBER_OF_DEVICES];
   	memset(&CAN_Controller_Init, 0, sizeof(CAN_Controller_Init));
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].SPIx = SPI3;
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].CS_Port = ANKLE_CAN_CONTROLLER_CS_GPIO_Port;
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].csPin = ANKLE_CAN_CONTROLLER_CS_Pin;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.CLKEN = ClockoutDisabled;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.OSM = OneShotModeEnabled;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.ABAT = AbortAllTransmissions;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.REQOP = NormalOperationMode;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.CLKEN = MCP25625_ClockoutDisabled;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.OSM = MCP25625_OneShotModeEnabled;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.ABAT = MCP25625_AbortAllTransmissions;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.REQOP = MCP25625_NormalOperationMode;
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 0;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF1_Reg.Bits.SJW = Length1xT_Q;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF1_Reg.Bits.SJW = MCP25625_Length1xT_Q;
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.PRSEG = 4;
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.PHSEG1 = 1;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.SAM = BusSampledOnceAtSamplePoint;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.BLTMODE = PS2LengthDeterminedByCNF3;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.SAM = MCP25625_BusSampledOnceAtSamplePoint;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.BLTMODE = MCP25625_PS2LengthDeterminedByCNF3;
   	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.PHSEG2 = 1;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.WAKFIL = WakeUpFilterIsDisabled;
-  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.SOF = ClockoutPinIsEnabledForClockOutFunction;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.WAKFIL = MCP25625_WakeUpFilterIsDisabled;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.SOF = MCP25625_ClockoutPinIsEnabledForClockOutFunction;
 
   	memcpy(&CAN_Controller_Init[KneeCAN_ControllerIndex], &CAN_Controller_Init[AnkleCAN_ControllerIndex], sizeof(CAN_Controller_Init[AnkleCAN_ControllerIndex]));
   	CAN_Controller_Init[KneeCAN_ControllerIndex].SPIx = SPI2;
@@ -290,8 +289,6 @@ int main(void)
 		  RunProsthesisControl();
 		  isProsthesisControlRequired = 0;
 	  }
-
-	  // use this for can reads??
 
 
 /******************************************************************************/

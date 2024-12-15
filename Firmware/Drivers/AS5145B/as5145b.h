@@ -14,8 +14,8 @@
 
 typedef enum
 {
-	AS5145B_NoError = 0,
-	AS5145B_StatusError = 0x100
+	AS5145B_NoError,
+	AS5145B_StatusError
 } AS5145B_Error_e;
 
 typedef struct

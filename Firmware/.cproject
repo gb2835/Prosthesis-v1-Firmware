@@ -89,7 +89,6 @@
 						</toolChain>
 					</folderInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1585774879" name="epos4_new.h" rcbsApplicability="disable" resourcePath="Drivers/EPOS4/epos4.h" toolsToInvoke=""/>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.452970188" name="epos4.h" rcbsApplicability="disable" resourcePath="Drivers/EPOS4/epos4_brett.h" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.1351858717" name="mcp25625_new.h" rcbsApplicability="disable" resourcePath="Drivers/MCP25625/mcp25625_greg.h" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.172954792.391221079" name="mcp25625_new.h" rcbsApplicability="disable" resourcePath="Drivers/MCP25625/mcp25625.h" toolsToInvoke=""/>
 					<sourceEntries>

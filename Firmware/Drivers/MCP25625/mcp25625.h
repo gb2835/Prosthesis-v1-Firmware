@@ -29,10 +29,10 @@ typedef union
 		uint8_t BRP	:6;
 		enum
 		{
-			Length1xT_Q,
-			Length2xT_Q,
-			Length3xT_Q,
-			Length4xT_Q
+			MCP25625_Length1xT_Q,
+			MCP25625_Length2xT_Q,
+			MCP25625_Length3xT_Q,
+			MCP25625_Length4xT_Q
 		} SJW :2;
 	} Bits;
 } MCP25625_CNF1_Reg_t;
@@ -46,13 +46,13 @@ typedef union
 		uint8_t PHSEG1	:3;
 		enum
 		{
-			BusSampledOnceAtSamplePoint,
-			BusSampledThreeTimesAtSamePoint
+			MCP25625_BusSampledOnceAtSamplePoint,
+			MCP25625_BusSampledThreeTimesAtSamePoint
 		} SAM :1;
 		enum
 		{
-			PS2LengthIsGreaterOfPS1AndIPT,
-			PS2LengthDeterminedByCNF3
+			MCP25625_PS2LengthIsGreaterOfPS1AndIPT,
+			MCP25625_PS2LengthDeterminedByCNF3
 		} BLTMODE :1;
 	} Bits;
 } MCP25625_CNF2_Reg_t;
@@ -66,13 +66,13 @@ typedef union
 		uint8_t Unimplemented	:3;
 		enum
 		{
-			WakeUpFilterIsDisabled,
-			WakeUpFilterIsEnabled
+			MCP25625_WakeUpFilterIsDisabled,
+			MCP25625_WakeUpFilterIsEnabled
 		} WAKFIL :1;
 		enum
 		{
-			ClockoutPinIsEnabledForClockOutFunction,
-			ClockoutPinIsEnabledForSOF_Signal
+			MCP25625_ClockoutPinIsEnabledForClockOutFunction,
+			MCP25625_ClockoutPinIsEnabledForSOF_Signal
 		} SOF :1;
 	} Bits;
 } MCP25625_CNF3_Reg_t;
@@ -84,33 +84,33 @@ typedef union
 	{
 		enum
 		{
-			ClockoutDiv1,
-			ClockoutDiv2,
-			ClockoutDiv4,
-			ClockoutDiv8
+			MCP25625_ClockoutDiv1,
+			MCP25625_ClockoutDiv2,
+			MCP25625_ClockoutDiv4,
+			MCP25625_ClockoutDiv8
 		} CLKPRE :2;
 		enum
 		{
-			ClockoutDisabled,
-			ClockoutEnabled
+			MCP25625_ClockoutDisabled,
+			MCP25625_ClockoutEnabled
 		} CLKEN :1;
 		enum
 		{
-			OneShotModeDisabled,
-			OneShotModeEnabled
+			MCP25625_OneShotModeDisabled,
+			MCP25625_OneShotModeEnabled
 		} OSM :1;
 		enum
 		{
-			AbortAllTransmissions,
-			AbortAllPendingTransmitBuffers
+			MCP25625_AbortAllTransmissions,
+			MCP25625_AbortAllPendingTransmitBuffers
 		} ABAT :1;
 		enum
 		{
-			NormalOperationMode,
-			SleepMode,
-			LoopBackMode,
-			ListenOnlyMode,
-			ConfigurationMode
+			MCP25625_NormalOperationMode,
+			MCP25625_SleepMode,
+			MCP25625_LoopBackMode,
+			MCP25625_ListenOnlyMode,
+			MCP25625_ConfigurationMode
 		} REQOP :3;
 	} Bits;
 } MCP25625_CANCTRL_Reg_t;
@@ -126,13 +126,13 @@ typedef union
 		uint8_t Unimplemented2	:1;
 		enum
 		{
-			ReceiveStandardID,
-			ReceiveExtendedID
+			MCP25625_ReceiveStandardID,
+			MCP25625_ReceiveExtendedID
 		} IDE	:1;
 		enum
 		{
-			StandardFrameReceived,
-			StandardRemoteTransmitRequestReceived
+			MCP25625_StandardFrameReceived,
+			MCP25625_StandardRemoteTransmitRequestReceived
 		} SRR	:1;
 		uint8_t SID	:3;
 	} Bits;
@@ -151,8 +151,8 @@ typedef union
 		uint8_t RB1	:1;
 		enum
 		{
-			ExtendedDataFrameReceived,
-			ExtendedRemoteTransmitRequestReceived
+			MCP25625_ExtendedDataFrameReceived,
+			MCP25625_ExtendedRemoteTransmitRequestReceived
 		} RTR	:1;
 		uint8_t Unimplemented7	:1;
 	} Bits;
@@ -185,8 +185,8 @@ typedef union
 		uint8_t Unimplemented2	:1;
 		enum
 		{
-			TransmitStandardID,
-			TransmitExtendedID
+			MCP25625_TransmitStandardID,
+			MCP25625_TransmitExtendedID
 		} EXIDE	:1;
 		uint8_t Unimplemented4	:1;
 		uint8_t SID				:3;
@@ -205,8 +205,8 @@ typedef union
 		uint8_t Unimplemented5_4	:2;
 		enum
 		{
-			MessageWillBeDataFrame,
-			MessageWillBeRemoteTransmitRequest
+			MCP25625_MessageWillBeDataFrame,
+			MCP25625_MessageWillBeRemoteTransmitRequest
 		} RTR	:1;
 		uint8_t Unused :1;
 	} Bits;
@@ -240,10 +240,10 @@ typedef struct
 } MCP25625_Init_t;
 
 MCP25625_Error_e MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits);
-uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *data, uint8_t dataLength);
-uint8_t MCP25625_ReadRxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength);
 uint8_t MCP25625_ReadRxBufferAtSIDH(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx, uint8_t dataLength);
+void MCP25625_ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nBytes);
+void MCP25625_WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nBytes);
 
 
 /*******************************************************************************

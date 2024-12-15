@@ -1,8 +1,8 @@
 /*******************************************************************************
 *
-* TITLE		Driver for Microchip MCP25625 CAN Controller
-* AUTHOR	Greg Berkeley
-* RELEASE	??
+* TITLE:	Driver for Microchip MCP25625 CAN Controller
+* AUTHOR:	Greg Berkeley
+* RELEASE:	12/15/2024
 *
 * NOTES
 * 1. This driver is based on:
@@ -11,7 +11,7 @@
 * 2. #define MCP25625_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
 * 2. Only standard data frames are used.
 * 3. Polling is used (no interrupts).
-* 4. All TX buffers are set to lowest message priority (TXP = 00).??
+* 4. All TX buffers are set to lowest message priority (TXP = 00).
 * 5. All RX buffers are set to receive any message.
 *
 *******************************************************************************/
@@ -135,15 +135,15 @@ typedef struct
 
 static Device_t Device[MCP25625_NUMBER_OF_DEVICES];
 
+static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes);
+static void WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes);
 static void InitRXBx(uint8_t deviceIndex);
 static void ResetDevice(uint8_t deviceIndex);
-static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nBytes); // static inline??
-static void WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nBytes); // static inline??
 static void ModifyRegisterBits(uint8_t deviceIndex, uint8_t reg, uint8_t mask, uint8_t data);
-static void RequestToSend(uint8_t deviceIndex, uint8_t RTS_Tx); // static inline??
+static void RequestToSend(uint8_t deviceIndex, uint8_t RTS_Tx);
 static uint8_t ReadStatus(uint8_t deviceIndex);
-static void SetChipSelect(uint8_t deviceIndex); // static inline??
-static void ClearChipSelect(uint8_t deviceIndex); // static inline??
+static inline void SetChipSelect(uint8_t deviceIndex);
+static inline void ClearChipSelect(uint8_t deviceIndex);
 
 
 /*******************************************************************************
@@ -153,7 +153,7 @@ static void ClearChipSelect(uint8_t deviceIndex); // static inline??
 MCP25625_Error_e MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Inits)
 {
 	if(deviceIndex + 1 > MCP25625_NUMBER_OF_DEVICES)
-		__NOP(); // add assert??
+		while(1);
 
 	memcpy(&Device[deviceIndex], Device_Inits, sizeof(MCP25625_Init_t));
 
@@ -185,60 +185,10 @@ MCP25625_Error_e MCP25625_Init(uint8_t deviceIndex, MCP25625_Init_t *Device_Init
 	return MCP25625_NoError;
 }
 
-uint8_t MCP25625_LoadTxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength)
-{
-	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
-
-	uint8_t rtsTx = 0;
-	uint8_t txbxDataAddress = 0;
-	uint8_t status = ReadStatus(deviceIndex);
-	if(!(status & TX2REQ_STATUS_MASK))
-	{
-		rtsTx = RTS_T2;
-		txbxDataAddress = LOAD_TX_BUFFER_2_AT_D0;
-	}
-	else if(!(status & TX1REQ_STATUS_MASK))
-	{
-		rtsTx = RTS_T1;
-		txbxDataAddress = LOAD_TX_BUFFER_1_AT_D0;
-	}
-	else if(!(status & TX0REQ_STATUS_MASK))
-	{
-		rtsTx = RTS_T0;
-		txbxDataAddress = LOAD_TX_BUFFER_0_AT_D0;
-	}
-
-	if(txbxDataAddress)
-	{
-		SetChipSelect(deviceIndex);
-
-		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, txbxDataAddress);
-
-		for(uint8_t i = 0; i < dataLength; i++)
-		{
-			while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
-			LL_SPI_TransmitData8(Device[deviceIndex].SPIx, data[i]);
-		}
-
-		while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-
-
-		while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
-			LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
-
-		RequestToSend(deviceIndex, rtsTx);
-		ClearChipSelect(deviceIndex);
-		return 0;
-	}
-
-	return 1;
-}
-
 uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *data, uint8_t dataLength)
 {
 	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+		while(1);
 
 	uint8_t rtsTx = 0;
 	uint8_t txbxDataAddress = 0;
@@ -264,7 +214,7 @@ uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *d
 		MCP25625_TXBx_t TXBx;
 		memset(&TXBx, 0, sizeof(TXBx));
 		TXBx.Struct.TXBxSIDH_Reg = id >> 3;
-		TXBx.Struct.TXBxSIDL_Reg.Bits.EXIDE = TransmitStandardID;
+		TXBx.Struct.TXBxSIDL_Reg.Bits.EXIDE = MCP25625_TransmitStandardID;
 		TXBx.Struct.TXBxSIDL_Reg.Bits.SID = id & 0x07;
 		TXBx.Struct.TXBxDLC_Reg.Bits.DLC = dataLength;
 		for(uint8_t i = 0; i < dataLength; i++)
@@ -274,17 +224,15 @@ uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *d
 
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, txbxDataAddress);
 
-		uint8_t nBytes = dataLength + 5;						// data register + 5 registers in Rx buffer
+		uint8_t nBytes = dataLength + 5;
 		for(uint8_t i = 0; i < nBytes; i++)
 		{
-			while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));		// block on txe
+			while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 			LL_SPI_TransmitData8(Device[deviceIndex].SPIx, TXBx.array[i]);
 		}
 
-		while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));				// wait for fifo to clear
-
-
-		while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))			// clear out rx fifo
+		while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
+		while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 			LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 		ClearChipSelect(deviceIndex);
@@ -297,45 +245,10 @@ uint8_t MCP25625_LoadTxBufferAtSIDH(uint8_t deviceIndex, uint16_t id, uint8_t *d
 	return 1;
 }
 
-uint8_t MCP25625_ReadRxBufferAtD0(uint8_t deviceIndex, uint8_t *data, uint8_t dataLength)
-{
-	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
-
-	uint8_t rxbxDataAddress = 0;
-	uint8_t status = ReadStatus(deviceIndex);
-	if(status & RX0IF_STATUS_MASK)
-		rxbxDataAddress = READ_RX_BUFFER_0_AT_D0;
-	else if(status & RX1IF_STATUS_MASK)
-		rxbxDataAddress = READ_RX_BUFFER_1_AT_D0;
-
-	if(rxbxDataAddress)
-	{
-		SetChipSelect(deviceIndex);
-
-		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, rxbxDataAddress);
-		while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
-		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
-
-		for(uint8_t i = 0; i < dataLength; i++)
-		{
-			LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
-			while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
-			data[i] = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
-		}
-
-		ClearChipSelect(deviceIndex);
-
-		return 0;
-	}
-
-	return 1;
-}
-
 uint8_t MCP25625_ReadRxBufferAtSIDH(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx, uint8_t dataLength)
 {
 	if(!Device[deviceIndex].isInit)
-		__NOP(); // add assert??
+		while(1);
 
 	uint8_t rxbxSIDH_Address = 0;
 	uint8_t status = ReadStatus(deviceIndex);
@@ -368,52 +281,41 @@ uint8_t MCP25625_ReadRxBufferAtSIDH(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx, 
 	return 1;
 }
 
+void MCP25625_ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes)
+{
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
+	return ReadRegisterData(deviceIndex, startReg, data, nDataBytes);
+}
+
+void MCP25625_WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes)
+{
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
+	return WriteRegisterData(deviceIndex, startReg, data, nDataBytes);
+}
+
 
 /*******************************************************************************
 * PRIVATE FUNCTIONS
 *******************************************************************************/
 
-static void InitRXBx(uint8_t deviceIndex)
-{
-	// Set RXBx to receive any message
-	ModifyRegisterBits(deviceIndex, RXB0CTRL_REG, 0b01100000, 0b01100000);
-	ModifyRegisterBits(deviceIndex, RXB1CTRL_REG, 0b01100000, 0b01100000);
-}
-
-static void ResetDevice(uint8_t deviceIndex)
-{
-	SetChipSelect(deviceIndex);
-
-//	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
-	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, RESET);
-	// wait for fifo to clear all bytes
-	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-	// while fifo has data, read to clear the fifo
-	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
-		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
-
-	ClearChipSelect(deviceIndex);
-	LL_mDelay(1);					// Minimum 2 us required (t_RL)
-}
-
 static void ReadRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *data, uint8_t nDataBytes)
 {
 	SetChipSelect(deviceIndex);
 
-	// send read command. 3 byte fifo
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, READ);
-	// send register address
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startReg);
-	// block until both bytes are sent
 	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
-	// clear rx fifo of responses to command/reg
 	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	for(uint8_t i = 0; i < nDataBytes; i++)
 	{
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
-		while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))); // waiting for rxne blocks sending the next
+		while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
 		data[i] = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 	}
 
@@ -427,33 +329,52 @@ static void WriteRegisterData(uint8_t deviceIndex, uint8_t startReg, uint8_t *da
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, WRITE);
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, startReg);
 
-	for(uint8_t i = 0; i < nDataBytes; i++) {
-		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx))); // don't send unless their is room
+	for(uint8_t i = 0; i < nDataBytes; i++)
+	{
+		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));
 		LL_SPI_TransmitData8(Device[deviceIndex].SPIx, data[i]);
 	}
-	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));			// wait for tx to clear the fifo
 
-	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))		// clear out the rx fifo
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
+	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	ClearChipSelect(deviceIndex);
+}
+
+static void InitRXBx(uint8_t deviceIndex)
+{
+	// Set RXBx to receive any message
+	ModifyRegisterBits(deviceIndex, RXB0CTRL_REG, 0b01100000, 0b01100000);
+	ModifyRegisterBits(deviceIndex, RXB1CTRL_REG, 0b01100000, 0b01100000);
+}
+
+static void ResetDevice(uint8_t deviceIndex)
+{
+	SetChipSelect(deviceIndex);
+
+	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, RESET);
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
+	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
+		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+
+	ClearChipSelect(deviceIndex);
+	LL_mDelay(1);					// Minimum 2 us required (t_RL)
 }
 
 static void ModifyRegisterBits(uint8_t deviceIndex, uint8_t reg, uint8_t mask, uint8_t data)
 {
 	SetChipSelect(deviceIndex);
 
-	// first 3 bytes will def fit in fifo, so don't wait
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, BIT_MODIFY);
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, reg);
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, mask);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));	// check on the 4th for space
+	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPIx)));	// Tx FIFO can only hold 3 bytes for 8 bit transmission
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, data);
 
-	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));		// block until fifo is cleared
-
-	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))	// clear rx fifo
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
+	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	ClearChipSelect(deviceIndex);
@@ -465,9 +386,9 @@ static void RequestToSend(uint8_t deviceIndex, uint8_t RTS_Tx)
 
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, RTS_Tx);
 
-	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));		// block until fifo is cleared
-	while(!LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx));	// ISSUE: This line was added to prevent missing receive bits
-	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))	// clear rx fifo
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
+	while(!LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx));
+	while(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx))
 		LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	ClearChipSelect(deviceIndex);
@@ -479,24 +400,24 @@ static uint8_t ReadStatus(uint8_t deviceIndex)
 
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, READ_STATUS);
 	LL_SPI_TransmitData8(Device[deviceIndex].SPIx, 0);
-	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));		// block until fifo is cleared
+	while(LL_SPI_GetTxFIFOLevel(Device[deviceIndex].SPIx));
 
-	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));// wait for rx data
-	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);				// clear first byte
-	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));// wait for rx data
-	uint8_t status = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);	// this is the response byte
+	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
+	LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
+	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPIx)));
+	uint8_t status = LL_SPI_ReceiveData8(Device[deviceIndex].SPIx);
 
 	ClearChipSelect(deviceIndex);
 
 	return status;
 }
 
-static void SetChipSelect(uint8_t deviceIndex)
+static inline void SetChipSelect(uint8_t deviceIndex)
 {
 	LL_GPIO_ResetOutputPin(Device[deviceIndex].CS_Port, Device[deviceIndex].csPin);
 }
 
-static void ClearChipSelect(uint8_t deviceIndex)
+static inline void ClearChipSelect(uint8_t deviceIndex)
 {
 	LL_GPIO_SetOutputPin(Device[deviceIndex].CS_Port, Device[deviceIndex].csPin);
 }

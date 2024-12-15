@@ -5,13 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Drivers/MCP25625/mcp25625_brett_greg.c 
+../Drivers/MCP25625/mcp25625.c 
 
 OBJS += \
-./Drivers/MCP25625/mcp25625_brett_greg.o 
+./Drivers/MCP25625/mcp25625.o 
 
 C_DEPS += \
-./Drivers/MCP25625/mcp25625_brett_greg.d 
+./Drivers/MCP25625/mcp25625.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +21,7 @@ Drivers/MCP25625/%.o Drivers/MCP25625/%.su: ../Drivers/MCP25625/%.c Drivers/MCP2
 clean: clean-Drivers-2f-MCP25625
 
 clean-Drivers-2f-MCP25625:
-	-$(RM) ./Drivers/MCP25625/mcp25625_brett_greg.d ./Drivers/MCP25625/mcp25625_brett_greg.o ./Drivers/MCP25625/mcp25625_brett_greg.su
+	-$(RM) ./Drivers/MCP25625/mcp25625.d ./Drivers/MCP25625/mcp25625.o ./Drivers/MCP25625/mcp25625.su
 
 .PHONY: clean-Drivers-2f-MCP25625
 

@@ -20,6 +20,7 @@ typedef enum
 	EPOS4_InitFaultDetected,
 	EPOS4_DisableVoltageError,
 	EPOS4_FirstStepError,
+	EPOS4_OptionCodesError,
 	EPOS4_ModeOfOperationError,
 	EPOS4_FaultError,
 	EPOS4_AbortError
@@ -27,60 +28,48 @@ typedef enum
 
 typedef enum
 {
-	CyclicSynchronousTorqueMode
+	EPOS4_CyclicSynchronousTorqueMode,
 } EPOS4_ModeOfOperation_e;
 
-// take enums out of structs??
 typedef struct
 {
 	enum
 	{
-		Rate1000Kbps,
-		Rate800Kbps,
-		Rate500Kbps,
-		Rate250Kbps,
-		Rate125Kbps,
-		__Reserved,
-		Rate50Kbps,
-		Rate20Kbps,
-		__NotSupported10Kbps,
-		AutomaticBitRateDetection
-	} CAN_BitRate; 							// 0x2001-00, should these all be EPOS4_??
+		EPOS4_Rate1000Kbps = 0,
+		EPOS4_Rate800Kbps,
+		EPOS4_Rate500Kbps,
+		EPOS4_Rate250Kbps,
+		EPOS4_Rate125Kbps,
+		EPOS4_Rate50Kbps = 6,
+		EPOS4_Rate20Kbps,
+		EPOS4_AutomaticBitRateDetection = 9
+	} CAN_BitRate;
 	enum
 	{
-		__NoOption0,
-		PhaseModulatedDcMotor,
-		__NoOption2,
-		__NoOption3,
-		__NoOption4,
-		__NoOption5,
-		__NoOption6,
-		__NoOption7,
-		__NoOption8,
-		__NoOption9,
-		SinusoidalPmBlMotor,
-		TrapezoidalPmBlMotor
-	} MotorType; 							// 0x6402-00, should these all be EPOS4_??
-	uint32_t nominalCurrent;				// 0x3001-01, units in mA
-	uint32_t outputCurrentLimit;			// 0x3001-02, units in mA
-	uint8_t numberOfPolePairs;				// 0x3001-03
-	uint16_t thermalTimeConstantWinding;	// 0x3001-04, units in 0.1 seconds (400 = 40.0 seconds)
-	uint32_t torqueConstant;				// 0x3001-05, units in mNm/A
-	uint32_t maxMotorSpeed;					// 0x6080-00, units in rpm
-	uint32_t maxGearInputSpeed;				// 0x3003-03, units in rpm
-	uint32_t sensorsConfiguration;			// 0x3000-01
-	uint32_t controlStructure;				// 0x3000-02
-	uint32_t commutationSensors;			// 0x3000-03
-	uint32_t axisConfigMiscellaneous;		// 0x3000-04
-	uint32_t currentControllerP_Gain;		// 0x30A0-01, units in uV/A
-	uint32_t currentControllerI_Gain;		// 0x30A0-02, units in uV/(A*s)
+		EPOS4_PhaseModulatedDcMotor = 1,
+		EPOS4_SinusoidalPmBlMotor = 10,
+		EPOS4_TrapezoidalPmBlMotor
+	} MotorType;
+	uint32_t nominalCurrent;
+	uint32_t outputCurrentLimit;
+	uint8_t numberOfPolePairs;
+	uint16_t thermalTimeConstantWinding;
+	uint32_t torqueConstant;
+	uint32_t maxMotorSpeed;
+	uint32_t maxGearInputSpeed;
+	uint32_t sensorsConfiguration;
+	uint32_t controlStructure;
+	uint32_t commutationSensors;
+	uint32_t axisConfigMiscellaneous;
+	uint32_t currentControllerP_Gain;
+	uint32_t currentControllerI_Gain;
 } EPOS4_FirstStep_t;
 
 typedef struct
 {
 	uint8_t isFirstStepRequired;
 	uint8_t isModeOfOperationRequired;
-} EPOS4_Requirements_t ;
+} EPOS4_Requirements_t;
 
 typedef struct
 {
@@ -96,7 +85,7 @@ EPOS4_Error_e EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque);
 EPOS4_Error_e EPOS4_DisableVoltage(uint8_t deviceIndex);
 EPOS4_Error_e EPOS4_ReadObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t *value);
 EPOS4_Error_e EPOS4_WriteObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
-EPOS4_Error_e EPOS4_CheckForError(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx);
+EPOS4_Error_e EPOS4_CheckForFault(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx);
 EPOS4_Error_e EPOS4_CheckForAbort(uint8_t deviceIndex, uint8_t *data);
 
 
