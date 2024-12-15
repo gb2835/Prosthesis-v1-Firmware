@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   0000dbd0  00000000  00000000  00058dcf  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c9450  00000000  00000000  0006699f  2**0
+ 18 .debug_str    000c94a2  00000000  00000000  0006699f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0012fdef  2**0
+ 19 .comment      00000050  00000000  00000000  0012fe41  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003dc8  00000000  00000000  0012fe40  2**2
+ 20 .debug_frame  00003dc8  00000000  00000000  0012fe94  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1643,13 +1643,13 @@ void ErrorHandler_AS5145B(EncoderIndex_e deviceIndex, AS5145B_Error_e error)
  8000fa0:	79fb      	ldrb	r3, [r7, #7]
  8000fa2:	2b00      	cmp	r3, #0
  8000fa4:	d103      	bne.n	8000fae <ErrorHandler_AS5145B+0x1e>
-		CM_ledCode = Ankle_AS5145B_InitError;
+		CM_ledCode = AnkleEncoderInitError;
  8000fa6:	4b04      	ldr	r3, [pc, #16]	; (8000fb8 <ErrorHandler_AS5145B+0x28>)
  8000fa8:	2201      	movs	r2, #1
  8000faa:	701a      	strb	r2, [r3, #0]
  8000fac:	e002      	b.n	8000fb4 <ErrorHandler_AS5145B+0x24>
 	else
-		CM_ledCode = Knee_AS5145B_InitError;
+		CM_ledCode = KneeEncoderInitError;
  8000fae:	4b02      	ldr	r3, [pc, #8]	; (8000fb8 <ErrorHandler_AS5145B+0x28>)
  8000fb0:	2206      	movs	r2, #6
  8000fb2:	701a      	strb	r2, [r3, #0]
@@ -1681,7 +1681,7 @@ void ErrorHandler_EPOS4(MotorControllerIndex_e deviceIndex, EPOS4_Error_e error)
  8000fd2:	79bb      	ldrb	r3, [r7, #6]
  8000fd4:	2b08      	cmp	r3, #8
  8000fd6:	d103      	bne.n	8000fe0 <ErrorHandler_EPOS4+0x24>
-			CM_ledCode = Ankle_EPOS4_FaultError;
+			CM_ledCode = AnkleMotorControllerFaultError;
  8000fd8:	4b10      	ldr	r3, [pc, #64]	; (800101c <ErrorHandler_EPOS4+0x60>)
  8000fda:	2203      	movs	r2, #3
  8000fdc:	701a      	strb	r2, [r3, #0]
@@ -1690,13 +1690,13 @@ void ErrorHandler_EPOS4(MotorControllerIndex_e deviceIndex, EPOS4_Error_e error)
  8000fe0:	79bb      	ldrb	r3, [r7, #6]
  8000fe2:	2b09      	cmp	r3, #9
  8000fe4:	d103      	bne.n	8000fee <ErrorHandler_EPOS4+0x32>
-			CM_ledCode = Ankle_EPOS4_AbortError;
+			CM_ledCode = AnkleMotorControllerAbortError;
  8000fe6:	4b0d      	ldr	r3, [pc, #52]	; (800101c <ErrorHandler_EPOS4+0x60>)
  8000fe8:	2204      	movs	r2, #4
  8000fea:	701a      	strb	r2, [r3, #0]
  8000fec:	e014      	b.n	8001018 <ErrorHandler_EPOS4+0x5c>
 		else
-			CM_ledCode = Ankle_EPOS4_InitError;
+			CM_ledCode = AnkleMotorControllerInitError;
  8000fee:	4b0b      	ldr	r3, [pc, #44]	; (800101c <ErrorHandler_EPOS4+0x60>)
  8000ff0:	2202      	movs	r2, #2
  8000ff2:	701a      	strb	r2, [r3, #0]
@@ -1708,7 +1708,7 @@ void ErrorHandler_EPOS4(MotorControllerIndex_e deviceIndex, EPOS4_Error_e error)
  8000ff6:	79bb      	ldrb	r3, [r7, #6]
  8000ff8:	2b08      	cmp	r3, #8
  8000ffa:	d103      	bne.n	8001004 <ErrorHandler_EPOS4+0x48>
-			CM_ledCode = Knee_EPOS4_FaultError;
+			CM_ledCode = KneeMotorControllerFaultError;
  8000ffc:	4b07      	ldr	r3, [pc, #28]	; (800101c <ErrorHandler_EPOS4+0x60>)
  8000ffe:	2208      	movs	r2, #8
  8001000:	701a      	strb	r2, [r3, #0]
@@ -1717,13 +1717,13 @@ void ErrorHandler_EPOS4(MotorControllerIndex_e deviceIndex, EPOS4_Error_e error)
  8001004:	79bb      	ldrb	r3, [r7, #6]
  8001006:	2b09      	cmp	r3, #9
  8001008:	d103      	bne.n	8001012 <ErrorHandler_EPOS4+0x56>
-			CM_ledCode = Knee_EPOS4_AbortError;
+			CM_ledCode = KneeMotorControllerAbortError;
  800100a:	4b04      	ldr	r3, [pc, #16]	; (800101c <ErrorHandler_EPOS4+0x60>)
  800100c:	2209      	movs	r2, #9
  800100e:	701a      	strb	r2, [r3, #0]
  8001010:	e002      	b.n	8001018 <ErrorHandler_EPOS4+0x5c>
 		else
-			CM_ledCode = Knee_EPOS4_InitError;
+			CM_ledCode = KneeMotorControllerInitError;
  8001012:	4b02      	ldr	r3, [pc, #8]	; (800101c <ErrorHandler_EPOS4+0x60>)
  8001014:	2207      	movs	r2, #7
  8001016:	701a      	strb	r2, [r3, #0]
@@ -1751,13 +1751,13 @@ void ErrorHandler_MCP25625(uint8_t deviceIndex, MCP25625_Error_e error)
  8001030:	79fb      	ldrb	r3, [r7, #7]
  8001032:	2b00      	cmp	r3, #0
  8001034:	d103      	bne.n	800103e <ErrorHandler_MCP25625+0x1e>
-		CM_ledCode = Ankle_MCP25625_InitError;
+		CM_ledCode = AnkleCAN_ControllerInitError;
  8001036:	4b04      	ldr	r3, [pc, #16]	; (8001048 <ErrorHandler_MCP25625+0x28>)
  8001038:	2205      	movs	r2, #5
  800103a:	701a      	strb	r2, [r3, #0]
  800103c:	e002      	b.n	8001044 <ErrorHandler_MCP25625+0x24>
 	else
-		CM_ledCode = Knee_MCP25625_InitError;
+		CM_ledCode = KneeCAN_ControllerInitError;
  800103e:	4b02      	ldr	r3, [pc, #8]	; (8001048 <ErrorHandler_MCP25625+0x28>)
  8001040:	220a      	movs	r2, #10
  8001042:	701a      	strb	r2, [r3, #0]
@@ -1777,7 +1777,7 @@ void ErrorHandler_MPU925x(MPU925x_Error_e error)
  8001050:	af00      	add	r7, sp, #0
  8001052:	4603      	mov	r3, r0
  8001054:	71fb      	strb	r3, [r7, #7]
-	CM_ledCode = MPU925x_InitError;
+	CM_ledCode = IMU_InitError;
  8001056:	4b02      	ldr	r3, [pc, #8]	; (8001060 <ErrorHandler_MPU925x+0x14>)
  8001058:	220b      	movs	r2, #11
  800105a:	701a      	strb	r2, [r3, #0]
