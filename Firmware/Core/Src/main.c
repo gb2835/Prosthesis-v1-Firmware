@@ -234,7 +234,7 @@ int main(void)
 
 	MPU925x_Error_e imuError = MPU925x_Init(0, &IMU_Init);
 	if(imuError)
-		ErrorHandler_MPU925x(0, imuError);
+		ErrorHandler_MPU925x(imuError);
 	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 

@@ -1,4 +1,4 @@
-../Core/Src/error_handler.c:39:6:ErrorHandler_AS5145B	16	static
-../Core/Src/error_handler.c:46:6:ErrorHandler_EPOS4	16	static
-../Core/Src/error_handler.c:60:6:ErrorHandler_MCP25625	16	static
-../Core/Src/error_handler.c:67:6:ErrorHandler_MPU925x	16	static
+../Core/Src/error_handler.c:44:6:ErrorHandler_AS5145B	16	static
+../Core/Src/error_handler.c:56:6:ErrorHandler_EPOS4	16	static
+../Core/Src/error_handler.c:82:6:ErrorHandler_MCP25625	16	static
+../Core/Src/error_handler.c:94:6:ErrorHandler_MPU925x	16	static
