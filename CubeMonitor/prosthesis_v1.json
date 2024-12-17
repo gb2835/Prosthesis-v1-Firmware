@@ -699,12 +699,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006cdc",
+                "address": "0x08006ce4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006cec",
+                "address": "0x08006cf4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -1097,7 +1097,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006cf4",
+                "address": "0x08006cfc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -1124,8 +1124,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734295666758,
-        "configLastUpdate": 1734362190996
+        "exeModifiedTime": 1734439193163,
+        "configLastUpdate": 1734439317370
     },
     {
         "id": "f2d4c873e2d0eec7",
@@ -4269,12 +4269,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006cdc",
+                "address": "0x08006ce4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006cec",
+                "address": "0x08006cf4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -4665,7 +4665,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006cf4",
+                "address": "0x08006cfc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -4692,8 +4692,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734295666758,
-        "configLastUpdate": 1734359511464
+        "exeModifiedTime": 1734439193163,
+        "configLastUpdate": 1734439364542
     },
     {
         "id": "631c53d8bbdf3bcf",
@@ -5200,8 +5200,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734293701023,
-        "configLastUpdate": 1734293750533
+        "exeModifiedTime": 1734438719021,
+        "configLastUpdate": 1734438800081
     },
     {
         "id": "83dbcd664a495030",
@@ -5640,8 +5640,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734295666758,
-        "configLastUpdate": 1734361749561
+        "exeModifiedTime": 1734438719021,
+        "configLastUpdate": 1734438808194
     },
     {
         "id": "9050bb235a56f128",
@@ -5656,12 +5656,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006cdc",
+                "address": "0x08006ce4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006cec",
+                "address": "0x08006cf4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -6052,7 +6052,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006cf4",
+                "address": "0x08006cfc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -6079,8 +6079,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734293701023,
-        "configLastUpdate": 1734293773928
+        "exeModifiedTime": 1734439193163,
+        "configLastUpdate": 1734439325669
     },
     {
         "id": "1bd339d34b6c165a",
@@ -6095,12 +6095,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006cdc",
+                "address": "0x08006ce4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006cec",
+                "address": "0x08006cf4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -6498,7 +6498,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006cf4",
+                "address": "0x08006cfc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -6525,8 +6525,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734293701023,
-        "configLastUpdate": 1734293789848
+        "exeModifiedTime": 1734439193163,
+        "configLastUpdate": 1734439331893
     },
     {
         "id": "6b6bf64b72f9539c",
@@ -6541,12 +6541,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006cdc",
+                "address": "0x08006ce4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006cec",
+                "address": "0x08006cf4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -6937,7 +6937,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006cf4",
+                "address": "0x08006cfc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -6964,8 +6964,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734293701023,
-        "configLastUpdate": 1734293799355
+        "exeModifiedTime": 1734439193163,
+        "configLastUpdate": 1734439337877
     },
     {
         "id": "3fd2b48225fa1bea",
@@ -7062,17 +7062,20 @@
             {
                 "address": "0x200000a4",
                 "name": "CM_Ankle.ProsCtrl.eqPoint",
-                "type": 9
+                "type": 9,
+                "checked": true
             },
             {
                 "address": "0x200000a8",
                 "name": "CM_Ankle.ProsCtrl.kd",
-                "type": 9
+                "type": 9,
+                "checked": true
             },
             {
                 "address": "0x200000ac",
                 "name": "CM_Ankle.ProsCtrl.kp",
-                "type": 9
+                "type": 9,
+                "checked": true
             },
             {
                 "address": "0x200000a0",
@@ -7213,19 +7216,19 @@
                 "address": "0x2000011c",
                 "name": "CM_Knee.ProsCtrl.eqPoint",
                 "type": 9,
-                "checked": true
+                "checked": false
             },
             {
                 "address": "0x20000120",
                 "name": "CM_Knee.ProsCtrl.kd",
                 "type": 9,
-                "checked": true
+                "checked": false
             },
             {
                 "address": "0x20000124",
                 "name": "CM_Knee.ProsCtrl.kp",
                 "type": 9,
-                "checked": true
+                "checked": false
             },
             {
                 "address": "0x20000118",
@@ -7405,8 +7408,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734293701023,
-        "configLastUpdate": 1734293817204
+        "exeModifiedTime": 1734439393087,
+        "configLastUpdate": 1734439507180
     },
     {
         "id": "72715b52dd83c683",
@@ -7421,12 +7424,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006cdc",
+                "address": "0x08006ce4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006cec",
+                "address": "0x08006cf4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -7819,7 +7822,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006cf4",
+                "address": "0x08006cfc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -7846,8 +7849,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734293701023,
-        "configLastUpdate": 1734293827212
+        "exeModifiedTime": 1734439193163,
+        "configLastUpdate": 1734439358240
     },
     {
         "id": "4a4bd3224de4fc0d",
@@ -7862,12 +7865,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006cdc",
+                "address": "0x08006ce4",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006cec",
+                "address": "0x08006cf4",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -8272,7 +8275,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006cf4",
+                "address": "0x08006cfc",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -8299,8 +8302,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1734293701023,
-        "configLastUpdate": 1734294695524
+        "exeModifiedTime": 1734439193163,
+        "configLastUpdate": 1734439343339
     },
     {
         "id": "75d818053a448250",
@@ -15236,7 +15239,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734361750076,
+        "lastImportedTime": 1734438808665,
         "openStatus": true,
         "x": 350,
         "y": 100,
@@ -15406,7 +15409,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734362197349,
+        "lastImportedTime": 1734439317887,
         "openStatus": false,
         "x": 370,
         "y": 160,
@@ -15471,7 +15474,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734293774443,
+        "lastImportedTime": 1734439326100,
         "openStatus": false,
         "x": 350,
         "y": 220,
@@ -15499,7 +15502,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734359092615,
+        "lastImportedTime": 1734439332395,
         "openStatus": true,
         "x": 370,
         "y": 280,
@@ -15619,7 +15622,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734293751267,
+        "lastImportedTime": 1734438800709,
         "openStatus": true,
         "x": 350,
         "y": 40,
@@ -15664,7 +15667,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734293799893,
+        "lastImportedTime": 1734439338317,
         "openStatus": false,
         "x": 350,
         "y": 380,
@@ -15752,7 +15755,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734294696157,
+        "lastImportedTime": 1734439351756,
         "openStatus": false,
         "x": 380,
         "y": 440,
@@ -15809,13 +15812,13 @@
         "execonfig": "3fd2b48225fa1bea",
         "variablelist": [],
         "triggerstartmode": "manual",
-        "triggername": "CM_Knee.ProsCtrl.eqPoint",
+        "triggername": "CM_Ankle.ProsCtrl.eqPoint",
         "triggerthreshold": "",
         "frequency": "",
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734293817774,
+        "lastImportedTime": 1734439507627,
         "openStatus": false,
         "x": 370,
         "y": 500,
@@ -15878,7 +15881,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734293827740,
+        "lastImportedTime": 1734439358691,
         "openStatus": false,
         "x": 350,
         "y": 560,
@@ -16080,7 +16083,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1734361977357,
+        "lastImportedTime": 1734439364982,
         "openStatus": false,
         "x": 350,
         "y": 660,
