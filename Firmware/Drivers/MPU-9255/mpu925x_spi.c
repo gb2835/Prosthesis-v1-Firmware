@@ -34,7 +34,7 @@ typedef struct
 	SPI_TypeDef *SPI_Handle;
 	GPIO_TypeDef *CS_GPIOx;
 	uint16_t csPin;
-	uint8_t isInit;
+	uint32_t isInit;
 } Device_t;
 
 static Device_t Device[MPU925X_NUMBER_OF_DEVICES];

@@ -130,7 +130,7 @@ typedef struct
 	MCP25625_CNF1_Reg_t CNF1_Reg;
 	MCP25625_CNF2_Reg_t CNF2_Reg;
 	MCP25625_CNF3_Reg_t CNF3_Reg;
-	uint8_t isInit;
+	uint32_t isInit;
 } Device_t;
 
 static Device_t Device[MCP25625_NUMBER_OF_DEVICES];

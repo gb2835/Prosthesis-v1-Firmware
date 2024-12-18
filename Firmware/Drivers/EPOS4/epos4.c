@@ -89,7 +89,7 @@ typedef struct
 	EPOS4_FirstStep_t FirstStep;
 	EPOS4_ModeOfOperation_e ModeOfOperation;
 	uint16_t cobId;
-	uint8_t isInit;
+	uint32_t isInit;
 } Device_t;
 
 static Device_t Device[EPOS4_NUMBER_OF_DEVICES];

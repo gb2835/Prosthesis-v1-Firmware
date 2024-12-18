@@ -100,6 +100,7 @@ static uint8_t isTestProgramRequired = 0;
 
 static Joint_t CM_Ankle, CM_Knee;
 static LoadCell_t CM_LoadCell;			// [0] = k-0, [1] = k-1, [2] = k-2
+static uint16_t CM_ankleRawEncoderBias, CM_kneeRawEncoderBias;
 static Utils_IMU_Data_t CM_IMU_Data;
 
 static uint16_t CM_state = 1200;
@@ -292,6 +293,8 @@ static void ProcessInputs(void)
 	double biases[6] = {0,0,0,0,0,0};
 	double sines[3] = {0,0,0};
 	CM_IMU_Data = CalibrateIMU(IMU_Data.array, biases, 1, cosines, sines);
+
+	CM_Ankle.limbSpeed = CM_IMU_Data.gz + CM_Ankle.jointSpeed;
 }
 
 static void RunStateMachine(void)
@@ -302,13 +305,16 @@ static void RunStateMachine(void)
 	case EarlyStance:
 		CM_state = 1200;
 
-		CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.EarlyStanceCtrl.eqPoint;
-		CM_Ankle.ProsCtrl.kd = CM_Ankle.EarlyStanceCtrl.kd;
-		CM_Ankle.ProsCtrl.kp = CM_Ankle.EarlyStanceCtrl.kp;
+		if(testProgram == None)
+		{
+			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.EarlyStanceCtrl.eqPoint;
+			CM_Ankle.ProsCtrl.kd = CM_Ankle.EarlyStanceCtrl.kd;
+			CM_Ankle.ProsCtrl.kp = CM_Ankle.EarlyStanceCtrl.kp;
 
-		CM_Knee.ProsCtrl.eqPoint = CM_Knee.EarlyStanceCtrl.eqPoint;
-		CM_Knee.ProsCtrl.kd = CM_Knee.EarlyStanceCtrl.kd;
-		CM_Knee.ProsCtrl.kp = CM_Knee.EarlyStanceCtrl.kp;
+			CM_Knee.ProsCtrl.eqPoint = CM_Knee.EarlyStanceCtrl.eqPoint;
+			CM_Knee.ProsCtrl.kd = CM_Knee.EarlyStanceCtrl.kd;
+			CM_Knee.ProsCtrl.kp = CM_Knee.EarlyStanceCtrl.kp;
+		}
 
 		if(CM_Ankle.limbSpeed > CM_Ankle.speedThreshold)
 			state = MidStance;
@@ -318,13 +324,16 @@ static void RunStateMachine(void)
 	case MidStance:
 		CM_state = 1300;
 
-		CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.MidStanceCtrl.eqPoint;
-		CM_Ankle.ProsCtrl.kd = CM_Ankle.MidStanceCtrl.kd;
-		CM_Ankle.ProsCtrl.kp = CM_Ankle.MidStanceCtrl.kp;
+		if(testProgram == None)
+		{
+			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.MidStanceCtrl.eqPoint;
+			CM_Ankle.ProsCtrl.kd = CM_Ankle.MidStanceCtrl.kd;
+			CM_Ankle.ProsCtrl.kp = CM_Ankle.MidStanceCtrl.kp;
 
-		CM_Knee.ProsCtrl.eqPoint = CM_Knee.MidStanceCtrl.eqPoint;
-		CM_Knee.ProsCtrl.kd = CM_Knee.MidStanceCtrl.kd;
-		CM_Knee.ProsCtrl.kp = CM_Knee.MidStanceCtrl.kp;
+			CM_Knee.ProsCtrl.eqPoint = CM_Knee.MidStanceCtrl.eqPoint;
+			CM_Knee.ProsCtrl.kd = CM_Knee.MidStanceCtrl.kd;
+			CM_Knee.ProsCtrl.kp = CM_Knee.MidStanceCtrl.kp;
+		}
 
 		if(CM_Ankle.jointSpeed < 0)
 			state = LateStance;
@@ -334,29 +343,35 @@ static void RunStateMachine(void)
 	case LateStance:
 		CM_state = 1400;
 
-		CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.LateStanceCtrl.eqPoint;
-		CM_Ankle.ProsCtrl.kd = CM_Ankle.LateStanceCtrl.kd;
-		CM_Ankle.ProsCtrl.kp = CM_Ankle.LateStanceCtrl.kp;
+		if(testProgram == None)
+		{
+			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.LateStanceCtrl.eqPoint;
+			CM_Ankle.ProsCtrl.kd = CM_Ankle.LateStanceCtrl.kd;
+			CM_Ankle.ProsCtrl.kp = CM_Ankle.LateStanceCtrl.kp;
 
-		CM_Knee.ProsCtrl.eqPoint = CM_Knee.LateStanceCtrl.eqPoint;
-		CM_Knee.ProsCtrl.kd = CM_Knee.LateStanceCtrl.kd;
-		CM_Knee.ProsCtrl.kp = CM_Knee.LateStanceCtrl.kp;
+			CM_Knee.ProsCtrl.eqPoint = CM_Knee.LateStanceCtrl.eqPoint;
+			CM_Knee.ProsCtrl.kd = CM_Knee.LateStanceCtrl.kd;
+			CM_Knee.ProsCtrl.kp = CM_Knee.LateStanceCtrl.kp;
+		}
 
 		if(CM_LoadCell.Filtered.bot[0] > CM_LoadCell.outOfStanceThreshold)
-			state = SwingFlexion;
+			state = SwingExtension;
 
 		break;
 
 	case SwingFlexion:
 		CM_state = 1500;
 
-		CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.SwingFlexCtrl.eqPoint;
-		CM_Ankle.ProsCtrl.kd = CM_Ankle.SwingFlexCtrl.kd;
-		CM_Ankle.ProsCtrl.kp = CM_Ankle.SwingFlexCtrl.kp;
+		if(testProgram == None)
+		{
+			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.SwingFlexCtrl.eqPoint;
+			CM_Ankle.ProsCtrl.kd = CM_Ankle.SwingFlexCtrl.kd;
+			CM_Ankle.ProsCtrl.kp = CM_Ankle.SwingFlexCtrl.kp;
 
-		CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingFlexCtrl.eqPoint;
-		CM_Knee.ProsCtrl.kd = CM_Knee.SwingFlexCtrl.kd;
-		CM_Knee.ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
+			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingFlexCtrl.eqPoint;
+			CM_Knee.ProsCtrl.kd = CM_Knee.SwingFlexCtrl.kd;
+			CM_Knee.ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
+		}
 
 		if(CM_Knee.jointSpeed > CM_Knee.speedThreshold)
 			state = SwingExtension;
@@ -366,15 +381,18 @@ static void RunStateMachine(void)
 	case SwingExtension:
 		CM_state = 1600;
 
-		CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.SwingExtCtrl.eqPoint;
-		CM_Ankle.ProsCtrl.kd = CM_Ankle.SwingExtCtrl.kd;
-		CM_Ankle.ProsCtrl.kp = CM_Ankle.SwingExtCtrl.kp;
+		if(testProgram == None)
+		{
+			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.SwingExtCtrl.eqPoint;
+			CM_Ankle.ProsCtrl.kd = CM_Ankle.SwingExtCtrl.kd;
+			CM_Ankle.ProsCtrl.kp = CM_Ankle.SwingExtCtrl.kp;
 
-		CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingExtCtrl.eqPoint;
-		CM_Knee.ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
-		CM_Knee.ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
+			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingExtCtrl.eqPoint;
+			CM_Knee.ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
+			CM_Knee.ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
+		}
 
-		if(CM_LoadCell.Filtered.top[0] < CM_LoadCell.intoStanceThreshold)
+		if(CM_LoadCell.Filtered.bot[0] < CM_LoadCell.intoStanceThreshold)
 			state = EarlyStance;
 
 		break;
@@ -426,7 +444,7 @@ static void RunTestProgram(void)
 			for(i = 0; i < 1000; i++)
 				sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
 
-			CM_Ankle.encoderBias = sum / i;
+			CM_ankleRawEncoderBias = sum / i;
 		}
 
 		if(Device.Joint == Knee || Device.Joint == Combined)
@@ -436,7 +454,7 @@ static void RunTestProgram(void)
 			for(i = 0; i < 1000; i++)
 				sum += AS5145B_ReadPosition_Raw(KneeEncoderIndex);
 
-			CM_Knee.encoderBias = sum / i;
+			CM_kneeRawEncoderBias = sum / i;
 		}
 
 		break;
@@ -470,6 +488,7 @@ static void RunTestProgram(void)
 				CM_Knee.ProsCtrl.eqPoint = sum / i - CM_Knee.encoderBias;
 			}
 		}
+
 
 		RunImpedanceControl();
 

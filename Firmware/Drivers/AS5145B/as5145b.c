@@ -38,12 +38,13 @@ typedef struct
 	uint16_t CSn_Pin;
 	TIM_TypeDef *TIMx;
 	uint8_t timerRateMHz;
-	uint8_t isInit;
+	uint32_t isInit;
 } Device_t;
 
 static Device_t Device[AS5145B_NUMBER_OF_DEVICES];
 
 static uint8_t ReadStatus(uint8_t deviceIndex);
+static AS5145B_Data_t ReadData(uint8_t deviceIndex);
 static inline void SetChipSelect(uint8_t deviceIndex);
 static inline void ClearChipSelect(uint8_t deviceIndex);
 static inline void RaiseClockEdge(uint8_t deviceIndex);
@@ -79,6 +80,48 @@ AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 	if(!Device[deviceIndex].isInit)
 		while(1);
 
+	return ReadData(deviceIndex);
+}
+
+float AS5145B_ReadPosition(uint8_t deviceIndex)
+{
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
+	AS5145B_Data_t Data = ReadData(deviceIndex);
+	return Data.position * AS5145B_RAW2DEG;
+}
+
+uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex)
+{
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
+	AS5145B_Data_t Data = ReadData(deviceIndex);
+	return Data.position;
+}
+
+uint8_t AS5145B_ReadStatus(uint8_t deviceIndex)
+{
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
+	return ReadStatus(deviceIndex);
+}
+
+
+/*******************************************************************************
+* PRIVATE FUNCTIONS
+*******************************************************************************/
+
+static uint8_t ReadStatus(uint8_t deviceIndex)
+{
+	AS5145B_Data_t Data = ReadData(deviceIndex);
+	return Data.status;
+}
+
+static AS5145B_Data_t ReadData(uint8_t deviceIndex)
+{
 	SetChipSelect(deviceIndex);
 	DelayUs(Device[deviceIndex].TIMx, Device[deviceIndex].timerRateMHz, 1);	// Delay of 500 ns minimum required for t_(CLK FE)
 
@@ -109,44 +152,6 @@ AS5145B_Data_t AS5145B_ReadData(uint8_t deviceIndex)
 
 	return Data;
 }
-
-float AS5145B_ReadPosition(uint8_t deviceIndex)
-{
-	if(!Device[deviceIndex].isInit)
-		while(1);
-
-	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
-	return Data.position * AS5145B_RAW2DEG;
-}
-
-uint16_t AS5145B_ReadPosition_Raw(uint8_t deviceIndex)
-{
-	if(!Device[deviceIndex].isInit)
-		while(1);
-
-	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
-	return Data.position;
-}
-
-uint8_t AS5145B_ReadStatus(uint8_t deviceIndex)
-{
-	if(!Device[deviceIndex].isInit)
-		while(1);
-
-	return ReadStatus(deviceIndex);
-}
-
-
-/*******************************************************************************
-* PRIVATE FUNCTIONS
-*******************************************************************************/
-
-static uint8_t ReadStatus(uint8_t deviceIndex)
-{
-	AS5145B_Data_t Data = AS5145B_ReadData(deviceIndex);
-	return Data.status;
-}
-
 
 static inline void ClearChipSelect(uint8_t deviceIndex)
 {
