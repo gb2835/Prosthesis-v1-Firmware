@@ -1,8 +1,6 @@
 /*******************************************************************************
 *
-* TITLE:	Driver for AMS AS5145B Magnetic Rotary Encoder
-* AUTHOR:	Greg Berkeley
-* RELEASE:	05/07/2024
+* TITLE: Driver for AMS AS5145B Magnetic Rotary Encoder
 *
 * NOTES
 * 1. This driver is based on

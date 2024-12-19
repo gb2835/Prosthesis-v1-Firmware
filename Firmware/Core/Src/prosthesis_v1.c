@@ -1,8 +1,6 @@
 /*******************************************************************************
 *
-* TITLE:	Application for Prosthesis v1
-* AUTHOR:	Greg Berkeley
-* RELEASE:	12/15/2024
+* TITLE: Application for Prosthesis v1
 *
 * NOTES
 * 1. Unless otherwise specified, units are
@@ -77,8 +75,8 @@ typedef struct
 {
 	struct
 	{
-		float bot[3];
-		float top[3];
+		float bot[3];	// [0] = k-0, [1] = k-1, [2] = k-2
+		float top[3];	// [0] = k-0, [1] = k-1, [2] = k-2
 	} Raw;
 	struct
 	{

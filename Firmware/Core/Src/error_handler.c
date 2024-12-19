@@ -1,8 +1,6 @@
 /*******************************************************************************
 *
-* TITLE:	Error Handler for Prosthesis v1
-* AUTHOR:	Greg Berkeley
-* RELEASE:	12/15/2024
+* TITLE: Error Handler for Prosthesis v1
 *
 * NOTES
 * 1. None.

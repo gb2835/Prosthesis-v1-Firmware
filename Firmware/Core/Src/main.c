@@ -2,9 +2,7 @@
 
 /*******************************************************************************
 *
-* TITLE:	Prosthesis v1 Firmware
-* AUTHOR:	Greg Berkeley
-* RELEASE:	12/15/2024
+* TITLE: Prosthesis v1 Firmware
 *
 * NOTES
 * 1. The below lines can be used to measure PB2 on oscilloscope (#include main.h may need to be added to the first):
@@ -16,7 +14,7 @@
 *    A new magnetic encoder bias position must be found and defined whenever the magnet is reassembled into the prosthesis device.
 *    A test program is provided to find the bias.
 *    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-* 4. Performing Search->File on "* MY " will show all of my inclusions in the MX generated source code.
+* 4. Performing Search->File on "* MY " will show my inclusions in the MX generated source code.
 *
 *******************************************************************************/
 

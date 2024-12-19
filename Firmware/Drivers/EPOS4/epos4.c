@@ -1,8 +1,6 @@
 /*******************************************************************************
 *
-* TITLE:	Driver for Maxon EPOS4 Motor Controller with Microchip MCP25625 CAN Controller
-* AUTHOR:	Greg Berkeley
-* RELEASE:	12/15/2024
+* TITLE: Driver for Maxon EPOS4 Motor Controller with Microchip MCP25625 CAN Controller
 *
 * NOTES
 * 1. This driver is based on:

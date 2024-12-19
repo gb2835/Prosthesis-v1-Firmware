@@ -1,8 +1,6 @@
 /*******************************************************************************
 *
-* TITLE:	Driver for InvenSense MPU-9250 and MPU-9255 IMU using SPI
-* AUTHOR:	Greg Berkeley
-* RELEASE:	08/24/2024
+* TITLE: Driver for InvenSense MPU-9250 and MPU-9255 IMU using SPI
 *
 * NOTES
 * 1. This driver is based on

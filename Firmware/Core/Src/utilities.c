@@ -1,8 +1,6 @@
 /*******************************************************************************
  *
- * TITLE:	Utility Functions
- * AUTHOR:	Greg Berkeley
- * RELEASE:	05/07/2024
+ * TITLE: Utility Functions
  *
  * NOTES
  * 1. None.
