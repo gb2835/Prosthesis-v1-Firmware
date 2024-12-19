@@ -124,6 +124,15 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
 	CM_Ankle.speedThreshold = -5.0f;
 
+	CM_Ankle.EarlyStanceCtrl.eqPoint = -7.0f;
+	CM_Ankle.EarlyStanceCtrl.kp = 5;
+	CM_Ankle.MidStanceCtrl.eqPoint = -7.0f;
+	CM_Ankle.MidStanceCtrl.kp = 5;
+	CM_Ankle.LateStanceCtrl.eqPoint = -7.0f;
+	CM_Ankle.LateStanceCtrl.kp = 5;
+	CM_Ankle.SwingExtCtrl.eqPoint = -7.0f;
+	CM_Ankle.SwingExtCtrl.kp = 5;
+
 	CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
 
 	CM_LoadCell.intoStanceThreshold = 1347;
@@ -259,10 +268,12 @@ static void ProcessInputs(void)
 static void RunStateMachine(void)
 {
 	static StateMachine_e state = EarlyStance;
+	static uint8_t isFirstCallForLateStance = 1;
 	switch(state)
 	{
 	case EarlyStance:
 		CM_state = 1200;
+		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -282,6 +293,7 @@ static void RunStateMachine(void)
 
 	case MidStance:
 		CM_state = 1300;
+		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -306,7 +318,13 @@ static void RunStateMachine(void)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.LateStanceCtrl.eqPoint;
 			CM_Ankle.ProsCtrl.kd = CM_Ankle.LateStanceCtrl.kd;
-			CM_Ankle.ProsCtrl.kp = CM_Ankle.LateStanceCtrl.kp;
+
+			// Compute kp to start with previous torque when first called
+			if(isFirstCallForLateStance)
+			{
+				CM_Ankle.ProsCtrl.kp = (CM_Ankle.jointTorque + CM_Ankle.jointSpeed*CM_Ankle.LateStanceCtrl.kd) / (CM_Ankle.LateStanceCtrl.eqPoint - *CM_Ankle.jointAngle);
+				isFirstCallForLateStance = 0;
+			}
 
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.LateStanceCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.LateStanceCtrl.kd;
@@ -320,6 +338,7 @@ static void RunStateMachine(void)
 
 	case SwingFlexion:
 		CM_state = 1500;
+		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -339,6 +358,7 @@ static void RunStateMachine(void)
 
 	case SwingExtension:
 		CM_state = 1600;
+		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{

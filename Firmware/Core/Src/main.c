@@ -277,7 +277,7 @@ int main(void)
 * MY TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(ImpedanceControl);
+	RequireTestProgram(None);
 
 
 /*******************************************************************************
