@@ -7,7 +7,7 @@
 * RELEASE:	12/15/2024
 *
 * NOTES
-* 1. The below lines can be used to measure PB2 on oscilloscope:
+* 1. The below lines can be used to measure PB2 on oscilloscope (#include main.h may need to be added to the first):
 *		- LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *		- LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *		- LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
@@ -16,6 +16,7 @@
 *    A new magnetic encoder bias position must be found and defined whenever the magnet is reassembled into the prosthesis device.
 *    A test program is provided to find the bias.
 *    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+* 4. Performing Search->File on "* MY " will show all of my inclusions in the MX generated source code.
 *
 *******************************************************************************/
 
@@ -67,7 +68,7 @@ void SystemClock_Config(void);
 
 
 /*******************************************************************************
-* USER PRELIMINARIES
+* MY PRELIMINARIES
 *******************************************************************************/
 
 #include "as5145b.h"
@@ -136,7 +137,7 @@ int main(void)
 
 
 /*******************************************************************************
-* USER DEFINITIONS
+* MY DEFINITIONS
 *******************************************************************************/
 
 	AS5145B_Init_t Encoder_Init[AS5145B_NUMBER_OF_DEVICES];
@@ -211,8 +212,9 @@ int main(void)
   	Prosthesis_Init.Joint = Ankle;
   	Prosthesis_Init.Side = Left;
 
+
 /*******************************************************************************
-* USER INITIALIZATIONS
+* MY INITIALIZATIONS
 *******************************************************************************/
 
 	LL_SYSTICK_EnableIT();
@@ -272,14 +274,14 @@ int main(void)
 
 
 /*******************************************************************************
-* USER TEST PROGRAMS
+* MY TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(None);
+	RequireTestProgram(ImpedanceControl);
 
 
 /*******************************************************************************
-* USER MAIN LOOP
+* MY MAIN LOOP
 *******************************************************************************/
 
   while(1)

@@ -5,11 +5,7 @@
 * RELEASE:	12/15/2024
 *
 * NOTES
-* 1. Summary of LED status below.
-* 		- Green		= no error
-* 		- Yellow	= initialization error
-* 		- Orange	= EPOS4 abort error
-* 		- Red		= EPOS4 fault error
+* 1. None.
 *
 *******************************************************************************/
 
@@ -64,6 +60,12 @@ void ErrorHandler_EPOS4(MotorControllerIndex_e deviceIndex, EPOS4_Error_e error)
 		else
 			CM_ledCode = KneeMotorControllerInitError;
 	}
+
+	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
+		EPOS4_DisableVoltage(AnkleMotorControllerIndex);
+
+	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
+		EPOS4_DisableVoltage(KneeMotorControllerIndex);
 
 	while(1);
 }

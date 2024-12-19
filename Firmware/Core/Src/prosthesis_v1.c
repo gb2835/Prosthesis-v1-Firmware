@@ -59,7 +59,7 @@ typedef struct
 
 typedef struct
 {
-	double jointAngle[2];			// [0] = k-0, [1] = k-1
+	double jointAngle[2];				// [0] = k-0, [1] = k-1
 	double jointSpeed;
 	double limbSpeed;
 	float encoderBias;
@@ -82,8 +82,8 @@ typedef struct
 	} Raw;
 	struct
 	{
-		float bot[3];
-		float top[3];
+		float bot[3];	// [0] = k-0, [1] = k-1, [2] = k-2
+		float top[3];	// [0] = k-0, [1] = k-1, [2] = k-2
 	} Filtered;
 	float outOfStanceThreshold;
 	float intoStanceThreshold;
@@ -98,10 +98,10 @@ static uint8_t isFirst = 1;
 static uint8_t isSecond = 0;
 static uint8_t isTestProgramRequired = 0;
 
+static float CM_IMU_GyroZ;
 static Joint_t CM_Ankle, CM_Knee;
-static LoadCell_t CM_LoadCell;			// [0] = k-0, [1] = k-1, [2] = k-2
+static LoadCell_t CM_LoadCell;
 static uint16_t CM_ankleRawEncoderBias, CM_kneeRawEncoderBias;
-static Utils_IMU_Data_t CM_IMU_Data;
 
 static uint16_t CM_state = 1200;
 
@@ -117,13 +117,9 @@ static void RunTestProgram(void);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-// Includes variables that are subject to change during testing for convenience
 void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 {
 	memcpy(&Device, Device_Init, sizeof(&Device_Init));
-
-	memset(&CM_Ankle, 0, sizeof(CM_Ankle));
-	memset(&CM_Knee, 0, sizeof(CM_Knee));
 
 	CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
 	CM_Ankle.speedThreshold = -5.0f;
@@ -148,11 +144,9 @@ void RunProsthesisControl(void)
 
 	if(isTestProgramRequired)
 		RunTestProgram();
-	else
-	{
-		RunStateMachine();
-		RunImpedanceControl();
-	}
+
+	RunStateMachine();
+	RunImpedanceControl();
 
 	// Check for first and second executions, needed for derivatives, filters, etc.
 	if(isFirst)
@@ -172,14 +166,10 @@ void RunProsthesisControl(void)
 static void GetInputs(void)
 {
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
-	{
 		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition(AnkleEncoderIndex) - CM_Ankle.encoderBias;
-	}
 
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
-	{
 		CM_Knee.jointAngle[0] = AS5145B_ReadPosition(KneeEncoderIndex) - CM_Knee.encoderBias;
-	}
 
 	CM_LoadCell.Raw.bot[0] = ReadLoadCell(ADC1);
 	CM_LoadCell.Raw.top[0] = ReadLoadCell(ADC2);
@@ -202,17 +192,11 @@ static void ProcessInputs(void)
 	// Derivative of joint angle (joint speed) and filtering of load cells
 	if(isFirst)
 	{
-		if((Device.Joint == Ankle) || (Device.Joint == Combined))
-		{
-			CM_Ankle.jointSpeed = 0.0;
-			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
-		}
+		CM_Ankle.jointSpeed = 0.0;
+		CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 
-		if((Device.Joint == Knee) || (Device.Joint == Combined))
-		{
-			CM_Knee.jointSpeed = 0.0;
-			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
-		}
+		CM_Knee.jointSpeed = 0.0;
+		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 
 		CM_LoadCell.Raw.bot[2] = CM_LoadCell.Raw.bot[0];
 		CM_LoadCell.Raw.top[2] = CM_LoadCell.Raw.top[0];
@@ -223,19 +207,13 @@ static void ProcessInputs(void)
 	}
 	else if(isSecond)
 	{
-		if((Device.Joint == Ankle) || (Device.Joint == Combined))
-		{
-			// Practical differentiator (bilinear transformation used)
-			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
-			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
-		}
+		// Practical differentiator (bilinear transformation used)
+		CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
+		CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 
-		if((Device.Joint == Knee) || (Device.Joint == Combined))
-		{
-			// Practical differentiator (bilinear transformation used)
-			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
-			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
-		}
+		// Practical differentiator (bilinear transformation used)
+		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 
 		CM_LoadCell.Raw.bot[1] = CM_LoadCell.Raw.bot[0];
 		CM_LoadCell.Raw.top[1] = CM_LoadCell.Raw.top[0];
@@ -246,25 +224,19 @@ static void ProcessInputs(void)
 	}
 	else
 	{
-		if((Device.Joint == Ankle) || (Device.Joint == Combined))
-		{
-			// Practical differentiator (bilinear transformation used)
-			CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
-			CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
-		}
+		// Practical differentiator (bilinear transformation used)
+		CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
+		CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 
-		if((Device.Joint == Knee) || (Device.Joint == Combined))
-		{
-			// Practical differentiator (bilinear transformation used)
-			CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
-			CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
-		}
+		// Practical differentiator (bilinear transformation used)
+		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
 		CM_LoadCell.Filtered.bot[0] =   1.6556 * CM_LoadCell.Filtered.bot[1] - 0.7068 * CM_LoadCell.Filtered.bot[2]
-									   + 0.0128 * CM_LoadCell.Raw.bot[0] + 0.0256 * CM_LoadCell.Raw.bot[1] + 0.0128 * CM_LoadCell.Raw.bot[2];
+									  + 0.0128 * CM_LoadCell.Raw.bot[0] + 0.0256 * CM_LoadCell.Raw.bot[1] + 0.0128 * CM_LoadCell.Raw.bot[2];
 		CM_LoadCell.Filtered.top[0] =   1.6556 * CM_LoadCell.Filtered.top[1] - 0.7068 * CM_LoadCell.Filtered.top[2]
-									   + 0.0128 * CM_LoadCell.Raw.top[0] + 0.0256 * CM_LoadCell.Raw.top[1] + 0.0128 * CM_LoadCell.Raw.top[2];
+									  + 0.0128 * CM_LoadCell.Raw.top[0] + 0.0256 * CM_LoadCell.Raw.top[1] + 0.0128 * CM_LoadCell.Raw.top[2];
 
 		CM_LoadCell.Raw.bot[2] = CM_LoadCell.Raw.bot[1];
 		CM_LoadCell.Raw.bot[1] = CM_LoadCell.Raw.bot[0];
@@ -276,25 +248,12 @@ static void ProcessInputs(void)
 		CM_LoadCell.Filtered.top[1] = CM_LoadCell.Filtered.top[0];
 	}
 
-	double cosines[3];
 	if(Device.Side == Left)
-	{
-		cosines[0] = -1;
-		cosines[1] = -1;
-		cosines[2] = 1;
-	}
+		CM_IMU_GyroZ = -IMU_Data.Struct.gz;
 	else
-	{
-		cosines[0] = 1;
-		cosines[1] = 1;
-		cosines[2] = 1;
-	}
+		CM_IMU_GyroZ = IMU_Data.Struct.gz;
 
-	double biases[6] = {0,0,0,0,0,0};
-	double sines[3] = {0,0,0};
-	CM_IMU_Data = CalibrateIMU(IMU_Data.array, biases, 1, cosines, sines);
-
-	CM_Ankle.limbSpeed = CM_IMU_Data.gz + CM_Ankle.jointSpeed;
+	CM_Ankle.limbSpeed = CM_IMU_GyroZ + CM_Ankle.jointSpeed;
 }
 
 static void RunStateMachine(void)
@@ -305,7 +264,7 @@ static void RunStateMachine(void)
 	case EarlyStance:
 		CM_state = 1200;
 
-		if(testProgram == None)
+		if(testProgram != ImpedanceControl)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.EarlyStanceCtrl.eqPoint;
 			CM_Ankle.ProsCtrl.kd = CM_Ankle.EarlyStanceCtrl.kd;
@@ -324,7 +283,7 @@ static void RunStateMachine(void)
 	case MidStance:
 		CM_state = 1300;
 
-		if(testProgram == None)
+		if(testProgram != ImpedanceControl)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.MidStanceCtrl.eqPoint;
 			CM_Ankle.ProsCtrl.kd = CM_Ankle.MidStanceCtrl.kd;
@@ -343,7 +302,7 @@ static void RunStateMachine(void)
 	case LateStance:
 		CM_state = 1400;
 
-		if(testProgram == None)
+		if(testProgram != ImpedanceControl)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.LateStanceCtrl.eqPoint;
 			CM_Ankle.ProsCtrl.kd = CM_Ankle.LateStanceCtrl.kd;
@@ -362,7 +321,7 @@ static void RunStateMachine(void)
 	case SwingFlexion:
 		CM_state = 1500;
 
-		if(testProgram == None)
+		if(testProgram != ImpedanceControl)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.SwingFlexCtrl.eqPoint;
 			CM_Ankle.ProsCtrl.kd = CM_Ankle.SwingFlexCtrl.kd;
@@ -381,7 +340,7 @@ static void RunStateMachine(void)
 	case SwingExtension:
 		CM_state = 1600;
 
-		if(testProgram == None)
+		if(testProgram != ImpedanceControl)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.SwingExtCtrl.eqPoint;
 			CM_Ankle.ProsCtrl.kd = CM_Ankle.SwingExtCtrl.kd;
@@ -409,10 +368,13 @@ static void RunImpedanceControl(void)
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
 		int16_t motorTorque = CM_Ankle.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);
-		if(error)
-			ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
 
+		if((testProgram == None) || (testProgram == ImpedanceControl))
+		{
+			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);
+			if(error)
+				ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
+		}
 	}
 
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
@@ -420,9 +382,13 @@ static void RunImpedanceControl(void)
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 		CM_Knee.jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
 		int16_t motorTorque = CM_Knee.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
-		EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -motorTorque);		// Knee joint rotates opposite of coordinate system
-		if(error)
-			ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
+
+		if((testProgram == None) || (testProgram == ImpedanceControl))
+		{
+			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -motorTorque);		// Knee joint rotates opposite of coordinate system
+			if(error)
+				ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
+		}
 	}
 }
 
@@ -437,24 +403,32 @@ static void RunTestProgram(void)
 		break;
 
 	case EncoderBias:
-		if(Device.Joint == Ankle || Device.Joint == Combined)
+		if((Device.Joint == Ankle) || (Device.Joint == Combined))
 		{
-			uint16_t i;
-			uint32_t sum = 0;
-			for(i = 0; i < 1000; i++)
-				sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
-
-			CM_ankleRawEncoderBias = sum / i;
+			static uint32_t sum = 0;
+			static uint16_t count = 0;
+			sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
+			count++;
+			if(count == 10)
+			{
+				CM_ankleRawEncoderBias = sum/count;
+				sum = 0;
+				count = 0;
+			}
 		}
 
-		if(Device.Joint == Knee || Device.Joint == Combined)
+		if((Device.Joint == Knee) || (Device.Joint == Combined))
 		{
-			uint16_t i;
-			uint32_t sum = 0;
-			for(i = 0; i < 1000; i++)
-				sum += AS5145B_ReadPosition_Raw(KneeEncoderIndex);
-
-			CM_kneeRawEncoderBias = sum / i;
+			static uint32_t sum = 0;
+			static uint16_t count = 0;
+			sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
+			count++;
+			if(count == 10)
+			{
+				CM_kneeRawEncoderBias = sum/count;
+				sum = 0;
+				count = 0;
+			}
 		}
 
 		break;
@@ -462,7 +436,7 @@ static void RunTestProgram(void)
 	case ImpedanceControl:
 		if(isFirst)
 		{
-			if(Device.Joint == Ankle || Device.Joint == Combined)
+			if((Device.Joint == Ankle) || (Device.Joint == Combined))
 			{
 				uint16_t i;
 				float sum = 0.0f;
@@ -475,7 +449,7 @@ static void RunTestProgram(void)
 				CM_Ankle.ProsCtrl.eqPoint = sum / i - CM_Ankle.encoderBias;
 			}
 
-			if(Device.Joint == Knee || Device.Joint == Combined)
+			if((Device.Joint == Knee) || (Device.Joint == Combined))
 			{
 				uint16_t i;
 				float sum = 0.0f;
@@ -488,9 +462,6 @@ static void RunTestProgram(void)
 				CM_Knee.ProsCtrl.eqPoint = sum / i - CM_Knee.encoderBias;
 			}
 		}
-
-
-		RunImpedanceControl();
 
 		break;
 	}

@@ -51,17 +51,6 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-/*******************************************************************************
-* USER PRELIMINARIES
-*******************************************************************************/
-
-#include "prosthesis_v1.h"
-
-extern Prosthesis_Init_t Prosthesis_Init;
-
-
-/******************************************************************************/
-
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -146,6 +135,18 @@ void Error_Handler(void);
                                                                  0 bit  for subpriority */
 #endif
 /* USER CODE BEGIN Private defines */
+
+
+/*******************************************************************************
+* MY PRELIMINARIES
+*******************************************************************************/
+
+#include "prosthesis_v1.h"
+
+extern Prosthesis_Init_t Prosthesis_Init;
+
+
+/******************************************************************************/
 
 /* USER CODE END Private defines */
 

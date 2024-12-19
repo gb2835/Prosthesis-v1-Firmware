@@ -95,12 +95,12 @@ typedef union
 	double array[6];
 	struct
 	{
-	   double ax;
-	   double ay;
-	   double az;
-	   double gx;
-	   double gy;
-	   double gz;
+		double ax;
+		double ay;
+		double az;
+		double gx;
+		double gy;
+		double gz;
 	} Struct;
 } MPU925x_IMU_Data_t;
 
