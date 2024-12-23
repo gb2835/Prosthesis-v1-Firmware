@@ -181,7 +181,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x2cb ./Core/Src/error_handler.o
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/error_handler.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/error_handler.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/error_handler.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/error_handler.o
  .group         0x0000000000000000        0xc ./Core/Src/gpio.o
  .group         0x0000000000000000        0xc ./Core/Src/gpio.o
  .group         0x0000000000000000        0xc ./Core/Src/gpio.o
@@ -258,7 +258,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/gpio.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/gpio.o
  .debug_macro   0x0000000000000000      0x169 ./Core/Src/gpio.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/gpio.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/gpio.o
  .group         0x0000000000000000        0xc ./Core/Src/lptim.o
  .group         0x0000000000000000        0xc ./Core/Src/lptim.o
  .group         0x0000000000000000        0xc ./Core/Src/lptim.o
@@ -335,7 +335,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/lptim.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/lptim.o
  .debug_macro   0x0000000000000000      0x169 ./Core/Src/lptim.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/lptim.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/lptim.o
  .group         0x0000000000000000        0xc ./Core/Src/main.o
  .group         0x0000000000000000        0xc ./Core/Src/main.o
  .group         0x0000000000000000        0xc ./Core/Src/main.o
@@ -434,7 +434,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/main.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/main.o
  .debug_macro   0x0000000000000000      0x169 ./Core/Src/main.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/main.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/main.o
  .debug_macro   0x0000000000000000       0xd0 ./Core/Src/main.o
  .group         0x0000000000000000        0xc ./Core/Src/prosthesis_v1.o
  .group         0x0000000000000000        0xc ./Core/Src/prosthesis_v1.o
@@ -534,7 +534,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x2cb ./Core/Src/prosthesis_v1.o
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/prosthesis_v1.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/prosthesis_v1.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/prosthesis_v1.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/prosthesis_v1.o
  .debug_macro   0x0000000000000000       0x52 ./Core/Src/prosthesis_v1.o
  .debug_macro   0x0000000000000000       0x1e ./Core/Src/prosthesis_v1.o
  .debug_macro   0x0000000000000000       0x3c ./Core/Src/prosthesis_v1.o
@@ -627,7 +627,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/spi.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/spi.o
  .debug_macro   0x0000000000000000      0x169 ./Core/Src/spi.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/spi.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/spi.o
  .group         0x0000000000000000        0xc ./Core/Src/stm32l4xx_it.o
  .group         0x0000000000000000        0xc ./Core/Src/stm32l4xx_it.o
  .group         0x0000000000000000        0xc ./Core/Src/stm32l4xx_it.o
@@ -704,7 +704,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/stm32l4xx_it.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/stm32l4xx_it.o
  .debug_macro   0x0000000000000000      0x169 ./Core/Src/stm32l4xx_it.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/stm32l4xx_it.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/stm32l4xx_it.o
  .group         0x0000000000000000        0xc ./Core/Src/system_stm32l4xx.o
  .group         0x0000000000000000        0xc ./Core/Src/system_stm32l4xx.o
  .group         0x0000000000000000        0xc ./Core/Src/system_stm32l4xx.o
@@ -818,7 +818,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/tim.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/tim.o
  .debug_macro   0x0000000000000000      0x169 ./Core/Src/tim.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/tim.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/tim.o
  .group         0x0000000000000000        0xc ./Core/Src/usart.o
  .group         0x0000000000000000        0xc ./Core/Src/usart.o
  .group         0x0000000000000000        0xc ./Core/Src/usart.o
@@ -895,7 +895,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x99e ./Core/Src/usart.o
  .debug_macro   0x0000000000000000      0x2f7 ./Core/Src/usart.o
  .debug_macro   0x0000000000000000      0x169 ./Core/Src/usart.o
- .debug_macro   0x0000000000000000      0x13a ./Core/Src/usart.o
+ .debug_macro   0x0000000000000000      0x145 ./Core/Src/usart.o
  .group         0x0000000000000000        0xc ./Core/Src/utilities.o
  .group         0x0000000000000000        0xc ./Core/Src/utilities.o
  .group         0x0000000000000000        0xc ./Core/Src/utilities.o
@@ -3341,7 +3341,7 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
 LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.0.202111181127/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x0000000000000000     0xf24d
+.debug_info     0x0000000000000000     0xf248
  .debug_info    0x0000000000000000      0xb90 ./Core/Src/adc.o
  .debug_info    0x0000000000000b90      0x447 ./Core/Src/error_handler.o
  .debug_info    0x0000000000000fd7      0x577 ./Core/Src/gpio.o
@@ -3356,18 +3356,18 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_info    0x0000000000006a9a      0x590 ./Core/Src/utilities.o
  .debug_info    0x000000000000702a       0x22 ./Core/Startup/startup_stm32l476rgtx.o
  .debug_info    0x000000000000704c      0x85c ./Drivers/AS5145B/as5145b.o
- .debug_info    0x00000000000078a8      0xc8e ./Drivers/EPOS4/epos4.o
- .debug_info    0x0000000000008536     0x117c ./Drivers/MCP25625/mcp25625.o
- .debug_info    0x00000000000096b2      0xa4e ./Drivers/MPU-9255/mpu925x_spi.o
- .debug_info    0x000000000000a100      0xb94 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
- .debug_info    0x000000000000ac94      0xa01 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_info    0x000000000000b695      0xf50 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_info    0x000000000000c5e5      0x5f4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
- .debug_info    0x000000000000cbd9     0x11d7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
- .debug_info    0x000000000000ddb0      0x806 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_info    0x000000000000e5b6      0xc97 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_info    0x00000000000078a8      0xc89 ./Drivers/EPOS4/epos4.o
+ .debug_info    0x0000000000008531     0x117c ./Drivers/MCP25625/mcp25625.o
+ .debug_info    0x00000000000096ad      0xa4e ./Drivers/MPU-9255/mpu925x_spi.o
+ .debug_info    0x000000000000a0fb      0xb94 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_info    0x000000000000ac8f      0xa01 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_info    0x000000000000b690      0xf50 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_info    0x000000000000c5e0      0x5f4 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_info    0x000000000000cbd4     0x11d7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
+ .debug_info    0x000000000000ddab      0x806 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_info    0x000000000000e5b1      0xc97 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
-.debug_abbrev   0x0000000000000000     0x2aa2
+.debug_abbrev   0x0000000000000000     0x2abc
  .debug_abbrev  0x0000000000000000      0x1a4 ./Core/Src/adc.o
  .debug_abbrev  0x00000000000001a4      0x136 ./Core/Src/error_handler.o
  .debug_abbrev  0x00000000000002da      0x191 ./Core/Src/gpio.o
@@ -3382,16 +3382,16 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_abbrev  0x000000000000127d      0x15f ./Core/Src/utilities.o
  .debug_abbrev  0x00000000000013dc       0x12 ./Core/Startup/startup_stm32l476rgtx.o
  .debug_abbrev  0x00000000000013ee      0x1f9 ./Drivers/AS5145B/as5145b.o
- .debug_abbrev  0x00000000000015e7      0x22e ./Drivers/EPOS4/epos4.o
- .debug_abbrev  0x0000000000001815      0x2bf ./Drivers/MCP25625/mcp25625.o
- .debug_abbrev  0x0000000000001ad4      0x26f ./Drivers/MPU-9255/mpu925x_spi.o
- .debug_abbrev  0x0000000000001d43      0x195 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
- .debug_abbrev  0x0000000000001ed8      0x223 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_abbrev  0x00000000000020fb      0x214 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_abbrev  0x000000000000230f      0x17a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
- .debug_abbrev  0x0000000000002489      0x205 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
- .debug_abbrev  0x000000000000268e      0x1bd ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_abbrev  0x000000000000284b      0x257 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_abbrev  0x00000000000015e7      0x248 ./Drivers/EPOS4/epos4.o
+ .debug_abbrev  0x000000000000182f      0x2bf ./Drivers/MCP25625/mcp25625.o
+ .debug_abbrev  0x0000000000001aee      0x26f ./Drivers/MPU-9255/mpu925x_spi.o
+ .debug_abbrev  0x0000000000001d5d      0x195 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_abbrev  0x0000000000001ef2      0x223 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_abbrev  0x0000000000002115      0x214 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_abbrev  0x0000000000002329      0x17a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_abbrev  0x00000000000024a3      0x205 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
+ .debug_abbrev  0x00000000000026a8      0x1bd ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_abbrev  0x0000000000002865      0x257 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
 .debug_aranges  0x0000000000000000      0xee0
  .debug_aranges
@@ -3469,95 +3469,95 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_ranges  0x0000000000000bc8       0x78 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
  .debug_ranges  0x0000000000000c40      0x128 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
-.debug_macro    0x0000000000000000    0x25508
- .debug_macro   0x0000000000000000      0x180 ./Core/Src/adc.o
- .debug_macro   0x0000000000000180      0xac6 ./Core/Src/adc.o
- .debug_macro   0x0000000000000c46       0x2e ./Core/Src/adc.o
- .debug_macro   0x0000000000000c74       0x28 ./Core/Src/adc.o
- .debug_macro   0x0000000000000c9c       0x22 ./Core/Src/adc.o
- .debug_macro   0x0000000000000cbe       0x8e ./Core/Src/adc.o
- .debug_macro   0x0000000000000d4c       0x51 ./Core/Src/adc.o
- .debug_macro   0x0000000000000d9d      0x103 ./Core/Src/adc.o
- .debug_macro   0x0000000000000ea0       0x6a ./Core/Src/adc.o
- .debug_macro   0x0000000000000f0a      0x1df ./Core/Src/adc.o
- .debug_macro   0x00000000000010e9       0x1c ./Core/Src/adc.o
- .debug_macro   0x0000000000001105       0x22 ./Core/Src/adc.o
- .debug_macro   0x0000000000001127       0xfb ./Core/Src/adc.o
- .debug_macro   0x0000000000001222     0x1011 ./Core/Src/adc.o
- .debug_macro   0x0000000000002233      0x11f ./Core/Src/adc.o
- .debug_macro   0x0000000000002352    0x1a17a ./Core/Src/adc.o
- .debug_macro   0x000000000001c4cc       0x6d ./Core/Src/adc.o
- .debug_macro   0x000000000001c539      0xf84 ./Core/Src/adc.o
- .debug_macro   0x000000000001d4bd      0x1d4 ./Core/Src/adc.o
- .debug_macro   0x000000000001d691      0x716 ./Core/Src/adc.o
- .debug_macro   0x000000000001dda7      0x1bf ./Core/Src/adc.o
- .debug_macro   0x000000000001df66      0x2f5 ./Core/Src/adc.o
- .debug_macro   0x000000000001e25b      0x163 ./Core/Src/adc.o
- .debug_macro   0x000000000001e3be      0x1a6 ./Core/Src/adc.o
- .debug_macro   0x000000000001e564       0xa7 ./Core/Src/adc.o
- .debug_macro   0x000000000001e60b      0x20d ./Core/Src/adc.o
- .debug_macro   0x000000000001e818      0x2cb ./Core/Src/adc.o
- .debug_macro   0x000000000001eae3      0x1d2 ./Core/Src/adc.o
- .debug_macro   0x000000000001ecb5      0x99e ./Core/Src/adc.o
- .debug_macro   0x000000000001f653      0x2f7 ./Core/Src/adc.o
- .debug_macro   0x000000000001f94a      0x169 ./Core/Src/adc.o
- .debug_macro   0x000000000001fab3      0x13a ./Core/Src/adc.o
- .debug_macro   0x000000000001fbed      0x1b8 ./Core/Src/error_handler.o
- .debug_macro   0x000000000001fda5      0x163 ./Core/Src/error_handler.o
- .debug_macro   0x000000000001ff08       0x10 ./Core/Src/error_handler.o
- .debug_macro   0x000000000001ff18       0xd0 ./Core/Src/error_handler.o
- .debug_macro   0x000000000001ffe8      0xf8a ./Core/Src/error_handler.o
- .debug_macro   0x0000000000020f72      0x180 ./Core/Src/gpio.o
- .debug_macro   0x00000000000210f2      0x180 ./Core/Src/lptim.o
- .debug_macro   0x0000000000021272      0x2c4 ./Core/Src/main.o
- .debug_macro   0x0000000000021536       0x16 ./Core/Src/main.o
- .debug_macro   0x000000000002154c       0x10 ./Core/Src/main.o
- .debug_macro   0x000000000002155c       0x52 ./Core/Src/main.o
- .debug_macro   0x00000000000215ae       0x1e ./Core/Src/main.o
- .debug_macro   0x00000000000215cc       0x3c ./Core/Src/main.o
- .debug_macro   0x0000000000021608       0x34 ./Core/Src/main.o
- .debug_macro   0x000000000002163c      0x174 ./Core/Src/main.o
- .debug_macro   0x00000000000217b0       0x16 ./Core/Src/main.o
- .debug_macro   0x00000000000217c6       0x43 ./Core/Src/main.o
- .debug_macro   0x0000000000021809       0x34 ./Core/Src/main.o
- .debug_macro   0x000000000002183d       0x10 ./Core/Src/main.o
- .debug_macro   0x000000000002184d       0x58 ./Core/Src/main.o
- .debug_macro   0x00000000000218a5       0x71 ./Core/Src/main.o
- .debug_macro   0x0000000000021916       0x1c ./Core/Src/main.o
- .debug_macro   0x0000000000021932      0x12a ./Core/Src/main.o
- .debug_macro   0x0000000000021a5c      0x341 ./Core/Src/main.o
- .debug_macro   0x0000000000021d9d       0x10 ./Core/Src/main.o
- .debug_macro   0x0000000000021dad       0x35 ./Core/Src/main.o
- .debug_macro   0x0000000000021de2       0x20 ./Core/Src/main.o
- .debug_macro   0x0000000000021e02      0x2aa ./Core/Src/prosthesis_v1.o
- .debug_macro   0x00000000000220ac      0x19b ./Core/Src/prosthesis_v1.o
- .debug_macro   0x0000000000022247       0x16 ./Core/Src/prosthesis_v1.o
- .debug_macro   0x000000000002225d      0x180 ./Core/Src/spi.o
- .debug_macro   0x00000000000223dd      0x184 ./Core/Src/stm32l4xx_it.o
- .debug_macro   0x0000000000022561       0xce ./Core/Src/system_stm32l4xx.o
- .debug_macro   0x000000000002262f      0x180 ./Core/Src/tim.o
- .debug_macro   0x00000000000227af      0x180 ./Core/Src/usart.o
- .debug_macro   0x000000000002292f      0x173 ./Core/Src/utilities.o
- .debug_macro   0x0000000000022aa2       0x4c ./Core/Src/utilities.o
- .debug_macro   0x0000000000022aee       0x94 ./Core/Src/utilities.o
- .debug_macro   0x0000000000022b82       0x57 ./Core/Src/utilities.o
- .debug_macro   0x0000000000022bd9      0x1cd ./Drivers/AS5145B/as5145b.o
- .debug_macro   0x0000000000022da6      0x2d5 ./Drivers/EPOS4/epos4.o
- .debug_macro   0x000000000002307b      0x2bc ./Drivers/MCP25625/mcp25625.o
- .debug_macro   0x0000000000023337      0x1c8 ./Drivers/MPU-9255/mpu925x_spi.o
- .debug_macro   0x00000000000234ff      0x1cc ./Drivers/MPU-9255/mpu925x_spi.o
- .debug_macro   0x00000000000236cb       0xca ./Drivers/MPU-9255/mpu925x_spi.o
- .debug_macro   0x0000000000023795      0x17e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
- .debug_macro   0x0000000000023913      0x110 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
- .debug_macro   0x0000000000023a23      0x12b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_macro   0x0000000000023b4e      0x710 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
- .debug_macro   0x000000000002425e      0x12e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
- .debug_macro   0x000000000002438c      0x177 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
- .debug_macro   0x0000000000024503      0x998 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
- .debug_macro   0x0000000000024e9b      0x13d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_macro   0x0000000000024fd8      0x2f1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
- .debug_macro   0x00000000000252c9      0x19e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
- .debug_macro   0x0000000000025467       0xa1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+.debug_macro    0x0000000000000000    0x25509
+ .debug_macro   0x0000000000000000      0x17f ./Core/Src/adc.o
+ .debug_macro   0x000000000000017f      0xac6 ./Core/Src/adc.o
+ .debug_macro   0x0000000000000c45       0x2e ./Core/Src/adc.o
+ .debug_macro   0x0000000000000c73       0x28 ./Core/Src/adc.o
+ .debug_macro   0x0000000000000c9b       0x22 ./Core/Src/adc.o
+ .debug_macro   0x0000000000000cbd       0x8e ./Core/Src/adc.o
+ .debug_macro   0x0000000000000d4b       0x51 ./Core/Src/adc.o
+ .debug_macro   0x0000000000000d9c      0x103 ./Core/Src/adc.o
+ .debug_macro   0x0000000000000e9f       0x6a ./Core/Src/adc.o
+ .debug_macro   0x0000000000000f09      0x1df ./Core/Src/adc.o
+ .debug_macro   0x00000000000010e8       0x1c ./Core/Src/adc.o
+ .debug_macro   0x0000000000001104       0x22 ./Core/Src/adc.o
+ .debug_macro   0x0000000000001126       0xfb ./Core/Src/adc.o
+ .debug_macro   0x0000000000001221     0x1011 ./Core/Src/adc.o
+ .debug_macro   0x0000000000002232      0x11f ./Core/Src/adc.o
+ .debug_macro   0x0000000000002351    0x1a17a ./Core/Src/adc.o
+ .debug_macro   0x000000000001c4cb       0x6d ./Core/Src/adc.o
+ .debug_macro   0x000000000001c538      0xf84 ./Core/Src/adc.o
+ .debug_macro   0x000000000001d4bc      0x1d4 ./Core/Src/adc.o
+ .debug_macro   0x000000000001d690      0x716 ./Core/Src/adc.o
+ .debug_macro   0x000000000001dda6      0x1bf ./Core/Src/adc.o
+ .debug_macro   0x000000000001df65      0x2f5 ./Core/Src/adc.o
+ .debug_macro   0x000000000001e25a      0x163 ./Core/Src/adc.o
+ .debug_macro   0x000000000001e3bd      0x1a6 ./Core/Src/adc.o
+ .debug_macro   0x000000000001e563       0xa7 ./Core/Src/adc.o
+ .debug_macro   0x000000000001e60a      0x20d ./Core/Src/adc.o
+ .debug_macro   0x000000000001e817      0x2cb ./Core/Src/adc.o
+ .debug_macro   0x000000000001eae2      0x1d2 ./Core/Src/adc.o
+ .debug_macro   0x000000000001ecb4      0x99e ./Core/Src/adc.o
+ .debug_macro   0x000000000001f652      0x2f7 ./Core/Src/adc.o
+ .debug_macro   0x000000000001f949      0x169 ./Core/Src/adc.o
+ .debug_macro   0x000000000001fab2      0x145 ./Core/Src/adc.o
+ .debug_macro   0x000000000001fbf7      0x1b7 ./Core/Src/error_handler.o
+ .debug_macro   0x000000000001fdae      0x163 ./Core/Src/error_handler.o
+ .debug_macro   0x000000000001ff11       0x10 ./Core/Src/error_handler.o
+ .debug_macro   0x000000000001ff21       0xd0 ./Core/Src/error_handler.o
+ .debug_macro   0x000000000001fff1      0xf8a ./Core/Src/error_handler.o
+ .debug_macro   0x0000000000020f7b      0x17f ./Core/Src/gpio.o
+ .debug_macro   0x00000000000210fa      0x17f ./Core/Src/lptim.o
+ .debug_macro   0x0000000000021279      0x2c3 ./Core/Src/main.o
+ .debug_macro   0x000000000002153c       0x16 ./Core/Src/main.o
+ .debug_macro   0x0000000000021552       0x10 ./Core/Src/main.o
+ .debug_macro   0x0000000000021562       0x52 ./Core/Src/main.o
+ .debug_macro   0x00000000000215b4       0x1e ./Core/Src/main.o
+ .debug_macro   0x00000000000215d2       0x3c ./Core/Src/main.o
+ .debug_macro   0x000000000002160e       0x34 ./Core/Src/main.o
+ .debug_macro   0x0000000000021642      0x174 ./Core/Src/main.o
+ .debug_macro   0x00000000000217b6       0x16 ./Core/Src/main.o
+ .debug_macro   0x00000000000217cc       0x43 ./Core/Src/main.o
+ .debug_macro   0x000000000002180f       0x34 ./Core/Src/main.o
+ .debug_macro   0x0000000000021843       0x10 ./Core/Src/main.o
+ .debug_macro   0x0000000000021853       0x58 ./Core/Src/main.o
+ .debug_macro   0x00000000000218ab       0x71 ./Core/Src/main.o
+ .debug_macro   0x000000000002191c       0x1c ./Core/Src/main.o
+ .debug_macro   0x0000000000021938      0x12a ./Core/Src/main.o
+ .debug_macro   0x0000000000021a62      0x341 ./Core/Src/main.o
+ .debug_macro   0x0000000000021da3       0x10 ./Core/Src/main.o
+ .debug_macro   0x0000000000021db3       0x35 ./Core/Src/main.o
+ .debug_macro   0x0000000000021de8       0x20 ./Core/Src/main.o
+ .debug_macro   0x0000000000021e08      0x2a9 ./Core/Src/prosthesis_v1.o
+ .debug_macro   0x00000000000220b1      0x19b ./Core/Src/prosthesis_v1.o
+ .debug_macro   0x000000000002224c       0x16 ./Core/Src/prosthesis_v1.o
+ .debug_macro   0x0000000000022262      0x17f ./Core/Src/spi.o
+ .debug_macro   0x00000000000223e1      0x183 ./Core/Src/stm32l4xx_it.o
+ .debug_macro   0x0000000000022564       0xce ./Core/Src/system_stm32l4xx.o
+ .debug_macro   0x0000000000022632      0x17f ./Core/Src/tim.o
+ .debug_macro   0x00000000000227b1      0x17f ./Core/Src/usart.o
+ .debug_macro   0x0000000000022930      0x173 ./Core/Src/utilities.o
+ .debug_macro   0x0000000000022aa3       0x4c ./Core/Src/utilities.o
+ .debug_macro   0x0000000000022aef       0x94 ./Core/Src/utilities.o
+ .debug_macro   0x0000000000022b83       0x57 ./Core/Src/utilities.o
+ .debug_macro   0x0000000000022bda      0x1cd ./Drivers/AS5145B/as5145b.o
+ .debug_macro   0x0000000000022da7      0x2d5 ./Drivers/EPOS4/epos4.o
+ .debug_macro   0x000000000002307c      0x2bc ./Drivers/MCP25625/mcp25625.o
+ .debug_macro   0x0000000000023338      0x1c8 ./Drivers/MPU-9255/mpu925x_spi.o
+ .debug_macro   0x0000000000023500      0x1cc ./Drivers/MPU-9255/mpu925x_spi.o
+ .debug_macro   0x00000000000236cc       0xca ./Drivers/MPU-9255/mpu925x_spi.o
+ .debug_macro   0x0000000000023796      0x17e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_macro   0x0000000000023914      0x110 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_macro   0x0000000000023a24      0x12b ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_macro   0x0000000000023b4f      0x710 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_macro   0x000000000002425f      0x12e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_macro   0x000000000002438d      0x177 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
+ .debug_macro   0x0000000000024504      0x998 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
+ .debug_macro   0x0000000000024e9c      0x13d ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_macro   0x0000000000024fd9      0x2f1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_macro   0x00000000000252ca      0x19e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_macro   0x0000000000025468       0xa1 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
 .debug_line     0x0000000000000000     0xdc0d
  .debug_line    0x0000000000000000      0x7c3 ./Core/Src/adc.o

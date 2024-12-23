@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0002001c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000f24d  00000000  00000000  0002004c  2**0
+ 12 .debug_info   0000f248  00000000  00000000  0002004c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002aa2  00000000  00000000  0002f299  2**0
+ 13 .debug_abbrev 00002abc  00000000  00000000  0002f294  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000ee0  00000000  00000000  00031d40  2**3
+ 14 .debug_aranges 00000ee0  00000000  00000000  00031d50  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000d68  00000000  00000000  00032c20  2**3
+ 15 .debug_ranges 00000d68  00000000  00000000  00032c30  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00025508  00000000  00000000  00033988  2**0
+ 16 .debug_macro  00025509  00000000  00000000  00033998  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000dc0d  00000000  00000000  00058e90  2**0
+ 17 .debug_line   0000dc0d  00000000  00000000  00058ea1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c94d8  00000000  00000000  00066a9d  2**0
+ 18 .debug_str    000c94d8  00000000  00000000  00066aae  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0012ff75  2**0
+ 19 .comment      00000050  00000000  00000000  0012ff86  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003df4  00000000  00000000  0012ffc8  2**2
+ 20 .debug_frame  00003df4  00000000  00000000  0012ffd8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3359,7 +3359,7 @@ int main(void)
   MX_SPI3_Init();
  80019d6:	f001 fb07 	bl	8002fe8 <MX_SPI3_Init>
 /*******************************************************************************
-* MY DEFINITIONS
+* USER ADDED DEFINITIONS
 *******************************************************************************/
 
 	AS5145B_Init_t Encoder_Init[AS5145B_NUMBER_OF_DEVICES];
@@ -3590,7 +3590,7 @@ int main(void)
  8001b7e:	701a      	strb	r2, [r3, #0]
 
 /*******************************************************************************
-* MY INITIALIZATIONS
+* USER ADDED INITIALIZATIONS
 *******************************************************************************/
 
 	LL_SYSTICK_EnableIT();
@@ -3791,13 +3791,13 @@ int main(void)
  8001d08:	f000 f8c2 	bl	8001e90 <InitProsthesisControl>
 
 /*******************************************************************************
-* MY TEST PROGRAMS
+* USER ADDED TEST PROGRAMS
 *******************************************************************************/
 
 	RequireTestProgram(None);
  8001d0c:	2000      	movs	r0, #0
  8001d0e:	f000 f911 	bl	8001f34 <RequireTestProgram>
-* MY MAIN LOOP
+* USER ADDED MAIN LOOP
 *******************************************************************************/
 
   while(1)
@@ -6702,7 +6702,7 @@ void LPTIM2_IRQHandler(void)
  8003132:	af00      	add	r7, sp, #0
 
 /******************************************************************************
-* MY LPTIM2_IRQHandler
+* USER ADDED LPTIM2_IRQHANDLER
 ******************************************************************************/
 
 	if(LL_LPTIM_IsActiveFlag_ARRM(LPTIM2) == 1)
