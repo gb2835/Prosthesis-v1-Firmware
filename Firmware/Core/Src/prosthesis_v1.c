@@ -97,10 +97,11 @@ static uint8_t isSecond = 0;
 static uint8_t isTestProgramRequired = 0;
 
 static float CM_IMU_GyroZ;
+static int16_t CM_stateSpeed;
 static Joint_t CM_Ankle, CM_Knee;
 static LoadCell_t CM_LoadCell;
 static uint16_t CM_ankleRawEncoderBias, CM_kneeRawEncoderBias;
-static uint16_t CM_state;
+static uint16_t CM_stateLc;
 
 static void GetInputs(void);
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -268,7 +269,8 @@ static void RunStateMachine(void)
 	switch(state)
 	{
 	case EarlyStance:
-		CM_state = 1150;
+		CM_stateLc = 1150;
+		CM_stateSpeed = -200;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -288,7 +290,8 @@ static void RunStateMachine(void)
 		break;
 
 	case MidStance:
-		CM_state = 1250;
+		CM_stateLc = 1250;
+		CM_stateSpeed = -100;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -308,7 +311,8 @@ static void RunStateMachine(void)
 		break;
 
 	case LateStance:
-		CM_state = 1350;
+		CM_stateLc = 1350;
+		CM_stateSpeed = 0;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -333,7 +337,8 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingFlexion:
-		CM_state = 1450;
+		CM_stateLc = 1450;
+		CM_stateSpeed = 100;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -353,7 +358,8 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingExtension:
-		CM_state = 1550;
+		CM_stateLc = 1550;
+		CM_stateSpeed = 200;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
