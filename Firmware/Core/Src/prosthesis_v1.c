@@ -100,8 +100,7 @@ static float CM_IMU_GyroZ;
 static Joint_t CM_Ankle, CM_Knee;
 static LoadCell_t CM_LoadCell;
 static uint16_t CM_ankleRawEncoderBias, CM_kneeRawEncoderBias;
-
-static uint16_t CM_state = 1200;
+static uint16_t CM_state;
 
 static void GetInputs(void);
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -120,7 +119,6 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	memcpy(&Device, Device_Init, sizeof(&Device_Init));
 
 	CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
-	CM_Ankle.speedThreshold = -5.0f;
 
 	CM_Ankle.EarlyStanceCtrl.eqPoint = -7.0f;
 	CM_Ankle.EarlyStanceCtrl.kp = 5;
@@ -270,7 +268,7 @@ static void RunStateMachine(void)
 	switch(state)
 	{
 	case EarlyStance:
-		CM_state = 1200;
+		CM_state = 1150;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -290,7 +288,7 @@ static void RunStateMachine(void)
 		break;
 
 	case MidStance:
-		CM_state = 1300;
+		CM_state = 1250;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -310,7 +308,7 @@ static void RunStateMachine(void)
 		break;
 
 	case LateStance:
-		CM_state = 1400;
+		CM_state = 1350;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -335,7 +333,7 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingFlexion:
-		CM_state = 1500;
+		CM_state = 1450;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -355,7 +353,7 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingExtension:
-		CM_state = 1600;
+		CM_state = 1550;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
