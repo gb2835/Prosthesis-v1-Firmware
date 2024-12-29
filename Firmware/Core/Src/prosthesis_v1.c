@@ -3,7 +3,10 @@
 * TITLE: Application for Prosthesis v1
 *
 * NOTES
-* 1. Unless otherwise specified, units are
+* 1. IMPORTANT: A new encoder bias position must be found and defined whenever the magnet is reassembled into the device.
+*    A test program is provided to find the bias.
+*    The biases are defined in Prosthesis_Init() below.
+* 2. Unless otherwise specified, units are
 * 		- Accelerometer	= g's
 * 		- Angle			= degrees
 * 		- Current		= Amperes
