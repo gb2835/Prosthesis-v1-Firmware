@@ -3589,9 +3589,9 @@ int main(void)
  8001b7a:	f44f 7380 	mov.w	r3, #256	; 0x100
  8001b7e:	81bb      	strh	r3, [r7, #12]
 
-  	Prosthesis_Init.Joint = Ankle;
+  	Prosthesis_Init.Joint = Knee;
  8001b80:	4b73      	ldr	r3, [pc, #460]	; (8001d50 <main+0x3b8>)
- 8001b82:	2200      	movs	r2, #0
+ 8001b82:	2202      	movs	r2, #2
  8001b84:	705a      	strb	r2, [r3, #1]
   	Prosthesis_Init.Side = Left;
  8001b86:	4b72      	ldr	r3, [pc, #456]	; (8001d50 <main+0x3b8>)

@@ -211,7 +211,7 @@ int main(void)
   	IMU_Init.CS_GPIOx = IMU_CS_GPIO_Port;
   	IMU_Init.csPin = IMU_CS_Pin;
 
-  	Prosthesis_Init.Joint = Ankle;
+  	Prosthesis_Init.Joint = Knee;
   	Prosthesis_Init.Side = Left;
 
 
