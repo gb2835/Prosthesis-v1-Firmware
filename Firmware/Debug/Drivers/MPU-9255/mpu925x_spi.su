@@ -4,7 +4,7 @@
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:1356:22:LL_SPI_TransmitData8	24	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:956:22:LL_GPIO_SetOutputPin	16	static
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:985:22:LL_GPIO_ResetOutputPin	16	static
-../Drivers/MPU-9255/mpu925x_spi.c:52:9:MPU925x_Init	24	static
+../Drivers/MPU-9255/mpu925x_spi.c:52:17:MPU925x_Init	24	static
 ../Drivers/MPU-9255/mpu925x_spi.c:71:6:MPU925x_SetAccelSensitivity	24	static
 ../Drivers/MPU-9255/mpu925x_spi.c:109:6:MPU925x_SetGyroSensitivity	24	static
 ../Drivers/MPU-9255/mpu925x_spi.c:147:6:MPU925x_SetAccelDlpfBandwidth	24	static

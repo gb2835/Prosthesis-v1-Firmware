@@ -20,7 +20,7 @@
 *     - CST mode sets target torque and torque offset to zero.
 * 5. FirstStep can be used to either initialize the device or check parameters already set by EPOS Studio.
 *    CAN_BitRate in FirstStep cannot be initialized from this driver, only checked.
-* 6. All option codes are configured to disable drive function.
+* 6. All option codes are configured to disable drive function (quick stop option code not used).
 *
 *******************************************************************************/
 

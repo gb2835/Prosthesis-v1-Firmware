@@ -136,7 +136,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
 
 	CM_LoadCell.intoStanceThreshold = 1300;
-	CM_LoadCell.outOfStanceThreshold = CM_LoadCell.intoStanceThreshold + 50;
+	CM_LoadCell.outOfStanceThreshold = 1300 + 50;
 }
 
 void RequireTestProgram(TestProgram_e option)

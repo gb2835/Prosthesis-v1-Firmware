@@ -49,7 +49,7 @@ static inline void SetChipSelect(uint8_t deviceIndex);
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init)
+MPU925x_Error_e MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init)
 {
 	if(deviceIndex + 1 > MPU925X_NUMBER_OF_DEVICES)
 		while(1);

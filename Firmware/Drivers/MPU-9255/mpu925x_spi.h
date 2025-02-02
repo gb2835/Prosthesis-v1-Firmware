@@ -111,7 +111,7 @@ typedef struct
 	uint16_t csPin;
 } MPU925x_Init_t;
 
-uint8_t MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init);
+MPU925x_Error_e MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init);
 void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_e sensitivity);
 void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_e sensitivity);
 void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_e bandwidth);
