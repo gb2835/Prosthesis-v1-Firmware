@@ -143,17 +143,21 @@ int main(void)
   	while(!CM__startProgram);
 
 	AS5145B_Init_t Encoder_Init[AS5145B_NUMBER_OF_DEVICES];
-	Encoder_Init[AnkleEncoderIndex].DO_GPIOx = ENCODER_DO_GPIO_Port;
-	Encoder_Init[AnkleEncoderIndex].CLK_GPIOx = ENCODER_CLK_GPIO_Port;
+	Encoder_Init[AnkleEncoderIndex].DO_GPIOx = ANKLE_ENCODER_DO_GPIO_Port;
+	Encoder_Init[AnkleEncoderIndex].CLK_GPIOx = ANKLE_ENCODER_CLK_GPIO_Port;
 	Encoder_Init[AnkleEncoderIndex].CSn_GPIOx = ANKLE_ENCODER_CSn_GPIO_Port;
-	Encoder_Init[AnkleEncoderIndex].DO_Pin = ENCODER_DO_Pin;
-	Encoder_Init[AnkleEncoderIndex].CLK_Pin = ENCODER_CLK_Pin;
+	Encoder_Init[AnkleEncoderIndex].DO_Pin = ANKLE_ENCODER_DO_Pin;
+	Encoder_Init[AnkleEncoderIndex].CLK_Pin = ANKLE_ENCODER_CLK_Pin;
 	Encoder_Init[AnkleEncoderIndex].CSn_Pin = ANKLE_ENCODER_CSn_Pin;
 	Encoder_Init[AnkleEncoderIndex].TIMx = TIM6;
 	Encoder_Init[AnkleEncoderIndex].timerRateMHz = 10;
 
 	memcpy(&Encoder_Init[KneeEncoderIndex], &Encoder_Init[AnkleEncoderIndex], sizeof(Encoder_Init[AnkleEncoderIndex]));
+	Encoder_Init[KneeEncoderIndex].DO_GPIOx = KNEE_ENCODER_DO_GPIO_Port;
+	Encoder_Init[KneeEncoderIndex].CLK_GPIOx = KNEE_ENCODER_CLK_GPIO_Port;
 	Encoder_Init[KneeEncoderIndex].CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
+	Encoder_Init[KneeEncoderIndex].DO_Pin = KNEE_ENCODER_DO_Pin;
+	Encoder_Init[KneeEncoderIndex].CLK_Pin = KNEE_ENCODER_CLK_Pin;
 	Encoder_Init[KneeEncoderIndex].CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
 	EPOS4_Init_t MotorController_Init[EPOS4_NUMBER_OF_DEVICES];
@@ -211,7 +215,7 @@ int main(void)
   	IMU_Init.CS_GPIOx = IMU_CS_GPIO_Port;
   	IMU_Init.csPin = IMU_CS_Pin;
 
-  	Prosthesis_Init.Joint = Knee;
+  	Prosthesis_Init.Joint = Combined;
   	Prosthesis_Init.Side = Left;
 
 

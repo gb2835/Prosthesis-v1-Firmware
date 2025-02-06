@@ -694,12 +694,12 @@
                 "type": 9
             },
             {
-                "address": "0x080067e8",
+                "address": "0x08006808",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080067f8",
+                "address": "0x08006818",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -1087,7 +1087,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006800",
+                "address": "0x08006820",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -1114,8 +1114,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1738520636124,
-        "configLastUpdate": 1738521183384
+        "exeModifiedTime": 1738869255107,
+        "configLastUpdate": 1738869351628
     },
     {
         "id": "f2d4c873e2d0eec7",
@@ -8235,13 +8235,13 @@
                 "checked": false
             },
             {
-                "address": "0x080067e8",
+                "address": "0x08006808",
                 "name": "AHBPrescTable[0]",
                 "type": 1,
                 "checked": false
             },
             {
-                "address": "0x080067f8",
+                "address": "0x08006818",
                 "name": "APBPrescTable[0]",
                 "type": 1,
                 "checked": false
@@ -8703,7 +8703,7 @@
                 "checked": false
             },
             {
-                "address": "0x08006800",
+                "address": "0x08006820",
                 "name": "MSIRangeTable[0]",
                 "type": 5,
                 "checked": false
@@ -8735,8 +8735,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1738520636124,
-        "configLastUpdate": 1738521157432
+        "exeModifiedTime": 1738869255107,
+        "configLastUpdate": 1738869340585
     },
     {
         "id": "20c380c621f174ba",
@@ -9171,7 +9171,7 @@
         "expand": false,
         "filename": "prosthesis_v1.elf",
         "exeModifiedTime": 1738520636124,
-        "configLastUpdate": 1738521166171
+        "configLastUpdate": 1738869326759
     },
     {
         "id": "c9dfdcebfdac9f5c",
@@ -9186,12 +9186,12 @@
                 "type": 9
             },
             {
-                "address": "0x080067e8",
+                "address": "0x08006808",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080067f8",
+                "address": "0x08006818",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -9578,7 +9578,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006800",
+                "address": "0x08006820",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -9605,8 +9605,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1738520636124,
-        "configLastUpdate": 1738521190098
+        "exeModifiedTime": 1738869255107,
+        "configLastUpdate": 1738869358338
     },
     {
         "id": "72831520d446fec7",
@@ -9621,12 +9621,12 @@
                 "type": 9
             },
             {
-                "address": "0x080067e8",
+                "address": "0x08006808",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080067f8",
+                "address": "0x08006818",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -10016,7 +10016,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006800",
+                "address": "0x08006820",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -10043,8 +10043,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1738520636124,
-        "configLastUpdate": 1738521206295
+        "exeModifiedTime": 1738869255107,
+        "configLastUpdate": 1738869364137
     },
     {
         "id": "48c8d45a86af5bdc",
@@ -14883,12 +14883,12 @@
                 "type": 9
             },
             {
-                "address": "0x080067e8",
+                "address": "0x08006808",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x080067f8",
+                "address": "0x08006818",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -15274,7 +15274,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006800",
+                "address": "0x08006820",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -15301,8 +15301,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1738520636124,
-        "configLastUpdate": 1738521451366
+        "exeModifiedTime": 1738869255107,
+        "configLastUpdate": 1738869381159
     },
     {
         "id": "60925bdfb28f635b",
@@ -17531,7 +17531,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738521166600,
+        "lastImportedTime": 1738869343726,
         "openStatus": true,
         "x": 360,
         "y": 100,
@@ -17655,13 +17655,13 @@
         "id": "731112ce8a79bb78",
         "type": "processing",
         "z": "8d44f36b6a57178f",
-        "groupname": "Combined Joint Torque",
-        "groupid": "7973ea0e2a5063ec",
+        "groupname": "Combined Joint Angle",
+        "groupid": "0caf7b1b70a52a88",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "csvc",
-        "x": 1490,
+        "x": 1480,
         "y": 100,
         "wires": [
             [
@@ -17703,7 +17703,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738521183812,
+        "lastImportedTime": 1738869351986,
         "openStatus": false,
         "x": 390,
         "y": 160,
@@ -17768,7 +17768,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738521190531,
+        "lastImportedTime": 1738869358736,
         "openStatus": false,
         "x": 370,
         "y": 220,
@@ -17796,7 +17796,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738521206741,
+        "lastImportedTime": 1738869364527,
         "openStatus": true,
         "x": 410,
         "y": 280,
@@ -18383,7 +18383,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738521158120,
+        "lastImportedTime": 1738869341110,
         "openStatus": true,
         "x": 370,
         "y": 40,
@@ -18447,7 +18447,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738521451802,
+        "lastImportedTime": 1738869381545,
         "openStatus": false,
         "x": 370,
         "y": 380,

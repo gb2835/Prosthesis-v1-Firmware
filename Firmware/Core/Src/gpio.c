@@ -53,10 +53,10 @@ void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(GPIOC, ANKLE_ENCODER_CSn_Pin|ANKLE_CAN_CONTROLLER_CS_Pin|KNEE_ENCODER_CSn_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOB, OSCOPE_Pin|KNEE_CAN_CONTROLLER_CS_Pin|ENCODER_CLK_Pin);
+  LL_GPIO_ResetOutputPin(GPIOA, ANKLE_ENCODER_CLK_Pin|IMU_CS_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(IMU_CS_GPIO_Port, IMU_CS_Pin);
+  LL_GPIO_ResetOutputPin(GPIOB, OSCOPE_Pin|KNEE_CAN_CONTROLLER_CS_Pin|KNEE_ENCODER_CLK_Pin);
 
   /**/
   GPIO_InitStruct.Pin = ANKLE_ENCODER_CSn_Pin|ANKLE_CAN_CONTROLLER_CS_Pin|KNEE_ENCODER_CSn_Pin;
@@ -67,26 +67,26 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = OSCOPE_Pin|KNEE_CAN_CONTROLLER_CS_Pin|ENCODER_CLK_Pin;
+  GPIO_InitStruct.Pin = ANKLE_ENCODER_CLK_Pin|IMU_CS_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = ANKLE_ENCODER_DO_Pin|KNEE_ENCODER_DO_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = OSCOPE_Pin|KNEE_CAN_CONTROLLER_CS_Pin|KNEE_ENCODER_CLK_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = ENCODER_DO_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(ENCODER_DO_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = IMU_CS_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(IMU_CS_GPIO_Port, &GPIO_InitStruct);
 
 }
 
