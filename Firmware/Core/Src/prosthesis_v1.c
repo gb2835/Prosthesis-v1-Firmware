@@ -65,7 +65,8 @@ typedef struct
 	double limbSpeed;
 	float encoderBias;
 	float jointTorque;
-	float speedThreshold;
+	float jointSpeedThreshold;
+	float limbSpeedThreshold;
 	ControlParams_t ProsCtrl;
 	ControlParams_t EarlyStanceCtrl;
 	ControlParams_t MidStanceCtrl;
@@ -287,7 +288,7 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.kp = CM_Knee.EarlyStanceCtrl.kp;
 		}
 
-		if(CM_Ankle.limbSpeed > CM_Ankle.speedThreshold)
+		if(CM_Ankle.limbSpeed > CM_Ankle.limbSpeedThreshold)
 			state = MidStance;
 
 		break;
@@ -308,7 +309,7 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.kp = CM_Knee.MidStanceCtrl.kp;
 		}
 
-		if(CM_Ankle.jointSpeed < 0)
+		if(CM_Ankle.jointSpeed < CM_Ankle.jointSpeedThreshold)
 			state = LateStance;
 
 		break;
@@ -317,17 +318,24 @@ static void RunStateMachine(void)
 		CM_stateLc = 1350;
 		CM_stateSpeed = 0;
 
+		// Compute kp to start with previous torque when first called
+		if(isFirstCallForLateStance)
+		{
+			CM_Ankle.LateStanceCtrl.kp = (CM_Ankle.jointTorque + CM_Ankle.jointSpeed*CM_Ankle.LateStanceCtrl.kd) / (CM_Ankle.LateStanceCtrl.eqPoint - *CM_Ankle.jointAngle);
+			if(CM_Ankle.LateStanceCtrl.kp < 0)
+			{
+				state = MidStance;
+				break;
+			}
+			else
+				isFirstCallForLateStance = 0;
+		}
+
 		if(testProgram != ImpedanceControl)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.LateStanceCtrl.eqPoint;
 			CM_Ankle.ProsCtrl.kd = CM_Ankle.LateStanceCtrl.kd;
-
-			// Compute kp to start with previous torque when first called
-			if(isFirstCallForLateStance)
-			{
-				CM_Ankle.ProsCtrl.kp = (CM_Ankle.jointTorque + CM_Ankle.jointSpeed*CM_Ankle.LateStanceCtrl.kd) / (CM_Ankle.LateStanceCtrl.eqPoint - *CM_Ankle.jointAngle);
-				isFirstCallForLateStance = 0;
-			}
+			CM_Ankle.ProsCtrl.kp = CM_Ankle.LateStanceCtrl.kp;
 
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.LateStanceCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.LateStanceCtrl.kd;
@@ -355,7 +363,7 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
 		}
 
-		if(CM_Knee.jointSpeed > CM_Knee.speedThreshold)
+		if(CM_Knee.jointSpeed > CM_Knee.jointSpeedThreshold)
 			state = SwingExtension;
 
 		break;
