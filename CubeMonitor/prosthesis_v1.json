@@ -4265,338 +4265,368 @@
         "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
         "exevariablelist": [
             {
-                "address": "0x20000010",
+                "address": "0x20000030",
                 "name": "accelSensitivity",
                 "type": 9
             },
             {
-                "address": "0x08006820",
+                "address": "0x0800690c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006830",
+                "address": "0x0800691c",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x200000bc",
+                "address": "0x200000dc",
                 "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x200000c0",
+                "address": "0x200000e0",
                 "name": "CM_Ankle.EarlyStanceCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x200000c4",
+                "address": "0x200000e4",
                 "name": "CM_Ankle.EarlyStanceCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x200000a0",
+                "address": "0x200000c0",
                 "name": "CM_Ankle.encoderBias",
                 "type": 9
             },
             {
-                "address": "0x20000080",
+                "address": "0x200000a0",
                 "name": "CM_Ankle.jointAngle[0]",
                 "type": 10
             },
             {
-                "address": "0x20000090",
+                "address": "0x200000b0",
                 "name": "CM_Ankle.jointSpeed",
                 "type": 10
             },
             {
-                "address": "0x200000a8",
+                "address": "0x200000c8",
                 "name": "CM_Ankle.jointSpeedThreshold",
                 "type": 9
             },
             {
-                "address": "0x200000a4",
+                "address": "0x200000c4",
                 "name": "CM_Ankle.jointTorque",
                 "type": 9
             },
             {
-                "address": "0x200000d4",
+                "address": "0x200000f4",
                 "name": "CM_Ankle.LateStanceCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x200000d8",
+                "address": "0x200000f8",
                 "name": "CM_Ankle.LateStanceCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x200000dc",
+                "address": "0x200000fc",
                 "name": "CM_Ankle.LateStanceCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x20000098",
+                "address": "0x200000b8",
                 "name": "CM_Ankle.limbSpeed",
                 "type": 10
             },
             {
-                "address": "0x200000ac",
+                "address": "0x200000cc",
                 "name": "CM_Ankle.limbSpeedThreshold",
                 "type": 9
             },
             {
-                "address": "0x200000c8",
+                "address": "0x200000e8",
                 "name": "CM_Ankle.MidStanceCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x200000cc",
+                "address": "0x200000ec",
                 "name": "CM_Ankle.MidStanceCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x200000d0",
+                "address": "0x200000f0",
                 "name": "CM_Ankle.MidStanceCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x200000b0",
+                "address": "0x200000d0",
                 "name": "CM_Ankle.ProsCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x200000b4",
+                "address": "0x200000d4",
                 "name": "CM_Ankle.ProsCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x200000b8",
+                "address": "0x200000d8",
                 "name": "CM_Ankle.ProsCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x200000ec",
+                "address": "0x2000010c",
                 "name": "CM_Ankle.SwingExtCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x200000f0",
+                "address": "0x20000110",
                 "name": "CM_Ankle.SwingExtCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x200000f4",
+                "address": "0x20000114",
                 "name": "CM_Ankle.SwingExtCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x200000e0",
+                "address": "0x20000100",
                 "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x200000e4",
+                "address": "0x20000104",
                 "name": "CM_Ankle.SwingFlexCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x200000e8",
+                "address": "0x20000108",
                 "name": "CM_Ankle.SwingFlexCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x200001a8",
+                "address": "0x200001c8",
                 "name": "CM_ankleRawEncoderBias",
                 "type": 3
             },
             {
-                "address": "0x20000074",
+                "address": "0x20000014",
+                "name": "CM_epos4_abortCode",
+                "type": 5
+            },
+            {
+                "address": "0x20000012",
+                "name": "CM_epos4_abortIndex",
+                "type": 3
+            },
+            {
+                "address": "0x20000010",
+                "name": "CM_epos4_abortSubindex",
+                "type": 1
+            },
+            {
+                "address": "0x2000001c",
+                "name": "CM_epos4_errorHistory[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000018",
+                "name": "CM_epos4_errorReg",
+                "type": 5
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5
+            },
+            {
+                "address": "0x20000094",
                 "name": "CM_IMU_GyroZ",
                 "type": 9
             },
             {
-                "address": "0x20000134",
+                "address": "0x20000154",
                 "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x20000138",
+                "address": "0x20000158",
                 "name": "CM_Knee.EarlyStanceCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x2000013c",
+                "address": "0x2000015c",
                 "name": "CM_Knee.EarlyStanceCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x20000118",
+                "address": "0x20000138",
                 "name": "CM_Knee.encoderBias",
                 "type": 9
             },
             {
-                "address": "0x200000f8",
+                "address": "0x20000118",
                 "name": "CM_Knee.jointAngle[0]",
                 "type": 10
             },
             {
-                "address": "0x20000108",
+                "address": "0x20000128",
                 "name": "CM_Knee.jointSpeed",
                 "type": 10
             },
             {
-                "address": "0x20000120",
+                "address": "0x20000140",
                 "name": "CM_Knee.jointSpeedThreshold",
                 "type": 9
             },
             {
-                "address": "0x2000011c",
+                "address": "0x2000013c",
                 "name": "CM_Knee.jointTorque",
                 "type": 9
             },
             {
-                "address": "0x2000014c",
+                "address": "0x2000016c",
                 "name": "CM_Knee.LateStanceCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x20000150",
+                "address": "0x20000170",
                 "name": "CM_Knee.LateStanceCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x20000154",
+                "address": "0x20000174",
                 "name": "CM_Knee.LateStanceCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x20000110",
+                "address": "0x20000130",
                 "name": "CM_Knee.limbSpeed",
                 "type": 10
             },
             {
-                "address": "0x20000124",
+                "address": "0x20000144",
                 "name": "CM_Knee.limbSpeedThreshold",
                 "type": 9
             },
             {
-                "address": "0x20000140",
+                "address": "0x20000160",
                 "name": "CM_Knee.MidStanceCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x20000144",
+                "address": "0x20000164",
                 "name": "CM_Knee.MidStanceCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x20000148",
+                "address": "0x20000168",
                 "name": "CM_Knee.MidStanceCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x20000128",
+                "address": "0x20000148",
                 "name": "CM_Knee.ProsCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x2000012c",
+                "address": "0x2000014c",
                 "name": "CM_Knee.ProsCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x20000130",
+                "address": "0x20000150",
                 "name": "CM_Knee.ProsCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x20000164",
+                "address": "0x20000184",
                 "name": "CM_Knee.SwingExtCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x20000168",
+                "address": "0x20000188",
                 "name": "CM_Knee.SwingExtCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x2000016c",
+                "address": "0x2000018c",
                 "name": "CM_Knee.SwingExtCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x20000158",
+                "address": "0x20000178",
                 "name": "CM_Knee.SwingFlexCtrl.eqPoint",
                 "type": 9
             },
             {
-                "address": "0x2000015c",
+                "address": "0x2000017c",
                 "name": "CM_Knee.SwingFlexCtrl.kd",
                 "type": 9
             },
             {
-                "address": "0x20000160",
+                "address": "0x20000180",
                 "name": "CM_Knee.SwingFlexCtrl.kp",
                 "type": 9
             },
             {
-                "address": "0x200001aa",
+                "address": "0x200001ca",
                 "name": "CM_kneeRawEncoderBias",
                 "type": 3
             },
             {
-                "address": "0x20000034",
+                "address": "0x20000054",
                 "name": "CM_ledCode",
                 "type": 2,
                 "checked": true
             },
             {
-                "address": "0x20000188",
+                "address": "0x200001a8",
                 "name": "CM_LoadCell.Filtered.bot[0]",
                 "type": 9
             },
             {
-                "address": "0x20000194",
+                "address": "0x200001b4",
                 "name": "CM_LoadCell.Filtered.top[0]",
                 "type": 9
             },
             {
-                "address": "0x200001a4",
+                "address": "0x200001c4",
                 "name": "CM_LoadCell.intoStanceThreshold",
                 "type": 9
             },
             {
-                "address": "0x200001a0",
+                "address": "0x200001c0",
                 "name": "CM_LoadCell.outOfStanceThreshold",
                 "type": 9
             },
             {
-                "address": "0x20000170",
+                "address": "0x20000190",
                 "name": "CM_LoadCell.Raw.bot[0]",
                 "type": 9
             },
             {
-                "address": "0x2000017c",
+                "address": "0x2000019c",
                 "name": "CM_LoadCell.Raw.top[0]",
                 "type": 9
             },
             {
-                "address": "0x200001ac",
+                "address": "0x200001cc",
                 "name": "CM_stateLc",
                 "type": 3
             },
             {
-                "address": "0x20000078",
+                "address": "0x20000098",
                 "name": "CM_stateSpeed",
                 "type": 4
             },
             {
-                "address": "0x2000003d",
+                "address": "0x2000005d",
                 "name": "Device.Joint",
                 "type": 2
             },
             {
-                "address": "0x2000003c",
+                "address": "0x2000005c",
                 "name": "Device.Side",
                 "type": 2
             },
@@ -4606,42 +4636,42 @@
                 "type": 10
             },
             {
-                "address": "0x20000014",
+                "address": "0x20000034",
                 "name": "gyroSensitivity",
                 "type": 9
             },
             {
-                "address": "0x20000040",
+                "address": "0x20000060",
                 "name": "IMU_Data.array[0]",
                 "type": 10
             },
             {
-                "address": "0x20000040",
+                "address": "0x20000060",
                 "name": "IMU_Data.Struct.ax",
                 "type": 10
             },
             {
-                "address": "0x20000048",
+                "address": "0x20000068",
                 "name": "IMU_Data.Struct.ay",
                 "type": 10
             },
             {
-                "address": "0x20000050",
+                "address": "0x20000070",
                 "name": "IMU_Data.Struct.az",
                 "type": 10
             },
             {
-                "address": "0x20000058",
+                "address": "0x20000078",
                 "name": "IMU_Data.Struct.gx",
                 "type": 10
             },
             {
-                "address": "0x20000060",
+                "address": "0x20000080",
                 "name": "IMU_Data.Struct.gy",
                 "type": 10
             },
             {
-                "address": "0x20000068",
+                "address": "0x20000088",
                 "name": "IMU_Data.Struct.gz",
                 "type": 10
             },
@@ -4651,32 +4681,32 @@
                 "type": 1
             },
             {
-                "address": "0x2000003a",
+                "address": "0x2000005a",
                 "name": "isProsthesisControlRequired",
                 "type": 1
             },
             {
-                "address": "0x20000070",
+                "address": "0x20000090",
                 "name": "isSecond",
                 "type": 1
             },
             {
-                "address": "0x20000071",
+                "address": "0x20000091",
                 "name": "isTestProgramRequired",
                 "type": 1
             },
             {
-                "address": "0x08006838",
+                "address": "0x08006924",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
             {
-                "address": "0x20000039",
+                "address": "0x20000059",
                 "name": "Prosthesis_Init.Joint",
                 "type": 2
             },
             {
-                "address": "0x20000038",
+                "address": "0x20000058",
                 "name": "Prosthesis_Init.Side",
                 "type": 2
             },
@@ -4686,15 +4716,15 @@
                 "type": 5
             },
             {
-                "address": "0x2000003e",
+                "address": "0x2000005e",
                 "name": "testProgram",
                 "type": 2
             }
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1738945542991,
-        "configLastUpdate": 1738947659468
+        "exeModifiedTime": 1739371792737,
+        "configLastUpdate": 1739371936029
     },
     {
         "id": "631c53d8bbdf3bcf",
@@ -8327,13 +8357,13 @@
                 "checked": false
             },
             {
-                "address": "0x08006820",
+                "address": "0x08006910",
                 "name": "AHBPrescTable[0]",
                 "type": 1,
                 "checked": false
             },
             {
-                "address": "0x08006830",
+                "address": "0x08006920",
                 "name": "APBPrescTable[0]",
                 "type": 1,
                 "checked": false
@@ -8492,6 +8522,72 @@
                 "address": "0x200001a8",
                 "name": "CM_ankleRawEncoderBias",
                 "type": 3,
+                "checked": true
+            },
+            {
+                "address": "0x2000028c",
+                "name": "CM_epos4_abortCode",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000284",
+                "name": "CM_epos4_abortHighByte",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000280",
+                "name": "CM_epos4_abortLowByte",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000288",
+                "name": "CM_epos4_abortSubindex",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000298",
+                "name": "CM_epos4_errorHistory1",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x2000029c",
+                "name": "CM_epos4_errorHistory2",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_errorHistory3",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x200002a4",
+                "name": "CM_epos4_errorHistory4",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x200002a8",
+                "name": "CM_epos4_errorHistory5",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000290",
+                "name": "CM_epos4_errorReg",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000294",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5,
                 "checked": true
             },
             {
@@ -8801,7 +8897,7 @@
                 "checked": false
             },
             {
-                "address": "0x08006838",
+                "address": "0x08006928",
                 "name": "MSIRangeTable[0]",
                 "type": 5,
                 "checked": false
@@ -8833,8 +8929,8 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1738945542991,
-        "configLastUpdate": 1738947503672
+        "exeModifiedTime": 1739291412464,
+        "configLastUpdate": 1739291578761
     },
     {
         "id": "20c380c621f174ba",
@@ -15416,49 +15512,3107 @@
         "height": 1
     },
     {
-        "id": "83f49c99206703ca",
-        "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
-        "name": "spacer",
-        "group": "89a41ce913753ae2",
-        "order": 10,
-        "width": 4,
-        "height": 1
+        "id": "1b1fe0d09dfe7b42",
+        "type": "exe-config",
+        "name": "CombinedErrorRegister",
+        "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
+        "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x20000030",
+                "name": "accelSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x0800690c",
+                "name": "AHBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691c",
+                "name": "APBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x200000dc",
+                "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000e0",
+                "name": "CM_Ankle.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000e4",
+                "name": "CM_Ankle.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000c0",
+                "name": "CM_Ankle.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x200000a0",
+                "name": "CM_Ankle.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x200000b0",
+                "name": "CM_Ankle.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000c8",
+                "name": "CM_Ankle.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000c4",
+                "name": "CM_Ankle.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x200000f4",
+                "name": "CM_Ankle.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000f8",
+                "name": "CM_Ankle.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000fc",
+                "name": "CM_Ankle.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000b8",
+                "name": "CM_Ankle.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000cc",
+                "name": "CM_Ankle.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000e8",
+                "name": "CM_Ankle.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000ec",
+                "name": "CM_Ankle.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000f0",
+                "name": "CM_Ankle.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000d0",
+                "name": "CM_Ankle.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000d4",
+                "name": "CM_Ankle.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000d8",
+                "name": "CM_Ankle.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x2000010c",
+                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000110",
+                "name": "CM_Ankle.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000114",
+                "name": "CM_Ankle.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000100",
+                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000104",
+                "name": "CM_Ankle.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000108",
+                "name": "CM_Ankle.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001c8",
+                "name": "CM_ankleRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000014",
+                "name": "CM_epos4_abortCode",
+                "type": 5
+            },
+            {
+                "address": "0x20000012",
+                "name": "CM_epos4_abortIndex",
+                "type": 3
+            },
+            {
+                "address": "0x20000010",
+                "name": "CM_epos4_abortSubindex",
+                "type": 1
+            },
+            {
+                "address": "0x2000001c",
+                "name": "CM_epos4_errorHistory[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000018",
+                "name": "CM_epos4_errorReg",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5
+            },
+            {
+                "address": "0x20000094",
+                "name": "CM_IMU_GyroZ",
+                "type": 9
+            },
+            {
+                "address": "0x20000154",
+                "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000158",
+                "name": "CM_Knee.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000015c",
+                "name": "CM_Knee.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000138",
+                "name": "CM_Knee.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x20000118",
+                "name": "CM_Knee.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000128",
+                "name": "CM_Knee.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000140",
+                "name": "CM_Knee.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x2000013c",
+                "name": "CM_Knee.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x2000016c",
+                "name": "CM_Knee.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000170",
+                "name": "CM_Knee.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000174",
+                "name": "CM_Knee.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000130",
+                "name": "CM_Knee.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000144",
+                "name": "CM_Knee.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000160",
+                "name": "CM_Knee.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000164",
+                "name": "CM_Knee.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000168",
+                "name": "CM_Knee.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000148",
+                "name": "CM_Knee.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000014c",
+                "name": "CM_Knee.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000150",
+                "name": "CM_Knee.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000184",
+                "name": "CM_Knee.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000188",
+                "name": "CM_Knee.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000018c",
+                "name": "CM_Knee.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000178",
+                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000017c",
+                "name": "CM_Knee.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000180",
+                "name": "CM_Knee.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001ca",
+                "name": "CM_kneeRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000054",
+                "name": "CM_ledCode",
+                "type": 2
+            },
+            {
+                "address": "0x200001a8",
+                "name": "CM_LoadCell.Filtered.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b4",
+                "name": "CM_LoadCell.Filtered.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001c4",
+                "name": "CM_LoadCell.intoStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200001c0",
+                "name": "CM_LoadCell.outOfStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000190",
+                "name": "CM_LoadCell.Raw.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x2000019c",
+                "name": "CM_LoadCell.Raw.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001cc",
+                "name": "CM_stateLc",
+                "type": 3
+            },
+            {
+                "address": "0x20000098",
+                "name": "CM_stateSpeed",
+                "type": 4
+            },
+            {
+                "address": "0x2000005d",
+                "name": "Device.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x2000005c",
+                "name": "Device.Side",
+                "type": 2
+            },
+            {
+                "address": "0x20000000",
+                "name": "dt",
+                "type": 10
+            },
+            {
+                "address": "0x20000034",
+                "name": "gyroSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.array[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.Struct.ax",
+                "type": 10
+            },
+            {
+                "address": "0x20000068",
+                "name": "IMU_Data.Struct.ay",
+                "type": 10
+            },
+            {
+                "address": "0x20000070",
+                "name": "IMU_Data.Struct.az",
+                "type": 10
+            },
+            {
+                "address": "0x20000078",
+                "name": "IMU_Data.Struct.gx",
+                "type": 10
+            },
+            {
+                "address": "0x20000080",
+                "name": "IMU_Data.Struct.gy",
+                "type": 10
+            },
+            {
+                "address": "0x20000088",
+                "name": "IMU_Data.Struct.gz",
+                "type": 10
+            },
+            {
+                "address": "0x20000008",
+                "name": "isFirst",
+                "type": 1
+            },
+            {
+                "address": "0x2000005a",
+                "name": "isProsthesisControlRequired",
+                "type": 1
+            },
+            {
+                "address": "0x20000090",
+                "name": "isSecond",
+                "type": 1
+            },
+            {
+                "address": "0x20000091",
+                "name": "isTestProgramRequired",
+                "type": 1
+            },
+            {
+                "address": "0x08006924",
+                "name": "MSIRangeTable[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000059",
+                "name": "Prosthesis_Init.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x20000058",
+                "name": "Prosthesis_Init.Side",
+                "type": 2
+            },
+            {
+                "address": "0x2000000c",
+                "name": "SystemCoreClock",
+                "type": 5
+            },
+            {
+                "address": "0x2000005e",
+                "name": "testProgram",
+                "type": 2
+            }
+        ],
+        "expand": false,
+        "filename": "prosthesis_v1.elf",
+        "exeModifiedTime": 1739371792737,
+        "configLastUpdate": 1739371836583
     },
     {
-        "id": "71c4e9d749e959e4",
+        "id": "545a870b1c882abf",
+        "type": "exe-config",
+        "name": "CombinedNumberOfErrors",
+        "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
+        "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x20000030",
+                "name": "accelSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x0800690c",
+                "name": "AHBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691c",
+                "name": "APBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x200000dc",
+                "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000e0",
+                "name": "CM_Ankle.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000e4",
+                "name": "CM_Ankle.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000c0",
+                "name": "CM_Ankle.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x200000a0",
+                "name": "CM_Ankle.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x200000b0",
+                "name": "CM_Ankle.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000c8",
+                "name": "CM_Ankle.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000c4",
+                "name": "CM_Ankle.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x200000f4",
+                "name": "CM_Ankle.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000f8",
+                "name": "CM_Ankle.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000fc",
+                "name": "CM_Ankle.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000b8",
+                "name": "CM_Ankle.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000cc",
+                "name": "CM_Ankle.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000e8",
+                "name": "CM_Ankle.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000ec",
+                "name": "CM_Ankle.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000f0",
+                "name": "CM_Ankle.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000d0",
+                "name": "CM_Ankle.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000d4",
+                "name": "CM_Ankle.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000d8",
+                "name": "CM_Ankle.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x2000010c",
+                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000110",
+                "name": "CM_Ankle.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000114",
+                "name": "CM_Ankle.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000100",
+                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000104",
+                "name": "CM_Ankle.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000108",
+                "name": "CM_Ankle.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001c8",
+                "name": "CM_ankleRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000014",
+                "name": "CM_epos4_abortCode",
+                "type": 5
+            },
+            {
+                "address": "0x20000012",
+                "name": "CM_epos4_abortIndex",
+                "type": 3
+            },
+            {
+                "address": "0x20000010",
+                "name": "CM_epos4_abortSubindex",
+                "type": 1
+            },
+            {
+                "address": "0x2000001c",
+                "name": "CM_epos4_errorHistory[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000018",
+                "name": "CM_epos4_errorReg",
+                "type": 5
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000094",
+                "name": "CM_IMU_GyroZ",
+                "type": 9
+            },
+            {
+                "address": "0x20000154",
+                "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000158",
+                "name": "CM_Knee.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000015c",
+                "name": "CM_Knee.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000138",
+                "name": "CM_Knee.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x20000118",
+                "name": "CM_Knee.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000128",
+                "name": "CM_Knee.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000140",
+                "name": "CM_Knee.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x2000013c",
+                "name": "CM_Knee.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x2000016c",
+                "name": "CM_Knee.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000170",
+                "name": "CM_Knee.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000174",
+                "name": "CM_Knee.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000130",
+                "name": "CM_Knee.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000144",
+                "name": "CM_Knee.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000160",
+                "name": "CM_Knee.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000164",
+                "name": "CM_Knee.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000168",
+                "name": "CM_Knee.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000148",
+                "name": "CM_Knee.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000014c",
+                "name": "CM_Knee.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000150",
+                "name": "CM_Knee.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000184",
+                "name": "CM_Knee.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000188",
+                "name": "CM_Knee.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000018c",
+                "name": "CM_Knee.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000178",
+                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000017c",
+                "name": "CM_Knee.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000180",
+                "name": "CM_Knee.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001ca",
+                "name": "CM_kneeRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000054",
+                "name": "CM_ledCode",
+                "type": 2
+            },
+            {
+                "address": "0x200001a8",
+                "name": "CM_LoadCell.Filtered.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b4",
+                "name": "CM_LoadCell.Filtered.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001c4",
+                "name": "CM_LoadCell.intoStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200001c0",
+                "name": "CM_LoadCell.outOfStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000190",
+                "name": "CM_LoadCell.Raw.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x2000019c",
+                "name": "CM_LoadCell.Raw.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001cc",
+                "name": "CM_stateLc",
+                "type": 3
+            },
+            {
+                "address": "0x20000098",
+                "name": "CM_stateSpeed",
+                "type": 4
+            },
+            {
+                "address": "0x2000005d",
+                "name": "Device.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x2000005c",
+                "name": "Device.Side",
+                "type": 2
+            },
+            {
+                "address": "0x20000000",
+                "name": "dt",
+                "type": 10
+            },
+            {
+                "address": "0x20000034",
+                "name": "gyroSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.array[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.Struct.ax",
+                "type": 10
+            },
+            {
+                "address": "0x20000068",
+                "name": "IMU_Data.Struct.ay",
+                "type": 10
+            },
+            {
+                "address": "0x20000070",
+                "name": "IMU_Data.Struct.az",
+                "type": 10
+            },
+            {
+                "address": "0x20000078",
+                "name": "IMU_Data.Struct.gx",
+                "type": 10
+            },
+            {
+                "address": "0x20000080",
+                "name": "IMU_Data.Struct.gy",
+                "type": 10
+            },
+            {
+                "address": "0x20000088",
+                "name": "IMU_Data.Struct.gz",
+                "type": 10
+            },
+            {
+                "address": "0x20000008",
+                "name": "isFirst",
+                "type": 1
+            },
+            {
+                "address": "0x2000005a",
+                "name": "isProsthesisControlRequired",
+                "type": 1
+            },
+            {
+                "address": "0x20000090",
+                "name": "isSecond",
+                "type": 1
+            },
+            {
+                "address": "0x20000091",
+                "name": "isTestProgramRequired",
+                "type": 1
+            },
+            {
+                "address": "0x08006924",
+                "name": "MSIRangeTable[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000059",
+                "name": "Prosthesis_Init.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x20000058",
+                "name": "Prosthesis_Init.Side",
+                "type": 2
+            },
+            {
+                "address": "0x2000000c",
+                "name": "SystemCoreClock",
+                "type": 5
+            },
+            {
+                "address": "0x2000005e",
+                "name": "testProgram",
+                "type": 2
+            }
+        ],
+        "expand": false,
+        "filename": "prosthesis_v1.elf",
+        "exeModifiedTime": 1739371792737,
+        "configLastUpdate": 1739371842068
+    },
+    {
+        "id": "36c2729127263b5a",
+        "type": "exe-config",
+        "name": "CombinedErrorHistory",
+        "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
+        "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x20000030",
+                "name": "accelSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x0800690c",
+                "name": "AHBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x08006916",
+                "name": "AHBPrescTable[10]",
+                "type": 1
+            },
+            {
+                "address": "0x08006917",
+                "name": "AHBPrescTable[11]",
+                "type": 1
+            },
+            {
+                "address": "0x08006918",
+                "name": "AHBPrescTable[12]",
+                "type": 1
+            },
+            {
+                "address": "0x08006919",
+                "name": "AHBPrescTable[13]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691a",
+                "name": "AHBPrescTable[14]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691b",
+                "name": "AHBPrescTable[15]",
+                "type": 1
+            },
+            {
+                "address": "0x0800690d",
+                "name": "AHBPrescTable[1]",
+                "type": 1
+            },
+            {
+                "address": "0x0800690e",
+                "name": "AHBPrescTable[2]",
+                "type": 1
+            },
+            {
+                "address": "0x0800690f",
+                "name": "AHBPrescTable[3]",
+                "type": 1
+            },
+            {
+                "address": "0x08006910",
+                "name": "AHBPrescTable[4]",
+                "type": 1
+            },
+            {
+                "address": "0x08006911",
+                "name": "AHBPrescTable[5]",
+                "type": 1
+            },
+            {
+                "address": "0x08006912",
+                "name": "AHBPrescTable[6]",
+                "type": 1
+            },
+            {
+                "address": "0x08006913",
+                "name": "AHBPrescTable[7]",
+                "type": 1
+            },
+            {
+                "address": "0x08006914",
+                "name": "AHBPrescTable[8]",
+                "type": 1
+            },
+            {
+                "address": "0x08006915",
+                "name": "AHBPrescTable[9]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691c",
+                "name": "APBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691d",
+                "name": "APBPrescTable[1]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691e",
+                "name": "APBPrescTable[2]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691f",
+                "name": "APBPrescTable[3]",
+                "type": 1
+            },
+            {
+                "address": "0x08006920",
+                "name": "APBPrescTable[4]",
+                "type": 1
+            },
+            {
+                "address": "0x08006921",
+                "name": "APBPrescTable[5]",
+                "type": 1
+            },
+            {
+                "address": "0x08006922",
+                "name": "APBPrescTable[6]",
+                "type": 1
+            },
+            {
+                "address": "0x08006923",
+                "name": "APBPrescTable[7]",
+                "type": 1
+            },
+            {
+                "address": "0x200000dc",
+                "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000e0",
+                "name": "CM_Ankle.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000e4",
+                "name": "CM_Ankle.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000c0",
+                "name": "CM_Ankle.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x200000a0",
+                "name": "CM_Ankle.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x200000a8",
+                "name": "CM_Ankle.jointAngle[1]",
+                "type": 10
+            },
+            {
+                "address": "0x200000b0",
+                "name": "CM_Ankle.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000c8",
+                "name": "CM_Ankle.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000c4",
+                "name": "CM_Ankle.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x200000f4",
+                "name": "CM_Ankle.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000f8",
+                "name": "CM_Ankle.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000fc",
+                "name": "CM_Ankle.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000b8",
+                "name": "CM_Ankle.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000cc",
+                "name": "CM_Ankle.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000e8",
+                "name": "CM_Ankle.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000ec",
+                "name": "CM_Ankle.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000f0",
+                "name": "CM_Ankle.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000d0",
+                "name": "CM_Ankle.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000d4",
+                "name": "CM_Ankle.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000d8",
+                "name": "CM_Ankle.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x2000010c",
+                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000110",
+                "name": "CM_Ankle.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000114",
+                "name": "CM_Ankle.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000100",
+                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000104",
+                "name": "CM_Ankle.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000108",
+                "name": "CM_Ankle.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001c8",
+                "name": "CM_ankleRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000014",
+                "name": "CM_epos4_abortCode",
+                "type": 5
+            },
+            {
+                "address": "0x20000012",
+                "name": "CM_epos4_abortIndex",
+                "type": 3
+            },
+            {
+                "address": "0x20000010",
+                "name": "CM_epos4_abortSubindex",
+                "type": 1
+            },
+            {
+                "address": "0x2000001c",
+                "name": "CM_epos4_errorHistory[0]",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000020",
+                "name": "CM_epos4_errorHistory[1]",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000024",
+                "name": "CM_epos4_errorHistory[2]",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000028",
+                "name": "CM_epos4_errorHistory[3]",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x2000002c",
+                "name": "CM_epos4_errorHistory[4]",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000018",
+                "name": "CM_epos4_errorReg",
+                "type": 5
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5
+            },
+            {
+                "address": "0x20000094",
+                "name": "CM_IMU_GyroZ",
+                "type": 9
+            },
+            {
+                "address": "0x20000154",
+                "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000158",
+                "name": "CM_Knee.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000015c",
+                "name": "CM_Knee.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000138",
+                "name": "CM_Knee.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x20000118",
+                "name": "CM_Knee.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000120",
+                "name": "CM_Knee.jointAngle[1]",
+                "type": 10
+            },
+            {
+                "address": "0x20000128",
+                "name": "CM_Knee.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000140",
+                "name": "CM_Knee.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x2000013c",
+                "name": "CM_Knee.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x2000016c",
+                "name": "CM_Knee.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000170",
+                "name": "CM_Knee.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000174",
+                "name": "CM_Knee.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000130",
+                "name": "CM_Knee.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000144",
+                "name": "CM_Knee.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000160",
+                "name": "CM_Knee.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000164",
+                "name": "CM_Knee.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000168",
+                "name": "CM_Knee.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000148",
+                "name": "CM_Knee.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000014c",
+                "name": "CM_Knee.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000150",
+                "name": "CM_Knee.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000184",
+                "name": "CM_Knee.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000188",
+                "name": "CM_Knee.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000018c",
+                "name": "CM_Knee.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000178",
+                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000017c",
+                "name": "CM_Knee.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000180",
+                "name": "CM_Knee.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001ca",
+                "name": "CM_kneeRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000054",
+                "name": "CM_ledCode",
+                "type": 2
+            },
+            {
+                "address": "0x200001a8",
+                "name": "CM_LoadCell.Filtered.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001ac",
+                "name": "CM_LoadCell.Filtered.bot[1]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b0",
+                "name": "CM_LoadCell.Filtered.bot[2]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b4",
+                "name": "CM_LoadCell.Filtered.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b8",
+                "name": "CM_LoadCell.Filtered.top[1]",
+                "type": 9
+            },
+            {
+                "address": "0x200001bc",
+                "name": "CM_LoadCell.Filtered.top[2]",
+                "type": 9
+            },
+            {
+                "address": "0x200001c4",
+                "name": "CM_LoadCell.intoStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200001c0",
+                "name": "CM_LoadCell.outOfStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000190",
+                "name": "CM_LoadCell.Raw.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x20000194",
+                "name": "CM_LoadCell.Raw.bot[1]",
+                "type": 9
+            },
+            {
+                "address": "0x20000198",
+                "name": "CM_LoadCell.Raw.bot[2]",
+                "type": 9
+            },
+            {
+                "address": "0x2000019c",
+                "name": "CM_LoadCell.Raw.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001a0",
+                "name": "CM_LoadCell.Raw.top[1]",
+                "type": 9
+            },
+            {
+                "address": "0x200001a4",
+                "name": "CM_LoadCell.Raw.top[2]",
+                "type": 9
+            },
+            {
+                "address": "0x200001cc",
+                "name": "CM_stateLc",
+                "type": 3
+            },
+            {
+                "address": "0x20000098",
+                "name": "CM_stateSpeed",
+                "type": 4
+            },
+            {
+                "address": "0x2000005d",
+                "name": "Device.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x2000005c",
+                "name": "Device.Side",
+                "type": 2
+            },
+            {
+                "address": "0x20000000",
+                "name": "dt",
+                "type": 10
+            },
+            {
+                "address": "0x20000034",
+                "name": "gyroSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.array[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000068",
+                "name": "IMU_Data.array[1]",
+                "type": 10
+            },
+            {
+                "address": "0x20000070",
+                "name": "IMU_Data.array[2]",
+                "type": 10
+            },
+            {
+                "address": "0x20000078",
+                "name": "IMU_Data.array[3]",
+                "type": 10
+            },
+            {
+                "address": "0x20000080",
+                "name": "IMU_Data.array[4]",
+                "type": 10
+            },
+            {
+                "address": "0x20000088",
+                "name": "IMU_Data.array[5]",
+                "type": 10
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.Struct.ax",
+                "type": 10
+            },
+            {
+                "address": "0x20000068",
+                "name": "IMU_Data.Struct.ay",
+                "type": 10
+            },
+            {
+                "address": "0x20000070",
+                "name": "IMU_Data.Struct.az",
+                "type": 10
+            },
+            {
+                "address": "0x20000078",
+                "name": "IMU_Data.Struct.gx",
+                "type": 10
+            },
+            {
+                "address": "0x20000080",
+                "name": "IMU_Data.Struct.gy",
+                "type": 10
+            },
+            {
+                "address": "0x20000088",
+                "name": "IMU_Data.Struct.gz",
+                "type": 10
+            },
+            {
+                "address": "0x20000008",
+                "name": "isFirst",
+                "type": 1
+            },
+            {
+                "address": "0x2000005a",
+                "name": "isProsthesisControlRequired",
+                "type": 1
+            },
+            {
+                "address": "0x20000090",
+                "name": "isSecond",
+                "type": 1
+            },
+            {
+                "address": "0x20000091",
+                "name": "isTestProgramRequired",
+                "type": 1
+            },
+            {
+                "address": "0x08006924",
+                "name": "MSIRangeTable[0]",
+                "type": 5
+            },
+            {
+                "address": "0x0800694c",
+                "name": "MSIRangeTable[10]",
+                "type": 5
+            },
+            {
+                "address": "0x08006950",
+                "name": "MSIRangeTable[11]",
+                "type": 5
+            },
+            {
+                "address": "0x08006928",
+                "name": "MSIRangeTable[1]",
+                "type": 5
+            },
+            {
+                "address": "0x0800692c",
+                "name": "MSIRangeTable[2]",
+                "type": 5
+            },
+            {
+                "address": "0x08006930",
+                "name": "MSIRangeTable[3]",
+                "type": 5
+            },
+            {
+                "address": "0x08006934",
+                "name": "MSIRangeTable[4]",
+                "type": 5
+            },
+            {
+                "address": "0x08006938",
+                "name": "MSIRangeTable[5]",
+                "type": 5
+            },
+            {
+                "address": "0x0800693c",
+                "name": "MSIRangeTable[6]",
+                "type": 5
+            },
+            {
+                "address": "0x08006940",
+                "name": "MSIRangeTable[7]",
+                "type": 5
+            },
+            {
+                "address": "0x08006944",
+                "name": "MSIRangeTable[8]",
+                "type": 5
+            },
+            {
+                "address": "0x08006948",
+                "name": "MSIRangeTable[9]",
+                "type": 5
+            },
+            {
+                "address": "0x20000059",
+                "name": "Prosthesis_Init.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x20000058",
+                "name": "Prosthesis_Init.Side",
+                "type": 2
+            },
+            {
+                "address": "0x2000000c",
+                "name": "SystemCoreClock",
+                "type": 5
+            },
+            {
+                "address": "0x2000005e",
+                "name": "testProgram",
+                "type": 2
+            }
+        ],
+        "expand": true,
+        "filename": "prosthesis_v1.elf",
+        "exeModifiedTime": 1739371792737,
+        "configLastUpdate": 1739371847248
+    },
+    {
+        "id": "8c2c9c04c5249f65",
+        "type": "exe-config",
+        "name": "CombinedAbortIndex",
+        "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
+        "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x20000030",
+                "name": "accelSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x0800690c",
+                "name": "AHBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691c",
+                "name": "APBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x200000dc",
+                "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000e0",
+                "name": "CM_Ankle.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000e4",
+                "name": "CM_Ankle.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000c0",
+                "name": "CM_Ankle.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x200000a0",
+                "name": "CM_Ankle.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x200000b0",
+                "name": "CM_Ankle.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000c8",
+                "name": "CM_Ankle.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000c4",
+                "name": "CM_Ankle.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x200000f4",
+                "name": "CM_Ankle.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000f8",
+                "name": "CM_Ankle.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000fc",
+                "name": "CM_Ankle.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000b8",
+                "name": "CM_Ankle.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000cc",
+                "name": "CM_Ankle.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000e8",
+                "name": "CM_Ankle.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000ec",
+                "name": "CM_Ankle.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000f0",
+                "name": "CM_Ankle.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000d0",
+                "name": "CM_Ankle.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000d4",
+                "name": "CM_Ankle.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000d8",
+                "name": "CM_Ankle.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x2000010c",
+                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000110",
+                "name": "CM_Ankle.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000114",
+                "name": "CM_Ankle.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000100",
+                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000104",
+                "name": "CM_Ankle.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000108",
+                "name": "CM_Ankle.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001c8",
+                "name": "CM_ankleRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000014",
+                "name": "CM_epos4_abortCode",
+                "type": 5
+            },
+            {
+                "address": "0x20000012",
+                "name": "CM_epos4_abortIndex",
+                "type": 3,
+                "checked": true
+            },
+            {
+                "address": "0x20000010",
+                "name": "CM_epos4_abortSubindex",
+                "type": 1
+            },
+            {
+                "address": "0x2000001c",
+                "name": "CM_epos4_errorHistory[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000018",
+                "name": "CM_epos4_errorReg",
+                "type": 5
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5
+            },
+            {
+                "address": "0x20000094",
+                "name": "CM_IMU_GyroZ",
+                "type": 9
+            },
+            {
+                "address": "0x20000154",
+                "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000158",
+                "name": "CM_Knee.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000015c",
+                "name": "CM_Knee.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000138",
+                "name": "CM_Knee.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x20000118",
+                "name": "CM_Knee.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000128",
+                "name": "CM_Knee.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000140",
+                "name": "CM_Knee.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x2000013c",
+                "name": "CM_Knee.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x2000016c",
+                "name": "CM_Knee.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000170",
+                "name": "CM_Knee.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000174",
+                "name": "CM_Knee.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000130",
+                "name": "CM_Knee.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000144",
+                "name": "CM_Knee.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000160",
+                "name": "CM_Knee.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000164",
+                "name": "CM_Knee.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000168",
+                "name": "CM_Knee.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000148",
+                "name": "CM_Knee.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000014c",
+                "name": "CM_Knee.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000150",
+                "name": "CM_Knee.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000184",
+                "name": "CM_Knee.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000188",
+                "name": "CM_Knee.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000018c",
+                "name": "CM_Knee.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000178",
+                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000017c",
+                "name": "CM_Knee.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000180",
+                "name": "CM_Knee.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001ca",
+                "name": "CM_kneeRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000054",
+                "name": "CM_ledCode",
+                "type": 2
+            },
+            {
+                "address": "0x200001a8",
+                "name": "CM_LoadCell.Filtered.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b4",
+                "name": "CM_LoadCell.Filtered.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001c4",
+                "name": "CM_LoadCell.intoStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200001c0",
+                "name": "CM_LoadCell.outOfStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000190",
+                "name": "CM_LoadCell.Raw.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x2000019c",
+                "name": "CM_LoadCell.Raw.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001cc",
+                "name": "CM_stateLc",
+                "type": 3
+            },
+            {
+                "address": "0x20000098",
+                "name": "CM_stateSpeed",
+                "type": 4
+            },
+            {
+                "address": "0x2000005d",
+                "name": "Device.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x2000005c",
+                "name": "Device.Side",
+                "type": 2
+            },
+            {
+                "address": "0x20000000",
+                "name": "dt",
+                "type": 10
+            },
+            {
+                "address": "0x20000034",
+                "name": "gyroSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.array[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.Struct.ax",
+                "type": 10
+            },
+            {
+                "address": "0x20000068",
+                "name": "IMU_Data.Struct.ay",
+                "type": 10
+            },
+            {
+                "address": "0x20000070",
+                "name": "IMU_Data.Struct.az",
+                "type": 10
+            },
+            {
+                "address": "0x20000078",
+                "name": "IMU_Data.Struct.gx",
+                "type": 10
+            },
+            {
+                "address": "0x20000080",
+                "name": "IMU_Data.Struct.gy",
+                "type": 10
+            },
+            {
+                "address": "0x20000088",
+                "name": "IMU_Data.Struct.gz",
+                "type": 10
+            },
+            {
+                "address": "0x20000008",
+                "name": "isFirst",
+                "type": 1
+            },
+            {
+                "address": "0x2000005a",
+                "name": "isProsthesisControlRequired",
+                "type": 1
+            },
+            {
+                "address": "0x20000090",
+                "name": "isSecond",
+                "type": 1
+            },
+            {
+                "address": "0x20000091",
+                "name": "isTestProgramRequired",
+                "type": 1
+            },
+            {
+                "address": "0x08006924",
+                "name": "MSIRangeTable[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000059",
+                "name": "Prosthesis_Init.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x20000058",
+                "name": "Prosthesis_Init.Side",
+                "type": 2
+            },
+            {
+                "address": "0x2000000c",
+                "name": "SystemCoreClock",
+                "type": 5
+            },
+            {
+                "address": "0x2000005e",
+                "name": "testProgram",
+                "type": 2
+            }
+        ],
+        "expand": false,
+        "filename": "prosthesis_v1.elf",
+        "exeModifiedTime": 1739371792737,
+        "configLastUpdate": 1739371852468
+    },
+    {
+        "id": "175d6e7bc64c8167",
+        "type": "exe-config",
+        "name": "CombinedAbortSubindex",
+        "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
+        "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x20000030",
+                "name": "accelSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x0800690c",
+                "name": "AHBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691c",
+                "name": "APBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x200000dc",
+                "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000e0",
+                "name": "CM_Ankle.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000e4",
+                "name": "CM_Ankle.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000c0",
+                "name": "CM_Ankle.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x200000a0",
+                "name": "CM_Ankle.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x200000b0",
+                "name": "CM_Ankle.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000c8",
+                "name": "CM_Ankle.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000c4",
+                "name": "CM_Ankle.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x200000f4",
+                "name": "CM_Ankle.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000f8",
+                "name": "CM_Ankle.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000fc",
+                "name": "CM_Ankle.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000b8",
+                "name": "CM_Ankle.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000cc",
+                "name": "CM_Ankle.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000e8",
+                "name": "CM_Ankle.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000ec",
+                "name": "CM_Ankle.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000f0",
+                "name": "CM_Ankle.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000d0",
+                "name": "CM_Ankle.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000d4",
+                "name": "CM_Ankle.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000d8",
+                "name": "CM_Ankle.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x2000010c",
+                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000110",
+                "name": "CM_Ankle.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000114",
+                "name": "CM_Ankle.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000100",
+                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000104",
+                "name": "CM_Ankle.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000108",
+                "name": "CM_Ankle.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001c8",
+                "name": "CM_ankleRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000014",
+                "name": "CM_epos4_abortCode",
+                "type": 5
+            },
+            {
+                "address": "0x20000012",
+                "name": "CM_epos4_abortIndex",
+                "type": 3
+            },
+            {
+                "address": "0x20000010",
+                "name": "CM_epos4_abortSubindex",
+                "type": 1,
+                "checked": true
+            },
+            {
+                "address": "0x2000001c",
+                "name": "CM_epos4_errorHistory[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000018",
+                "name": "CM_epos4_errorReg",
+                "type": 5
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5
+            },
+            {
+                "address": "0x20000094",
+                "name": "CM_IMU_GyroZ",
+                "type": 9
+            },
+            {
+                "address": "0x20000154",
+                "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000158",
+                "name": "CM_Knee.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000015c",
+                "name": "CM_Knee.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000138",
+                "name": "CM_Knee.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x20000118",
+                "name": "CM_Knee.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000128",
+                "name": "CM_Knee.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000140",
+                "name": "CM_Knee.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x2000013c",
+                "name": "CM_Knee.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x2000016c",
+                "name": "CM_Knee.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000170",
+                "name": "CM_Knee.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000174",
+                "name": "CM_Knee.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000130",
+                "name": "CM_Knee.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000144",
+                "name": "CM_Knee.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000160",
+                "name": "CM_Knee.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000164",
+                "name": "CM_Knee.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000168",
+                "name": "CM_Knee.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000148",
+                "name": "CM_Knee.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000014c",
+                "name": "CM_Knee.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000150",
+                "name": "CM_Knee.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000184",
+                "name": "CM_Knee.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000188",
+                "name": "CM_Knee.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000018c",
+                "name": "CM_Knee.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000178",
+                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000017c",
+                "name": "CM_Knee.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000180",
+                "name": "CM_Knee.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001ca",
+                "name": "CM_kneeRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000054",
+                "name": "CM_ledCode",
+                "type": 2
+            },
+            {
+                "address": "0x200001a8",
+                "name": "CM_LoadCell.Filtered.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b4",
+                "name": "CM_LoadCell.Filtered.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001c4",
+                "name": "CM_LoadCell.intoStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200001c0",
+                "name": "CM_LoadCell.outOfStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000190",
+                "name": "CM_LoadCell.Raw.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x2000019c",
+                "name": "CM_LoadCell.Raw.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001cc",
+                "name": "CM_stateLc",
+                "type": 3
+            },
+            {
+                "address": "0x20000098",
+                "name": "CM_stateSpeed",
+                "type": 4
+            },
+            {
+                "address": "0x2000005d",
+                "name": "Device.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x2000005c",
+                "name": "Device.Side",
+                "type": 2
+            },
+            {
+                "address": "0x20000000",
+                "name": "dt",
+                "type": 10
+            },
+            {
+                "address": "0x20000034",
+                "name": "gyroSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.array[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.Struct.ax",
+                "type": 10
+            },
+            {
+                "address": "0x20000068",
+                "name": "IMU_Data.Struct.ay",
+                "type": 10
+            },
+            {
+                "address": "0x20000070",
+                "name": "IMU_Data.Struct.az",
+                "type": 10
+            },
+            {
+                "address": "0x20000078",
+                "name": "IMU_Data.Struct.gx",
+                "type": 10
+            },
+            {
+                "address": "0x20000080",
+                "name": "IMU_Data.Struct.gy",
+                "type": 10
+            },
+            {
+                "address": "0x20000088",
+                "name": "IMU_Data.Struct.gz",
+                "type": 10
+            },
+            {
+                "address": "0x20000008",
+                "name": "isFirst",
+                "type": 1
+            },
+            {
+                "address": "0x2000005a",
+                "name": "isProsthesisControlRequired",
+                "type": 1
+            },
+            {
+                "address": "0x20000090",
+                "name": "isSecond",
+                "type": 1
+            },
+            {
+                "address": "0x20000091",
+                "name": "isTestProgramRequired",
+                "type": 1
+            },
+            {
+                "address": "0x08006924",
+                "name": "MSIRangeTable[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000059",
+                "name": "Prosthesis_Init.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x20000058",
+                "name": "Prosthesis_Init.Side",
+                "type": 2
+            },
+            {
+                "address": "0x2000000c",
+                "name": "SystemCoreClock",
+                "type": 5
+            },
+            {
+                "address": "0x2000005e",
+                "name": "testProgram",
+                "type": 2
+            }
+        ],
+        "expand": false,
+        "filename": "prosthesis_v1.elf",
+        "exeModifiedTime": 1739371792737,
+        "configLastUpdate": 1739371857770
+    },
+    {
+        "id": "426eadc3a229116d",
+        "type": "exe-config",
+        "name": "CombinedAbortCode",
+        "exefile": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
+        "exefolder": "C:\\CubeIDE Workspace\\Prosthesis Firmware\\Firmware\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x20000030",
+                "name": "accelSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x0800690c",
+                "name": "AHBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x0800691c",
+                "name": "APBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x200000dc",
+                "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000e0",
+                "name": "CM_Ankle.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000e4",
+                "name": "CM_Ankle.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000c0",
+                "name": "CM_Ankle.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x200000a0",
+                "name": "CM_Ankle.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x200000b0",
+                "name": "CM_Ankle.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000c8",
+                "name": "CM_Ankle.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000c4",
+                "name": "CM_Ankle.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x200000f4",
+                "name": "CM_Ankle.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000f8",
+                "name": "CM_Ankle.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000fc",
+                "name": "CM_Ankle.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000b8",
+                "name": "CM_Ankle.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x200000cc",
+                "name": "CM_Ankle.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200000e8",
+                "name": "CM_Ankle.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000ec",
+                "name": "CM_Ankle.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000f0",
+                "name": "CM_Ankle.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200000d0",
+                "name": "CM_Ankle.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x200000d4",
+                "name": "CM_Ankle.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x200000d8",
+                "name": "CM_Ankle.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x2000010c",
+                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000110",
+                "name": "CM_Ankle.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000114",
+                "name": "CM_Ankle.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000100",
+                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000104",
+                "name": "CM_Ankle.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000108",
+                "name": "CM_Ankle.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001c8",
+                "name": "CM_ankleRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000014",
+                "name": "CM_epos4_abortCode",
+                "type": 5,
+                "checked": true
+            },
+            {
+                "address": "0x20000012",
+                "name": "CM_epos4_abortIndex",
+                "type": 3
+            },
+            {
+                "address": "0x20000010",
+                "name": "CM_epos4_abortSubindex",
+                "type": 1
+            },
+            {
+                "address": "0x2000001c",
+                "name": "CM_epos4_errorHistory[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000018",
+                "name": "CM_epos4_errorReg",
+                "type": 5
+            },
+            {
+                "address": "0x200002a0",
+                "name": "CM_epos4_numOfErrors",
+                "type": 5
+            },
+            {
+                "address": "0x20000094",
+                "name": "CM_IMU_GyroZ",
+                "type": 9
+            },
+            {
+                "address": "0x20000154",
+                "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000158",
+                "name": "CM_Knee.EarlyStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000015c",
+                "name": "CM_Knee.EarlyStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000138",
+                "name": "CM_Knee.encoderBias",
+                "type": 9
+            },
+            {
+                "address": "0x20000118",
+                "name": "CM_Knee.jointAngle[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000128",
+                "name": "CM_Knee.jointSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000140",
+                "name": "CM_Knee.jointSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x2000013c",
+                "name": "CM_Knee.jointTorque",
+                "type": 9
+            },
+            {
+                "address": "0x2000016c",
+                "name": "CM_Knee.LateStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000170",
+                "name": "CM_Knee.LateStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000174",
+                "name": "CM_Knee.LateStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000130",
+                "name": "CM_Knee.limbSpeed",
+                "type": 10
+            },
+            {
+                "address": "0x20000144",
+                "name": "CM_Knee.limbSpeedThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000160",
+                "name": "CM_Knee.MidStanceCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000164",
+                "name": "CM_Knee.MidStanceCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000168",
+                "name": "CM_Knee.MidStanceCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000148",
+                "name": "CM_Knee.ProsCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000014c",
+                "name": "CM_Knee.ProsCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000150",
+                "name": "CM_Knee.ProsCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000184",
+                "name": "CM_Knee.SwingExtCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x20000188",
+                "name": "CM_Knee.SwingExtCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x2000018c",
+                "name": "CM_Knee.SwingExtCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x20000178",
+                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
+                "type": 9
+            },
+            {
+                "address": "0x2000017c",
+                "name": "CM_Knee.SwingFlexCtrl.kd",
+                "type": 9
+            },
+            {
+                "address": "0x20000180",
+                "name": "CM_Knee.SwingFlexCtrl.kp",
+                "type": 9
+            },
+            {
+                "address": "0x200001ca",
+                "name": "CM_kneeRawEncoderBias",
+                "type": 3
+            },
+            {
+                "address": "0x20000054",
+                "name": "CM_ledCode",
+                "type": 2
+            },
+            {
+                "address": "0x200001a8",
+                "name": "CM_LoadCell.Filtered.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001b4",
+                "name": "CM_LoadCell.Filtered.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001c4",
+                "name": "CM_LoadCell.intoStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x200001c0",
+                "name": "CM_LoadCell.outOfStanceThreshold",
+                "type": 9
+            },
+            {
+                "address": "0x20000190",
+                "name": "CM_LoadCell.Raw.bot[0]",
+                "type": 9
+            },
+            {
+                "address": "0x2000019c",
+                "name": "CM_LoadCell.Raw.top[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200001cc",
+                "name": "CM_stateLc",
+                "type": 3
+            },
+            {
+                "address": "0x20000098",
+                "name": "CM_stateSpeed",
+                "type": 4
+            },
+            {
+                "address": "0x2000005d",
+                "name": "Device.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x2000005c",
+                "name": "Device.Side",
+                "type": 2
+            },
+            {
+                "address": "0x20000000",
+                "name": "dt",
+                "type": 10
+            },
+            {
+                "address": "0x20000034",
+                "name": "gyroSensitivity",
+                "type": 9
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.array[0]",
+                "type": 10
+            },
+            {
+                "address": "0x20000060",
+                "name": "IMU_Data.Struct.ax",
+                "type": 10
+            },
+            {
+                "address": "0x20000068",
+                "name": "IMU_Data.Struct.ay",
+                "type": 10
+            },
+            {
+                "address": "0x20000070",
+                "name": "IMU_Data.Struct.az",
+                "type": 10
+            },
+            {
+                "address": "0x20000078",
+                "name": "IMU_Data.Struct.gx",
+                "type": 10
+            },
+            {
+                "address": "0x20000080",
+                "name": "IMU_Data.Struct.gy",
+                "type": 10
+            },
+            {
+                "address": "0x20000088",
+                "name": "IMU_Data.Struct.gz",
+                "type": 10
+            },
+            {
+                "address": "0x20000008",
+                "name": "isFirst",
+                "type": 1
+            },
+            {
+                "address": "0x2000005a",
+                "name": "isProsthesisControlRequired",
+                "type": 1
+            },
+            {
+                "address": "0x20000090",
+                "name": "isSecond",
+                "type": 1
+            },
+            {
+                "address": "0x20000091",
+                "name": "isTestProgramRequired",
+                "type": 1
+            },
+            {
+                "address": "0x08006924",
+                "name": "MSIRangeTable[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000059",
+                "name": "Prosthesis_Init.Joint",
+                "type": 2
+            },
+            {
+                "address": "0x20000058",
+                "name": "Prosthesis_Init.Side",
+                "type": 2
+            },
+            {
+                "address": "0x2000000c",
+                "name": "SystemCoreClock",
+                "type": 5
+            },
+            {
+                "address": "0x2000005e",
+                "name": "testProgram",
+                "type": 2
+            }
+        ],
+        "expand": false,
+        "filename": "prosthesis_v1.elf",
+        "exeModifiedTime": 1739371792737,
+        "configLastUpdate": 1739371862623
+    },
+    {
+        "id": "b31d89b06f55f0fd",
         "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
+        "z": "8d44f36b6a57178f",
         "name": "spacer",
         "group": "89a41ce913753ae2",
         "order": 12,
-        "width": 15,
+        "width": 11,
         "height": 1
     },
     {
-        "id": "4d5823f61ecb8c3e",
+        "id": "07b181c0e7ab41f3",
         "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
-        "name": "spacer",
-        "group": "89a41ce913753ae2",
-        "order": 13,
-        "width": 4,
-        "height": 1
-    },
-    {
-        "id": "862756f78dfb9dee",
-        "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
+        "z": "8d44f36b6a57178f",
         "name": "spacer",
         "group": "89a41ce913753ae2",
         "order": 14,
-        "width": 5,
+        "width": 1,
         "height": 1
     },
     {
-        "id": "1fcf35cd712fe9fe",
+        "id": "ebb15a55eaaf349f",
         "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
+        "z": "8d44f36b6a57178f",
         "name": "spacer",
         "group": "89a41ce913753ae2",
         "order": 16,
@@ -15466,29 +18620,19 @@
         "height": 1
     },
     {
-        "id": "bd64ccabcbf35521",
+        "id": "a61fa980cd531c64",
         "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
-        "name": "spacer",
-        "group": "89a41ce913753ae2",
-        "order": 18,
-        "width": 4,
-        "height": 1
-    },
-    {
-        "id": "5f1b05cd8ce98afc",
-        "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
+        "z": "8d44f36b6a57178f",
         "name": "spacer",
         "group": "89a41ce913753ae2",
         "order": 19,
-        "width": 5,
+        "width": 1,
         "height": 1
     },
     {
-        "id": "e48681277546f73d",
+        "id": "d39c5cfbaa3d7271",
         "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
+        "z": "8d44f36b6a57178f",
         "name": "spacer",
         "group": "89a41ce913753ae2",
         "order": 21,
@@ -15496,23 +18640,163 @@
         "height": 1
     },
     {
-        "id": "8adc4ec2bf6ee065",
+        "id": "f6911e07293edc7d",
         "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
+        "z": "8d44f36b6a57178f",
         "name": "spacer",
         "group": "89a41ce913753ae2",
         "order": 22,
-        "width": 2,
+        "width": 3,
         "height": 1
     },
     {
-        "id": "60aad81e92deaf06",
+        "id": "ba5fbb20ba357a68",
         "type": "ui_spacer",
-        "z": "830ee88b8aaf6880",
+        "z": "8d44f36b6a57178f",
         "name": "spacer",
         "group": "89a41ce913753ae2",
         "order": 24,
-        "width": 13,
+        "width": 11,
+        "height": 1
+    },
+    {
+        "id": "7e8bc5b6054b1e55",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 25,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "ce0e8468280f2812",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 27,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "ebad1047672a0c48",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 28,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "a936d8099f454d38",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 30,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "9e691c9a279c0079",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 31,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "2c1895a47c2bfa4e",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 33,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "8d9ba9e864f7789f",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 34,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "d050d691851eb28b",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 36,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "fc32cdf69920f942",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 37,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "30371395d719fb4f",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 39,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "3e360ab990ca33c4",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 40,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "164e729d3aeda1fe",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 42,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "1d14410caac9d524",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 43,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "8335b03df1b344e2",
+        "type": "ui_spacer",
+        "z": "8d44f36b6a57178f",
+        "name": "spacer",
+        "group": "89a41ce913753ae2",
+        "order": 45,
+        "width": 19,
         "height": 1
     },
     {
@@ -17479,7 +20763,13 @@
                 "c7d13eec53f2a59e",
                 "e9961bd37217e2f5",
                 "63cea1c96f472b41",
-                "2fd9cbc493d297e5"
+                "2fd9cbc493d297e5",
+                "e48d69f2525e8606",
+                "ed2cfbf8c526568f",
+                "0a2078ccfce01691",
+                "38795e7440c31856",
+                "8b168507da9d040c",
+                "a1bd218100324e13"
             ],
             []
         ]
@@ -17576,7 +20866,13 @@
                 "4243d8b4cc2fdfd1",
                 "ed1e4b9cd3887526",
                 "0a9da6086067ae6d",
-                "f7628cbea2f8ecf7"
+                "f7628cbea2f8ecf7",
+                "6b58b37cdff5e9e9",
+                "44601703561a427e",
+                "bafe5b6e2251f7cf",
+                "14cee9f97039e931",
+                "3b99e20b248a8191",
+                "50f84df77d8ced5d"
             ]
         ]
     },
@@ -17613,7 +20909,13 @@
                 "ed1e4b9cd3887526",
                 "4243d8b4cc2fdfd1",
                 "0a9da6086067ae6d",
-                "f7628cbea2f8ecf7"
+                "f7628cbea2f8ecf7",
+                "6b58b37cdff5e9e9",
+                "44601703561a427e",
+                "bafe5b6e2251f7cf",
+                "14cee9f97039e931",
+                "3b99e20b248a8191",
+                "50f84df77d8ced5d"
             ]
         ]
     },
@@ -17887,7 +21189,7 @@
         "logmode": "no",
         "logformat": "csvc",
         "x": 1490,
-        "y": 720,
+        "y": 660,
         "wires": [
             [
                 "6dba8a5da24ec565",
@@ -17908,8 +21210,8 @@
                 "type": "str"
             }
         ],
-        "x": 1770,
-        "y": 680,
+        "x": 1710,
+        "y": 660,
         "wires": [
             [
                 "4fe694c77c5c2cf1"
@@ -17933,8 +21235,8 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1980,
-        "y": 680,
+        "x": 1920,
+        "y": 660,
         "wires": []
     },
     {
@@ -18137,7 +21439,7 @@
         "logmode": "no",
         "logformat": "stcm",
         "x": 1480,
-        "y": 820,
+        "y": 800,
         "wires": [
             [
                 "f4abdc5d48fb3a4e"
@@ -18157,8 +21459,8 @@
                 "type": "str"
             }
         ],
-        "x": 1690,
-        "y": 820,
+        "x": 1710,
+        "y": 800,
         "wires": [
             [
                 "83242cccc4d84e54",
@@ -18170,7 +21472,7 @@
         "id": "f3d3ea6f73aa681c",
         "type": "ui_led",
         "z": "8d44f36b6a57178f",
-        "order": 11,
+        "order": 10,
         "group": "89a41ce913753ae2",
         "width": 3,
         "height": 3,
@@ -18193,8 +21495,8 @@
         "shape": "circle",
         "showGlow": true,
         "name": "",
-        "x": 2050,
-        "y": 780,
+        "x": 2090,
+        "y": 800,
         "wires": []
     },
     {
@@ -18216,8 +21518,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1880,
-        "y": 780,
+        "x": 1920,
+        "y": 800,
         "wires": [
             [
                 "f3d3ea6f73aa681c"
@@ -18229,20 +21531,20 @@
         "type": "ui_text",
         "z": "8d44f36b6a57178f",
         "group": "89a41ce913753ae2",
-        "order": 23,
-        "width": 7,
+        "order": 11,
+        "width": 8,
         "height": 1,
         "name": "",
         "label": "Error:",
         "format": "{{msg.payload}}",
-        "layout": "col-center",
+        "layout": "row-spread",
         "className": "",
         "style": true,
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2050,
-        "y": 820,
+        "x": 2090,
+        "y": 840,
         "wires": []
     },
     {
@@ -18257,8 +21559,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1880,
-        "y": 820,
+        "x": 1920,
+        "y": 840,
         "wires": [
             [
                 "4a05f9f592b1460d"
@@ -18280,10 +21582,10 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738947659825,
+        "lastImportedTime": 1739372015985,
         "openStatus": false,
         "x": 360,
-        "y": 660,
+        "y": 700,
         "wires": [
             [
                 "775de47733bee3e9"
@@ -18305,8 +21607,8 @@
                 "type": "str"
             }
         ],
-        "x": 1770,
-        "y": 720,
+        "x": 1710,
+        "y": 700,
         "wires": [
             [
                 "9699ecd537aa3baa"
@@ -18330,8 +21632,8 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1980,
-        "y": 720,
+        "x": 1920,
+        "y": 700,
         "wires": []
     },
     {
@@ -18349,7 +21651,7 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1738947504198,
+        "lastImportedTime": 1739291579660,
         "openStatus": true,
         "x": 370,
         "y": 40,
@@ -18396,6 +21698,862 @@
         "ymax": "",
         "x": 1820,
         "y": 100,
+        "wires": []
+    },
+    {
+        "id": "6b58b37cdff5e9e9",
+        "type": "variables",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Error Register",
+        "accesspoint": 0,
+        "execonfig": "1b1fe0d09dfe7b42",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "CM_epos4_errorReg",
+        "triggerthreshold": "",
+        "frequency": "",
+        "frequencyType": "0",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1739371837050,
+        "openStatus": false,
+        "x": 370,
+        "y": 760,
+        "wires": [
+            [
+                "775de47733bee3e9"
+            ],
+            [
+                "8a715b4b3e90a36b"
+            ]
+        ]
+    },
+    {
+        "id": "e48d69f2525e8606",
+        "type": "processing",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Error Register",
+        "groupid": "6b58b37cdff5e9e9",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "logformat": "stcm",
+        "x": 1490,
+        "y": 900,
+        "wires": [
+            [
+                "254f7e78ac170ad8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "254f7e78ac170ad8",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_errorReg",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 900,
+        "wires": [
+            [
+                "9e7534de23b52d1a"
+            ]
+        ]
+    },
+    {
+        "id": "a683aa8e5b07f9d3",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 13,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Error Register:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2140,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "9e7534de23b52d1a",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Bin",
+        "func": "msg.payload = msg.payload.toString(2);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 900,
+        "wires": [
+            [
+                "a683aa8e5b07f9d3"
+            ]
+        ]
+    },
+    {
+        "id": "44601703561a427e",
+        "type": "variables",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Number of Errors",
+        "accesspoint": 0,
+        "execonfig": "545a870b1c882abf",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "CM_epos4_numOfErrors",
+        "triggerthreshold": "",
+        "frequency": "",
+        "frequencyType": "0",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1739371842520,
+        "openStatus": false,
+        "x": 380,
+        "y": 820,
+        "wires": [
+            [
+                "775de47733bee3e9"
+            ],
+            [
+                "8a715b4b3e90a36b"
+            ]
+        ]
+    },
+    {
+        "id": "ed2cfbf8c526568f",
+        "type": "processing",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Number of Errors",
+        "groupid": "44601703561a427e",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "logformat": "stcm",
+        "x": 1500,
+        "y": 960,
+        "wires": [
+            [
+                "460cdf8969ca9f76"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "460cdf8969ca9f76",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_numOfErrors",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 960,
+        "wires": [
+            [
+                "8dd39e56127035b3"
+            ]
+        ]
+    },
+    {
+        "id": "8dd39e56127035b3",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 18,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Number of Errors:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2150,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "bafe5b6e2251f7cf",
+        "type": "variables",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Error History",
+        "accesspoint": 0,
+        "execonfig": "36c2729127263b5a",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "CM_epos4_errorHistory[0]",
+        "triggerthreshold": "",
+        "frequency": "",
+        "frequencyType": "0",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1739371847760,
+        "openStatus": false,
+        "x": 370,
+        "y": 880,
+        "wires": [
+            [
+                "775de47733bee3e9"
+            ],
+            [
+                "8a715b4b3e90a36b"
+            ]
+        ]
+    },
+    {
+        "id": "0a2078ccfce01691",
+        "type": "processing",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Error History",
+        "groupid": "bafe5b6e2251f7cf",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "logformat": "stcm",
+        "x": 1490,
+        "y": 1020,
+        "wires": [
+            [
+                "18af81d13d873411",
+                "5724b4af8d7babce",
+                "95b0c6395871f6dd",
+                "0b972117981e14a0",
+                "7a26e88f50f5d2c6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "18af81d13d873411",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_errorHistory[0]",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1020,
+        "wires": [
+            [
+                "64128ead641a85e5"
+            ]
+        ]
+    },
+    {
+        "id": "64128ead641a85e5",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 1020,
+        "wires": [
+            [
+                "3e8f9d5c862e3cd1"
+            ]
+        ]
+    },
+    {
+        "id": "3e8f9d5c862e3cd1",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 23,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Error History 1:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2140,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "5724b4af8d7babce",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_errorHistory[1]",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1060,
+        "wires": [
+            [
+                "aaeb25b7e7dd16c3"
+            ]
+        ]
+    },
+    {
+        "id": "95b0c6395871f6dd",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_errorHistory[2]",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1100,
+        "wires": [
+            [
+                "151ddb1f1f2694af"
+            ]
+        ]
+    },
+    {
+        "id": "0b972117981e14a0",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_errorHistory[3]",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1140,
+        "wires": [
+            [
+                "a8ee98914333ae6b"
+            ]
+        ]
+    },
+    {
+        "id": "7a26e88f50f5d2c6",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_errorHistory[4]",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1180,
+        "wires": [
+            [
+                "91b057752110b22f"
+            ]
+        ]
+    },
+    {
+        "id": "aaeb25b7e7dd16c3",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 1060,
+        "wires": [
+            [
+                "babbea34856a6353"
+            ]
+        ]
+    },
+    {
+        "id": "151ddb1f1f2694af",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 1100,
+        "wires": [
+            [
+                "93c2e876a3cee6d1"
+            ]
+        ]
+    },
+    {
+        "id": "a8ee98914333ae6b",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 1140,
+        "wires": [
+            [
+                "dcd359207dd67312"
+            ]
+        ]
+    },
+    {
+        "id": "91b057752110b22f",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 1180,
+        "wires": [
+            [
+                "464cdeded245ac59"
+            ]
+        ]
+    },
+    {
+        "id": "babbea34856a6353",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 26,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Error History 2:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2140,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "93c2e876a3cee6d1",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 29,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Error History 3:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2140,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "dcd359207dd67312",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 32,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Error History 4:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2140,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "464cdeded245ac59",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 35,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Error History 5:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2140,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "14cee9f97039e931",
+        "type": "variables",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Abort Index",
+        "accesspoint": 0,
+        "execonfig": "8c2c9c04c5249f65",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "CM_epos4_abortIndex",
+        "triggerthreshold": "",
+        "frequency": "",
+        "frequencyType": "0",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1739371852906,
+        "openStatus": false,
+        "x": 360,
+        "y": 940,
+        "wires": [
+            [
+                "775de47733bee3e9"
+            ],
+            [
+                "8a715b4b3e90a36b"
+            ]
+        ]
+    },
+    {
+        "id": "3b99e20b248a8191",
+        "type": "variables",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Abort Subindex",
+        "accesspoint": 0,
+        "execonfig": "175d6e7bc64c8167",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "CM_epos4_abortSubindex",
+        "triggerthreshold": "",
+        "frequency": "",
+        "frequencyType": "0",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1739371858226,
+        "openStatus": false,
+        "x": 370,
+        "y": 1000,
+        "wires": [
+            [
+                "775de47733bee3e9"
+            ],
+            [
+                "8a715b4b3e90a36b"
+            ]
+        ]
+    },
+    {
+        "id": "50f84df77d8ced5d",
+        "type": "variables",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Abort Code",
+        "accesspoint": 0,
+        "execonfig": "426eadc3a229116d",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "CM_epos4_abortCode",
+        "triggerthreshold": "",
+        "frequency": "",
+        "frequencyType": "0",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1739371863070,
+        "openStatus": false,
+        "x": 360,
+        "y": 1060,
+        "wires": [
+            [
+                "775de47733bee3e9"
+            ],
+            [
+                "8a715b4b3e90a36b"
+            ]
+        ]
+    },
+    {
+        "id": "38795e7440c31856",
+        "type": "processing",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Abort Index",
+        "groupid": "14cee9f97039e931",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "logformat": "stcm",
+        "x": 1480,
+        "y": 1240,
+        "wires": [
+            [
+                "4d01b193702e61be"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "8b168507da9d040c",
+        "type": "processing",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Abort Subindex",
+        "groupid": "3b99e20b248a8191",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "logformat": "stcm",
+        "x": 1490,
+        "y": 1300,
+        "wires": [
+            [
+                "072d2bb36562fb17"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a1bd218100324e13",
+        "type": "processing",
+        "z": "8d44f36b6a57178f",
+        "groupname": "Combined Abort Code",
+        "groupid": "50f84df77d8ced5d",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "logformat": "stcm",
+        "x": 1480,
+        "y": 1360,
+        "wires": [
+            [
+                "1f3202b526f94e05"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "4d01b193702e61be",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_abortIndex",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1240,
+        "wires": [
+            [
+                "c8017047f6aac5ac"
+            ]
+        ]
+    },
+    {
+        "id": "c8017047f6aac5ac",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 1240,
+        "wires": [
+            [
+                "ce38bbc29d876a66"
+            ]
+        ]
+    },
+    {
+        "id": "ce38bbc29d876a66",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 38,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Abort Index:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2130,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "072d2bb36562fb17",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_abortSubindex",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1300,
+        "wires": [
+            [
+                "6f0de2dd1ef71ffd"
+            ]
+        ]
+    },
+    {
+        "id": "6f0de2dd1ef71ffd",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 41,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Abort Subindex:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2140,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "1f3202b526f94e05",
+        "type": "subflow:8381c865.236028",
+        "z": "8d44f36b6a57178f",
+        "name": "",
+        "env": [
+            {
+                "name": "varfilter",
+                "value": "CM_epos4_abortCode",
+                "type": "str"
+            }
+        ],
+        "x": 1730,
+        "y": 1360,
+        "wires": [
+            [
+                "ddcf67786d1d0cd5"
+            ]
+        ]
+    },
+    {
+        "id": "ddcf67786d1d0cd5",
+        "type": "function",
+        "z": "8d44f36b6a57178f",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1900,
+        "y": 1360,
+        "wires": [
+            [
+                "d915363d1efd68ef"
+            ]
+        ]
+    },
+    {
+        "id": "d915363d1efd68ef",
+        "type": "ui_text",
+        "z": "8d44f36b6a57178f",
+        "group": "89a41ce913753ae2",
+        "order": 44,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "EPOS Abort Code:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Arial Black,Arial Black,Gadget,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 2130,
+        "y": 1360,
         "wires": []
     }
 ]

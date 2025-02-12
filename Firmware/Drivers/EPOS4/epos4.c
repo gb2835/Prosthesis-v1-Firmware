@@ -92,6 +92,13 @@ typedef struct
 
 static Device_t Device[EPOS4_NUMBER_OF_DEVICES];
 
+static uint8_t CM_epos4_abortSubindex = 0;
+static uint16_t CM_epos4_abortIndex = 0;
+static uint32_t CM_epos4_abortCode = 0;
+static uint32_t CM_epos4_errorReg = 0;
+static uint32_t CM_epos4_errorHistory[5] = {0, 0, 0, 0, 0};
+static uint32_t CM_epos4_numOfErrors = 0;
+
 static EPOS4_Error_e ReadObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t *value);
 static EPOS4_Error_e WriteObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
 static void ParseValueFromData(uint32_t *value, uint8_t *data);
@@ -294,7 +301,17 @@ static EPOS4_Error_e CheckForFault(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx)
 	uint8_t cobIdEmcy = Device[deviceIndex].nodeId + 0x80;
 	uint16_t cobId = (uint16_t) ((RXBx->Struct.RXBxSIDH_Reg << 3) + (RXBx->Struct.RXBxSIDL_Reg.value >> 5));
 	if(cobId == cobIdEmcy)
+	{
+		EPOS4_ReadObjectValue(deviceIndex, ERROR_REG_INDEX, 0, &CM_epos4_errorReg);
+		EPOS4_ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, NUMBER_OF_ERRORS_SUBINDEX, &CM_epos4_numOfErrors);
+		EPOS4_ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_1_SUBINDEX, &CM_epos4_errorHistory[0]);
+		EPOS4_ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_2_SUBINDEX, &CM_epos4_errorHistory[1]);
+		EPOS4_ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_3_SUBINDEX, &CM_epos4_errorHistory[2]);
+		EPOS4_ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_4_SUBINDEX, &CM_epos4_errorHistory[3]);
+		EPOS4_ReadObjectValue(deviceIndex, ERROR_HISTORY_INDEX, ERROR_HISTORY_5_SUBINDEX, &CM_epos4_errorHistory[4]);
+
 		return EPOS4_FaultError;
+	}
 
 	return EPOS4_NoError;
 }
@@ -302,7 +319,13 @@ static EPOS4_Error_e CheckForFault(uint8_t deviceIndex, MCP25625_RXBx_t *RXBx)
 static EPOS4_Error_e CheckForAbort(uint8_t deviceIndex, uint8_t *data)
 {
 	if(data[0] >> 7)
+	{
+		CM_epos4_abortIndex = (uint16_t) ((data[2] << 8) + data[1]);
+		CM_epos4_abortSubindex = data[3];
+		ParseValueFromData(&CM_epos4_abortCode, data);
+
 		return EPOS4_AbortError;
+	}
 
 	return EPOS4_NoError;
 }
