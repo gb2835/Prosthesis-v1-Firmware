@@ -3433,8 +3433,8 @@ int main(void)
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.MotorType = EPOS4_TrapezoidalPmBlMotor;
  8001a64:	230b      	movs	r3, #11
  8001a66:	f887 3035 	strb.w	r3, [r7, #53]	; 0x35
-	MotorController_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 6600;
- 8001a6a:	f641 13c8 	movw	r3, #6600	; 0x19c8
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 8000;
+ 8001a6a:	f44f 53fa 	mov.w	r3, #8000	; 0x1f40
  8001a6e:	63bb      	str	r3, [r7, #56]	; 0x38
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
  8001a70:	f247 2374 	movw	r3, #29300	; 0x7274
@@ -3445,7 +3445,7 @@ int main(void)
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
  8001a7c:	f44f 73c8 	mov.w	r3, #400	; 0x190
  8001a80:	f8a7 3042 	strh.w	r3, [r7, #66]	; 0x42
-	MotorController_Init[AnkleMotorControllerIndex].FirstStep.torqueConstant = 95000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.torqueConstant = 60 / (2 * 3.1416f * 100) * 1000000;	// For Kv = 100 rpm/V
  8001a84:	4b8c      	ldr	r3, [pc, #560]	; (8001cb8 <main+0x320>)
  8001a86:	647b      	str	r3, [r7, #68]	; 0x44
 	MotorController_Init[AnkleMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
@@ -3747,7 +3747,7 @@ int main(void)
  8001cac:	48000800 	.word	0x48000800
  8001cb0:	40001000 	.word	0x40001000
  8001cb4:	48000400 	.word	0x48000400
- 8001cb8:	00017318 	.word	0x00017318
+ 8001cb8:	00017504 	.word	0x00017504
  8001cbc:	000186a0 	.word	0x000186a0
  8001cc0:	00030111 	.word	0x00030111
  8001cc4:	0009d219 	.word	0x0009d219
