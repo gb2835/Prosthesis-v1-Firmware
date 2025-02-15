@@ -42,6 +42,12 @@ uint8_t isProsthesisControlRequired = 0;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
+#define DT				1 / 512.0					// Sample time
+#define TAU				1.0 / (2 * M_PI * 10)		// Time constant for practical differentiator (fc = 10 Hz)
+#define GEAR_RATIO		40.0f
+#define NOMINAL_CURRENT	8.0f
+#define TORQUE_CONSTANT	60.0f / (2 * M_PI * 100)	// For Kv = 100 rpm/V
+
 typedef enum
 {
 	EarlyStance,
@@ -94,13 +100,13 @@ typedef struct
 static Prosthesis_Init_t Device;
 static TestProgram_e testProgram;
 
-static double dt = 1 / 512.0;
 static MPU925x_IMU_Data_t IMU_Data;
 static uint8_t isFirst = 1;
 static uint8_t isSecond = 0;
 static uint8_t isTestProgramRequired = 0;
 
 static float CM_IMU_GyroZ;
+static float CM_IMU_AccY;
 static int16_t CM_stateSpeed;
 static Joint_t CM_Ankle, CM_Knee;
 static LoadCell_t CM_LoadCell;
@@ -131,6 +137,8 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	CM_Ankle.MidStanceCtrl.kp = 5;
 	CM_Ankle.LateStanceCtrl.eqPoint = -7.0f;
 	CM_Ankle.LateStanceCtrl.kp = 5;
+	CM_Ankle.SwingFlexCtrl.eqPoint = -7.0f;
+	CM_Ankle.SwingFlexCtrl.kp = 5;
 	CM_Ankle.SwingExtCtrl.eqPoint = -7.0f;
 	CM_Ankle.SwingExtCtrl.kp = 5;
 
@@ -197,8 +205,6 @@ static uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
 
 static void ProcessInputs(void)
 {
-	double tau = 1.0 / (2 * M_PI * 10);	// Time constant for practical differentiator (fc = 10 Hz)
-
 	// Derivative of joint angle (joint speed) and filtering of load cells
 	if(isFirst)
 	{
@@ -218,11 +224,11 @@ static void ProcessInputs(void)
 	else if(isSecond)
 	{
 		// Practical differentiator (bilinear transformation used)
-		CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
+		CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*TAU - DT)*CM_Ankle.jointSpeed) / (DT + 2*TAU);
 		CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 
 		// Practical differentiator (bilinear transformation used)
-		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*TAU - DT)*CM_Knee.jointSpeed) / (DT + 2*TAU);
 		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 
 		CM_LoadCell.Raw.bot[1] = CM_LoadCell.Raw.bot[0];
@@ -235,11 +241,11 @@ static void ProcessInputs(void)
 	else
 	{
 		// Practical differentiator (bilinear transformation used)
-		CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*tau - dt)*CM_Ankle.jointSpeed) / (dt + 2*tau);
+		CM_Ankle.jointSpeed = (2*(CM_Ankle.jointAngle[0] - CM_Ankle.jointAngle[1]) + (2*TAU - DT)*CM_Ankle.jointSpeed) / (DT + 2*TAU);
 		CM_Ankle.jointAngle[1] = CM_Ankle.jointAngle[0];
 
 		// Practical differentiator (bilinear transformation used)
-		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*tau - dt)*CM_Knee.jointSpeed) / (dt + 2*tau);
+		CM_Knee.jointSpeed = (2*(CM_Knee.jointAngle[0] - CM_Knee.jointAngle[1]) + (2*TAU - DT)*CM_Knee.jointSpeed) / (DT + 2*TAU);
 		CM_Knee.jointAngle[1] = CM_Knee.jointAngle[0];
 
 		// 2nd order low-pass Butterworth (fc = 20 Hz)
@@ -258,6 +264,7 @@ static void ProcessInputs(void)
 		CM_LoadCell.Filtered.top[1] = CM_LoadCell.Filtered.top[0];
 	}
 
+	CM_IMU_AccY = IMU_Data.Struct.ay;
 	if(Device.Side == Left)
 		CM_IMU_GyroZ = -IMU_Data.Struct.gz;
 	else
@@ -343,7 +350,7 @@ static void RunStateMachine(void)
 		}
 
 		if(CM_LoadCell.Filtered.bot[0] > CM_LoadCell.outOfStanceThreshold)
-			state = SwingExtension;
+			state = SwingFlexion;
 
 		break;
 
@@ -393,14 +400,11 @@ static void RunStateMachine(void)
 
 static void RunImpedanceControl(void)
 {
-	float gearRatio = 40.0f;
-	float nomCurrent = 8.0f;
-	float torqueConst = 60.0f / (2 * M_PI * 100);	// For Kv = 100 rpm/V
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
 	{
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
-		int16_t motorTorque = CM_Ankle.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
+		int16_t motorTorque = CM_Ankle.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 
 		if((testProgram == None) || (testProgram == ImpedanceControl))
 		{
@@ -414,7 +418,7 @@ static void RunImpedanceControl(void)
 	{
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 		CM_Knee.jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
-		int16_t motorTorque = CM_Knee.jointTorque / (torqueConst * gearRatio * nomCurrent) * 1000;
+		int16_t motorTorque = CM_Knee.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 
 		if((testProgram == None) || (testProgram == ImpedanceControl))
 		{
