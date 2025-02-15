@@ -14,6 +14,8 @@
 * 		- Load Cell		= ADC
 * 		- Torque		= N*m
 * 		- Speed			= degrees/second
+* 3. MAX_JOINT_TORQUE is set to 70 N*m.
+*    The actual max torque is higher, but the power supply appears to trip.
 *
 *******************************************************************************/
 
@@ -42,12 +44,14 @@ uint8_t isProsthesisControlRequired = 0;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
-#define CURRENT_LIMIT	29.3f
-#define DT				1 / 512.0					// Sample time
-#define GEAR_RATIO		40.0f
-#define NOMINAL_CURRENT	8.0f
-#define TAU				1.0 / (2 * 3.1416 * 10)		// Time constant for practical differentiator (fc = 10 Hz)
-#define TORQUE_CONSTANT	60.0f / (2 * 3.1416 * 100)	// For Kv = 100 rpm/V
+#define CURRENT_LIMIT		29.3f
+#define DT					1 / 512.0					// Sample time
+#define GEAR_RATIO			40.0f
+#define MAX_JOINT_TORQUE	70.0f
+#define NOMINAL_CURRENT		8.0f
+#define TAU					1.0 / (2 * 3.1416 * 10)		// Time constant for practical differentiator (fc = 10 Hz)
+#define TORQUE_CONSTANT		60.0f / (2 * 3.1416 * 100)	// For Kv = 100 rpm/V
+
 
 typedef enum
 {
@@ -406,10 +410,10 @@ static void RunImpedanceControl(void)
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 
 		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
-		if(CM_Ankle.jointTorque > (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
-			CM_Ankle.jointTorque = (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
-		if(CM_Ankle.jointTorque < -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
-			CM_Ankle.jointTorque = -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
+		if(CM_Ankle.jointTorque > MAX_JOINT_TORQUE)
+			CM_Ankle.jointTorque = MAX_JOINT_TORQUE;
+		if(CM_Ankle.jointTorque < -MAX_JOINT_TORQUE)
+			CM_Ankle.jointTorque = -MAX_JOINT_TORQUE;
 
 		int16_t motorTorque = CM_Ankle.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
@@ -425,10 +429,10 @@ static void RunImpedanceControl(void)
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 
 		CM_Knee.jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
-		if(CM_Knee.jointTorque > (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
-			CM_Knee.jointTorque = (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
-		if(CM_Knee.jointTorque < -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
-			CM_Knee.jointTorque = -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
+		if(CM_Knee.jointTorque > MAX_JOINT_TORQUE)
+			CM_Knee.jointTorque = MAX_JOINT_TORQUE;
+		if(CM_Knee.jointTorque < -MAX_JOINT_TORQUE)
+			CM_Knee.jointTorque = -MAX_JOINT_TORQUE;
 
 		int16_t motorTorque = CM_Knee.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
