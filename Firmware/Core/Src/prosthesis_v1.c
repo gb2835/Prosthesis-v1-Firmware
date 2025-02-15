@@ -42,11 +42,12 @@ uint8_t isProsthesisControlRequired = 0;
 * PRIVATE DEFINITIONS
 *******************************************************************************/
 
+#define CURRENT_LIMIT	29.3f
 #define DT				1 / 512.0					// Sample time
-#define TAU				1.0 / (2 * M_PI * 10)		// Time constant for practical differentiator (fc = 10 Hz)
 #define GEAR_RATIO		40.0f
 #define NOMINAL_CURRENT	8.0f
-#define TORQUE_CONSTANT	60.0f / (2 * M_PI * 100)	// For Kv = 100 rpm/V
+#define TAU				1.0 / (2 * 3.1416 * 10)		// Time constant for practical differentiator (fc = 10 Hz)
+#define TORQUE_CONSTANT	60.0f / (2 * 3.1416 * 100)	// For Kv = 100 rpm/V
 
 typedef enum
 {
@@ -403,9 +404,14 @@ static void RunImpedanceControl(void)
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
 	{
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
-		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
-		int16_t motorTorque = CM_Ankle.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 
+		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
+		if(CM_Ankle.jointTorque > (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
+			CM_Ankle.jointTorque = (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
+		if(CM_Ankle.jointTorque < -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
+			CM_Ankle.jointTorque = -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
+
+		int16_t motorTorque = CM_Ankle.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
 		{
 			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);
@@ -417,9 +423,14 @@ static void RunImpedanceControl(void)
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
 	{
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
-		CM_Knee.jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
-		int16_t motorTorque = CM_Knee.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 
+		CM_Knee.jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
+		if(CM_Knee.jointTorque > (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
+			CM_Knee.jointTorque = (CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
+		if(CM_Knee.jointTorque < -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO)
+			CM_Knee.jointTorque = -(CURRENT_LIMIT * TORQUE_CONSTANT) * GEAR_RATIO;
+
+		int16_t motorTorque = CM_Knee.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
 		{
 			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -motorTorque);		// Knee joint rotates opposite of coordinate system
