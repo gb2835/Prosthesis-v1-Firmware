@@ -50,7 +50,7 @@ uint8_t isProsthesisControlRequired = 0;
 #define MAX_JOINT_TORQUE	70.0f
 #define NOMINAL_CURRENT		8.0f
 #define TAU					1.0 / (2 * 3.1416 * 10)		// Time constant for practical differentiator (fc = 10 Hz)
-#define TORQUE_CONSTANT		60.0f / (2 * 3.1416 * 100)	// For Kv = 100 rpm/V
+#define TORQUE_CONSTANT		60.0f / (2 * 3.1416f * 100)	// For Kv = 100 rpm/V
 
 
 typedef enum
@@ -137,23 +137,23 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
 	CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
 
-	CM_Ankle.EarlyStanceCtrl.eqPoint = -10.0f;
-	CM_Ankle.EarlyStanceCtrl.kd = 0.04f;
+	CM_Ankle.EarlyStanceCtrl.eqPoint = -11.0f;
+	CM_Ankle.EarlyStanceCtrl.kd = 0.06f;
 	CM_Ankle.EarlyStanceCtrl.kp = 5.0f;
 
 	CM_Ankle.MidStanceCtrl.eqPoint = -10.0f;
-	CM_Ankle.MidStanceCtrl.kd = 0.04f;
+	CM_Ankle.MidStanceCtrl.kd = 0.06f;
 	CM_Ankle.MidStanceCtrl.kp = 5.0f;
 
 	CM_Ankle.LateStanceCtrl.eqPoint = -10.0f;
-	CM_Ankle.LateStanceCtrl.kd = 0.04f;
+	CM_Ankle.LateStanceCtrl.kd = 0.06f;
 
-	CM_Ankle.SwingFlexCtrl.eqPoint = -12.0f;
+	CM_Ankle.SwingFlexCtrl.eqPoint = -14.0f;
 	CM_Ankle.SwingFlexCtrl.kd = 0.04f;
 	CM_Ankle.SwingFlexCtrl.kp = 5.0f;
 
 	CM_Ankle.SwingExtCtrl.eqPoint = -10.0f;
-	CM_Ankle.SwingExtCtrl.kd = 0.04f;
+	CM_Ankle.SwingExtCtrl.kd = 0.06f;
 	CM_Ankle.SwingExtCtrl.kp = 5.0f;
 
 	CM_LoadCell.intoStanceThreshold = 1300;
@@ -416,11 +416,13 @@ static void RunImpedanceControl(void)
 	{
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 
-		CM_Ankle.jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
-		if(CM_Ankle.jointTorque > MAX_JOINT_TORQUE)
+		float jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
+		if(jointTorque > MAX_JOINT_TORQUE)
 			CM_Ankle.jointTorque = MAX_JOINT_TORQUE;
-		if(CM_Ankle.jointTorque < -MAX_JOINT_TORQUE)
+		else if(jointTorque < -MAX_JOINT_TORQUE)
 			CM_Ankle.jointTorque = -MAX_JOINT_TORQUE;
+		else
+			CM_Ankle.jointTorque = jointTorque;
 
 		int16_t motorTorque = CM_Ankle.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
@@ -435,11 +437,13 @@ static void RunImpedanceControl(void)
 	{
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 
-		CM_Knee.jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
-		if(CM_Knee.jointTorque > MAX_JOINT_TORQUE)
+		float jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
+		if(jointTorque > MAX_JOINT_TORQUE)
 			CM_Knee.jointTorque = MAX_JOINT_TORQUE;
-		if(CM_Knee.jointTorque < -MAX_JOINT_TORQUE)
+		else if(jointTorque < -MAX_JOINT_TORQUE)
 			CM_Knee.jointTorque = -MAX_JOINT_TORQUE;
+		else
+			CM_Knee.jointTorque = jointTorque;
 
 		int16_t motorTorque = CM_Knee.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
