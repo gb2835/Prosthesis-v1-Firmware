@@ -135,19 +135,26 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	memcpy(&Device, Device_Init, sizeof(&Device_Init));
 
 	CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
-
-	CM_Ankle.EarlyStanceCtrl.eqPoint = -7.0f;
-	CM_Ankle.EarlyStanceCtrl.kp = 5;
-	CM_Ankle.MidStanceCtrl.eqPoint = -7.0f;
-	CM_Ankle.MidStanceCtrl.kp = 5;
-	CM_Ankle.LateStanceCtrl.eqPoint = -7.0f;
-	CM_Ankle.LateStanceCtrl.kp = 5;
-	CM_Ankle.SwingFlexCtrl.eqPoint = -7.0f;
-	CM_Ankle.SwingFlexCtrl.kp = 5;
-	CM_Ankle.SwingExtCtrl.eqPoint = -7.0f;
-	CM_Ankle.SwingExtCtrl.kp = 5;
-
 	CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
+
+	CM_Ankle.EarlyStanceCtrl.eqPoint = -10.0f;
+	CM_Ankle.EarlyStanceCtrl.kd = 0.04f;
+	CM_Ankle.EarlyStanceCtrl.kp = 5.0f;
+
+	CM_Ankle.MidStanceCtrl.eqPoint = -10.0f;
+	CM_Ankle.MidStanceCtrl.kd = 0.04f;
+	CM_Ankle.MidStanceCtrl.kp = 5.0f;
+
+	CM_Ankle.LateStanceCtrl.eqPoint = -10.0f;
+	CM_Ankle.LateStanceCtrl.kd = 0.04f;
+
+	CM_Ankle.SwingFlexCtrl.eqPoint = -12.0f;
+	CM_Ankle.SwingFlexCtrl.kd = 0.04f;
+	CM_Ankle.SwingFlexCtrl.kp = 5.0f;
+
+	CM_Ankle.SwingExtCtrl.eqPoint = -10.0f;
+	CM_Ankle.SwingExtCtrl.kd = 0.04f;
+	CM_Ankle.SwingExtCtrl.kp = 5.0f;
 
 	CM_LoadCell.intoStanceThreshold = 1300;
 	CM_LoadCell.outOfStanceThreshold = 1300 + 50;
