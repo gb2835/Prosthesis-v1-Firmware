@@ -60,6 +60,7 @@
 #define STATUSWORD_INDEX						0x6041
 #define MODES_OF_OPERATION_INDEX				0x6060
 #define TARGET_TORQUE_INDEX						0x6071
+#define TORQUE_ACTUAL_VALUE_INDEX				0x6077
 #define MAX_MOTOR_SPEED_INDEX					0x6080
 #define TORQUE_OFFSET_INDEX						0x60B2
 #define MOTOR_TYPE_INDEX						0x6402
@@ -180,6 +181,22 @@ EPOS4_Error_e EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque)
 
 	return EPOS4_NoError;
 }
+
+EPOS4_Error_e EPOS4_ReadTorqueActualValue(uint8_t deviceIndex, int16_t *torque)
+{
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
+	uint32_t value;
+	EPOS4_Error_e error = ReadObjectValue(deviceIndex, TORQUE_ACTUAL_VALUE_INDEX, 0, &value);
+	if(error)
+		return error;
+
+	torque[0] = (int16_t) value;
+
+	return EPOS4_NoError;
+}
+
 
 EPOS4_Error_e EPOS4_DisableVoltage(uint8_t deviceIndex)
 {

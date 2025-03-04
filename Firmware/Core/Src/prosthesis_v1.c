@@ -48,10 +48,9 @@ uint8_t isProsthesisControlRequired = 0;
 #define DT					1 / 512.0					// Sample time
 #define GEAR_RATIO			40.0f
 #define MAX_JOINT_TORQUE	70.0f
-#define NOMINAL_CURRENT		8.0f
+#define NOMINAL_CURRENT		CURRENT_LIMIT / 2
 #define TAU					1.0 / (2 * 3.1416 * 10)		// Time constant for practical differentiator (fc = 10 Hz)
 #define TORQUE_CONSTANT		60.0f / (2 * 3.1416f * 100)	// For Kv = 100 rpm/V
-
 
 typedef enum
 {
@@ -59,7 +58,8 @@ typedef enum
 	MidStance,
 	LateStance,
 	SwingFlexion,
-	SwingExtension
+	SwingExtension,
+	SwingDescension
 } StateMachine_e;
 
 typedef struct
@@ -75,7 +75,8 @@ typedef struct
 	double jointSpeed;
 	double limbSpeed;
 	float encoderBias;
-	float jointTorque;
+	float jointTargetTorque;
+	float jointTorqueActual;
 	float jointSpeedThreshold;
 	float limbSpeedThreshold;
 	ControlParams_t ProsCtrl;
@@ -84,6 +85,7 @@ typedef struct
 	ControlParams_t LateStanceCtrl;
 	ControlParams_t SwingFlexCtrl;
 	ControlParams_t SwingExtCtrl;
+	ControlParams_t SwingDescCtrl;
 } Joint_t;
 
 typedef struct
@@ -134,27 +136,35 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 {
 	memcpy(&Device, Device_Init, sizeof(&Device_Init));
 
+	float startEqPoint = -11.0f;
+	float startKd = 0.06f;
+	float startKp = 5.0f;
+
 	CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
 	CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
 
-	CM_Ankle.EarlyStanceCtrl.eqPoint = -11.0f;
-	CM_Ankle.EarlyStanceCtrl.kd = 0.06f;
-	CM_Ankle.EarlyStanceCtrl.kp = 5.0f;
+	CM_Ankle.EarlyStanceCtrl.eqPoint = startEqPoint;
+	CM_Ankle.EarlyStanceCtrl.kd = startKd;
+	CM_Ankle.EarlyStanceCtrl.kp = startKp;
 
-	CM_Ankle.MidStanceCtrl.eqPoint = -10.0f;
-	CM_Ankle.MidStanceCtrl.kd = 0.06f;
-	CM_Ankle.MidStanceCtrl.kp = 5.0f;
+	CM_Ankle.MidStanceCtrl.eqPoint = startEqPoint;
+	CM_Ankle.MidStanceCtrl.kd = startKd;
+	CM_Ankle.MidStanceCtrl.kp = startKp;
 
-	CM_Ankle.LateStanceCtrl.eqPoint = -10.0f;
-	CM_Ankle.LateStanceCtrl.kd = 0.06f;
+	CM_Ankle.LateStanceCtrl.eqPoint = startEqPoint;
+	CM_Ankle.LateStanceCtrl.kd = startKd;
 
-	CM_Ankle.SwingFlexCtrl.eqPoint = -14.0f;
-	CM_Ankle.SwingFlexCtrl.kd = 0.04f;
-	CM_Ankle.SwingFlexCtrl.kp = 5.0f;
+	CM_Ankle.SwingFlexCtrl.eqPoint = startEqPoint;
+	CM_Ankle.SwingFlexCtrl.kd = startKd;
+	CM_Ankle.SwingFlexCtrl.kp = startKp;
 
-	CM_Ankle.SwingExtCtrl.eqPoint = -10.0f;
-	CM_Ankle.SwingExtCtrl.kd = 0.06f;
-	CM_Ankle.SwingExtCtrl.kp = 5.0f;
+	CM_Ankle.SwingExtCtrl.eqPoint = startEqPoint;
+	CM_Ankle.SwingExtCtrl.kd = startKd;
+	CM_Ankle.SwingExtCtrl.kp = startKp;
+
+	CM_Ankle.SwingDescCtrl.eqPoint = startEqPoint;
+	CM_Ankle.SwingDescCtrl.kd = startKd;
+	CM_Ankle.SwingDescCtrl.kp = startKp;
 
 	CM_LoadCell.intoStanceThreshold = 1300;
 	CM_LoadCell.outOfStanceThreshold = 1300 + 50;
@@ -199,7 +209,7 @@ static void GetInputs(void)
 		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition(AnkleEncoderIndex) - CM_Ankle.encoderBias;
 
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
-		CM_Knee.jointAngle[0] = AS5145B_ReadPosition(KneeEncoderIndex) - CM_Knee.encoderBias;
+		CM_Knee.jointAngle[0] = - (AS5145B_ReadPosition(KneeEncoderIndex) - CM_Knee.encoderBias);
 
 	CM_LoadCell.Raw.bot[0] = ReadLoadCell(ADC1);
 	CM_LoadCell.Raw.top[0] = ReadLoadCell(ADC2);
@@ -292,7 +302,7 @@ static void RunStateMachine(void)
 	switch(state)
 	{
 	case EarlyStance:
-		CM_stateLc = 1150;
+		CM_stateLc = 1100;
 		CM_stateSpeed = -200;
 		isFirstCallForLateStance = 1;
 
@@ -313,8 +323,8 @@ static void RunStateMachine(void)
 		break;
 
 	case MidStance:
-		CM_stateLc = 1250;
-		CM_stateSpeed = -100;
+		CM_stateLc = 1200;
+		CM_stateSpeed = -120;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -334,13 +344,13 @@ static void RunStateMachine(void)
 		break;
 
 	case LateStance:
-		CM_stateLc = 1350;
-		CM_stateSpeed = 0;
+		CM_stateLc = 1300;
+		CM_stateSpeed = -40;
 
 		// Compute kp to start with previous torque when first called
 		if(isFirstCallForLateStance)
 		{
-			CM_Ankle.LateStanceCtrl.kp = (CM_Ankle.jointTorque + CM_Ankle.jointSpeed*CM_Ankle.LateStanceCtrl.kd) / (CM_Ankle.LateStanceCtrl.eqPoint - *CM_Ankle.jointAngle);
+			CM_Ankle.LateStanceCtrl.kp = (CM_Ankle.jointTargetTorque + CM_Ankle.jointSpeed*CM_Ankle.LateStanceCtrl.kd) / (CM_Ankle.LateStanceCtrl.eqPoint - CM_Ankle.jointAngle[0]);
 			if(CM_Ankle.LateStanceCtrl.kp < 0)
 			{
 				state = MidStance;
@@ -367,8 +377,8 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingFlexion:
-		CM_stateLc = 1450;
-		CM_stateSpeed = 100;
+		CM_stateLc = 1400;
+		CM_stateSpeed = 40;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -382,14 +392,14 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
 		}
 
-		if(CM_Knee.jointSpeed > CM_Knee.jointSpeedThreshold)
+		if(CM_Knee.jointSpeed > 0)
 			state = SwingExtension;
 
 		break;
 
 	case SwingExtension:
-		CM_stateLc = 1550;
-		CM_stateSpeed = 200;
+		CM_stateLc = 1500;
+		CM_stateSpeed = 120;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -401,6 +411,31 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingExtCtrl.eqPoint;
 			CM_Knee.ProsCtrl.kd = CM_Knee.SwingExtCtrl.kd;
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingExtCtrl.kp;
+		}
+
+		if(CM_Ankle.limbSpeed < 0)
+			state = SwingDescension;
+
+		break;
+
+	case SwingDescension:
+		CM_stateLc = 1600;
+		CM_stateSpeed = 200;
+		isFirstCallForLateStance = 1;
+
+		if(testProgram != ImpedanceControl)
+		{
+			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.SwingDescCtrl.eqPoint;
+			CM_Ankle.ProsCtrl.kd = CM_Ankle.SwingDescCtrl.kd;
+			CM_Ankle.ProsCtrl.kp = CM_Ankle.SwingDescCtrl.kp;
+
+			CM_Knee.SwingDescCtrl.eqPoint = CM_Knee.SwingExtCtrl.eqPoint;
+			CM_Knee.SwingDescCtrl.kd = CM_Knee.SwingExtCtrl.kd;
+			CM_Knee.SwingDescCtrl.kp = CM_Knee.SwingExtCtrl.kp;
+
+			CM_Knee.ProsCtrl.eqPoint = CM_Knee.SwingDescCtrl.eqPoint;
+			CM_Knee.ProsCtrl.kd = CM_Knee.SwingDescCtrl.kd;
+			CM_Knee.ProsCtrl.kp = CM_Knee.SwingDescCtrl.kp;
 		}
 
 		if(CM_LoadCell.Filtered.bot[0] < CM_LoadCell.intoStanceThreshold)
@@ -416,20 +451,27 @@ static void RunImpedanceControl(void)
 	{
 		float errorPos = CM_Ankle.ProsCtrl.eqPoint - CM_Ankle.jointAngle[0];
 
-		float jointTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
-		if(jointTorque > MAX_JOINT_TORQUE)
-			CM_Ankle.jointTorque = MAX_JOINT_TORQUE;
-		else if(jointTorque < -MAX_JOINT_TORQUE)
-			CM_Ankle.jointTorque = -MAX_JOINT_TORQUE;
+		float jointTargetTorque = (CM_Ankle.ProsCtrl.kp*errorPos - CM_Ankle.ProsCtrl.kd*CM_Ankle.jointSpeed);
+		if(jointTargetTorque > MAX_JOINT_TORQUE)
+			CM_Ankle.jointTargetTorque = MAX_JOINT_TORQUE;
+		else if(jointTargetTorque < -MAX_JOINT_TORQUE)
+			CM_Ankle.jointTargetTorque = -MAX_JOINT_TORQUE;
 		else
-			CM_Ankle.jointTorque = jointTorque;
+			CM_Ankle.jointTargetTorque = jointTargetTorque;
 
-		int16_t motorTorque = CM_Ankle.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
 		{
-			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, motorTorque);
+			int16_t targetTorque = CM_Ankle.jointTargetTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
+			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(AnkleMotorControllerIndex, targetTorque);
 			if(error)
 				ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
+
+			int16_t torqueActual;
+			error = EPOS4_ReadTorqueActualValue(AnkleMotorControllerIndex, &torqueActual);
+			if(error)
+				ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
+
+			CM_Ankle.jointTorqueActual = (float) torqueActual * (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) / 1000;
 		}
 	}
 
@@ -437,20 +479,27 @@ static void RunImpedanceControl(void)
 	{
 		float errorPos = CM_Knee.ProsCtrl.eqPoint - CM_Knee.jointAngle[0];
 
-		float jointTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
-		if(jointTorque > MAX_JOINT_TORQUE)
-			CM_Knee.jointTorque = MAX_JOINT_TORQUE;
-		else if(jointTorque < -MAX_JOINT_TORQUE)
-			CM_Knee.jointTorque = -MAX_JOINT_TORQUE;
+		float jointTargetTorque = (CM_Knee.ProsCtrl.kp*errorPos - CM_Knee.ProsCtrl.kd*CM_Knee.jointSpeed);
+		if(jointTargetTorque > MAX_JOINT_TORQUE)
+			CM_Knee.jointTargetTorque = MAX_JOINT_TORQUE;
+		else if(jointTargetTorque < -MAX_JOINT_TORQUE)
+			CM_Knee.jointTargetTorque = -MAX_JOINT_TORQUE;
 		else
-			CM_Knee.jointTorque = jointTorque;
+			CM_Knee.jointTargetTorque = jointTargetTorque;
 
-		int16_t motorTorque = CM_Knee.jointTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
 		if((testProgram == None) || (testProgram == ImpedanceControl))
 		{
-			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, -motorTorque);		// Knee joint rotates opposite of coordinate system
+			int16_t targetTorque = CM_Knee.jointTargetTorque / (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) * 1000;
+			EPOS4_Error_e error = EPOS4_WriteTargetTorqueValue(KneeMotorControllerIndex, targetTorque);
 			if(error)
-				ErrorHandler_EPOS4(AnkleMotorControllerIndex, error);
+				ErrorHandler_EPOS4(KneeMotorControllerIndex, error);
+
+			int16_t torqueActual;
+			error = EPOS4_ReadTorqueActualValue(KneeMotorControllerIndex, &torqueActual);
+			if(error)
+				ErrorHandler_EPOS4(KneeMotorControllerIndex, error);
+
+			CM_Knee.jointTorqueActual = (float) torqueActual * (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) / 1000;
 		}
 	}
 }

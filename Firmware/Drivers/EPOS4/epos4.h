@@ -91,6 +91,7 @@ typedef struct
 
 EPOS4_Error_e EPOS4_Init(uint8_t deviceIndex, EPOS4_Init_t *Device_Init);
 EPOS4_Error_e EPOS4_WriteTargetTorqueValue(uint8_t deviceIndex, int16_t torque);
+EPOS4_Error_e EPOS4_ReadTorqueActualValue(uint8_t deviceIndex, int16_t *torque);
 EPOS4_Error_e EPOS4_DisableVoltage(uint8_t deviceIndex);
 EPOS4_Error_e EPOS4_ReadObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t *value);
 EPOS4_Error_e EPOS4_WriteObjectValue(uint8_t deviceIndex, uint16_t objectIndex, uint8_t objectSubindex, uint32_t value);
