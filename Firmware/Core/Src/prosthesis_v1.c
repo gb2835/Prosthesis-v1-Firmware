@@ -50,7 +50,7 @@ uint8_t isProsthesisControlRequired = 0;
 #define NOMINAL_CURRENT		CURRENT_LIMIT / 2
 #define TAU					1.0 / (2 * 3.1416 * 10)							// Time constant for practical differentiator (fc = 10 Hz)
 #define TORQUE_CONSTANT		60.0f / (2 * 3.1416f * 100)						// For Kv = 100 rpm/V
-#define MAX_JOINT_TORQUE	CURRENT_LIMIT * TORQUE_CONSTANT * GEAR RATIO
+#define MAX_JOINT_TORQUE	CURRENT_LIMIT * TORQUE_CONSTANT * GEAR_RATIO
 
 typedef enum
 {
@@ -104,19 +104,18 @@ typedef struct
 	float intoStanceThreshold;
 } LoadCell_t;
 
+static MPU925x_IMU_Data_t IMU_Data;
 static Prosthesis_Init_t Device;
 static TestProgram_e testProgram;
 
-static MPU925x_IMU_Data_t IMU_Data;
 static uint8_t isFirst = 1;
 static uint8_t isSecond = 0;
 static uint8_t isTestProgramRequired = 0;
 
-static float CM_IMU_GyroZ;
-static float CM_IMU_AccY;
 static int16_t CM_stateSpeed;
 static Joint_t CM_Ankle, CM_Knee;
 static LoadCell_t CM_LoadCell;
+static MPU925x_IMU_Data_t CM_IMU_Data;
 static uint16_t CM_ankleRawEncoderBias, CM_kneeRawEncoderBias;
 static uint16_t CM_stateLc;
 
@@ -286,13 +285,19 @@ static void ProcessInputs(void)
 		CM_LoadCell.Filtered.top[1] = CM_LoadCell.Filtered.top[0];
 	}
 
-	CM_IMU_AccY = IMU_Data.Struct.ay;
 	if(Device.Side == Left)
-		CM_IMU_GyroZ = -IMU_Data.Struct.gz;
+	{
+		CM_IMU_Data.Struct.ax = -IMU_Data.Struct.ax;
+		CM_IMU_Data.Struct.ay = IMU_Data.Struct.ay;
+		CM_IMU_Data.Struct.az = -IMU_Data.Struct.az;
+		CM_IMU_Data.Struct.gx = -IMU_Data.Struct.gx;
+		CM_IMU_Data.Struct.gy = IMU_Data.Struct.gy;
+		CM_IMU_Data.Struct.gz = -IMU_Data.Struct.gz;
+	}
 	else
-		CM_IMU_GyroZ = IMU_Data.Struct.gz;
+		memcpy(&CM_IMU_Data, &IMU_Data, sizeof(IMU_Data));
 
-	CM_Ankle.limbSpeed = CM_IMU_GyroZ + CM_Ankle.jointSpeed;
+	CM_Ankle.limbSpeed = CM_IMU_Data.Struct.gz + CM_Ankle.jointSpeed;
 }
 
 static void RunStateMachine(void)
