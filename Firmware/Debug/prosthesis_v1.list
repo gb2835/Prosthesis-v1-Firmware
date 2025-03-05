@@ -3823,8 +3823,8 @@ int main(void)
 * USER ADDED TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(ImpedanceControl);
- 8001d66:	2002      	movs	r0, #2
+	RequireTestProgram(None);
+ 8001d66:	2000      	movs	r0, #0
  8001d68:	f000 f91c 	bl	8001fa4 <RequireTestProgram>
 * USER ADDED MAIN LOOP
 *******************************************************************************/

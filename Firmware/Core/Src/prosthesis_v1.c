@@ -14,8 +14,6 @@
 * 		- Load Cell		= ADC
 * 		- Torque		= N*m
 * 		- Speed			= degrees/second
-* 3. MAX_JOINT_TORQUE is set to 70 N*m.
-*    The actual max torque is higher, but the power supply appears to trip.
 *
 *******************************************************************************/
 
