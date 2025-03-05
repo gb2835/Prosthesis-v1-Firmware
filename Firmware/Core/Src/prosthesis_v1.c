@@ -139,31 +139,35 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	float startKd = 0.06f;
 	float startKp = 5.0f;
 
-	CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
-	CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
+	if((Device.Joint == Ankle) || (Device.Joint == Combined))
+	{
+		CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
 
-	CM_Ankle.EarlyStanceCtrl.eqPoint = startEqPoint;
-	CM_Ankle.EarlyStanceCtrl.kd = startKd;
-	CM_Ankle.EarlyStanceCtrl.kp = startKp;
+		CM_Ankle.EarlyStanceCtrl.eqPoint = startEqPoint;
+		CM_Ankle.EarlyStanceCtrl.kd = startKd;
+		CM_Ankle.EarlyStanceCtrl.kp = startKp;
 
-	CM_Ankle.MidStanceCtrl.eqPoint = startEqPoint;
-	CM_Ankle.MidStanceCtrl.kd = startKd;
-	CM_Ankle.MidStanceCtrl.kp = startKp;
+		CM_Ankle.MidStanceCtrl.eqPoint = startEqPoint;
+		CM_Ankle.MidStanceCtrl.kd = startKd;
+		CM_Ankle.MidStanceCtrl.kp = startKp;
 
-	CM_Ankle.LateStanceCtrl.eqPoint = startEqPoint;
-	CM_Ankle.LateStanceCtrl.kd = startKd;
+		CM_Ankle.LateStanceCtrl.eqPoint = startEqPoint;
+		CM_Ankle.LateStanceCtrl.kd = startKd;
 
-	CM_Ankle.SwingFlexCtrl.eqPoint = startEqPoint;
-	CM_Ankle.SwingFlexCtrl.kd = startKd;
-	CM_Ankle.SwingFlexCtrl.kp = startKp;
+		CM_Ankle.SwingFlexCtrl.eqPoint = startEqPoint;
+		CM_Ankle.SwingFlexCtrl.kd = startKd;
+		CM_Ankle.SwingFlexCtrl.kp = startKp;
 
-	CM_Ankle.SwingExtCtrl.eqPoint = startEqPoint;
-	CM_Ankle.SwingExtCtrl.kd = startKd;
-	CM_Ankle.SwingExtCtrl.kp = startKp;
+		CM_Ankle.SwingExtCtrl.eqPoint = startEqPoint;
+		CM_Ankle.SwingExtCtrl.kd = startKd;
+		CM_Ankle.SwingExtCtrl.kp = startKp;
 
-	CM_Ankle.SwingDescCtrl.eqPoint = startEqPoint;
-	CM_Ankle.SwingDescCtrl.kd = startKd;
-	CM_Ankle.SwingDescCtrl.kp = startKp;
+		CM_Ankle.SwingDescCtrl.eqPoint = startEqPoint;
+		CM_Ankle.SwingDescCtrl.kd = startKd;
+		CM_Ankle.SwingDescCtrl.kp = startKp;
+	}
+	if((Device.Joint == Knee) || (Device.Joint == Combined))
+		CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
 
 	CM_LoadCell.intoStanceThreshold = 1300;
 	CM_LoadCell.outOfStanceThreshold = 1300 + 50;
