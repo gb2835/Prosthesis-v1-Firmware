@@ -520,9 +520,6 @@ static void RunTestProgram(void)
 	case None:
 		break;
 
-	case ReadOnly:
-		break;
-
 	case EncoderBias:
 		if((Device.Joint == Ankle) || (Device.Joint == Combined))
 		{
