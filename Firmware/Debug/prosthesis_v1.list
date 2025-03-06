@@ -3823,8 +3823,8 @@ int main(void)
 * USER ADDED TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(None);
- 8001d66:	2000      	movs	r0, #0
+	RequireTestProgram(EncoderBias);
+ 8001d66:	2001      	movs	r0, #1
  8001d68:	f000 f91c 	bl	8001fa4 <RequireTestProgram>
 * USER ADDED MAIN LOOP
 *******************************************************************************/
@@ -6030,8 +6030,8 @@ static void RunTestProgram(void)
  8002dd4:	785b      	ldrb	r3, [r3, #1]
  8002dd6:	2b01      	cmp	r3, #1
  8002dd8:	f040 8091 	bne.w	8002efe <RunTestProgram+0x1aa>
-			sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
- 8002ddc:	2000      	movs	r0, #0
+			sum += AS5145B_ReadPosition_Raw(KneeEncoderIndex);
+ 8002ddc:	2001      	movs	r0, #1
  8002dde:	f000 fca5 	bl	800372c <AS5145B_ReadPosition_Raw>
  8002de2:	4603      	mov	r3, r0
  8002de4:	461a      	mov	r2, r3

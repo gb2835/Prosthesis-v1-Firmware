@@ -139,7 +139,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
 	{
-		CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
+		CM_Ankle.encoderBias = 1357 * AS5145B_RAW2DEG;
 
 		CM_Ankle.EarlyStanceCtrl.eqPoint = startEqPoint;
 		CM_Ankle.EarlyStanceCtrl.kd = startKd;
@@ -537,7 +537,7 @@ static void RunTestProgram(void)
 		{
 			static uint32_t sum = 0;
 			static uint16_t count = 0;
-			sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
+			sum += AS5145B_ReadPosition_Raw(KneeEncoderIndex);
 			count++;
 			if(count == 10)
 			{
