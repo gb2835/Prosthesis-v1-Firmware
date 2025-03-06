@@ -59048,7 +59048,7 @@
         "configLastUpdate": 1741212165889
     },
     {
-        "id": "46d59870788985ab",
+        "id": "688989e9696cecb7",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59058,7 +59058,7 @@
         "height": 1
     },
     {
-        "id": "2188c845390f5245",
+        "id": "70f82acc4a5e3322",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59068,7 +59068,7 @@
         "height": 1
     },
     {
-        "id": "978aa80e9a24d32f",
+        "id": "c60b3d7344b89471",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59078,7 +59078,7 @@
         "height": 1
     },
     {
-        "id": "16a103a5bdae1916",
+        "id": "e8885494ef497f81",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59088,7 +59088,7 @@
         "height": 1
     },
     {
-        "id": "bff7d4947b4d373d",
+        "id": "9d110e6293f4ccc3",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59098,7 +59098,7 @@
         "height": 1
     },
     {
-        "id": "ea8c31f6ada42420",
+        "id": "aae032f82c439f96",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59108,7 +59108,7 @@
         "height": 1
     },
     {
-        "id": "4e1f752b68f74d66",
+        "id": "dc6992e7ac70ed2a",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59118,7 +59118,7 @@
         "height": 1
     },
     {
-        "id": "d106a3162499e06f",
+        "id": "be406f8fe3ee9f60",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59128,7 +59128,7 @@
         "height": 1
     },
     {
-        "id": "7e8d4ff5ff5256ef",
+        "id": "6806217a8bf22eed",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59138,7 +59138,7 @@
         "height": 1
     },
     {
-        "id": "3e38c00b522d8fb9",
+        "id": "2dcfd0bcfb52b9cf",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59148,7 +59148,7 @@
         "height": 1
     },
     {
-        "id": "8db3b0454081a567",
+        "id": "b3d2c39d88494879",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59158,7 +59158,7 @@
         "height": 1
     },
     {
-        "id": "1afd1939732e5e0c",
+        "id": "5f27f0fc727b3550",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59168,7 +59168,7 @@
         "height": 1
     },
     {
-        "id": "f07f08c12a38ac73",
+        "id": "f36399de5c5fda3f",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59178,7 +59178,7 @@
         "height": 1
     },
     {
-        "id": "bacd827ed8586ac4",
+        "id": "13aa74829ee59c3c",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59188,17 +59188,17 @@
         "height": 1
     },
     {
-        "id": "07e9762aa30de5dc",
+        "id": "d5558edb3f672d55",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
         "group": "99c34b3772629183",
         "order": 33,
-        "width": 1,
+        "width": 9,
         "height": 1
     },
     {
-        "id": "b6b182699762e986",
+        "id": "4263b3f45bc29b94",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59208,7 +59208,7 @@
         "height": 1
     },
     {
-        "id": "c20a40b2b3c25b72",
+        "id": "d815e01c83164f07",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59218,17 +59218,17 @@
         "height": 1
     },
     {
-        "id": "e0c4189dbc6f14e5",
+        "id": "c9a17605be30fd45",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
         "group": "99c34b3772629183",
         "order": 38,
-        "width": 1,
+        "width": 9,
         "height": 1
     },
     {
-        "id": "b41814e41023afe0",
+        "id": "c8632e942a0e9d87",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59238,7 +59238,7 @@
         "height": 1
     },
     {
-        "id": "73ef31f17dde9af5",
+        "id": "c0703f372f77da73",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59248,7 +59248,7 @@
         "height": 1
     },
     {
-        "id": "c58f17d4319f62c7",
+        "id": "1beae2448a88cdcd",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59258,7 +59258,7 @@
         "height": 1
     },
     {
-        "id": "7199240d239425cb",
+        "id": "28bc987935ecb612",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59268,7 +59268,7 @@
         "height": 1
     },
     {
-        "id": "34c26b90545f3e26",
+        "id": "74b3e6cfc990fd7f",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59278,7 +59278,7 @@
         "height": 1
     },
     {
-        "id": "01a569db8140e6ad",
+        "id": "136e0e045719248a",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59288,7 +59288,7 @@
         "height": 1
     },
     {
-        "id": "e11aa92456aa41ea",
+        "id": "f7c20e0bf52c6cd4",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59298,7 +59298,7 @@
         "height": 1
     },
     {
-        "id": "a94390860bf87989",
+        "id": "710717ce106f083e",
         "type": "ui_spacer",
         "z": "226010e3f1809662",
         "name": "spacer",
@@ -59832,7 +59832,7 @@
         "type": "processing",
         "z": "226010e3f1809662",
         "groupname": "Combined All Variables",
-        "groupid": "95d54159dce1a8c0",
+        "groupid": "dbf9a4e7f58e4afe",
         "expressions": [],
         "statistics": [],
         "logmode": "full",
@@ -59970,7 +59970,7 @@
         "name": "Combined State Machine Control",
         "order": 7,
         "width": 8,
-        "height": 16,
+        "height": 14,
         "x": 720,
         "y": 380,
         "wires": [
