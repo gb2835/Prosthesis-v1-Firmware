@@ -232,7 +232,7 @@ int main(void)
 	LL_ADC_Enable(ADC1);
 	LL_ADC_Enable(ADC2);
 
-	LL_mDelay(10);	// Allow startup delays for devices
+	LL_mDelay(4000);	// Significant delay when powering on EPOS4
 
 	MPU925x_Error_e imuError = MPU925x_Init(0, &IMU_Init);
 	if(imuError)
@@ -277,7 +277,7 @@ int main(void)
 * USER ADDED TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(EncoderBias);
+	RequireTestProgram(ImpedanceControl);
 
 
 /*******************************************************************************

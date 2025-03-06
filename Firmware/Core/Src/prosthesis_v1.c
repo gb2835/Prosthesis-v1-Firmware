@@ -134,7 +134,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	memcpy(&Device, Device_Init, sizeof(&Device_Init));
 
 	float startEqPoint = -11.0f;
-	float startKd = 0.06f;
+	float startKd = 0.00f;
 	float startKp = 5.0f;
 
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))

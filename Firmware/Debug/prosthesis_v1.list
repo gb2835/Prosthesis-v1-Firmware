@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0002558b  00000000  00000000  00033a80  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000dd47  00000000  00000000  0005900b  2**0
+ 17 .debug_line   0000dd46  00000000  00000000  0005900b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c9841  00000000  00000000  00066d52  2**0
+ 18 .debug_str    000c9841  00000000  00000000  00066d51  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  00130593  2**0
+ 19 .comment      00000050  00000000  00000000  00130592  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00003e1c  00000000  00000000  001305e4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -3643,107 +3643,106 @@ int main(void)
  8001bd8:	4842      	ldr	r0, [pc, #264]	; (8001ce4 <main+0x34c>)
  8001bda:	f7ff fc83 	bl	80014e4 <LL_ADC_Enable>
 
-	LL_mDelay(10);	// Allow startup delays for devices
- 8001bde:	200a      	movs	r0, #10
- 8001be0:	f004 fece 	bl	8006980 <LL_mDelay>
+	LL_mDelay(4000);	// Significant delay when powering on EPOS4
+ 8001bde:	f44f 607a 	mov.w	r0, #4000	; 0xfa0
+ 8001be2:	f004 fecd 	bl	8006980 <LL_mDelay>
 
 	MPU925x_Error_e imuError = MPU925x_Init(0, &IMU_Init);
- 8001be4:	1d3b      	adds	r3, r7, #4
- 8001be6:	4619      	mov	r1, r3
- 8001be8:	2000      	movs	r0, #0
- 8001bea:	f003 faa7 	bl	800513c <MPU925x_Init>
- 8001bee:	4603      	mov	r3, r0
- 8001bf0:	f887 30e7 	strb.w	r3, [r7, #231]	; 0xe7
+ 8001be6:	1d3b      	adds	r3, r7, #4
+ 8001be8:	4619      	mov	r1, r3
+ 8001bea:	2000      	movs	r0, #0
+ 8001bec:	f003 faa6 	bl	800513c <MPU925x_Init>
+ 8001bf0:	4603      	mov	r3, r0
+ 8001bf2:	f887 30e7 	strb.w	r3, [r7, #231]	; 0xe7
 	if(imuError)
- 8001bf4:	f897 30e7 	ldrb.w	r3, [r7, #231]	; 0xe7
- 8001bf8:	2b00      	cmp	r3, #0
- 8001bfa:	d004      	beq.n	8001c06 <main+0x26e>
+ 8001bf6:	f897 30e7 	ldrb.w	r3, [r7, #231]	; 0xe7
+ 8001bfa:	2b00      	cmp	r3, #0
+ 8001bfc:	d004      	beq.n	8001c08 <main+0x270>
 		ErrorHandler_MPU925x(imuError);
- 8001bfc:	f897 30e7 	ldrb.w	r3, [r7, #231]	; 0xe7
- 8001c00:	4618      	mov	r0, r3
- 8001c02:	f7ff fa3b 	bl	800107c <ErrorHandler_MPU925x>
+ 8001bfe:	f897 30e7 	ldrb.w	r3, [r7, #231]	; 0xe7
+ 8001c02:	4618      	mov	r0, r3
+ 8001c04:	f7ff fa3a 	bl	800107c <ErrorHandler_MPU925x>
 	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
- 8001c06:	2102      	movs	r1, #2
- 8001c08:	2000      	movs	r0, #0
- 8001c0a:	f003 facb 	bl	80051a4 <MPU925x_SetAccelSensitivity>
+ 8001c08:	2102      	movs	r1, #2
+ 8001c0a:	2000      	movs	r0, #0
+ 8001c0c:	f003 faca 	bl	80051a4 <MPU925x_SetAccelSensitivity>
 	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
- 8001c0e:	2102      	movs	r1, #2
- 8001c10:	2000      	movs	r0, #0
- 8001c12:	f003 fb59 	bl	80052c8 <MPU925x_SetGyroSensitivity>
+ 8001c10:	2102      	movs	r1, #2
+ 8001c12:	2000      	movs	r0, #0
+ 8001c14:	f003 fb58 	bl	80052c8 <MPU925x_SetGyroSensitivity>
 
 	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
- 8001c16:	4b30      	ldr	r3, [pc, #192]	; (8001cd8 <main+0x340>)
- 8001c18:	785b      	ldrb	r3, [r3, #1]
- 8001c1a:	2b00      	cmp	r3, #0
- 8001c1c:	d003      	beq.n	8001c26 <main+0x28e>
- 8001c1e:	4b2e      	ldr	r3, [pc, #184]	; (8001cd8 <main+0x340>)
- 8001c20:	785b      	ldrb	r3, [r3, #1]
- 8001c22:	2b01      	cmp	r3, #1
- 8001c24:	d138      	bne.n	8001c98 <main+0x300>
+ 8001c18:	4b2f      	ldr	r3, [pc, #188]	; (8001cd8 <main+0x340>)
+ 8001c1a:	785b      	ldrb	r3, [r3, #1]
+ 8001c1c:	2b00      	cmp	r3, #0
+ 8001c1e:	d003      	beq.n	8001c28 <main+0x290>
+ 8001c20:	4b2d      	ldr	r3, [pc, #180]	; (8001cd8 <main+0x340>)
+ 8001c22:	785b      	ldrb	r3, [r3, #1]
+ 8001c24:	2b01      	cmp	r3, #1
+ 8001c26:	d138      	bne.n	8001c9a <main+0x302>
 	{
 		AS5145B_Error_e encoderError = AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);
- 8001c26:	f107 03a8 	add.w	r3, r7, #168	; 0xa8
- 8001c2a:	4619      	mov	r1, r3
- 8001c2c:	2000      	movs	r0, #0
- 8001c2e:	f001 fd19 	bl	8003664 <AS5145B_Init>
- 8001c32:	4603      	mov	r3, r0
- 8001c34:	f887 30e6 	strb.w	r3, [r7, #230]	; 0xe6
+ 8001c28:	f107 03a8 	add.w	r3, r7, #168	; 0xa8
+ 8001c2c:	4619      	mov	r1, r3
+ 8001c2e:	2000      	movs	r0, #0
+ 8001c30:	f001 fd18 	bl	8003664 <AS5145B_Init>
+ 8001c34:	4603      	mov	r3, r0
+ 8001c36:	f887 30e6 	strb.w	r3, [r7, #230]	; 0xe6
 		if(encoderError)
- 8001c38:	f897 30e6 	ldrb.w	r3, [r7, #230]	; 0xe6
- 8001c3c:	2b00      	cmp	r3, #0
- 8001c3e:	d005      	beq.n	8001c4c <main+0x2b4>
+ 8001c3a:	f897 30e6 	ldrb.w	r3, [r7, #230]	; 0xe6
+ 8001c3e:	2b00      	cmp	r3, #0
+ 8001c40:	d005      	beq.n	8001c4e <main+0x2b6>
 			ErrorHandler_AS5145B(AnkleEncoderIndex, encoderError);
- 8001c40:	f897 30e6 	ldrb.w	r3, [r7, #230]	; 0xe6
- 8001c44:	4619      	mov	r1, r3
- 8001c46:	2000      	movs	r0, #0
- 8001c48:	f7ff f9a2 	bl	8000f90 <ErrorHandler_AS5145B>
+ 8001c42:	f897 30e6 	ldrb.w	r3, [r7, #230]	; 0xe6
+ 8001c46:	4619      	mov	r1, r3
+ 8001c48:	2000      	movs	r0, #0
+ 8001c4a:	f7ff f9a1 	bl	8000f90 <ErrorHandler_AS5145B>
 
 		MCP25625_Error_e canControllerError = MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]);
- 8001c4c:	f107 0310 	add.w	r3, r7, #16
- 8001c50:	4619      	mov	r1, r3
- 8001c52:	2000      	movs	r0, #0
- 8001c54:	f002 fcd0 	bl	80045f8 <MCP25625_Init>
- 8001c58:	4603      	mov	r3, r0
- 8001c5a:	f887 30e5 	strb.w	r3, [r7, #229]	; 0xe5
+ 8001c4e:	f107 0310 	add.w	r3, r7, #16
+ 8001c52:	4619      	mov	r1, r3
+ 8001c54:	2000      	movs	r0, #0
+ 8001c56:	f002 fccf 	bl	80045f8 <MCP25625_Init>
+ 8001c5a:	4603      	mov	r3, r0
+ 8001c5c:	f887 30e5 	strb.w	r3, [r7, #229]	; 0xe5
 		if(canControllerError)
- 8001c5e:	f897 30e5 	ldrb.w	r3, [r7, #229]	; 0xe5
- 8001c62:	2b00      	cmp	r3, #0
- 8001c64:	d005      	beq.n	8001c72 <main+0x2da>
+ 8001c60:	f897 30e5 	ldrb.w	r3, [r7, #229]	; 0xe5
+ 8001c64:	2b00      	cmp	r3, #0
+ 8001c66:	d005      	beq.n	8001c74 <main+0x2dc>
 			ErrorHandler_MCP25625(AnkleCAN_ControllerIndex, canControllerError);
- 8001c66:	f897 30e5 	ldrb.w	r3, [r7, #229]	; 0xe5
- 8001c6a:	4619      	mov	r1, r3
- 8001c6c:	2000      	movs	r0, #0
- 8001c6e:	f7ff f9ef 	bl	8001050 <ErrorHandler_MCP25625>
+ 8001c68:	f897 30e5 	ldrb.w	r3, [r7, #229]	; 0xe5
+ 8001c6c:	4619      	mov	r1, r3
+ 8001c6e:	2000      	movs	r0, #0
+ 8001c70:	f7ff f9ee 	bl	8001050 <ErrorHandler_MCP25625>
 
 		EPOS4_Error_e motorControllerError = EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
- 8001c72:	f107 0330 	add.w	r3, r7, #48	; 0x30
- 8001c76:	4619      	mov	r1, r3
- 8001c78:	2000      	movs	r0, #0
- 8001c7a:	f001 fed9 	bl	8003a30 <EPOS4_Init>
- 8001c7e:	4603      	mov	r3, r0
- 8001c80:	f887 30e4 	strb.w	r3, [r7, #228]	; 0xe4
+ 8001c74:	f107 0330 	add.w	r3, r7, #48	; 0x30
+ 8001c78:	4619      	mov	r1, r3
+ 8001c7a:	2000      	movs	r0, #0
+ 8001c7c:	f001 fed8 	bl	8003a30 <EPOS4_Init>
+ 8001c80:	4603      	mov	r3, r0
+ 8001c82:	f887 30e4 	strb.w	r3, [r7, #228]	; 0xe4
 		if(motorControllerError)
- 8001c84:	f897 30e4 	ldrb.w	r3, [r7, #228]	; 0xe4
- 8001c88:	2b00      	cmp	r3, #0
- 8001c8a:	d005      	beq.n	8001c98 <main+0x300>
+ 8001c86:	f897 30e4 	ldrb.w	r3, [r7, #228]	; 0xe4
+ 8001c8a:	2b00      	cmp	r3, #0
+ 8001c8c:	d005      	beq.n	8001c9a <main+0x302>
 			ErrorHandler_EPOS4(AnkleMotorControllerIndex, motorControllerError);
- 8001c8c:	f897 30e4 	ldrb.w	r3, [r7, #228]	; 0xe4
- 8001c90:	4619      	mov	r1, r3
- 8001c92:	2000      	movs	r0, #0
- 8001c94:	f7ff f992 	bl	8000fbc <ErrorHandler_EPOS4>
+ 8001c8e:	f897 30e4 	ldrb.w	r3, [r7, #228]	; 0xe4
+ 8001c92:	4619      	mov	r1, r3
+ 8001c94:	2000      	movs	r0, #0
+ 8001c96:	f7ff f991 	bl	8000fbc <ErrorHandler_EPOS4>
 	}
 
 	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
- 8001c98:	4b0f      	ldr	r3, [pc, #60]	; (8001cd8 <main+0x340>)
- 8001c9a:	785b      	ldrb	r3, [r3, #1]
- 8001c9c:	2b02      	cmp	r3, #2
- 8001c9e:	d023      	beq.n	8001ce8 <main+0x350>
- 8001ca0:	4b0d      	ldr	r3, [pc, #52]	; (8001cd8 <main+0x340>)
- 8001ca2:	785b      	ldrb	r3, [r3, #1]
- 8001ca4:	2b01      	cmp	r3, #1
- 8001ca6:	d15b      	bne.n	8001d60 <main+0x3c8>
- 8001ca8:	e01e      	b.n	8001ce8 <main+0x350>
- 8001caa:	bf00      	nop
+ 8001c9a:	4b0f      	ldr	r3, [pc, #60]	; (8001cd8 <main+0x340>)
+ 8001c9c:	785b      	ldrb	r3, [r3, #1]
+ 8001c9e:	2b02      	cmp	r3, #2
+ 8001ca0:	d022      	beq.n	8001ce8 <main+0x350>
+ 8001ca2:	4b0d      	ldr	r3, [pc, #52]	; (8001cd8 <main+0x340>)
+ 8001ca4:	785b      	ldrb	r3, [r3, #1]
+ 8001ca6:	2b01      	cmp	r3, #1
+ 8001ca8:	d15a      	bne.n	8001d60 <main+0x3c8>
+ 8001caa:	e01d      	b.n	8001ce8 <main+0x350>
  8001cac:	48000800 	.word	0x48000800
  8001cb0:	40001000 	.word	0x40001000
  8001cb4:	48000400 	.word	0x48000400
@@ -3823,8 +3822,8 @@ int main(void)
 * USER ADDED TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(EncoderBias);
- 8001d66:	2001      	movs	r0, #1
+	RequireTestProgram(ImpedanceControl);
+ 8001d66:	2002      	movs	r0, #2
  8001d68:	f000 f91c 	bl	8001fa4 <RequireTestProgram>
 * USER ADDED MAIN LOOP
 *******************************************************************************/
@@ -4088,7 +4087,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
  8001ed8:	2b01      	cmp	r3, #1
  8001eda:	d137      	bne.n	8001f4c <InitProsthesisControl+0xa0>
 	{
-		CM_Ankle.encoderBias = 1325 * AS5145B_RAW2DEG;
+		CM_Ankle.encoderBias = 1357 * AS5145B_RAW2DEG;
  8001edc:	4b2a      	ldr	r3, [pc, #168]	; (8001f88 <InitProsthesisControl+0xdc>)
  8001ede:	4a2b      	ldr	r2, [pc, #172]	; (8001f8c <InitProsthesisControl+0xe0>)
  8001ee0:	621a      	str	r2, [r3, #32]
@@ -4200,7 +4199,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
  8001f80:	3d75c28f 	.word	0x3d75c28f
  8001f84:	40a00000 	.word	0x40a00000
  8001f88:	20000070 	.word	0x20000070
- 8001f8c:	42e8e900 	.word	0x42e8e900
+ 8001f8c:	42ee8900 	.word	0x42ee8900
  8001f90:	200000f8 	.word	0x200000f8
  8001f94:	43453a00 	.word	0x43453a00
  8001f98:	20000180 	.word	0x20000180
