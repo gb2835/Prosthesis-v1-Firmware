@@ -165,7 +165,29 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 		CM_Ankle.SwingDescCtrl.kp = startKp;
 	}
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
+	{
 		CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
+
+		CM_Knee.EarlyStanceCtrl.eqPoint = 2.0f;
+		CM_Knee.EarlyStanceCtrl.kd = 0.00f;
+		CM_Knee.EarlyStanceCtrl.kp = 0.00f;
+
+		CM_Knee.MidStanceCtrl.eqPoint = 0.0f;
+		CM_Knee.MidStanceCtrl.kd = 0.00f;
+		CM_Knee.MidStanceCtrl.kp = 0.00f;
+
+		CM_Knee.LateStanceCtrl.eqPoint = 8.0f;
+		CM_Knee.LateStanceCtrl.kd = 0.00f;
+		CM_Knee.LateStanceCtrl.kp = 0.00f;
+
+		CM_Knee.SwingFlexCtrl.eqPoint = 65.0f;
+		CM_Knee.SwingFlexCtrl.kd = 0.00f;
+		CM_Knee.SwingFlexCtrl.kp = 0.12f;
+
+		CM_Knee.SwingExtCtrl.eqPoint = 22.0f;
+		CM_Knee.SwingExtCtrl.kd = 0.00f;
+		CM_Knee.SwingExtCtrl.kp = 0.13f;
+	}
 
 	CM_LoadCell.intoStanceThreshold = 1300;
 	CM_LoadCell.outOfStanceThreshold = 1300 + 50;
@@ -399,7 +421,7 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.kp = CM_Knee.SwingFlexCtrl.kp;
 		}
 
-		if(CM_Knee.jointSpeed > 0)
+		if(CM_Knee.jointSpeed < 0)
 			state = SwingExtension;
 
 		break;
