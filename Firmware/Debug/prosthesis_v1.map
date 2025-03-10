@@ -3617,54 +3617,53 @@ LOAD c:/st/stm32cubeide_1.10.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x000000000000cb5e      0x6f9 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
  .debug_line    0x000000000000d257      0xb2a ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
 
-.debug_str      0x0000000000000000    0xc9864
- .debug_str     0x0000000000000000    0xbaebf ./Core/Src/adc.o
-                                      0xbb0d7 (size before relaxing)
- .debug_str     0x00000000000baebf      0x9fe ./Core/Src/error_handler.o
-                                      0xbb518 (size before relaxing)
- .debug_str     0x00000000000bb8bd       0x43 ./Core/Src/gpio.o
-                                      0xbad7d (size before relaxing)
- .debug_str     0x00000000000bb900      0x675 ./Core/Src/lptim.o
-                                      0xbb3f9 (size before relaxing)
- .debug_str     0x00000000000bbf75     0x3fd4 ./Core/Src/main.o
-                                      0xbf7ad (size before relaxing)
- .debug_str     0x00000000000bff49      0xd37 ./Core/Src/prosthesis_v1.o
-                                      0xbf290 (size before relaxing)
- .debug_str     0x00000000000c0c80       0xc2 ./Core/Src/spi.o
-                                      0xbae89 (size before relaxing)
- .debug_str     0x00000000000c0d42      0x102 ./Core/Src/stm32l4xx_it.o
-                                      0xbac4c (size before relaxing)
- .debug_str     0x00000000000c0e44       0x8e ./Core/Src/system_stm32l4xx.o
-                                      0x9eb26 (size before relaxing)
- .debug_str     0x00000000000c0ed2       0xbd ./Core/Src/tim.o
-                                      0xbae0a (size before relaxing)
- .debug_str     0x00000000000c0f8f       0xe9 ./Core/Src/usart.o
-                                      0xbae88 (size before relaxing)
- .debug_str     0x00000000000c1078      0x102 ./Core/Src/utilities.o
-                                      0xa1c75 (size before relaxing)
- .debug_str     0x00000000000c117a       0x36 ./Core/Startup/startup_stm32l476rgtx.o
-                                         0x6e (size before relaxing)
- .debug_str     0x00000000000c11b0       0xd9 ./Drivers/AS5145B/as5145b.o
+.debug_str      0x0000000000000000    0xc989f
+ .debug_str     0x0000000000000000    0xbaec2 ./Core/Src/adc.o
+                                      0xbb0da (size before relaxing)
+ .debug_str     0x00000000000baec2      0x9fe ./Core/Src/error_handler.o
+                                      0xbb51b (size before relaxing)
+ .debug_str     0x00000000000bb8c0       0x43 ./Core/Src/gpio.o
+                                      0xbad80 (size before relaxing)
+ .debug_str     0x00000000000bb903      0x675 ./Core/Src/lptim.o
+                                      0xbb3fc (size before relaxing)
+ .debug_str     0x00000000000bbf78     0x3fd4 ./Core/Src/main.o
+                                      0xbf7b0 (size before relaxing)
+ .debug_str     0x00000000000bff4c      0xd37 ./Core/Src/prosthesis_v1.o
+                                      0xbf293 (size before relaxing)
+ .debug_str     0x00000000000c0c83       0xc2 ./Core/Src/spi.o
+                                      0xbae8c (size before relaxing)
+ .debug_str     0x00000000000c0d45      0x102 ./Core/Src/stm32l4xx_it.o
+                                      0xbac4f (size before relaxing)
+ .debug_str     0x00000000000c0e47       0x8e ./Core/Src/system_stm32l4xx.o
+                                      0x9eb29 (size before relaxing)
+ .debug_str     0x00000000000c0ed5       0xbd ./Core/Src/tim.o
+                                      0xbae0d (size before relaxing)
+ .debug_str     0x00000000000c0f92       0xe9 ./Core/Src/usart.o
+                                      0xbae8b (size before relaxing)
+ .debug_str     0x00000000000c107b      0x102 ./Core/Src/utilities.o
+                                      0xa1c78 (size before relaxing)
+ .debug_str     0x00000000000c117d       0x6e ./Core/Startup/startup_stm32l476rgtx.o
+ .debug_str     0x00000000000c11eb       0xd9 ./Drivers/AS5145B/as5145b.o
                                       0xa2587 (size before relaxing)
- .debug_str     0x00000000000c1289      0x916 ./Drivers/EPOS4/epos4.o
-                                      0xa3ce2 (size before relaxing)
- .debug_str     0x00000000000c1b9f      0x6e3 ./Drivers/MCP25625/mcp25625.o
+ .debug_str     0x00000000000c12c4      0x916 ./Drivers/EPOS4/epos4.o
+                                      0xa3ce5 (size before relaxing)
+ .debug_str     0x00000000000c1bda      0x6e3 ./Drivers/MCP25625/mcp25625.o
                                       0xa404f (size before relaxing)
- .debug_str     0x00000000000c2282      0x302 ./Drivers/MPU-9255/mpu925x_spi.o
+ .debug_str     0x00000000000c22bd      0x302 ./Drivers/MPU-9255/mpu925x_spi.o
                                       0xa385e (size before relaxing)
- .debug_str     0x00000000000c2584     0x2503 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
+ .debug_str     0x00000000000c25bf     0x2503 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_adc.o
                                       0xac4a7 (size before relaxing)
- .debug_str     0x00000000000c4a87      0x62c ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
+ .debug_str     0x00000000000c4ac2      0x62c ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.o
                                       0xa04e8 (size before relaxing)
- .debug_str     0x00000000000c50b3      0xd9f ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
+ .debug_str     0x00000000000c50ee      0xd9f ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.o
                                       0xa3328 (size before relaxing)
- .debug_str     0x00000000000c5e52      0x997 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
+ .debug_str     0x00000000000c5e8d      0x997 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.o
                                       0xa0bb0 (size before relaxing)
- .debug_str     0x00000000000c67e9     0x1bc6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
+ .debug_str     0x00000000000c6824     0x1bc6 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.o
                                       0xa60c3 (size before relaxing)
- .debug_str     0x00000000000c83af      0x7e7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
+ .debug_str     0x00000000000c83ea      0x7e7 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.o
                                       0xa4a1b (size before relaxing)
- .debug_str     0x00000000000c8b96      0xcce ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
+ .debug_str     0x00000000000c8bd1      0xcce ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.o
                                       0xa5826 (size before relaxing)
 
 .comment        0x0000000000000000       0x50
