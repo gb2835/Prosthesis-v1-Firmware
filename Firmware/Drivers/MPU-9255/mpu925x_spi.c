@@ -1,17 +1,26 @@
 /*******************************************************************************
 *
-* TITLE		Driver for InvenSense MPU-9250 and MPU-9255 IMU using SPI
-* AUTHOR	Greg Berkeley
-* RELEASE	08/24/2024
+* TITLE: Driver for InvenSense MPU-9250 and MPU-9255 IMU using SPI
 *
 * NOTES
-* 1. None.
+* 1. This driver is based on
+* 		- MPU-9255 Register Map and Descriptions
+* 			- Document Number: RM-000008
+* 			- Revision: 1.0
+* 		- MPU-9255 Product Specification
+* 			- Document Number: DS-000007
+* 			- Revision: 1.0
+* 1. Unless otherwise specified, units are
+* 		- Accelerometer = g's
+* 		- Gyroscope     = degrees/second
+* 2. #define NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
+* 3. Additional bandwidths are available though not present here (additional programming required).
 *
 *******************************************************************************/
 
 #include "mpu925x_spi.h"
-
 #include "stm32l4xx_ll_gpio.h"
+#include <string.h>
 
 
 /*******************************************************************************
@@ -20,238 +29,243 @@
 
 typedef struct
 {
-	SPI_TypeDef		*spiHandle;
-	GPIO_TypeDef	*CS_GPIOx;
-	uint16_t		CS_Pin;
-} MPU925x_t;
+	SPI_TypeDef *SPI_Handle;
+	GPIO_TypeDef *CS_GPIOx;
+	uint16_t csPin;
+	uint32_t isInit;
+} Device_t;
 
-float accelSensitivity = MPU925X_ACCEL_SENSITIVITY_2G;		// ±2g is default
-float gyroSensitivity = MPU925X_GYRO_SENSITIVITY_250DPS;	// ±250°/s is default
-MPU925x_t mpu925x;
+static Device_t Device[MPU925X_NUMBER_OF_DEVICES];
+static float accelSensitivity = MPU925X_ACCEL_SENSITIVITY_2G;	// ±2 g is default
+static float gyroSensitivity = MPU925X_GYRO_SENSITIVITY_250DPS;	// ±250 degrees/second is default
+
+static void ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
+static void WriteRegData(uint8_t deviceIndex, uint8_t startAdress, uint8_t *data, uint8_t nBytes);
+static inline void ClearChipSelect(uint8_t deviceIndex);
+static inline void SetChipSelect(uint8_t deviceIndex);
 
 
 /*******************************************************************************
 * PUBLIC FUNCTIONS
 *******************************************************************************/
 
-uint8_t MPU925x_Init(SPI_TypeDef *spix, GPIO_TypeDef *cs_gpiox, uint16_t cs_pinx)
+MPU925x_Error_e MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init)
 {
+	if(deviceIndex + 1 > MPU925X_NUMBER_OF_DEVICES)
+		while(1);
+
+	memcpy(&Device[deviceIndex], Device_Init, sizeof(MPU925x_Init_t));
+
+	ClearChipSelect(deviceIndex);
+
 	uint8_t whoAmI;
-
-	mpu925x.spiHandle = spix;
-	mpu925x.CS_GPIOx = cs_gpiox;
-	mpu925x.CS_Pin = cs_pinx;
-
-	MPU925x_ReadRegs(MPU925X_REG_WHO_AM_I, &whoAmI, 1);
-
+	ReadRegData(deviceIndex, MPU925X_REG_WHO_AM_I, &whoAmI, sizeof(whoAmI));
 	if((whoAmI != MPU9250_DEVICE_ID) && (whoAmI != MPU9255_DEVICE_ID))
-		return 1;
+		return MPU925x_WhoAmI_Error;
 
-	return 0;
+	Device[deviceIndex].isInit = 1;
+
+	return MPU925x_NoError;
 }
 
-void MPU925x_SetAccelSensitivity(enum MPU925x_AccelSensitivity_e option)
+void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_e sensitivity)
 {
-	uint8_t data;
+	if(!Device[deviceIndex].isInit)
+		while(1);
 
-	switch (option)
+	uint8_t data;
+	switch(sensitivity)
 	{
-	case mpu925x_accelSensitivity_2g:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG, &data, 1);
+	case MPU925x_AccelSensitivity_2g:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		data = data & ~0x18;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		accelSensitivity = MPU925X_ACCEL_SENSITIVITY_2G;
 		break;
 
-	case mpu925x_accelSensitivity_4g:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG, &data, 1);
+	case MPU925x_AccelSensitivity_4g:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		data = (data & ~0x18) | 0x08;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		accelSensitivity = MPU925X_ACCEL_SENSITIVITY_4G;
 		break;
 
-	case mpu925x_accelSensitivity_8g:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG, &data, 1);
+	case MPU925x_AccelSensitivity_8g:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		data = (data & ~0x18) | 0x10;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		accelSensitivity = MPU925X_ACCEL_SENSITIVITY_8G;
 		break;
 
-	case mpu925x_accelSensitivity_16g:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG, &data, 1);
+	case MPU925x_AccelSensitivity_16g:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		data = (data & ~0x18) | 0x18;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG, &data, 1);
 		accelSensitivity = MPU925X_ACCEL_SENSITIVITY_16G;
 		break;
 	}
 }
 
-void MPU925x_SetGyroSensitivity(enum MPU925x_GyroSensitivity_e option)
+void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_e sensitivity)
 {
-	uint8_t data;
+	if(!Device[deviceIndex].isInit)
+		while(1);
 
-	switch (option)
+	uint8_t data;
+	switch(sensitivity)
 	{
-	case mpu925x_gyroSensitivity_250dps:
-		MPU925x_ReadRegs(MPU925X_REG_GYRO_CONFIG, &data, 1);
+	case MPU925x_GyroSensitivity_250dps:
+		ReadRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		data = data & ~0x18;
-		MPU925x_WriteReg(MPU925X_REG_GYRO_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		gyroSensitivity = MPU925X_GYRO_SENSITIVITY_250DPS;
 		break;
 
-	case mpu925x_gyroSensitivity_500dps:
-		MPU925x_ReadRegs(MPU925X_REG_GYRO_CONFIG, &data, 1);
+	case MPU925x_GyroSensitivity_500dps:
+		ReadRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		data = (data & ~0x18) | 0x08;
-		MPU925x_WriteReg(MPU925X_REG_GYRO_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		gyroSensitivity = MPU925X_GYRO_SENSITIVITY_500DPS;
 		break;
 
-	case mpu925x_gyroSensitivity_1000dps:
-		MPU925x_ReadRegs(MPU925X_REG_GYRO_CONFIG, &data, 1);
+	case MPU925x_GyroSensitivity_1000dps:
+		ReadRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		data = (data & ~0x18) | 0x10;
-		MPU925x_WriteReg(MPU925X_REG_GYRO_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		gyroSensitivity = MPU925X_GYRO_SENSITIVITY_1000DPS;
 		break;
 
-	case mpu925x_gyroSensitivity_2000dps:
-		MPU925x_ReadRegs(MPU925X_REG_GYRO_CONFIG, &data, 1);
+	case MPU925x_GyroSensitivity_2000dps:
+		ReadRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		data = (data & ~0x18) | 0x18;
-		MPU925x_WriteReg(MPU925X_REG_GYRO_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_GYRO_CONFIG, &data, 1);
 		gyroSensitivity = MPU925X_GYRO_SENSITIVITY_2000DPS;
 		break;
 	}
 }
 
-void MPU925x_SetAccelDlpfBandwidth(enum MPU925x_AccelDlpfBandWidth_e option)
+void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_e BandWidth)
 {
-	uint8_t data;
+	if(!Device[deviceIndex].isInit)
+		while(1);
 
-	switch (option)
+	uint8_t data;
+	switch (BandWidth)
 	{
-	case mpu925x_accelDlpfBandWidth_5hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
+	case MPU925x_AccelDLPF_BandWidth_5hz:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		data = (data & ~0x0F) | 0x06;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		break;
 
-	case mpu925x_accelDlpfBandWidth_10hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
+	case MPU925x_AccelDLPF_BandWidth_10hz:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		data = (data & ~0x0F) | 0x05;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		break;
 
-	case mpu925x_accelDlpfBandWidth_20hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
+	case MPU925x_AccelDLPF_BandWidth_20hz:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		data = (data & ~0x0F) | 0x04;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		break;
 
-	case mpu925x_accelDlpfBandWidth_41hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
+	case MPU925x_AccelDLPF_BandWidth_41hz:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		data = (data & ~0x0F) | 0x03;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		break;
 
-	case mpu925x_accelDlpfBandWidth_92hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
+	case MPU925x_AccelDLPF_BandWidth_92hz:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		data = (data & ~0x0F) | 0x02;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		break;
 
-	case mpu925x_accelDlpfBandWidth_184hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
+	case MPU925x_AccelDLPF_BandWidth_184hz:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		data = (data & ~0x0F) | 0x01;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		break;
 
-	case mpu925x_accelDlpfBandWidth_460hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
+	case MPU925x_AccelDLPF_BandWidth_460hz:
+		ReadRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		data = data & ~0x0F;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
-		break;
-
-	case mpu925x_accelDlpfBandWidth_1130hz:
-		MPU925x_ReadRegs(MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
-		data = (data & ~0x0F) | 0x08;
-		MPU925x_WriteReg(MPU925X_REG_ACCEL_CONFIG_2, data);
+		WriteRegData(deviceIndex, MPU925X_REG_ACCEL_CONFIG_2, &data, 1);
 		break;
 	}
 }
 
-void MPU925x_SetGyroDlpfBandwidth(enum MPU925x_GyroDlpfBandWidth_e option)
+void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_e BandWidth)
 {
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
 	uint8_t data;
-
-	switch (option)
+	switch (BandWidth)
 	{
-	case mpu925x_gyroDlpfBandWidth_5hz:
-		MPU925x_ReadRegs(MPU925X_REG_CONFIG, &data, 1);
+	case MPU925x_GyroDLPF_BandWidth_5hz:
+		ReadRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		data = (data & ~0x07) | 0x06;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		break;
 
-	case mpu925x_gyroDlpfBandWidth_10hz:
-		MPU925x_ReadRegs(MPU925X_REG_CONFIG, &data, 1);
+	case MPU925x_GyroDLPF_BandWidth_10hz:
+		ReadRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		data = (data & ~0x07) | 0x05;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		break;
 
-	case mpu925x_gyroDlpfBandWidth_20hz:
-		MPU925x_ReadRegs(MPU925X_REG_CONFIG, &data, 1);
+	case MPU925x_GyroDLPF_BandWidth_20hz:
+		ReadRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		data = (data & ~0x07) | 0x04;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		break;
 
-	case mpu925x_gyroDlpfBandWidth_41hz:
-		MPU925x_ReadRegs(MPU925X_REG_CONFIG, &data, 1);
+	case MPU925x_GyroDLPF_BandWidth_41hz:
+		ReadRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		data = (data & ~0x07) | 0x03;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		break;
 
-	case mpu925x_gyroDlpfBandWidth_92hz:
-		MPU925x_ReadRegs(MPU925X_REG_CONFIG, &data, 1);
+	case MPU925x_GyroDLPF_BandWidth_92hz:
+		ReadRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		data = (data & ~0x07) | 0x02;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		break;
 
-	case mpu925x_gyroDlpfBandWidth_184hz:
-		MPU925x_ReadRegs(MPU925X_REG_CONFIG, &data, 1);
+	case MPU925x_GyroDLPF_BandWidth_184hz:
+		ReadRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		data = (data & ~0x07) | 0x01;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		break;
 
-	case mpu925x_gyroDlpfBandWidth_250hz:
-		MPU925x_ReadRegs(MPU925X_REG_CONFIG, &data, 1);
+	case MPU925x_GyroDLPF_BandWidth_250hz:
+		ReadRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		data = data & ~0x07;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
-		break;
-
-	case mpu925x_gyroDlpfBandWidth_3600hz:
-		MPU925x_ReadRegs(MPU925X_REG_GYRO_CONFIG, &data, 1);
-		data = (data & ~0x03) | 0x02;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
-		break;
-
-	case mpu925x_gyroDlpfBandWidth_8800hz:
-		MPU925x_ReadRegs(MPU925X_REG_GYRO_CONFIG, &data, 1);
-		data = (data & ~0x03) | 0x01;
-		MPU925x_WriteReg(MPU925X_REG_CONFIG, data);
+		WriteRegData(deviceIndex, MPU925X_REG_CONFIG, &data, 1);
 		break;
 	}
 }
 
+// Only applies when sample frequency = 1 kHz
 // New sample rate = 1 kHz / (1 + divider)
-void MPU925x_SetSampleRateDiv(uint8_t divider)
+void MPU925x_SetSampleRateDiv(uint8_t deviceIndex, uint8_t divider)
 {
-	MPU925x_WriteReg(MPU925X_REG_SMPLRT_DIV, divider);
+	if(!Device[deviceIndex].isInit)
+		while(1);
+
+	WriteRegData(deviceIndex, MPU925X_REG_SMPLRT_DIV, &divider, 1);
 }
 
-struct MPU925x_IMUData_s MPU925x_ReadIMU(void)
+MPU925x_IMU_Data_t MPU925x_ReadIMU(uint8_t deviceIndex)
 {
-	struct MPU925x_IMUData_s IMUData;
-	uint8_t data[14];
+	if(!Device[deviceIndex].isInit)
+		while(1);
 
-	MPU925x_ReadRegs(MPU925X_REG_ACCEL_XOUT_H, data, 14);
+	MPU925x_IMU_Data_t IMU_Data;
+	uint8_t data[14];
+	ReadRegData(deviceIndex, MPU925X_REG_ACCEL_XOUT_H, data, 14);
 
 	int16_t ax = ((int16_t) data[0] << 8) | data[1];
 	int16_t ay = ((int16_t) data[2] << 8) | data[3];
@@ -260,51 +274,85 @@ struct MPU925x_IMUData_s MPU925x_ReadIMU(void)
 	int16_t gy = ((int16_t) data[10] << 8) | data[11];
 	int16_t gz = ((int16_t) data[12] << 8) | data[13];
 
-	IMUData.ax = ax / accelSensitivity;
-	IMUData.ay = ay / accelSensitivity;
-	IMUData.az = az / accelSensitivity;
-	IMUData.gx = gx / gyroSensitivity;
-	IMUData.gy = gy / gyroSensitivity;
-	IMUData.gz = gz / gyroSensitivity;
+	IMU_Data.Struct.ax = ax / accelSensitivity;
+	IMU_Data.Struct.ay = ay / accelSensitivity;
+	IMU_Data.Struct.az = az / accelSensitivity;
+	IMU_Data.Struct.gx = gx / gyroSensitivity;
+	IMU_Data.Struct.gy = gy / gyroSensitivity;
+	IMU_Data.Struct.gz = gz / gyroSensitivity;
 
-	return IMUData;
+	return IMU_Data;
 }
 
-void MPU925x_WriteReg(uint8_t adress, uint8_t data)
+void MPU925x_ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes)
 {
-	LL_GPIO_ResetOutputPin(mpu925x.CS_GPIOx, mpu925x.CS_Pin);
+	if(!Device[deviceIndex].isInit)
+		while(1);
 
-	while (!(mpu925x.spiHandle->SR & SPI_SR_TXE));
-	LL_SPI_TransmitData8(mpu925x.spiHandle, adress);
-	while (!(mpu925x.spiHandle->SR & SPI_SR_RXNE));
-	LL_SPI_ReceiveData8(mpu925x.spiHandle);						// Read out bogus data
-
-	while (!(mpu925x.spiHandle->SR & SPI_SR_TXE));
-	LL_SPI_TransmitData8(mpu925x.spiHandle, data);
-	while (!(mpu925x.spiHandle->SR & SPI_SR_RXNE));
-	LL_SPI_ReceiveData8(mpu925x.spiHandle);						// Read out bogus data
-
-	LL_GPIO_SetOutputPin(mpu925x.CS_GPIOx, mpu925x.CS_Pin);
+	ReadRegData(deviceIndex, startAddress, data, nBytes);
 }
 
-void MPU925x_ReadRegs(uint8_t address, uint8_t *data, uint8_t bytes)
+void MPU925x_WriteRegData(uint8_t deviceIndex, uint8_t startAdress, uint8_t *data, uint8_t nBytes)
 {
-	LL_GPIO_ResetOutputPin(mpu925x.CS_GPIOx, mpu925x.CS_Pin);
+	if(!Device[deviceIndex].isInit)
+		while(1);
 
-	while(!(LL_SPI_IsActiveFlag_TXE(mpu925x.spiHandle)));
-	LL_SPI_TransmitData8(mpu925x.spiHandle, (address | 0x80));
-	while(!(LL_SPI_IsActiveFlag_RXNE(mpu925x.spiHandle)));
-	LL_SPI_ReceiveData8(mpu925x.spiHandle);							// Read out bogus data
+	WriteRegData(deviceIndex, startAdress, data, nBytes);
+}
 
-	for(uint8_t i = 0; i < bytes; i++)
+
+/*******************************************************************************
+* PRIVATE FUNCTIONS
+*******************************************************************************/
+
+static void ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes)
+{
+	SetChipSelect(deviceIndex);
+
+	while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPI_Handle)));
+	LL_SPI_TransmitData8(Device[deviceIndex].SPI_Handle, (startAddress | 0x80));
+	while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPI_Handle)));
+	LL_SPI_ReceiveData8(Device[deviceIndex].SPI_Handle);
+
+	for(uint8_t i = 0; i < nBytes; i++)
 	{
-		while(!(LL_SPI_IsActiveFlag_TXE(mpu925x.spiHandle)));
-		LL_SPI_TransmitData8(mpu925x.spiHandle, 0x00);				// Send out 8 bits to read 8 more bits
-		while(!(LL_SPI_IsActiveFlag_RXNE(mpu925x.spiHandle)));
-		data[i] = LL_SPI_ReceiveData8(mpu925x.spiHandle);
+		while(!(LL_SPI_IsActiveFlag_TXE(Device[deviceIndex].SPI_Handle)));
+		LL_SPI_TransmitData8(Device[deviceIndex].SPI_Handle, 0x00);
+		while(!(LL_SPI_IsActiveFlag_RXNE(Device[deviceIndex].SPI_Handle)));
+		data[i] = LL_SPI_ReceiveData8(Device[deviceIndex].SPI_Handle);
 	}
 
-	LL_GPIO_SetOutputPin(mpu925x.CS_GPIOx, mpu925x.CS_Pin);
+	ClearChipSelect(deviceIndex);
+}
+
+static void WriteRegData(uint8_t deviceIndex, uint8_t startAdress, uint8_t *data, uint8_t nBytes)
+{
+	SetChipSelect(deviceIndex);
+
+	while (!(Device[deviceIndex].SPI_Handle->SR & SPI_SR_TXE));
+	LL_SPI_TransmitData8(Device[deviceIndex].SPI_Handle, startAdress);
+	while (!(Device[deviceIndex].SPI_Handle->SR & SPI_SR_RXNE));
+	LL_SPI_ReceiveData8(Device[deviceIndex].SPI_Handle);
+
+	for(uint8_t i = 0; i <nBytes; i++)
+	{
+		while (!(Device[deviceIndex].SPI_Handle->SR & SPI_SR_TXE));
+		LL_SPI_TransmitData8(Device[deviceIndex].SPI_Handle, data[i]);
+		while (!(Device[deviceIndex].SPI_Handle->SR & SPI_SR_RXNE));
+		LL_SPI_ReceiveData8(Device[deviceIndex].SPI_Handle);
+	}
+
+	ClearChipSelect(deviceIndex);
+}
+
+static inline void ClearChipSelect(uint8_t deviceIndex)
+{
+	LL_GPIO_SetOutputPin(Device[deviceIndex].CS_GPIOx, Device[deviceIndex].csPin);
+}
+
+static inline void SetChipSelect(uint8_t deviceIndex)
+{
+	LL_GPIO_ResetOutputPin(Device[deviceIndex].CS_GPIOx, Device[deviceIndex].csPin);
 }
 
 

@@ -40,6 +40,7 @@ extern "C" {
 #include "stm32l4xx_ll_pwr.h"
 #include "stm32l4xx_ll_dma.h"
 #include "stm32l4xx_ll_spi.h"
+#include "stm32l4xx_ll_tim.h"
 #include "stm32l4xx_ll_usart.h"
 #include "stm32l4xx_ll_gpio.h"
 
@@ -49,6 +50,19 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+
+/*******************************************************************************
+* USER ADDED MAIN.H
+*******************************************************************************/
+
+#include "prosthesis_v1.h"
+
+extern Prosthesis_Init_t Prosthesis_Init;
+
+
+/******************************************************************************/
+
 
 /* USER CODE END Includes */
 
@@ -75,8 +89,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define B1_Pin LL_GPIO_PIN_13
-#define B1_GPIO_Port GPIOC
+#define ANKLE_ENCODER_CSn_Pin LL_GPIO_PIN_13
+#define ANKLE_ENCODER_CSn_GPIO_Port GPIOC
 #define LC_TOP_IN_Pin LL_GPIO_PIN_2
 #define LC_TOP_IN_GPIO_Port GPIOC
 #define LC_BOT_IN_Pin LL_GPIO_PIN_3
@@ -85,36 +99,46 @@ void Error_Handler(void);
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin LL_GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
+#define ANKLE_ENCODER_CLK_Pin LL_GPIO_PIN_4
+#define ANKLE_ENCODER_CLK_GPIO_Port GPIOA
 #define IMU_SCK_Pin LL_GPIO_PIN_5
 #define IMU_SCK_GPIO_Port GPIOA
 #define IMU_MISO_Pin LL_GPIO_PIN_6
 #define IMU_MISO_GPIO_Port GPIOA
 #define IMU_MOSI_Pin LL_GPIO_PIN_7
 #define IMU_MOSI_GPIO_Port GPIOA
+#define ANKLE_CAN_CONTROLLER_CS_Pin LL_GPIO_PIN_4
+#define ANKLE_CAN_CONTROLLER_CS_GPIO_Port GPIOC
+#define ANKLE_ENCODER_DO_Pin LL_GPIO_PIN_5
+#define ANKLE_ENCODER_DO_GPIO_Port GPIOC
 #define OSCOPE_Pin LL_GPIO_PIN_2
 #define OSCOPE_GPIO_Port GPIOB
-#define SPI2_CS_Pin LL_GPIO_PIN_12
-#define SPI2_CS_GPIO_Port GPIOB
-#define EPOS4_SCK_Pin LL_GPIO_PIN_13
-#define EPOS4_SCK_GPIO_Port GPIOB
-#define EPOS4_MISO_Pin LL_GPIO_PIN_14
-#define EPOS4_MISO_GPIO_Port GPIOB
-#define EPOS4_MOSI_Pin LL_GPIO_PIN_15
-#define EPOS4_MOSI_GPIO_Port GPIOB
-#define ENC_CSn_Pin LL_GPIO_PIN_6
-#define ENC_CSn_GPIO_Port GPIOC
-#define ENC_DO_Pin LL_GPIO_PIN_7
-#define ENC_DO_GPIO_Port GPIOC
+#define KNEE_CAN_CONTROLLER_CS_Pin LL_GPIO_PIN_12
+#define KNEE_CAN_CONTROLLER_CS_GPIO_Port GPIOB
+#define KNEE_CAN_CONTROLLER_SCK_Pin LL_GPIO_PIN_13
+#define KNEE_CAN_CONTROLLER_SCK_GPIO_Port GPIOB
+#define KNEE_CAN_CONTROLLER_MISO_Pin LL_GPIO_PIN_14
+#define KNEE_CAN_CONTROLLER_MISO_GPIO_Port GPIOB
+#define KNEE_CAN_CONTROLLER_MOSI_Pin LL_GPIO_PIN_15
+#define KNEE_CAN_CONTROLLER_MOSI_GPIO_Port GPIOB
+#define KNEE_ENCODER_CSn_Pin LL_GPIO_PIN_6
+#define KNEE_ENCODER_CSn_GPIO_Port GPIOC
+#define KNEE_ENCODER_DO_Pin LL_GPIO_PIN_7
+#define KNEE_ENCODER_DO_GPIO_Port GPIOC
 #define IMU_CS_Pin LL_GPIO_PIN_8
 #define IMU_CS_GPIO_Port GPIOA
 #define TMS_Pin LL_GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin LL_GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-#define SWO_Pin LL_GPIO_PIN_3
-#define SWO_GPIO_Port GPIOB
-#define ENC_CLK_Pin LL_GPIO_PIN_7
-#define ENC_CLK_GPIO_Port GPIOB
+#define ANKLE_CAN_CONTROLLER_SCK_Pin LL_GPIO_PIN_3
+#define ANKLE_CAN_CONTROLLER_SCK_GPIO_Port GPIOB
+#define ANKLE_CAN_CONTROLLER_MISO_Pin LL_GPIO_PIN_4
+#define ANKLE_CAN_CONTROLLER_MISO_GPIO_Port GPIOB
+#define ANKLE_CAN_CONTROLLER_MOSI_Pin LL_GPIO_PIN_5
+#define ANKLE_CAN_CONTROLLER_MOSI_GPIO_Port GPIOB
+#define KNEE_ENCODER_CLK_Pin LL_GPIO_PIN_7
+#define KNEE_ENCODER_CLK_GPIO_Port GPIOB
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */

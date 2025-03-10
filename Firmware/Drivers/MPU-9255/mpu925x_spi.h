@@ -37,73 +37,89 @@
 #define MPU925X_ACCEL_SENSITIVITY_4G		8192
 #define MPU925X_ACCEL_SENSITIVITY_8G		4096
 #define MPU925X_ACCEL_SENSITIVITY_16G		2048
-#define MPU925X_GYRO_SENSITIVITY_250DPS		16384
-#define MPU925X_GYRO_SENSITIVITY_500DPS		8192
-#define MPU925X_GYRO_SENSITIVITY_1000DPS	4096
-#define MPU925X_GYRO_SENSITIVITY_2000DPS	2048
+#define MPU925X_GYRO_SENSITIVITY_250DPS		131
+#define MPU925X_GYRO_SENSITIVITY_500DPS		65.5
+#define MPU925X_GYRO_SENSITIVITY_1000DPS	32.8
+#define MPU925X_GYRO_SENSITIVITY_2000DPS	16.4
 #define MPU925X_TEMP_ROOMTEMP				21
 #define MPU925X_TEMP_SENSITIVITY			333.87
 
-enum MPU925x_AccelDlpfBandWidth_e
-{
-	mpu925x_accelDlpfBandWidth_5hz,
-	mpu925x_accelDlpfBandWidth_10hz,
-	mpu925x_accelDlpfBandWidth_20hz,
-	mpu925x_accelDlpfBandWidth_41hz,
-	mpu925x_accelDlpfBandWidth_92hz,
-	mpu925x_accelDlpfBandWidth_184hz,
-	mpu925x_accelDlpfBandWidth_460hz,
-	mpu925x_accelDlpfBandWidth_1130hz
-};
+#define MPU925X_NUMBER_OF_DEVICES	1
 
-enum MPU925x_AccelSensitivity_e
+typedef enum
 {
-	mpu925x_accelSensitivity_2g,
-	mpu925x_accelSensitivity_4g,
-	mpu925x_accelSensitivity_8g,
-	mpu925x_accelSensitivity_16g
-};
+	MPU925x_AccelDLPF_BandWidth_5hz,
+	MPU925x_AccelDLPF_BandWidth_10hz,
+	MPU925x_AccelDLPF_BandWidth_20hz,
+	MPU925x_AccelDLPF_BandWidth_41hz,
+	MPU925x_AccelDLPF_BandWidth_92hz,
+	MPU925x_AccelDLPF_BandWidth_184hz,
+	MPU925x_AccelDLPF_BandWidth_460hz,
+} MPU925x_AccelDLPF_BandWidth_e;
 
-enum MPU925x_GyroDlpfBandWidth_e
+typedef enum
 {
-	mpu925x_gyroDlpfBandWidth_5hz,
-	mpu925x_gyroDlpfBandWidth_10hz,
-	mpu925x_gyroDlpfBandWidth_20hz,
-	mpu925x_gyroDlpfBandWidth_41hz,
-	mpu925x_gyroDlpfBandWidth_92hz,
-	mpu925x_gyroDlpfBandWidth_184hz,
-	mpu925x_gyroDlpfBandWidth_250hz,
-	mpu925x_gyroDlpfBandWidth_3600hz,
-	mpu925x_gyroDlpfBandWidth_8800hz
-};
+	MPU925x_AccelSensitivity_2g,
+	MPU925x_AccelSensitivity_4g,
+	MPU925x_AccelSensitivity_8g,
+	MPU925x_AccelSensitivity_16g
+} MPU925x_AccelSensitivity_e;
 
-enum MPU925x_GyroSensitivity_e
+typedef enum
 {
-	mpu925x_gyroSensitivity_250dps,
-	mpu925x_gyroSensitivity_500dps,
-	mpu925x_gyroSensitivity_1000dps,
-	mpu925x_gyroSensitivity_2000dps
-};
+	MPU925x_NoError,
+	MPU925x_WhoAmI_Error
+} MPU925x_Error_e;
 
-struct MPU925x_IMUData_s
+typedef enum
 {
-   double	ax;
-   double	ay;
-   double	az;
-   double	gx;
-   double	gy;
-   double	gz;
-};
+	MPU925x_GyroDLPF_BandWidth_5hz,
+	MPU925x_GyroDLPF_BandWidth_10hz,
+	MPU925x_GyroDLPF_BandWidth_20hz,
+	MPU925x_GyroDLPF_BandWidth_41hz,
+	MPU925x_GyroDLPF_BandWidth_92hz,
+	MPU925x_GyroDLPF_BandWidth_184hz,
+	MPU925x_GyroDLPF_BandWidth_250hz,
+} MPU925x_GyroDLPF_BandWidth_e;
 
-uint8_t MPU925x_Init(SPI_TypeDef *spix, GPIO_TypeDef *cs_gpiox, uint16_t cs_pinx);
-void MPU925x_SetAccelSensitivity(enum MPU925x_AccelSensitivity_e option);
-void MPU925x_SetGyroSensitivity(enum MPU925x_GyroSensitivity_e option);
-void MPU925x_SetAccelDlpfBandwidth(enum MPU925x_AccelDlpfBandWidth_e option);
-void MPU925x_SetGyroDlpfBandwidth(enum MPU925x_GyroDlpfBandWidth_e option);
-void MPU925x_SetSampleRateDiv(uint8_t divider);
-struct MPU925x_IMUData_s MPU925x_ReadIMU(void);
-void MPU925x_WriteReg(uint8_t adress, uint8_t data);
-void MPU925x_ReadRegs(uint8_t address, uint8_t *data, uint8_t bytes);
+typedef enum
+{
+	MPU925x_GyroSensitivity_250dps,
+	MPU925x_GyroSensitivity_500dps,
+	MPU925x_GyroSensitivity_1000dps,
+	MPU925x_GyroSensitivity_2000dps
+} MPU925x_GyroSensitivity_e;
+
+typedef union
+{
+	double array[6];
+	struct
+	{
+		double ax;
+		double ay;
+		double az;
+		double gx;
+		double gy;
+		double gz;
+	} Struct;
+} MPU925x_IMU_Data_t;
+
+typedef struct
+{
+	SPI_TypeDef *SPI_Handle;
+	GPIO_TypeDef *CS_GPIOx;
+	uint16_t csPin;
+} MPU925x_Init_t;
+
+MPU925x_Error_e MPU925x_Init(uint8_t deviceIndex, MPU925x_Init_t *Device_Init);
+void MPU925x_SetAccelSensitivity(uint8_t deviceIndex, MPU925x_AccelSensitivity_e sensitivity);
+void MPU925x_SetGyroSensitivity(uint8_t deviceIndex, MPU925x_GyroSensitivity_e sensitivity);
+void MPU925x_SetAccelDlpfBandwidth(uint8_t deviceIndex, MPU925x_AccelDLPF_BandWidth_e bandwidth);
+void MPU925x_SetGyroDlpfBandwidth(uint8_t deviceIndex, MPU925x_GyroDLPF_BandWidth_e bandwidth);
+void MPU925x_SetSampleRateDiv(uint8_t deviceIndex, uint8_t divider);
+MPU925x_IMU_Data_t MPU925x_ReadIMU(uint8_t deviceIndex);
+void MPU925x_ReadRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
+void MPU925x_WriteRegData(uint8_t deviceIndex, uint8_t startAddress, uint8_t *data, uint8_t nBytes);
 
 
 /*******************************************************************************

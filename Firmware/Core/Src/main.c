@@ -2,25 +2,17 @@
 
 /*******************************************************************************
 *
-* TITLE   Prosthesis Firmware v1
-* AUTHOR  Greg Berkeley
-* RELEASE XX/XX/XXXX
+* TITLE: Prosthesis v1 Firmware
 *
 * NOTES
-* 1. See "Documents" directory for description of how v1 firmware is used.??
-* 2. The below lines can be used to measure PB11 on oscilloscope:
-*     - LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
-*     - LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
-*     - LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
-* 3. Test programs provided prior to main loop to independently test device
-*    functionality. Firmware halts when a test program is used.
-* 4. Double question marks (??) are commented at locations throughout project
-*    files where possible improvements may be made.
-* 5. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*    A new magnetic encoder bias position must be found and defined whenever
-*    the magnet is reassembled into the prosthesis device. A test program is
-*    provided to find the bias.
-*    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+* 1. IMPORTANT: A new encoder bias position must be found and defined whenever the magnet is reassembled into the device.
+*    A test program is provided to find the bias.
+*    See prosthesis_v1.c for more information.
+* 2. The below lines can be used to measure PB2 on oscilloscope (#include main.h may need to be added to certain files):
+*		- LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+*		- LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+*		- LL_GPIO_TogglePin(OSCOPE_GPIO_Port, OSCOPE_Pin);
+* 3. Search -> File on "* USER ADDED " will show code added to MX auto-generated files.
 *
 *******************************************************************************/
 
@@ -31,6 +23,7 @@
 #include "adc.h"
 #include "lptim.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -71,19 +64,24 @@ void SystemClock_Config(void);
 
 
 /*******************************************************************************
-* USER PRELIMINARIES
+* USER ADDED MAIN.C
 *******************************************************************************/
 
 #include "as5145b.h"
-#include "EPOS4.h"
-#include "prosthesis_control.h"
+#include "epos4.h"
+#include "error_handler.h"
 #include "mcp25625.h"
 #include "mpu925x_spi.h"
+#include "stm32l4xx_ll_tim.h"
+#include <string.h>
 
 #define LPTIM2_PERIOD 0x3F	// Timer frequency = timer clock frequency / (prescaler * (period + 1))
 
+Prosthesis_Init_t Prosthesis_Init;
+
 
 /******************************************************************************/
+
 /* USER CODE END 0 */
 
 /**
@@ -124,6 +122,8 @@ int main(void)
   MX_SPI2_Init();
   MX_ADC2_Init();
   MX_ADC1_Init();
+  MX_TIM6_Init();
+  MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -133,63 +133,88 @@ int main(void)
 
 
 /*******************************************************************************
-* USER DEFINITIONS
+* USER ADDED DEFINITIONS
 *******************************************************************************/
 
-	AS5145B_Init_t MagEnc;
-	MagEnc.DO_GPIOx = ENC_DO_GPIO_Port;
-	MagEnc.CLK_GPIOx = ENC_CLK_GPIO_Port;
-	MagEnc.CSn_GPIOx = ENC_CSn_GPIO_Port;
-	MagEnc.DO_Pin = ENC_DO_Pin;
-	MagEnc.CLK_Pin = ENC_CLK_Pin;
-	MagEnc.CSn_Pin = ENC_CSn_Pin;
+	AS5145B_Init_t Encoder_Init[AS5145B_NUMBER_OF_DEVICES];
+	Encoder_Init[AnkleEncoderIndex].DO_GPIOx = ANKLE_ENCODER_DO_GPIO_Port;
+	Encoder_Init[AnkleEncoderIndex].CLK_GPIOx = ANKLE_ENCODER_CLK_GPIO_Port;
+	Encoder_Init[AnkleEncoderIndex].CSn_GPIOx = ANKLE_ENCODER_CSn_GPIO_Port;
+	Encoder_Init[AnkleEncoderIndex].DO_Pin = ANKLE_ENCODER_DO_Pin;
+	Encoder_Init[AnkleEncoderIndex].CLK_Pin = ANKLE_ENCODER_CLK_Pin;
+	Encoder_Init[AnkleEncoderIndex].CSn_Pin = ANKLE_ENCODER_CSn_Pin;
+	Encoder_Init[AnkleEncoderIndex].TIMx = TIM6;
+	Encoder_Init[AnkleEncoderIndex].timerRateMHz = 10;
 
-  	MCP25625_Inits_t CAN_Controller_Inits;
-  	CAN_Controller_Inits.SPIx = SPI2;
-  	CAN_Controller_Inits.CS_Port = SPI2_CS_GPIO_Port;
-  	CAN_Controller_Inits.csPin = SPI2_CS_Pin;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKPRE = clockoutDiv1;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.CLKEN = clockoutDisabled;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.OSM = oneShotModeEnabled;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.ABAT = abortAllTransmissions;
-  	CAN_Controller_Inits.CANCTRL_Reg.Bits.REQOP = normalOperationMode;
-  	CAN_Controller_Inits.CNF1_Reg.Bits.BRP = 0;
-  	CAN_Controller_Inits.CNF1_Reg.Bits.SJW = length4xT_Q;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.PRSEG = 1;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.PHSEG1 = 1;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.SAM = busSampledOnceAtSamplePoint;
-  	CAN_Controller_Inits.CNF2_Reg.Bits.BLTMODE = ps2LengthDeterminedByCNF3;
-  	CAN_Controller_Inits.CNF3_Reg.Bits.PHSEG2 = 4;
-  	CAN_Controller_Inits.CNF3_Reg.Bits.WAKFIL = wakeUpFilterIsEnabled;
+	memcpy(&Encoder_Init[KneeEncoderIndex], &Encoder_Init[AnkleEncoderIndex], sizeof(Encoder_Init[AnkleEncoderIndex]));
+	Encoder_Init[KneeEncoderIndex].DO_GPIOx = KNEE_ENCODER_DO_GPIO_Port;
+	Encoder_Init[KneeEncoderIndex].CLK_GPIOx = KNEE_ENCODER_CLK_GPIO_Port;
+	Encoder_Init[KneeEncoderIndex].CSn_GPIOx = KNEE_ENCODER_CSn_GPIO_Port;
+	Encoder_Init[KneeEncoderIndex].DO_Pin = KNEE_ENCODER_DO_Pin;
+	Encoder_Init[KneeEncoderIndex].CLK_Pin = KNEE_ENCODER_CLK_Pin;
+	Encoder_Init[KneeEncoderIndex].CSn_Pin = KNEE_ENCODER_CSn_Pin;
 
-	EPOS4_Inits_t Motor_Inits;
-	Motor_Inits.nodeId = 1;
-	Motor_Inits.Requirements.isFirstStepRequired = 1;
-	Motor_Inits.Requirements.isModeOfOperationRequired = 1;
-	Motor_Inits.FirstStep.CAN_BitRate = rate1000Kbps;
-	Motor_Inits.FirstStep.MotorType = trapezoidalPmBlMotor;
-	Motor_Inits.FirstStep.nominalCurrent = 6600;
-	Motor_Inits.FirstStep.outputCurrentLimit = 29300;
-	Motor_Inits.FirstStep.numberOfPolePairs = 21;
-	Motor_Inits.FirstStep.thermalTimeConstantWinding = 400;
-	Motor_Inits.FirstStep.torqueConstant = 95000;
-	Motor_Inits.FirstStep.maxMotorSpeed = 2384;
-	Motor_Inits.FirstStep.maxGearInputSpeed = 100000;
-	Motor_Inits.FirstStep.sensorsConfiguration = 0x00100000;
-	Motor_Inits.FirstStep.controlStructure = 0x00030111;
-	Motor_Inits.FirstStep.commutationSensors = 0x00000030;
-	Motor_Inits.FirstStep.axisConfigMiscellaneous = 0x00000000;
-	Motor_Inits.FirstStep.currentControllerP_Gain = 643609;
-	Motor_Inits.FirstStep.currentControllerI_Gain = 2791837;
-	Motor_Inits.ModeOfOperation = cyclicSynchronousTorqueMode;
+	EPOS4_Init_t MotorController_Init[EPOS4_NUMBER_OF_DEVICES];
+	MotorController_Init[AnkleMotorControllerIndex].nodeId = 2;
+	MotorController_Init[AnkleMotorControllerIndex].mcpIndex = AnkleCAN_ControllerIndex;
+	MotorController_Init[AnkleMotorControllerIndex].Requirements.isFirstStepRequired = 1;
+	MotorController_Init[AnkleMotorControllerIndex].Requirements.isModeOfOperationRequired = 1;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.CAN_BitRate = EPOS4_Rate1000Kbps;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.MotorType = EPOS4_TrapezoidalPmBlMotor;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.nominalCurrent = 8000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.outputCurrentLimit = 29300;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.numberOfPolePairs = 21;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.thermalTimeConstantWinding = 400;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.torqueConstant = 60 / (2 * 3.1416f * 100) * 1000000;	// For Kv = 100 rpm/V
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.maxMotorSpeed = 2384;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.maxGearInputSpeed = 100000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.sensorsConfiguration = 0x00100000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.controlStructure = 0x00030111;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.commutationSensors = 0x00000030;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.axisConfigMiscellaneous = 0x00000000;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerP_Gain = 643609;
+	MotorController_Init[AnkleMotorControllerIndex].FirstStep.currentControllerI_Gain = 2791837;
+	MotorController_Init[AnkleMotorControllerIndex].ModeOfOperation = EPOS4_CyclicSynchronousTorqueMode;
 
-	struct Configuration_s Config;
-	Config.Device = knee;
-	Config.Side = left;
+	memcpy(&MotorController_Init[KneeMotorControllerIndex], &MotorController_Init[AnkleMotorControllerIndex], sizeof(MotorController_Init[AnkleMotorControllerIndex]));
+	MotorController_Init[KneeMotorControllerIndex].nodeId = 1;
+	MotorController_Init[KneeMotorControllerIndex].mcpIndex = KneeCAN_ControllerIndex;
+
+  	MCP25625_Init_t CAN_Controller_Init[MCP25625_NUMBER_OF_DEVICES];
+  	memset(&CAN_Controller_Init, 0, sizeof(CAN_Controller_Init));
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].SPIx = SPI3;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CS_Port = ANKLE_CAN_CONTROLLER_CS_GPIO_Port;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].csPin = ANKLE_CAN_CONTROLLER_CS_Pin;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.CLKEN = MCP25625_ClockoutDisabled;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.OSM = MCP25625_OneShotModeEnabled;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.ABAT = MCP25625_AbortAllTransmissions;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CANCTRL_Reg.Bits.REQOP = MCP25625_NormalOperationMode;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF1_Reg.Bits.BRP = 0;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF1_Reg.Bits.SJW = MCP25625_Length1xT_Q;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.PRSEG = 4;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.PHSEG1 = 1;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.SAM = MCP25625_BusSampledOnceAtSamplePoint;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF2_Reg.Bits.BLTMODE = MCP25625_PS2LengthDeterminedByCNF3;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.PHSEG2 = 1;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.WAKFIL = MCP25625_WakeUpFilterIsDisabled;
+  	CAN_Controller_Init[AnkleCAN_ControllerIndex].CNF3_Reg.Bits.SOF = MCP25625_ClockoutPinIsEnabledForClockOutFunction;
+
+  	memcpy(&CAN_Controller_Init[KneeCAN_ControllerIndex], &CAN_Controller_Init[AnkleCAN_ControllerIndex], sizeof(CAN_Controller_Init[AnkleCAN_ControllerIndex]));
+  	CAN_Controller_Init[KneeCAN_ControllerIndex].SPIx = SPI2;
+  	CAN_Controller_Init[KneeCAN_ControllerIndex].CS_Port = KNEE_CAN_CONTROLLER_CS_GPIO_Port;
+  	CAN_Controller_Init[KneeCAN_ControllerIndex].csPin = KNEE_CAN_CONTROLLER_CS_Pin;
+
+  	MPU925x_Init_t IMU_Init;
+  	IMU_Init.SPI_Handle = SPI1;
+  	IMU_Init.CS_GPIOx = IMU_CS_GPIO_Port;
+  	IMU_Init.csPin = IMU_CS_Pin;
+
+  	Prosthesis_Init.Joint = Combined;
+  	Prosthesis_Init.Side = Left;
 
 
 /*******************************************************************************
-* USER INITIALIZATIONS
+* USER ADDED INITIALIZATIONS
 *******************************************************************************/
 
 	LL_SYSTICK_EnableIT();
@@ -199,33 +224,64 @@ int main(void)
 	LL_LPTIM_SetAutoReload(LPTIM2, LPTIM2_PERIOD);
 	LL_LPTIM_StartCounter(LPTIM2, LL_LPTIM_OPERATING_MODE_CONTINUOUS);
 
+	LL_TIM_EnableCounter(TIM6);
+
 	LL_SPI_Enable(SPI1);
 	LL_SPI_Enable(SPI2);
+	LL_SPI_Enable(SPI3);
 	LL_ADC_Enable(ADC1);
 	LL_ADC_Enable(ADC2);
 
-	if(MPU925x_Init(SPI1, IMU_CS_GPIO_Port, IMU_CS_Pin))
-		Error_Handler();
-	MPU925x_SetAccelSensitivity(mpu925x_accelSensitivity_8g);
-	MPU925x_SetGyroSensitivity(mpu925x_gyroSensitivity_1000dps);
+	LL_mDelay(4000);	// Significant delay when powering on EPOS4
 
-	AS5145B_Init(&MagEnc);
-	EPOS4_Init(&Motor_Inits, &CAN_Controller_Inits);
+	MPU925x_Error_e imuError = MPU925x_Init(0, &IMU_Init);
+	if(imuError)
+		ErrorHandler_MPU925x(imuError);
+	MPU925x_SetAccelSensitivity(0, MPU925x_AccelSensitivity_8g);
+	MPU925x_SetGyroSensitivity(0, MPU925x_GyroSensitivity_1000dps);
 
-	InitProsthesisControl(Config);
+	if((Prosthesis_Init.Joint == Ankle) || (Prosthesis_Init.Joint == Combined))
+	{
+		AS5145B_Error_e encoderError = AS5145B_Init(AnkleEncoderIndex, &Encoder_Init[AnkleEncoderIndex]);
+		if(encoderError)
+			ErrorHandler_AS5145B(AnkleEncoderIndex, encoderError);
 
-	for(uint16_t i = 0; i < 1000; i++);		// Remove spikes from beginning
+		MCP25625_Error_e canControllerError = MCP25625_Init(AnkleCAN_ControllerIndex, &CAN_Controller_Init[AnkleCAN_ControllerIndex]);
+		if(canControllerError)
+			ErrorHandler_MCP25625(AnkleCAN_ControllerIndex, canControllerError);
+
+		EPOS4_Error_e motorControllerError = EPOS4_Init(AnkleMotorControllerIndex, &MotorController_Init[AnkleMotorControllerIndex]);
+		if(motorControllerError)
+			ErrorHandler_EPOS4(AnkleMotorControllerIndex, motorControllerError);
+	}
+
+	if((Prosthesis_Init.Joint == Knee) || (Prosthesis_Init.Joint == Combined))
+	{
+		AS5145B_Error_e encoderError = AS5145B_Init(KneeEncoderIndex, &Encoder_Init[KneeEncoderIndex]);
+		if(encoderError)
+			ErrorHandler_AS5145B(KneeEncoderIndex, encoderError);
+
+		MCP25625_Error_e canControllerError = MCP25625_Init(KneeCAN_ControllerIndex, &CAN_Controller_Init[KneeCAN_ControllerIndex]);
+		if(canControllerError)
+			ErrorHandler_MCP25625(KneeCAN_ControllerIndex, canControllerError);
+
+		EPOS4_Error_e motorControllerError = EPOS4_Init(KneeMotorControllerIndex, &MotorController_Init[KneeMotorControllerIndex]);
+		if(motorControllerError)
+			ErrorHandler_EPOS4(KneeMotorControllerIndex, motorControllerError);
+	}
+
+	InitProsthesisControl(&Prosthesis_Init);
 
 
 /*******************************************************************************
-* USER TEST PROGRAMS
+* USER ADDED TEST PROGRAMS
 *******************************************************************************/
 
-	RequireTestProgram(impedanceControl);
+	RequireTestProgram(ImpedanceControl);
 
 
 /*******************************************************************************
-* USER MAIN LOOP
+* USER ADDED MAIN LOOP
 *******************************************************************************/
 
   while(1)
