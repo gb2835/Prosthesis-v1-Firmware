@@ -110,12 +110,13 @@ static uint8_t isFirst = 1;
 static uint8_t isSecond = 0;
 static uint8_t isTestProgramRequired = 0;
 
-static int16_t CM_stateSpeed;
+static int8_t CM_state_angles, CM_state_torques;
+static int16_t CM_state_speeds;
 static Joint_t CM_Ankle, CM_Knee;
 static LoadCell_t CM_LoadCell;
 static MPU925x_IMU_Data_t CM_IMU_Data;
 static uint16_t CM_ankleRawEncoderBias, CM_kneeRawEncoderBias;
-static uint16_t CM_stateLc;
+static uint16_t CM_state_loadCells;
 
 static void GetInputs(void);
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
@@ -331,8 +332,10 @@ static void RunStateMachine(void)
 	switch(state)
 	{
 	case EarlyStance:
-		CM_stateLc = 1100;
-		CM_stateSpeed = -200;
+		CM_state_angles = -10;
+		CM_state_loadCells = 1100;
+		CM_state_torques = -30;
+		CM_state_speeds = -200;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -352,8 +355,10 @@ static void RunStateMachine(void)
 		break;
 
 	case MidStance:
-		CM_stateLc = 1200;
-		CM_stateSpeed = -120;
+		CM_state_angles = 5;
+		CM_state_loadCells = 1200;
+		CM_state_torques = -20;
+		CM_state_speeds = -120;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -373,8 +378,10 @@ static void RunStateMachine(void)
 		break;
 
 	case LateStance:
-		CM_stateLc = 1300;
-		CM_stateSpeed = -40;
+		CM_state_angles = 20;
+		CM_state_loadCells = 1300;
+		CM_state_torques = -10;
+		CM_state_speeds = -40;
 
 		// Compute kp to start with previous torque when first called
 		if(isFirstCallForLateStance)
@@ -406,8 +413,10 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingFlexion:
-		CM_stateLc = 1400;
-		CM_stateSpeed = 40;
+		CM_state_angles = 35;
+		CM_state_loadCells = 1400;
+		CM_state_torques = 0;
+		CM_state_speeds = 40;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -427,8 +436,10 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingExtension:
-		CM_stateLc = 1500;
-		CM_stateSpeed = 120;
+		CM_state_angles = 50;
+		CM_state_loadCells = 1500;
+		CM_state_torques = 10;
+		CM_state_speeds = 120;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
@@ -448,8 +459,10 @@ static void RunStateMachine(void)
 		break;
 
 	case SwingDescension:
-		CM_stateLc = 1600;
-		CM_stateSpeed = 200;
+		CM_state_angles = 65;
+		CM_state_loadCells = 1600;
+		CM_state_torques = 20;
+		CM_state_speeds = 200;
 		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
