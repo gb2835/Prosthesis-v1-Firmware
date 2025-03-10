@@ -336,7 +336,6 @@ static void RunStateMachine(void)
 		CM_state_loadCells = 1100;
 		CM_state_torques = -30;
 		CM_state_speeds = -200;
-		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -440,7 +439,6 @@ static void RunStateMachine(void)
 		CM_state_loadCells = 1500;
 		CM_state_torques = 10;
 		CM_state_speeds = 120;
-		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -463,7 +461,6 @@ static void RunStateMachine(void)
 		CM_state_loadCells = 1600;
 		CM_state_torques = 20;
 		CM_state_speeds = 200;
-		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{
