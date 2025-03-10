@@ -75,8 +75,6 @@ typedef struct
 	float encoderBias;
 	float jointTargetTorque;
 	float jointTorqueActual;
-	float jointSpeedThreshold;
-	float limbSpeedThreshold;
 	ControlParams_t ProsCtrl;
 	ControlParams_t EarlyStanceCtrl;
 	ControlParams_t MidStanceCtrl;
@@ -110,6 +108,7 @@ static uint8_t isFirst = 1;
 static uint8_t isSecond = 0;
 static uint8_t isTestProgramRequired = 0;
 
+static float CM_footSpeedThreshold = 0.0f;
 static int8_t CM_state_angles, CM_state_torques;
 static int16_t CM_state_speeds;
 static Joint_t CM_Ankle, CM_Knee;
@@ -348,7 +347,7 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.kp = CM_Knee.EarlyStanceCtrl.kp;
 		}
 
-		if(CM_Ankle.limbSpeed > CM_Ankle.limbSpeedThreshold)
+		if(CM_Ankle.limbSpeed > CM_footSpeedThreshold)
 			state = MidStance;
 
 		break;
@@ -371,7 +370,7 @@ static void RunStateMachine(void)
 			CM_Knee.ProsCtrl.kp = CM_Knee.MidStanceCtrl.kp;
 		}
 
-		if(CM_Ankle.jointSpeed < CM_Ankle.jointSpeedThreshold)
+		if(CM_Ankle.jointSpeed < 0)
 			state = LateStance;
 
 		break;
