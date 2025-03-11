@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   0000dd81  00000000  00000000  00059043  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000c9867  00000000  00000000  00066dc4  2**0
+ 18 .debug_str    000c9864  00000000  00000000  00066dc4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0013062b  2**0
+ 19 .comment      00000050  00000000  00000000  00130628  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003e1c  00000000  00000000  0013067c  2**2
+ 20 .debug_frame  00003e1c  00000000  00000000  00130678  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3824,7 +3824,7 @@ int main(void)
 
 	RequireTestProgram(ImpedanceControl);
  8001d66:	2002      	movs	r0, #2
- 8001d68:	f000 f958 	bl	800201c <RequireTestProgram>
+ 8001d68:	f000 f95a 	bl	8002020 <RequireTestProgram>
 * USER ADDED MAIN LOOP
 *******************************************************************************/
 
@@ -3837,7 +3837,7 @@ int main(void)
  8001d72:	d0fb      	beq.n	8001d6c <main+0x3d4>
 	  {
 		  RunProsthesisControl();
- 8001d74:	f000 f96c 	bl	8002050 <RunProsthesisControl>
+ 8001d74:	f000 f96e 	bl	8002054 <RunProsthesisControl>
 		  isProsthesisControlRequired = 0;
  8001d78:	4b02      	ldr	r3, [pc, #8]	; (8001d84 <main+0x3ec>)
  8001d7a:	2200      	movs	r2, #0
@@ -4064,443 +4064,446 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
  8001eb4:	687b      	ldr	r3, [r7, #4]
  8001eb6:	2204      	movs	r2, #4
  8001eb8:	4619      	mov	r1, r3
- 8001eba:	484a      	ldr	r0, [pc, #296]	; (8001fe4 <InitProsthesisControl+0x138>)
+ 8001eba:	4847      	ldr	r0, [pc, #284]	; (8001fd8 <InitProsthesisControl+0x12c>)
  8001ebc:	f004 fe12 	bl	8006ae4 <memcpy>
 
 	float startEqPoint = -11.0f;
- 8001ec0:	4b49      	ldr	r3, [pc, #292]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001ec0:	4b46      	ldr	r3, [pc, #280]	; (8001fdc <InitProsthesisControl+0x130>)
  8001ec2:	617b      	str	r3, [r7, #20]
-	float startKd = 0.00f;
- 8001ec4:	f04f 0300 	mov.w	r3, #0
- 8001ec8:	613b      	str	r3, [r7, #16]
+	float startKd = 0.06f;
+ 8001ec4:	4b46      	ldr	r3, [pc, #280]	; (8001fe0 <InitProsthesisControl+0x134>)
+ 8001ec6:	613b      	str	r3, [r7, #16]
 	float startKp = 5.0f;
- 8001eca:	4b48      	ldr	r3, [pc, #288]	; (8001fec <InitProsthesisControl+0x140>)
- 8001ecc:	60fb      	str	r3, [r7, #12]
+ 8001ec8:	4b46      	ldr	r3, [pc, #280]	; (8001fe4 <InitProsthesisControl+0x138>)
+ 8001eca:	60fb      	str	r3, [r7, #12]
 
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
- 8001ece:	4b45      	ldr	r3, [pc, #276]	; (8001fe4 <InitProsthesisControl+0x138>)
- 8001ed0:	785b      	ldrb	r3, [r3, #1]
- 8001ed2:	2b00      	cmp	r3, #0
- 8001ed4:	d003      	beq.n	8001ede <InitProsthesisControl+0x32>
- 8001ed6:	4b43      	ldr	r3, [pc, #268]	; (8001fe4 <InitProsthesisControl+0x138>)
- 8001ed8:	785b      	ldrb	r3, [r3, #1]
- 8001eda:	2b01      	cmp	r3, #1
- 8001edc:	d135      	bne.n	8001f4a <InitProsthesisControl+0x9e>
+ 8001ecc:	4b42      	ldr	r3, [pc, #264]	; (8001fd8 <InitProsthesisControl+0x12c>)
+ 8001ece:	785b      	ldrb	r3, [r3, #1]
+ 8001ed0:	2b00      	cmp	r3, #0
+ 8001ed2:	d003      	beq.n	8001edc <InitProsthesisControl+0x30>
+ 8001ed4:	4b40      	ldr	r3, [pc, #256]	; (8001fd8 <InitProsthesisControl+0x12c>)
+ 8001ed6:	785b      	ldrb	r3, [r3, #1]
+ 8001ed8:	2b01      	cmp	r3, #1
+ 8001eda:	d135      	bne.n	8001f48 <InitProsthesisControl+0x9c>
 	{
 		CM_Ankle.encoderBias = 1357 * AS5145B_RAW2DEG;
- 8001ede:	4b44      	ldr	r3, [pc, #272]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001ee0:	4a44      	ldr	r2, [pc, #272]	; (8001ff4 <InitProsthesisControl+0x148>)
- 8001ee2:	621a      	str	r2, [r3, #32]
+ 8001edc:	4b42      	ldr	r3, [pc, #264]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001ede:	4a43      	ldr	r2, [pc, #268]	; (8001fec <InitProsthesisControl+0x140>)
+ 8001ee0:	621a      	str	r2, [r3, #32]
 
 		CM_Ankle.EarlyStanceCtrl.eqPoint = startEqPoint;
- 8001ee4:	4a42      	ldr	r2, [pc, #264]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001ee6:	697b      	ldr	r3, [r7, #20]
- 8001ee8:	6393      	str	r3, [r2, #56]	; 0x38
+ 8001ee2:	4a41      	ldr	r2, [pc, #260]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001ee4:	697b      	ldr	r3, [r7, #20]
+ 8001ee6:	6393      	str	r3, [r2, #56]	; 0x38
 		CM_Ankle.EarlyStanceCtrl.kd = startKd;
- 8001eea:	4a41      	ldr	r2, [pc, #260]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001eec:	693b      	ldr	r3, [r7, #16]
- 8001eee:	63d3      	str	r3, [r2, #60]	; 0x3c
+ 8001ee8:	4a3f      	ldr	r2, [pc, #252]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001eea:	693b      	ldr	r3, [r7, #16]
+ 8001eec:	63d3      	str	r3, [r2, #60]	; 0x3c
 		CM_Ankle.EarlyStanceCtrl.kp = startKp;
- 8001ef0:	4a3f      	ldr	r2, [pc, #252]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001ef2:	68fb      	ldr	r3, [r7, #12]
- 8001ef4:	6413      	str	r3, [r2, #64]	; 0x40
+ 8001eee:	4a3e      	ldr	r2, [pc, #248]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001ef0:	68fb      	ldr	r3, [r7, #12]
+ 8001ef2:	6413      	str	r3, [r2, #64]	; 0x40
 
 		CM_Ankle.MidStanceCtrl.eqPoint = startEqPoint;
- 8001ef6:	4a3e      	ldr	r2, [pc, #248]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001ef8:	697b      	ldr	r3, [r7, #20]
- 8001efa:	6453      	str	r3, [r2, #68]	; 0x44
+ 8001ef4:	4a3c      	ldr	r2, [pc, #240]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001ef6:	697b      	ldr	r3, [r7, #20]
+ 8001ef8:	6453      	str	r3, [r2, #68]	; 0x44
 		CM_Ankle.MidStanceCtrl.kd = startKd;
- 8001efc:	4a3c      	ldr	r2, [pc, #240]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001efe:	693b      	ldr	r3, [r7, #16]
- 8001f00:	6493      	str	r3, [r2, #72]	; 0x48
+ 8001efa:	4a3b      	ldr	r2, [pc, #236]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001efc:	693b      	ldr	r3, [r7, #16]
+ 8001efe:	6493      	str	r3, [r2, #72]	; 0x48
 		CM_Ankle.MidStanceCtrl.kp = startKp;
- 8001f02:	4a3b      	ldr	r2, [pc, #236]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f04:	68fb      	ldr	r3, [r7, #12]
- 8001f06:	64d3      	str	r3, [r2, #76]	; 0x4c
+ 8001f00:	4a39      	ldr	r2, [pc, #228]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f02:	68fb      	ldr	r3, [r7, #12]
+ 8001f04:	64d3      	str	r3, [r2, #76]	; 0x4c
 
 		CM_Ankle.LateStanceCtrl.eqPoint = startEqPoint;
- 8001f08:	4a39      	ldr	r2, [pc, #228]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f0a:	697b      	ldr	r3, [r7, #20]
- 8001f0c:	6513      	str	r3, [r2, #80]	; 0x50
+ 8001f06:	4a38      	ldr	r2, [pc, #224]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f08:	697b      	ldr	r3, [r7, #20]
+ 8001f0a:	6513      	str	r3, [r2, #80]	; 0x50
 		CM_Ankle.LateStanceCtrl.kd = startKd;
- 8001f0e:	4a38      	ldr	r2, [pc, #224]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f10:	693b      	ldr	r3, [r7, #16]
- 8001f12:	6553      	str	r3, [r2, #84]	; 0x54
+ 8001f0c:	4a36      	ldr	r2, [pc, #216]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f0e:	693b      	ldr	r3, [r7, #16]
+ 8001f10:	6553      	str	r3, [r2, #84]	; 0x54
 
 		CM_Ankle.SwingFlexCtrl.eqPoint = startEqPoint;
- 8001f14:	4a36      	ldr	r2, [pc, #216]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f16:	697b      	ldr	r3, [r7, #20]
- 8001f18:	65d3      	str	r3, [r2, #92]	; 0x5c
+ 8001f12:	4a35      	ldr	r2, [pc, #212]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f14:	697b      	ldr	r3, [r7, #20]
+ 8001f16:	65d3      	str	r3, [r2, #92]	; 0x5c
 		CM_Ankle.SwingFlexCtrl.kd = startKd;
- 8001f1a:	4a35      	ldr	r2, [pc, #212]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f1c:	693b      	ldr	r3, [r7, #16]
- 8001f1e:	6613      	str	r3, [r2, #96]	; 0x60
+ 8001f18:	4a33      	ldr	r2, [pc, #204]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f1a:	693b      	ldr	r3, [r7, #16]
+ 8001f1c:	6613      	str	r3, [r2, #96]	; 0x60
 		CM_Ankle.SwingFlexCtrl.kp = startKp;
- 8001f20:	4a33      	ldr	r2, [pc, #204]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f22:	68fb      	ldr	r3, [r7, #12]
- 8001f24:	6653      	str	r3, [r2, #100]	; 0x64
+ 8001f1e:	4a32      	ldr	r2, [pc, #200]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f20:	68fb      	ldr	r3, [r7, #12]
+ 8001f22:	6653      	str	r3, [r2, #100]	; 0x64
 
 		CM_Ankle.SwingExtCtrl.eqPoint = startEqPoint;
- 8001f26:	4a32      	ldr	r2, [pc, #200]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f28:	697b      	ldr	r3, [r7, #20]
- 8001f2a:	6693      	str	r3, [r2, #104]	; 0x68
+ 8001f24:	4a30      	ldr	r2, [pc, #192]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f26:	697b      	ldr	r3, [r7, #20]
+ 8001f28:	6693      	str	r3, [r2, #104]	; 0x68
 		CM_Ankle.SwingExtCtrl.kd = startKd;
- 8001f2c:	4a30      	ldr	r2, [pc, #192]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f2e:	693b      	ldr	r3, [r7, #16]
- 8001f30:	66d3      	str	r3, [r2, #108]	; 0x6c
+ 8001f2a:	4a2f      	ldr	r2, [pc, #188]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f2c:	693b      	ldr	r3, [r7, #16]
+ 8001f2e:	66d3      	str	r3, [r2, #108]	; 0x6c
 		CM_Ankle.SwingExtCtrl.kp = startKp;
- 8001f32:	4a2f      	ldr	r2, [pc, #188]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f34:	68fb      	ldr	r3, [r7, #12]
- 8001f36:	6713      	str	r3, [r2, #112]	; 0x70
+ 8001f30:	4a2d      	ldr	r2, [pc, #180]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f32:	68fb      	ldr	r3, [r7, #12]
+ 8001f34:	6713      	str	r3, [r2, #112]	; 0x70
 
 		CM_Ankle.SwingDescCtrl.eqPoint = startEqPoint;
- 8001f38:	4a2d      	ldr	r2, [pc, #180]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f3a:	697b      	ldr	r3, [r7, #20]
- 8001f3c:	6753      	str	r3, [r2, #116]	; 0x74
+ 8001f36:	4a2c      	ldr	r2, [pc, #176]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f38:	697b      	ldr	r3, [r7, #20]
+ 8001f3a:	6753      	str	r3, [r2, #116]	; 0x74
 		CM_Ankle.SwingDescCtrl.kd = startKd;
- 8001f3e:	4a2c      	ldr	r2, [pc, #176]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f40:	693b      	ldr	r3, [r7, #16]
- 8001f42:	6793      	str	r3, [r2, #120]	; 0x78
+ 8001f3c:	4a2a      	ldr	r2, [pc, #168]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f3e:	693b      	ldr	r3, [r7, #16]
+ 8001f40:	6793      	str	r3, [r2, #120]	; 0x78
 		CM_Ankle.SwingDescCtrl.kp = startKp;
- 8001f44:	4a2a      	ldr	r2, [pc, #168]	; (8001ff0 <InitProsthesisControl+0x144>)
- 8001f46:	68fb      	ldr	r3, [r7, #12]
- 8001f48:	67d3      	str	r3, [r2, #124]	; 0x7c
+ 8001f42:	4a29      	ldr	r2, [pc, #164]	; (8001fe8 <InitProsthesisControl+0x13c>)
+ 8001f44:	68fb      	ldr	r3, [r7, #12]
+ 8001f46:	67d3      	str	r3, [r2, #124]	; 0x7c
 	}
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
- 8001f4a:	4b26      	ldr	r3, [pc, #152]	; (8001fe4 <InitProsthesisControl+0x138>)
- 8001f4c:	785b      	ldrb	r3, [r3, #1]
- 8001f4e:	2b02      	cmp	r3, #2
- 8001f50:	d003      	beq.n	8001f5a <InitProsthesisControl+0xae>
- 8001f52:	4b24      	ldr	r3, [pc, #144]	; (8001fe4 <InitProsthesisControl+0x138>)
- 8001f54:	785b      	ldrb	r3, [r3, #1]
- 8001f56:	2b01      	cmp	r3, #1
- 8001f58:	d13a      	bne.n	8001fd0 <InitProsthesisControl+0x124>
+ 8001f48:	4b23      	ldr	r3, [pc, #140]	; (8001fd8 <InitProsthesisControl+0x12c>)
+ 8001f4a:	785b      	ldrb	r3, [r3, #1]
+ 8001f4c:	2b02      	cmp	r3, #2
+ 8001f4e:	d003      	beq.n	8001f58 <InitProsthesisControl+0xac>
+ 8001f50:	4b21      	ldr	r3, [pc, #132]	; (8001fd8 <InitProsthesisControl+0x12c>)
+ 8001f52:	785b      	ldrb	r3, [r3, #1]
+ 8001f54:	2b01      	cmp	r3, #1
+ 8001f56:	d134      	bne.n	8001fc2 <InitProsthesisControl+0x116>
 	{
 		CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
- 8001f5a:	4b27      	ldr	r3, [pc, #156]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f5c:	4a27      	ldr	r2, [pc, #156]	; (8001ffc <InitProsthesisControl+0x150>)
- 8001f5e:	621a      	str	r2, [r3, #32]
+ 8001f58:	4b25      	ldr	r3, [pc, #148]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f5a:	4a26      	ldr	r2, [pc, #152]	; (8001ff4 <InitProsthesisControl+0x148>)
+ 8001f5c:	621a      	str	r2, [r3, #32]
 
-		CM_Knee.EarlyStanceCtrl.eqPoint = 2.0f;
- 8001f60:	4b25      	ldr	r3, [pc, #148]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f62:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
- 8001f66:	639a      	str	r2, [r3, #56]	; 0x38
-		CM_Knee.EarlyStanceCtrl.kd = 0.00f;
- 8001f68:	4b23      	ldr	r3, [pc, #140]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f6a:	f04f 0200 	mov.w	r2, #0
- 8001f6e:	63da      	str	r2, [r3, #60]	; 0x3c
-		CM_Knee.EarlyStanceCtrl.kp = 0.00f;
- 8001f70:	4b21      	ldr	r3, [pc, #132]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f72:	f04f 0200 	mov.w	r2, #0
- 8001f76:	641a      	str	r2, [r3, #64]	; 0x40
+		CM_Knee.EarlyStanceCtrl.eqPoint = 0.0f;
+ 8001f5e:	4b24      	ldr	r3, [pc, #144]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f60:	f04f 0200 	mov.w	r2, #0
+ 8001f64:	639a      	str	r2, [r3, #56]	; 0x38
+		CM_Knee.EarlyStanceCtrl.kd = 0.1f;
+ 8001f66:	4b22      	ldr	r3, [pc, #136]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f68:	4a23      	ldr	r2, [pc, #140]	; (8001ff8 <InitProsthesisControl+0x14c>)
+ 8001f6a:	63da      	str	r2, [r3, #60]	; 0x3c
+		CM_Knee.EarlyStanceCtrl.kp = 15.0f;
+ 8001f6c:	4b20      	ldr	r3, [pc, #128]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f6e:	4a23      	ldr	r2, [pc, #140]	; (8001ffc <InitProsthesisControl+0x150>)
+ 8001f70:	641a      	str	r2, [r3, #64]	; 0x40
 
 		CM_Knee.MidStanceCtrl.eqPoint = 0.0f;
- 8001f78:	4b1f      	ldr	r3, [pc, #124]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f7a:	f04f 0200 	mov.w	r2, #0
- 8001f7e:	645a      	str	r2, [r3, #68]	; 0x44
-		CM_Knee.MidStanceCtrl.kd = 0.00f;
- 8001f80:	4b1d      	ldr	r3, [pc, #116]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f82:	f04f 0200 	mov.w	r2, #0
- 8001f86:	649a      	str	r2, [r3, #72]	; 0x48
-		CM_Knee.MidStanceCtrl.kp = 0.00f;
- 8001f88:	4b1b      	ldr	r3, [pc, #108]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f8a:	f04f 0200 	mov.w	r2, #0
- 8001f8e:	64da      	str	r2, [r3, #76]	; 0x4c
+ 8001f72:	4b1f      	ldr	r3, [pc, #124]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f74:	f04f 0200 	mov.w	r2, #0
+ 8001f78:	645a      	str	r2, [r3, #68]	; 0x44
+		CM_Knee.MidStanceCtrl.kd = 0.1f;
+ 8001f7a:	4b1d      	ldr	r3, [pc, #116]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f7c:	4a1e      	ldr	r2, [pc, #120]	; (8001ff8 <InitProsthesisControl+0x14c>)
+ 8001f7e:	649a      	str	r2, [r3, #72]	; 0x48
+		CM_Knee.MidStanceCtrl.kp = 15.0f;
+ 8001f80:	4b1b      	ldr	r3, [pc, #108]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f82:	4a1e      	ldr	r2, [pc, #120]	; (8001ffc <InitProsthesisControl+0x150>)
+ 8001f84:	64da      	str	r2, [r3, #76]	; 0x4c
 
 		CM_Knee.LateStanceCtrl.eqPoint = 8.0f;
- 8001f90:	4b19      	ldr	r3, [pc, #100]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f92:	f04f 4282 	mov.w	r2, #1090519040	; 0x41000000
- 8001f96:	651a      	str	r2, [r3, #80]	; 0x50
-		CM_Knee.LateStanceCtrl.kd = 0.00f;
- 8001f98:	4b17      	ldr	r3, [pc, #92]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001f9a:	f04f 0200 	mov.w	r2, #0
- 8001f9e:	655a      	str	r2, [r3, #84]	; 0x54
-		CM_Knee.LateStanceCtrl.kp = 0.00f;
- 8001fa0:	4b15      	ldr	r3, [pc, #84]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001fa2:	f04f 0200 	mov.w	r2, #0
- 8001fa6:	659a      	str	r2, [r3, #88]	; 0x58
+ 8001f86:	4b1a      	ldr	r3, [pc, #104]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f88:	f04f 4282 	mov.w	r2, #1090519040	; 0x41000000
+ 8001f8c:	651a      	str	r2, [r3, #80]	; 0x50
+		CM_Knee.LateStanceCtrl.kd = 0.06f;
+ 8001f8e:	4b18      	ldr	r3, [pc, #96]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f90:	4a13      	ldr	r2, [pc, #76]	; (8001fe0 <InitProsthesisControl+0x134>)
+ 8001f92:	655a      	str	r2, [r3, #84]	; 0x54
+		CM_Knee.LateStanceCtrl.kp = 7.5f;
+ 8001f94:	4b16      	ldr	r3, [pc, #88]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f96:	4a1a      	ldr	r2, [pc, #104]	; (8002000 <InitProsthesisControl+0x154>)
+ 8001f98:	659a      	str	r2, [r3, #88]	; 0x58
 
 		CM_Knee.SwingFlexCtrl.eqPoint = 65.0f;
- 8001fa8:	4b13      	ldr	r3, [pc, #76]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001faa:	4a15      	ldr	r2, [pc, #84]	; (8002000 <InitProsthesisControl+0x154>)
- 8001fac:	65da      	str	r2, [r3, #92]	; 0x5c
+ 8001f9a:	4b15      	ldr	r3, [pc, #84]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001f9c:	4a19      	ldr	r2, [pc, #100]	; (8002004 <InitProsthesisControl+0x158>)
+ 8001f9e:	65da      	str	r2, [r3, #92]	; 0x5c
 		CM_Knee.SwingFlexCtrl.kd = 0.00f;
- 8001fae:	4b12      	ldr	r3, [pc, #72]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001fb0:	f04f 0200 	mov.w	r2, #0
- 8001fb4:	661a      	str	r2, [r3, #96]	; 0x60
+ 8001fa0:	4b13      	ldr	r3, [pc, #76]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001fa2:	f04f 0200 	mov.w	r2, #0
+ 8001fa6:	661a      	str	r2, [r3, #96]	; 0x60
 		CM_Knee.SwingFlexCtrl.kp = 0.12f;
- 8001fb6:	4b10      	ldr	r3, [pc, #64]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001fb8:	4a12      	ldr	r2, [pc, #72]	; (8002004 <InitProsthesisControl+0x158>)
- 8001fba:	665a      	str	r2, [r3, #100]	; 0x64
+ 8001fa8:	4b11      	ldr	r3, [pc, #68]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001faa:	4a17      	ldr	r2, [pc, #92]	; (8002008 <InitProsthesisControl+0x15c>)
+ 8001fac:	665a      	str	r2, [r3, #100]	; 0x64
 
 		CM_Knee.SwingExtCtrl.eqPoint = 22.0f;
- 8001fbc:	4b0e      	ldr	r3, [pc, #56]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001fbe:	4a12      	ldr	r2, [pc, #72]	; (8002008 <InitProsthesisControl+0x15c>)
- 8001fc0:	669a      	str	r2, [r3, #104]	; 0x68
+ 8001fae:	4b10      	ldr	r3, [pc, #64]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001fb0:	4a16      	ldr	r2, [pc, #88]	; (800200c <InitProsthesisControl+0x160>)
+ 8001fb2:	669a      	str	r2, [r3, #104]	; 0x68
 		CM_Knee.SwingExtCtrl.kd = 0.00f;
- 8001fc2:	4b0d      	ldr	r3, [pc, #52]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001fc4:	f04f 0200 	mov.w	r2, #0
- 8001fc8:	66da      	str	r2, [r3, #108]	; 0x6c
+ 8001fb4:	4b0e      	ldr	r3, [pc, #56]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001fb6:	f04f 0200 	mov.w	r2, #0
+ 8001fba:	66da      	str	r2, [r3, #108]	; 0x6c
 		CM_Knee.SwingExtCtrl.kp = 0.13f;
- 8001fca:	4b0b      	ldr	r3, [pc, #44]	; (8001ff8 <InitProsthesisControl+0x14c>)
- 8001fcc:	4a0f      	ldr	r2, [pc, #60]	; (800200c <InitProsthesisControl+0x160>)
- 8001fce:	671a      	str	r2, [r3, #112]	; 0x70
+ 8001fbc:	4b0c      	ldr	r3, [pc, #48]	; (8001ff0 <InitProsthesisControl+0x144>)
+ 8001fbe:	4a14      	ldr	r2, [pc, #80]	; (8002010 <InitProsthesisControl+0x164>)
+ 8001fc0:	671a      	str	r2, [r3, #112]	; 0x70
 	}
 
 	CM_LoadCell.intoStanceThreshold = 1300;
- 8001fd0:	4b0f      	ldr	r3, [pc, #60]	; (8002010 <InitProsthesisControl+0x164>)
- 8001fd2:	4a10      	ldr	r2, [pc, #64]	; (8002014 <InitProsthesisControl+0x168>)
- 8001fd4:	635a      	str	r2, [r3, #52]	; 0x34
+ 8001fc2:	4b14      	ldr	r3, [pc, #80]	; (8002014 <InitProsthesisControl+0x168>)
+ 8001fc4:	4a14      	ldr	r2, [pc, #80]	; (8002018 <InitProsthesisControl+0x16c>)
+ 8001fc6:	635a      	str	r2, [r3, #52]	; 0x34
 	CM_LoadCell.outOfStanceThreshold = 1300 + 50;
- 8001fd6:	4b0e      	ldr	r3, [pc, #56]	; (8002010 <InitProsthesisControl+0x164>)
- 8001fd8:	4a0f      	ldr	r2, [pc, #60]	; (8002018 <InitProsthesisControl+0x16c>)
- 8001fda:	631a      	str	r2, [r3, #48]	; 0x30
+ 8001fc8:	4b12      	ldr	r3, [pc, #72]	; (8002014 <InitProsthesisControl+0x168>)
+ 8001fca:	4a14      	ldr	r2, [pc, #80]	; (800201c <InitProsthesisControl+0x170>)
+ 8001fcc:	631a      	str	r2, [r3, #48]	; 0x30
 }
- 8001fdc:	bf00      	nop
- 8001fde:	3718      	adds	r7, #24
- 8001fe0:	46bd      	mov	sp, r7
- 8001fe2:	bd80      	pop	{r7, pc}
- 8001fe4:	20000068 	.word	0x20000068
- 8001fe8:	c1300000 	.word	0xc1300000
- 8001fec:	40a00000 	.word	0x40a00000
- 8001ff0:	20000078 	.word	0x20000078
- 8001ff4:	42ee8900 	.word	0x42ee8900
- 8001ff8:	200000f8 	.word	0x200000f8
- 8001ffc:	43453a00 	.word	0x43453a00
- 8002000:	42820000 	.word	0x42820000
- 8002004:	3df5c28f 	.word	0x3df5c28f
- 8002008:	41b00000 	.word	0x41b00000
- 800200c:	3e051eb8 	.word	0x3e051eb8
- 8002010:	20000178 	.word	0x20000178
- 8002014:	44a28000 	.word	0x44a28000
- 8002018:	44a8c000 	.word	0x44a8c000
+ 8001fce:	bf00      	nop
+ 8001fd0:	3718      	adds	r7, #24
+ 8001fd2:	46bd      	mov	sp, r7
+ 8001fd4:	bd80      	pop	{r7, pc}
+ 8001fd6:	bf00      	nop
+ 8001fd8:	20000068 	.word	0x20000068
+ 8001fdc:	c1300000 	.word	0xc1300000
+ 8001fe0:	3d75c28f 	.word	0x3d75c28f
+ 8001fe4:	40a00000 	.word	0x40a00000
+ 8001fe8:	20000078 	.word	0x20000078
+ 8001fec:	42ee8900 	.word	0x42ee8900
+ 8001ff0:	200000f8 	.word	0x200000f8
+ 8001ff4:	43453a00 	.word	0x43453a00
+ 8001ff8:	3dcccccd 	.word	0x3dcccccd
+ 8001ffc:	41700000 	.word	0x41700000
+ 8002000:	40f00000 	.word	0x40f00000
+ 8002004:	42820000 	.word	0x42820000
+ 8002008:	3df5c28f 	.word	0x3df5c28f
+ 800200c:	41b00000 	.word	0x41b00000
+ 8002010:	3e051eb8 	.word	0x3e051eb8
+ 8002014:	20000178 	.word	0x20000178
+ 8002018:	44a28000 	.word	0x44a28000
+ 800201c:	44a8c000 	.word	0x44a8c000
 
-0800201c <RequireTestProgram>:
+08002020 <RequireTestProgram>:
 
 void RequireTestProgram(TestProgram_e option)
 {
- 800201c:	b480      	push	{r7}
- 800201e:	b083      	sub	sp, #12
- 8002020:	af00      	add	r7, sp, #0
- 8002022:	4603      	mov	r3, r0
- 8002024:	71fb      	strb	r3, [r7, #7]
+ 8002020:	b480      	push	{r7}
+ 8002022:	b083      	sub	sp, #12
+ 8002024:	af00      	add	r7, sp, #0
+ 8002026:	4603      	mov	r3, r0
+ 8002028:	71fb      	strb	r3, [r7, #7]
 	testProgram = option;
- 8002026:	4a08      	ldr	r2, [pc, #32]	; (8002048 <RequireTestProgram+0x2c>)
- 8002028:	79fb      	ldrb	r3, [r7, #7]
- 800202a:	7013      	strb	r3, [r2, #0]
+ 800202a:	4a08      	ldr	r2, [pc, #32]	; (800204c <RequireTestProgram+0x2c>)
+ 800202c:	79fb      	ldrb	r3, [r7, #7]
+ 800202e:	7013      	strb	r3, [r2, #0]
 	if(testProgram != None)
- 800202c:	4b06      	ldr	r3, [pc, #24]	; (8002048 <RequireTestProgram+0x2c>)
- 800202e:	781b      	ldrb	r3, [r3, #0]
- 8002030:	2b00      	cmp	r3, #0
- 8002032:	d002      	beq.n	800203a <RequireTestProgram+0x1e>
+ 8002030:	4b06      	ldr	r3, [pc, #24]	; (800204c <RequireTestProgram+0x2c>)
+ 8002032:	781b      	ldrb	r3, [r3, #0]
+ 8002034:	2b00      	cmp	r3, #0
+ 8002036:	d002      	beq.n	800203e <RequireTestProgram+0x1e>
 		isTestProgramRequired = 1;
- 8002034:	4b05      	ldr	r3, [pc, #20]	; (800204c <RequireTestProgram+0x30>)
- 8002036:	2201      	movs	r2, #1
- 8002038:	701a      	strb	r2, [r3, #0]
+ 8002038:	4b05      	ldr	r3, [pc, #20]	; (8002050 <RequireTestProgram+0x30>)
+ 800203a:	2201      	movs	r2, #1
+ 800203c:	701a      	strb	r2, [r3, #0]
 }
- 800203a:	bf00      	nop
- 800203c:	370c      	adds	r7, #12
- 800203e:	46bd      	mov	sp, r7
- 8002040:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8002044:	4770      	bx	lr
- 8002046:	bf00      	nop
- 8002048:	2000006a 	.word	0x2000006a
- 800204c:	2000006c 	.word	0x2000006c
+ 800203e:	bf00      	nop
+ 8002040:	370c      	adds	r7, #12
+ 8002042:	46bd      	mov	sp, r7
+ 8002044:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8002048:	4770      	bx	lr
+ 800204a:	bf00      	nop
+ 800204c:	2000006a 	.word	0x2000006a
+ 8002050:	2000006c 	.word	0x2000006c
 
-08002050 <RunProsthesisControl>:
+08002054 <RunProsthesisControl>:
 
 void RunProsthesisControl(void)
 {
- 8002050:	b580      	push	{r7, lr}
- 8002052:	af00      	add	r7, sp, #0
+ 8002054:	b580      	push	{r7, lr}
+ 8002056:	af00      	add	r7, sp, #0
 	GetInputs();
- 8002054:	f000 f826 	bl	80020a4 <GetInputs>
+ 8002058:	f000 f826 	bl	80020a8 <GetInputs>
 	ProcessInputs();
- 8002058:	f000 f8b2 	bl	80021c0 <ProcessInputs>
+ 800205c:	f000 f8b0 	bl	80021c0 <ProcessInputs>
 
 	if(isTestProgramRequired)
- 800205c:	4b0e      	ldr	r3, [pc, #56]	; (8002098 <RunProsthesisControl+0x48>)
- 800205e:	781b      	ldrb	r3, [r3, #0]
- 8002060:	2b00      	cmp	r3, #0
- 8002062:	d001      	beq.n	8002068 <RunProsthesisControl+0x18>
+ 8002060:	4b0e      	ldr	r3, [pc, #56]	; (800209c <RunProsthesisControl+0x48>)
+ 8002062:	781b      	ldrb	r3, [r3, #0]
+ 8002064:	2b00      	cmp	r3, #0
+ 8002066:	d001      	beq.n	800206c <RunProsthesisControl+0x18>
 		RunTestProgram();
- 8002064:	f000 fecc 	bl	8002e00 <RunTestProgram>
+ 8002068:	f000 feca 	bl	8002e00 <RunTestProgram>
 
 	RunStateMachine();
- 8002068:	f000 fb5e 	bl	8002728 <RunStateMachine>
+ 800206c:	f000 fb5c 	bl	8002728 <RunStateMachine>
 	RunImpedanceControl();
- 800206c:	f000 fd62 	bl	8002b34 <RunImpedanceControl>
+ 8002070:	f000 fd60 	bl	8002b34 <RunImpedanceControl>
 
 	// Check for first and second executions, needed for derivatives, filters, etc.
 	if(isFirst)
- 8002070:	4b0a      	ldr	r3, [pc, #40]	; (800209c <RunProsthesisControl+0x4c>)
- 8002072:	781b      	ldrb	r3, [r3, #0]
- 8002074:	2b00      	cmp	r3, #0
- 8002076:	d006      	beq.n	8002086 <RunProsthesisControl+0x36>
+ 8002074:	4b0a      	ldr	r3, [pc, #40]	; (80020a0 <RunProsthesisControl+0x4c>)
+ 8002076:	781b      	ldrb	r3, [r3, #0]
+ 8002078:	2b00      	cmp	r3, #0
+ 800207a:	d006      	beq.n	800208a <RunProsthesisControl+0x36>
 	{
 		isFirst = 0;
- 8002078:	4b08      	ldr	r3, [pc, #32]	; (800209c <RunProsthesisControl+0x4c>)
- 800207a:	2200      	movs	r2, #0
- 800207c:	701a      	strb	r2, [r3, #0]
+ 800207c:	4b08      	ldr	r3, [pc, #32]	; (80020a0 <RunProsthesisControl+0x4c>)
+ 800207e:	2200      	movs	r2, #0
+ 8002080:	701a      	strb	r2, [r3, #0]
 		isSecond = 1;
- 800207e:	4b08      	ldr	r3, [pc, #32]	; (80020a0 <RunProsthesisControl+0x50>)
- 8002080:	2201      	movs	r2, #1
- 8002082:	701a      	strb	r2, [r3, #0]
+ 8002082:	4b08      	ldr	r3, [pc, #32]	; (80020a4 <RunProsthesisControl+0x50>)
+ 8002084:	2201      	movs	r2, #1
+ 8002086:	701a      	strb	r2, [r3, #0]
 	}
 	else if(isSecond)
 		isSecond = 0;
 }
- 8002084:	e006      	b.n	8002094 <RunProsthesisControl+0x44>
+ 8002088:	e006      	b.n	8002098 <RunProsthesisControl+0x44>
 	else if(isSecond)
- 8002086:	4b06      	ldr	r3, [pc, #24]	; (80020a0 <RunProsthesisControl+0x50>)
- 8002088:	781b      	ldrb	r3, [r3, #0]
- 800208a:	2b00      	cmp	r3, #0
- 800208c:	d002      	beq.n	8002094 <RunProsthesisControl+0x44>
+ 800208a:	4b06      	ldr	r3, [pc, #24]	; (80020a4 <RunProsthesisControl+0x50>)
+ 800208c:	781b      	ldrb	r3, [r3, #0]
+ 800208e:	2b00      	cmp	r3, #0
+ 8002090:	d002      	beq.n	8002098 <RunProsthesisControl+0x44>
 		isSecond = 0;
- 800208e:	4b04      	ldr	r3, [pc, #16]	; (80020a0 <RunProsthesisControl+0x50>)
- 8002090:	2200      	movs	r2, #0
- 8002092:	701a      	strb	r2, [r3, #0]
+ 8002092:	4b04      	ldr	r3, [pc, #16]	; (80020a4 <RunProsthesisControl+0x50>)
+ 8002094:	2200      	movs	r2, #0
+ 8002096:	701a      	strb	r2, [r3, #0]
 }
- 8002094:	bf00      	nop
- 8002096:	bd80      	pop	{r7, pc}
- 8002098:	2000006c 	.word	0x2000006c
- 800209c:	20000000 	.word	0x20000000
- 80020a0:	2000006b 	.word	0x2000006b
+ 8002098:	bf00      	nop
+ 800209a:	bd80      	pop	{r7, pc}
+ 800209c:	2000006c 	.word	0x2000006c
+ 80020a0:	20000000 	.word	0x20000000
+ 80020a4:	2000006b 	.word	0x2000006b
 
-080020a4 <GetInputs>:
+080020a8 <GetInputs>:
 /*******************************************************************************
 * PRIVATE FUNCTIONS
 *******************************************************************************/
 
 static void GetInputs(void)
 {
- 80020a4:	b5b0      	push	{r4, r5, r7, lr}
- 80020a6:	b08c      	sub	sp, #48	; 0x30
- 80020a8:	af00      	add	r7, sp, #0
+ 80020a8:	b5b0      	push	{r4, r5, r7, lr}
+ 80020aa:	b08c      	sub	sp, #48	; 0x30
+ 80020ac:	af00      	add	r7, sp, #0
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
- 80020aa:	4b31      	ldr	r3, [pc, #196]	; (8002170 <GetInputs+0xcc>)
- 80020ac:	785b      	ldrb	r3, [r3, #1]
- 80020ae:	2b00      	cmp	r3, #0
- 80020b0:	d003      	beq.n	80020ba <GetInputs+0x16>
- 80020b2:	4b2f      	ldr	r3, [pc, #188]	; (8002170 <GetInputs+0xcc>)
- 80020b4:	785b      	ldrb	r3, [r3, #1]
- 80020b6:	2b01      	cmp	r3, #1
- 80020b8:	d112      	bne.n	80020e0 <GetInputs+0x3c>
+ 80020ae:	4b31      	ldr	r3, [pc, #196]	; (8002174 <GetInputs+0xcc>)
+ 80020b0:	785b      	ldrb	r3, [r3, #1]
+ 80020b2:	2b00      	cmp	r3, #0
+ 80020b4:	d003      	beq.n	80020be <GetInputs+0x16>
+ 80020b6:	4b2f      	ldr	r3, [pc, #188]	; (8002174 <GetInputs+0xcc>)
+ 80020b8:	785b      	ldrb	r3, [r3, #1]
+ 80020ba:	2b01      	cmp	r3, #1
+ 80020bc:	d112      	bne.n	80020e4 <GetInputs+0x3c>
 		CM_Ankle.jointAngle[0] = AS5145B_ReadPosition(AnkleEncoderIndex) - CM_Ankle.encoderBias;
- 80020ba:	2000      	movs	r0, #0
- 80020bc:	f001 fb5e 	bl	800377c <AS5145B_ReadPosition>
- 80020c0:	eeb0 7a40 	vmov.f32	s14, s0
- 80020c4:	4b2b      	ldr	r3, [pc, #172]	; (8002174 <GetInputs+0xd0>)
- 80020c6:	edd3 7a08 	vldr	s15, [r3, #32]
- 80020ca:	ee77 7a67 	vsub.f32	s15, s14, s15
- 80020ce:	ee17 0a90 	vmov	r0, s15
- 80020d2:	f7fe f9dd 	bl	8000490 <__aeabi_f2d>
- 80020d6:	4602      	mov	r2, r0
- 80020d8:	460b      	mov	r3, r1
- 80020da:	4926      	ldr	r1, [pc, #152]	; (8002174 <GetInputs+0xd0>)
- 80020dc:	e9c1 2300 	strd	r2, r3, [r1]
+ 80020be:	2000      	movs	r0, #0
+ 80020c0:	f001 fb5c 	bl	800377c <AS5145B_ReadPosition>
+ 80020c4:	eeb0 7a40 	vmov.f32	s14, s0
+ 80020c8:	4b2b      	ldr	r3, [pc, #172]	; (8002178 <GetInputs+0xd0>)
+ 80020ca:	edd3 7a08 	vldr	s15, [r3, #32]
+ 80020ce:	ee77 7a67 	vsub.f32	s15, s14, s15
+ 80020d2:	ee17 0a90 	vmov	r0, s15
+ 80020d6:	f7fe f9db 	bl	8000490 <__aeabi_f2d>
+ 80020da:	4602      	mov	r2, r0
+ 80020dc:	460b      	mov	r3, r1
+ 80020de:	4926      	ldr	r1, [pc, #152]	; (8002178 <GetInputs+0xd0>)
+ 80020e0:	e9c1 2300 	strd	r2, r3, [r1]
 
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
- 80020e0:	4b23      	ldr	r3, [pc, #140]	; (8002170 <GetInputs+0xcc>)
- 80020e2:	785b      	ldrb	r3, [r3, #1]
- 80020e4:	2b02      	cmp	r3, #2
- 80020e6:	d003      	beq.n	80020f0 <GetInputs+0x4c>
- 80020e8:	4b21      	ldr	r3, [pc, #132]	; (8002170 <GetInputs+0xcc>)
- 80020ea:	785b      	ldrb	r3, [r3, #1]
- 80020ec:	2b01      	cmp	r3, #1
- 80020ee:	d115      	bne.n	800211c <GetInputs+0x78>
+ 80020e4:	4b23      	ldr	r3, [pc, #140]	; (8002174 <GetInputs+0xcc>)
+ 80020e6:	785b      	ldrb	r3, [r3, #1]
+ 80020e8:	2b02      	cmp	r3, #2
+ 80020ea:	d003      	beq.n	80020f4 <GetInputs+0x4c>
+ 80020ec:	4b21      	ldr	r3, [pc, #132]	; (8002174 <GetInputs+0xcc>)
+ 80020ee:	785b      	ldrb	r3, [r3, #1]
+ 80020f0:	2b01      	cmp	r3, #1
+ 80020f2:	d115      	bne.n	8002120 <GetInputs+0x78>
 		CM_Knee.jointAngle[0] = - (AS5145B_ReadPosition(KneeEncoderIndex) - CM_Knee.encoderBias);
- 80020f0:	2001      	movs	r0, #1
- 80020f2:	f001 fb43 	bl	800377c <AS5145B_ReadPosition>
- 80020f6:	eeb0 7a40 	vmov.f32	s14, s0
- 80020fa:	4b1f      	ldr	r3, [pc, #124]	; (8002178 <GetInputs+0xd4>)
- 80020fc:	edd3 7a08 	vldr	s15, [r3, #32]
- 8002100:	ee77 7a67 	vsub.f32	s15, s14, s15
- 8002104:	eef1 7a67 	vneg.f32	s15, s15
- 8002108:	ee17 3a90 	vmov	r3, s15
- 800210c:	4618      	mov	r0, r3
- 800210e:	f7fe f9bf 	bl	8000490 <__aeabi_f2d>
- 8002112:	4602      	mov	r2, r0
- 8002114:	460b      	mov	r3, r1
- 8002116:	4918      	ldr	r1, [pc, #96]	; (8002178 <GetInputs+0xd4>)
- 8002118:	e9c1 2300 	strd	r2, r3, [r1]
+ 80020f4:	2001      	movs	r0, #1
+ 80020f6:	f001 fb41 	bl	800377c <AS5145B_ReadPosition>
+ 80020fa:	eeb0 7a40 	vmov.f32	s14, s0
+ 80020fe:	4b1f      	ldr	r3, [pc, #124]	; (800217c <GetInputs+0xd4>)
+ 8002100:	edd3 7a08 	vldr	s15, [r3, #32]
+ 8002104:	ee77 7a67 	vsub.f32	s15, s14, s15
+ 8002108:	eef1 7a67 	vneg.f32	s15, s15
+ 800210c:	ee17 3a90 	vmov	r3, s15
+ 8002110:	4618      	mov	r0, r3
+ 8002112:	f7fe f9bd 	bl	8000490 <__aeabi_f2d>
+ 8002116:	4602      	mov	r2, r0
+ 8002118:	460b      	mov	r3, r1
+ 800211a:	4918      	ldr	r1, [pc, #96]	; (800217c <GetInputs+0xd4>)
+ 800211c:	e9c1 2300 	strd	r2, r3, [r1]
 
 	CM_LoadCell.Raw.bot[0] = ReadLoadCell(ADC1);
- 800211c:	4817      	ldr	r0, [pc, #92]	; (800217c <GetInputs+0xd8>)
- 800211e:	f000 f835 	bl	800218c <ReadLoadCell>
- 8002122:	4603      	mov	r3, r0
- 8002124:	ee07 3a90 	vmov	s15, r3
- 8002128:	eef8 7a67 	vcvt.f32.u32	s15, s15
- 800212c:	4b14      	ldr	r3, [pc, #80]	; (8002180 <GetInputs+0xdc>)
- 800212e:	edc3 7a00 	vstr	s15, [r3]
+ 8002120:	4817      	ldr	r0, [pc, #92]	; (8002180 <GetInputs+0xd8>)
+ 8002122:	f000 f835 	bl	8002190 <ReadLoadCell>
+ 8002126:	4603      	mov	r3, r0
+ 8002128:	ee07 3a90 	vmov	s15, r3
+ 800212c:	eef8 7a67 	vcvt.f32.u32	s15, s15
+ 8002130:	4b14      	ldr	r3, [pc, #80]	; (8002184 <GetInputs+0xdc>)
+ 8002132:	edc3 7a00 	vstr	s15, [r3]
 	CM_LoadCell.Raw.top[0] = ReadLoadCell(ADC2);
- 8002132:	4814      	ldr	r0, [pc, #80]	; (8002184 <GetInputs+0xe0>)
- 8002134:	f000 f82a 	bl	800218c <ReadLoadCell>
- 8002138:	4603      	mov	r3, r0
- 800213a:	ee07 3a90 	vmov	s15, r3
- 800213e:	eef8 7a67 	vcvt.f32.u32	s15, s15
- 8002142:	4b0f      	ldr	r3, [pc, #60]	; (8002180 <GetInputs+0xdc>)
- 8002144:	edc3 7a03 	vstr	s15, [r3, #12]
+ 8002136:	4814      	ldr	r0, [pc, #80]	; (8002188 <GetInputs+0xe0>)
+ 8002138:	f000 f82a 	bl	8002190 <ReadLoadCell>
+ 800213c:	4603      	mov	r3, r0
+ 800213e:	ee07 3a90 	vmov	s15, r3
+ 8002142:	eef8 7a67 	vcvt.f32.u32	s15, s15
+ 8002146:	4b0f      	ldr	r3, [pc, #60]	; (8002184 <GetInputs+0xdc>)
+ 8002148:	edc3 7a03 	vstr	s15, [r3, #12]
 
 	IMU_Data = MPU925x_ReadIMU(0);
- 8002148:	4c0f      	ldr	r4, [pc, #60]	; (8002188 <GetInputs+0xe4>)
- 800214a:	463b      	mov	r3, r7
- 800214c:	2100      	movs	r1, #0
- 800214e:	4618      	mov	r0, r3
- 8002150:	f003 f9a6 	bl	80054a0 <MPU925x_ReadIMU>
- 8002154:	4625      	mov	r5, r4
- 8002156:	463c      	mov	r4, r7
- 8002158:	cc0f      	ldmia	r4!, {r0, r1, r2, r3}
- 800215a:	c50f      	stmia	r5!, {r0, r1, r2, r3}
+ 800214c:	4c0f      	ldr	r4, [pc, #60]	; (800218c <GetInputs+0xe4>)
+ 800214e:	463b      	mov	r3, r7
+ 8002150:	2100      	movs	r1, #0
+ 8002152:	4618      	mov	r0, r3
+ 8002154:	f003 f9a4 	bl	80054a0 <MPU925x_ReadIMU>
+ 8002158:	4625      	mov	r5, r4
+ 800215a:	463c      	mov	r4, r7
  800215c:	cc0f      	ldmia	r4!, {r0, r1, r2, r3}
  800215e:	c50f      	stmia	r5!, {r0, r1, r2, r3}
- 8002160:	e894 000f 	ldmia.w	r4, {r0, r1, r2, r3}
- 8002164:	e885 000f 	stmia.w	r5, {r0, r1, r2, r3}
+ 8002160:	cc0f      	ldmia	r4!, {r0, r1, r2, r3}
+ 8002162:	c50f      	stmia	r5!, {r0, r1, r2, r3}
+ 8002164:	e894 000f 	ldmia.w	r4, {r0, r1, r2, r3}
+ 8002168:	e885 000f 	stmia.w	r5, {r0, r1, r2, r3}
 }
- 8002168:	bf00      	nop
- 800216a:	3730      	adds	r7, #48	; 0x30
- 800216c:	46bd      	mov	sp, r7
- 800216e:	bdb0      	pop	{r4, r5, r7, pc}
- 8002170:	20000068 	.word	0x20000068
- 8002174:	20000078 	.word	0x20000078
- 8002178:	200000f8 	.word	0x200000f8
- 800217c:	50040000 	.word	0x50040000
- 8002180:	20000178 	.word	0x20000178
- 8002184:	50040100 	.word	0x50040100
- 8002188:	20000038 	.word	0x20000038
+ 800216c:	bf00      	nop
+ 800216e:	3730      	adds	r7, #48	; 0x30
+ 8002170:	46bd      	mov	sp, r7
+ 8002172:	bdb0      	pop	{r4, r5, r7, pc}
+ 8002174:	20000068 	.word	0x20000068
+ 8002178:	20000078 	.word	0x20000078
+ 800217c:	200000f8 	.word	0x200000f8
+ 8002180:	50040000 	.word	0x50040000
+ 8002184:	20000178 	.word	0x20000178
+ 8002188:	50040100 	.word	0x50040100
+ 800218c:	20000038 	.word	0x20000038
 
-0800218c <ReadLoadCell>:
+08002190 <ReadLoadCell>:
 
 static uint16_t ReadLoadCell(ADC_TypeDef *ADCx)
 {
- 800218c:	b580      	push	{r7, lr}
- 800218e:	b084      	sub	sp, #16
- 8002190:	af00      	add	r7, sp, #0
- 8002192:	6078      	str	r0, [r7, #4]
+ 8002190:	b580      	push	{r7, lr}
+ 8002192:	b084      	sub	sp, #16
+ 8002194:	af00      	add	r7, sp, #0
+ 8002196:	6078      	str	r0, [r7, #4]
 	LL_ADC_REG_StartConversion(ADCx);
- 8002194:	6878      	ldr	r0, [r7, #4]
- 8002196:	f7ff fe55 	bl	8001e44 <LL_ADC_REG_StartConversion>
+ 8002198:	6878      	ldr	r0, [r7, #4]
+ 800219a:	f7ff fe53 	bl	8001e44 <LL_ADC_REG_StartConversion>
 	while (!LL_ADC_IsActiveFlag_EOC(ADCx));
- 800219a:	bf00      	nop
- 800219c:	6878      	ldr	r0, [r7, #4]
- 800219e:	f7ff fe72 	bl	8001e86 <LL_ADC_IsActiveFlag_EOC>
- 80021a2:	4603      	mov	r3, r0
- 80021a4:	2b00      	cmp	r3, #0
- 80021a6:	d0f9      	beq.n	800219c <ReadLoadCell+0x10>
+ 800219e:	bf00      	nop
+ 80021a0:	6878      	ldr	r0, [r7, #4]
+ 80021a2:	f7ff fe70 	bl	8001e86 <LL_ADC_IsActiveFlag_EOC>
+ 80021a6:	4603      	mov	r3, r0
+ 80021a8:	2b00      	cmp	r3, #0
+ 80021aa:	d0f9      	beq.n	80021a0 <ReadLoadCell+0x10>
 	uint16_t data = LL_ADC_REG_ReadConversionData12(ADCx);
- 80021a8:	6878      	ldr	r0, [r7, #4]
- 80021aa:	f7ff fe5f 	bl	8001e6c <LL_ADC_REG_ReadConversionData12>
- 80021ae:	4603      	mov	r3, r0
- 80021b0:	81fb      	strh	r3, [r7, #14]
+ 80021ac:	6878      	ldr	r0, [r7, #4]
+ 80021ae:	f7ff fe5d 	bl	8001e6c <LL_ADC_REG_ReadConversionData12>
+ 80021b2:	4603      	mov	r3, r0
+ 80021b4:	81fb      	strh	r3, [r7, #14]
 	return data;
- 80021b2:	89fb      	ldrh	r3, [r7, #14]
+ 80021b6:	89fb      	ldrh	r3, [r7, #14]
 }
- 80021b4:	4618      	mov	r0, r3
- 80021b6:	3710      	adds	r7, #16
- 80021b8:	46bd      	mov	sp, r7
- 80021ba:	bd80      	pop	{r7, pc}
- 80021bc:	0000      	movs	r0, r0
-	...
+ 80021b8:	4618      	mov	r0, r3
+ 80021ba:	3710      	adds	r7, #16
+ 80021bc:	46bd      	mov	sp, r7
+ 80021be:	bd80      	pop	{r7, pc}
 
 080021c0 <ProcessInputs>:
 

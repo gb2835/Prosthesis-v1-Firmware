@@ -134,7 +134,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	memcpy(&Device, Device_Init, sizeof(&Device_Init));
 
 	float startEqPoint = -11.0f;
-	float startKd = 0.00f;
+	float startKd = 0.06f;
 	float startKp = 5.0f;
 
 	if((Device.Joint == Ankle) || (Device.Joint == Combined))
@@ -163,22 +163,26 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 		CM_Ankle.SwingDescCtrl.eqPoint = startEqPoint;
 		CM_Ankle.SwingDescCtrl.kd = startKd;
 		CM_Ankle.SwingDescCtrl.kp = startKp;
+
+		CM_Ankle.ProsCtrl.eqPoint = startEqPoint;
+		CM_Ankle.ProsCtrl.kd = startKd;
+		CM_Ankle.ProsCtrl.kp = startKp;
 	}
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
 	{
 		CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
 
-		CM_Knee.EarlyStanceCtrl.eqPoint = 2.0f;
-		CM_Knee.EarlyStanceCtrl.kd = 0.00f;
-		CM_Knee.EarlyStanceCtrl.kp = 0.00f;
+		CM_Knee.EarlyStanceCtrl.eqPoint = 0.0f;
+		CM_Knee.EarlyStanceCtrl.kd = 0.1f;
+		CM_Knee.EarlyStanceCtrl.kp = 15.0f;
 
 		CM_Knee.MidStanceCtrl.eqPoint = 0.0f;
-		CM_Knee.MidStanceCtrl.kd = 0.00f;
-		CM_Knee.MidStanceCtrl.kp = 0.00f;
+		CM_Knee.MidStanceCtrl.kd = 0.1f;
+		CM_Knee.MidStanceCtrl.kp = 15.0f;
 
 		CM_Knee.LateStanceCtrl.eqPoint = 8.0f;
-		CM_Knee.LateStanceCtrl.kd = 0.00f;
-		CM_Knee.LateStanceCtrl.kp = 0.00f;
+		CM_Knee.LateStanceCtrl.kd = 0.06f;
+		CM_Knee.LateStanceCtrl.kp = 7.5f;
 
 		CM_Knee.SwingFlexCtrl.eqPoint = 65.0f;
 		CM_Knee.SwingFlexCtrl.kd = 0.00f;
