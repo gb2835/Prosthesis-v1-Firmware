@@ -331,7 +331,6 @@ static void ProcessInputs(void)
 static void RunStateMachine(void)
 {
 	static StateMachine_e state = EarlyStance;
-	static uint8_t isFirstCallForLateStance = 1;
 	switch(state)
 	{
 	case EarlyStance:
@@ -361,7 +360,6 @@ static void RunStateMachine(void)
 		CM_state_loadCells = 1200;
 		CM_state_torques = -20;
 		CM_state_speeds = -120;
-		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{
@@ -385,19 +383,6 @@ static void RunStateMachine(void)
 		CM_state_torques = -10;
 		CM_state_speeds = -40;
 
-		// Compute kp to start with previous torque when first called
-		if(isFirstCallForLateStance)
-		{
-			CM_Ankle.LateStanceCtrl.kp = (CM_Ankle.jointTargetTorque + CM_Ankle.jointSpeed*CM_Ankle.LateStanceCtrl.kd) / (CM_Ankle.LateStanceCtrl.eqPoint - CM_Ankle.jointAngle[0]);
-			if(CM_Ankle.LateStanceCtrl.kp < 0)
-			{
-				state = MidStance;
-				break;
-			}
-			else
-				isFirstCallForLateStance = 0;
-		}
-
 		if(testProgram != ImpedanceControl)
 		{
 			CM_Ankle.ProsCtrl.eqPoint = CM_Ankle.LateStanceCtrl.eqPoint;
@@ -419,7 +404,6 @@ static void RunStateMachine(void)
 		CM_state_loadCells = 1400;
 		CM_state_torques = 0;
 		CM_state_speeds = 40;
-		isFirstCallForLateStance = 1;
 
 		if(testProgram != ImpedanceControl)
 		{

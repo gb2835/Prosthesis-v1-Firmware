@@ -7,6 +7,6 @@
 ../Core/Src/prosthesis_v1.c:233:13:GetInputs	64	static
 ../Core/Src/prosthesis_v1.c:247:17:ReadLoadCell	24	static
 ../Core/Src/prosthesis_v1.c:255:13:ProcessInputs	48	static
-../Core/Src/prosthesis_v1.c:331:13:RunStateMachine	24	static
-../Core/Src/prosthesis_v1.c:490:13:RunImpedanceControl	48	static
-../Core/Src/prosthesis_v1.c:549:13:RunTestProgram	32	static
+../Core/Src/prosthesis_v1.c:331:13:RunStateMachine	16	static
+../Core/Src/prosthesis_v1.c:474:13:RunImpedanceControl	48	static
+../Core/Src/prosthesis_v1.c:533:13:RunTestProgram	32	static
