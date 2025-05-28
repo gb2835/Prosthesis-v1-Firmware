@@ -12,15 +12,15 @@
 *			- Edition: November 2018
 * 2. Unless otherwise specified, units are
 *		Torque	= N*mm
-* 2. #define EPOS4_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
-* 3. STO pins are not controlled in this driver.
-* 4. Only CST mode is provided.
+* 3. #define EPOS4_NUMBER_OF_DEVICES must be updated to (at least) the number of devices used.
+* 4. STO pins are not controlled in this driver.
+* 5. Only CST mode is provided.
 *     - Quick stop function is not used, thus deceleration parameters are not set for CST mode.
 *     - Only parameters for CST are included in EPOS4_FirstStep_t.
 *     - CST mode sets target torque and torque offset to zero.
-* 5. FirstStep can be used to either initialize the device or check parameters already set by EPOS Studio.
+* 6. FirstStep can be used to either initialize the device or check parameters already set by EPOS Studio.
 *    CAN_BitRate in FirstStep cannot be initialized from this driver, only checked.
-* 6. All option codes are configured to disable drive function (quick stop option code not used).
+* 7. All option codes are configured to disable drive function (quick stop option code not used).
 *
 *******************************************************************************/
 

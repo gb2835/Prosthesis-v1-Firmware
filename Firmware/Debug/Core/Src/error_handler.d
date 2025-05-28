@@ -11,7 +11,8 @@ Core/Src/error_handler.o: ../Core/Src/error_handler.c \
  ../Drivers/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h \
  ../Drivers/EPOS4/epos4.h ../Drivers/MCP25625/mcp25625.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h \
- ../Drivers/MPU-9255/mpu925x_spi.h ../Core/Inc/main.h \
+ ../Drivers/MPU-9255/mpu925x_spi.h ../Core/Inc/prosthesis_v1.h \
+ ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_lptim.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_crs.h \
@@ -24,8 +25,7 @@ Core/Src/error_handler.o: ../Core/Src/error_handler.c \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_pwr.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_tim.h \
- ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h \
- ../Core/Inc/prosthesis_v1.h
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h
 ../Core/Inc/error_handler.h:
 ../Drivers/AS5145B/as5145b.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_gpio.h:
@@ -41,6 +41,7 @@ Core/Src/error_handler.o: ../Core/Src/error_handler.c \
 ../Drivers/MCP25625/mcp25625.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_spi.h:
 ../Drivers/MPU-9255/mpu925x_spi.h:
+../Core/Inc/prosthesis_v1.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_adc.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_lptim.h:
@@ -55,4 +56,3 @@ Core/Src/error_handler.o: ../Core/Src/error_handler.c \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_dma.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_tim.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usart.h:
-../Core/Inc/prosthesis_v1.h:

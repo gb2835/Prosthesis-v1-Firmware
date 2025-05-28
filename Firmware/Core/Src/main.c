@@ -90,6 +90,7 @@ Prosthesis_Init_t Prosthesis_Init;
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -313,6 +314,9 @@ void SystemClock_Config(void)
   {
   }
   LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
+  while (LL_PWR_IsActiveFlag_VOS() != 0)
+  {
+  }
   LL_RCC_MSI_Enable();
 
    /* Wait till MSI is ready */

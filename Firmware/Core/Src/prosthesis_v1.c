@@ -131,7 +131,7 @@ static void RunTestProgram(void);
 
 void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 {
-	memcpy(&Device, Device_Init, sizeof(&Device_Init));
+	memcpy(&Device, Device_Init, sizeof(Device));
 
 	float startEqPoint = -11.0f;
 	float startKd = 0.06f;

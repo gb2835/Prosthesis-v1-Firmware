@@ -4,8 +4,8 @@
 *
 *******************************************************************************/
 
-#ifndef INC_PROSTHESIS_CONTROL_H_
-#define INC_PROSTHESIS_CONTROL_H_
+#ifndef INC_PROSTHESIS_V1_H_
+#define INC_PROSTHESIS_V1_H_
 
 typedef enum
 {
@@ -63,4 +63,4 @@ void RequireTestProgram(TestProgram_e testProgram);
  * END
  ******************************************************************************/
 
-#endif /* INC_PROSTHESIS_CONTROL_H_ */
+#endif /* INC_PROSTHESIS_V1_H_ */
