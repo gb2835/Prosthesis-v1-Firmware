@@ -7,6 +7,8 @@
 #ifndef INC_PROSTHESIS_V1_H_
 #define INC_PROSTHESIS_V1_H_
 
+#include <stdint.h>
+
 typedef enum
 {
 	AnkleCAN_ControllerIndex,
