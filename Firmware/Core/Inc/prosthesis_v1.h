@@ -44,7 +44,6 @@ typedef enum
 {
 	None,
 	ReadOnly,
-	EncoderBias,
 	ImpedanceControl
 } TestProgram_e;
 

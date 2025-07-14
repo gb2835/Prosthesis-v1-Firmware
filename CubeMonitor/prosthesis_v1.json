@@ -170,7 +170,7 @@
         ]
     },
     {
-        "id": "b2a5d7bcba41a83d",
+        "id": "009330923bd21912",
         "type": "tab",
         "label": "Prosthesis v1",
         "disabled": false,
@@ -178,53 +178,52 @@
         "env": []
     },
     {
-        "id": "716a0c96ce237fe6",
+        "id": "289439b32d79f323",
         "type": "acquisition out",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "myProbe_Out",
-        "probeconfig": "26b635923eda9b0e",
-        "x": 980,
+        "probeconfig": "19e8a4ea9edcb0fc",
+        "x": 900,
         "y": 40,
         "wires": []
     },
     {
-        "id": "2b62055128e75a6b",
+        "id": "9863a59e18453b9d",
         "type": "acquisition in",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "myProbe_In",
-        "probeconfig": "26b635923eda9b0e",
-        "x": 1230,
+        "probeconfig": "19e8a4ea9edcb0fc",
+        "x": 1150,
         "y": 40,
         "wires": [
             [
-                "f591395ed3ed36d8",
-                "7977df48066af905",
-                "48eaaf9f4142e138",
-                "92886f76cafcece8",
-                "dfddc74623ddd2f6",
-                "042ebf25c9e99067",
-                "be50cd15889a711c",
-                "b9ad88ed14c042d3",
-                "e759ace1635387e3",
-                "6faf88136a31b9d7",
-                "c093be2d609bfe5e",
-                "946e112e9b1f15ef",
-                "098e182b5f4389ab",
-                "d72e054564f40991",
-                "3bdd15ec99c5a73c",
-                "b6665e214f46340d",
-                "1318f4314e9cd71f"
+                "fbd3e2ee2f9d3c90",
+                "00a014977dcab833",
+                "be70dad71b6f5cbe",
+                "e08db5942921c0dd",
+                "18ca0394e9014194",
+                "4fbb04b950f75e8b",
+                "bcee80ec793e5822",
+                "761bfc06fa309c08",
+                "a17b02dd7cfc88f3",
+                "7954fc0178406df9",
+                "91ffa632745f8230",
+                "c4a5d39997271bab",
+                "81500764bc11de5c",
+                "325442722fec1414",
+                "2da661d4805233bd",
+                "d10a1f16b2d123d2"
             ],
             []
         ]
     },
     {
-        "id": "38fcef009335ee0a",
+        "id": "e0591b132ae20e7d",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Joint Angle",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Joint Angle",
         "accesspoint": 0,
-        "execonfig": "dd9a653d08fb4d13",
+        "execonfig": "c9174ceeda794878",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_Ankle.jointAngle[0]",
@@ -233,25 +232,25 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889359687,
+        "lastImportedTime": 1752509739650,
         "openStatus": true,
-        "x": 360,
+        "x": 340,
         "y": 100,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "48eaaf9f4142e138",
+        "id": "be70dad71b6f5cbe",
         "type": "ui_button",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 3,
         "width": 7,
         "height": 1,
@@ -266,23 +265,23 @@
         "payloadType": "str",
         "topic": "clear",
         "topicType": "str",
-        "x": 1470,
+        "x": 1390,
         "y": 340,
         "wires": [
             [
-                "b21fa2feeaf17cdc",
-                "c8e62e5593edcb54",
-                "3c5c7eaba73e0c20",
-                "8c757d8c47d5bad3"
+                "e8606d5c911b0183",
+                "ef2158745eb1dcc3",
+                "aa68c1fff7220d91",
+                "9b9cb267411005d8"
             ]
         ]
     },
     {
-        "id": "1d12ee4579bbeb3e",
+        "id": "081a96aeca792ff6",
         "type": "ui_button",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 1,
         "width": 8,
         "height": 1,
@@ -301,31 +300,30 @@
         "y": 40,
         "wires": [
             [
-                "38fcef009335ee0a",
-                "cf4b440e72b74f32",
-                "fc0025a877198b70",
-                "84a915f99b19bf7b",
-                "0a2af52b046b9ad9",
-                "36ac5e33da34e6e4",
-                "91bfe678d6acd688",
-                "ea12f2a953dff0c9",
-                "9cadc7935b53a1c3",
-                "a0d2d29598c662b0",
-                "47f1686ec014fd14",
-                "efd0938876bf696e",
-                "667847aa5f11fbaa",
-                "908d0816ec08c4da",
-                "9a6f7494133da7c5",
-                "8c01c9dc8bf59692"
+                "e0591b132ae20e7d",
+                "0e5fd961fd49f9d8",
+                "1d67b8f719790696",
+                "c764bb05c80e20d7",
+                "d7bbd18bcdcbef8a",
+                "e1ec83602350c48c",
+                "f8dfd00a9a6dc974",
+                "091e5edf7d30e453",
+                "3f75ddcc59d6045a",
+                "bba9bb4f52b50107",
+                "87cdda9cffe9a715",
+                "d430a2904b29a544",
+                "50dc56c0586cca03",
+                "3cd1999ef7355c04",
+                "970f09706e7db308"
             ]
         ]
     },
     {
-        "id": "dc26eb760e073ac8",
+        "id": "a29083ad56032abc",
         "type": "ui_button",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 2,
         "width": 7,
         "height": 1,
@@ -344,48 +342,47 @@
         "y": 80,
         "wires": [
             [
-                "38fcef009335ee0a",
-                "cf4b440e72b74f32",
-                "fc0025a877198b70",
-                "84a915f99b19bf7b",
-                "0a2af52b046b9ad9",
-                "36ac5e33da34e6e4",
-                "ea12f2a953dff0c9",
-                "91bfe678d6acd688",
-                "9cadc7935b53a1c3",
-                "a0d2d29598c662b0",
-                "47f1686ec014fd14",
-                "efd0938876bf696e",
-                "667847aa5f11fbaa",
-                "908d0816ec08c4da",
-                "9a6f7494133da7c5",
-                "8c01c9dc8bf59692"
+                "e0591b132ae20e7d",
+                "0e5fd961fd49f9d8",
+                "1d67b8f719790696",
+                "c764bb05c80e20d7",
+                "d7bbd18bcdcbef8a",
+                "f8dfd00a9a6dc974",
+                "e1ec83602350c48c",
+                "091e5edf7d30e453",
+                "3f75ddcc59d6045a",
+                "bba9bb4f52b50107",
+                "87cdda9cffe9a715",
+                "d430a2904b29a544",
+                "50dc56c0586cca03",
+                "3cd1999ef7355c04",
+                "970f09706e7db308"
             ]
         ]
     },
     {
-        "id": "f591395ed3ed36d8",
+        "id": "fbd3e2ee2f9d3c90",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Joint Angle",
-        "groupid": "0caf7b1b70a52a88",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Joint Angle",
+        "groupid": "e0591b132ae20e7d",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "csvc",
-        "x": 1480,
+        "x": 1380,
         "y": 100,
         "wires": [
             [
-                "8c757d8c47d5bad3"
+                "9b9cb267411005d8"
             ],
             []
         ]
     },
     {
-        "id": "262b407e5bf3333e",
+        "id": "6dbdfc9a30852d6d",
         "type": "ui_toast",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "position": "top right",
         "displayTime": "3",
         "highlight": "",
@@ -396,17 +393,17 @@
         "raw": false,
         "topic": "",
         "name": "",
-        "x": 990,
+        "x": 910,
         "y": 100,
         "wires": []
     },
     {
-        "id": "cf4b440e72b74f32",
+        "id": "0e5fd961fd49f9d8",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Load Cells",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Load Cells",
         "accesspoint": 0,
-        "execonfig": "0407387a715abce4",
+        "execonfig": "ce23b308196ba14b",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_LoadCell.Filtered.bot[0]",
@@ -415,44 +412,44 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889384094,
+        "lastImportedTime": 1752509755754,
         "openStatus": true,
-        "x": 360,
+        "x": 340,
         "y": 160,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "7977df48066af905",
+        "id": "00a014977dcab833",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Load Cells",
-        "groupid": "3e45109d77774b8a",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Load Cells",
+        "groupid": "0e5fd961fd49f9d8",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "csvc",
-        "x": 1480,
+        "x": 1380,
         "y": 160,
         "wires": [
             [
-                "b21fa2feeaf17cdc"
+                "e8606d5c911b0183"
             ],
             []
         ]
     },
     {
-        "id": "b21fa2feeaf17cdc",
+        "id": "e8606d5c911b0183",
         "type": "ui_chartst",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "name": "Combined Load Cells & State",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "name": "Pv1 Load Cells & State",
         "order": 6,
         "width": 11,
         "height": 6,
@@ -461,17 +458,17 @@
         "duration": "10",
         "ymin": "",
         "ymax": "",
-        "x": 1850,
+        "x": 1670,
         "y": 160,
         "wires": []
     },
     {
-        "id": "fc0025a877198b70",
+        "id": "1d67b8f719790696",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Joint Torque",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Joint Torque",
         "accesspoint": 0,
-        "execonfig": "d3f7c69c5d784b98",
+        "execonfig": "a2ec208e77438b93",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_Ankle.jointTargetTorque",
@@ -480,26 +477,26 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889375520,
+        "lastImportedTime": 1752509769213,
         "openStatus": true,
-        "x": 370,
+        "x": 350,
         "y": 220,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "84a915f99b19bf7b",
+        "id": "c764bb05c80e20d7",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Joint & Limb Speed",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Joint & Limb Speed",
         "accesspoint": 0,
-        "execonfig": "9591c330649a2aee",
+        "execonfig": "9d31cb7ea427fa12",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_Ankle.jointSpeed",
@@ -508,63 +505,63 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889398384,
+        "lastImportedTime": 1752509781147,
         "openStatus": true,
-        "x": 390,
+        "x": 370,
         "y": 280,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "dfddc74623ddd2f6",
+        "id": "18ca0394e9014194",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Joint Torque",
-        "groupid": "7973ea0e2a5063ec",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Joint Torque",
+        "groupid": "1d67b8f719790696",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "csvc",
-        "x": 1490,
+        "x": 1390,
         "y": 220,
         "wires": [
             [
-                "3c5c7eaba73e0c20"
+                "aa68c1fff7220d91"
             ],
             []
         ]
     },
     {
-        "id": "92886f76cafcece8",
+        "id": "e08db5942921c0dd",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Joint & Limb Speed",
-        "groupid": "cf3fabbc1c3a7363",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Joint & Limb Speed",
+        "groupid": "c764bb05c80e20d7",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "csvc",
-        "x": 1510,
+        "x": 1410,
         "y": 280,
         "wires": [
             [
-                "c8e62e5593edcb54"
+                "ef2158745eb1dcc3"
             ],
             []
         ]
     },
     {
-        "id": "c8e62e5593edcb54",
+        "id": "ef2158745eb1dcc3",
         "type": "ui_chartst",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "name": "Combined Joint & Limb Speed",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "name": "Pv1 Joint & Limb Speed",
         "order": 9,
         "width": 11,
         "height": 6,
@@ -573,21 +570,21 @@
         "duration": "10",
         "ymin": "",
         "ymax": "",
-        "x": 1850,
+        "x": 1670,
         "y": 280,
         "wires": []
     },
     {
-        "id": "042ebf25c9e99067",
+        "id": "4fbb04b950f75e8b",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined All Variables",
-        "groupid": "dbf9a4e7f58e4afe",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Variables",
+        "groupid": "3f75ddcc59d6045a",
         "expressions": [],
         "statistics": [],
         "logmode": "full",
         "logformat": "csvc",
-        "x": 1490,
+        "x": 1380,
         "y": 40,
         "wires": [
             [],
@@ -595,101 +592,12 @@
         ]
     },
     {
-        "id": "0a2af52b046b9ad9",
+        "id": "d7bbd18bcdcbef8a",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Encoder Bias",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 State Machine Control",
         "accesspoint": 0,
-        "execonfig": "87f721d89752bba8",
-        "variablelist": [],
-        "triggerstartmode": "manual",
-        "triggername": "CM_ankleRawEncoderBias",
-        "triggerthreshold": "",
-        "frequency": "",
-        "frequencyType": "0",
-        "snapshotheader": "",
-        "mode": "direct",
-        "lastImportedTime": 1748889445762,
-        "openStatus": true,
-        "x": 370,
-        "y": 600,
-        "wires": [
-            [
-                "716a0c96ce237fe6"
-            ],
-            [
-                "262b407e5bf3333e"
-            ]
-        ]
-    },
-    {
-        "id": "be50cd15889a711c",
-        "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Encoder Bias",
-        "groupid": "fca732e8f35e9ffe",
-        "expressions": [],
-        "statistics": [],
-        "logmode": "no",
-        "logformat": "csvc",
-        "x": 1490,
-        "y": 660,
-        "wires": [
-            [
-                "c8aa8f0e1949b355",
-                "0d3e3f3e8129ef76"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "c8aa8f0e1949b355",
-        "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
-        "name": "",
-        "env": [
-            {
-                "name": "varfilter",
-                "value": "CM_ankleRawEncoderBias",
-                "type": "str"
-            }
-        ],
-        "x": 1710,
-        "y": 660,
-        "wires": [
-            [
-                "ca20f9fac00a15d2"
-            ]
-        ]
-    },
-    {
-        "id": "ca20f9fac00a15d2",
-        "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "order": 37,
-        "width": 8,
-        "height": 1,
-        "name": "",
-        "label": "Ankle Encoder Bias:",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": true,
-        "font": "Arial Black,Arial Black,Gadget,sans-serif",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1920,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "36ac5e33da34e6e4",
-        "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined State Machine Control",
-        "accesspoint": 0,
-        "execonfig": "15ce1d19238a152a",
+        "execonfig": "0e9cf82d72db4fd8",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_Ankle.EarlyStanceCtrl.eqPoint",
@@ -698,48 +606,48 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889420360,
+        "lastImportedTime": 1752509791395,
         "openStatus": true,
-        "x": 400,
+        "x": 380,
         "y": 380,
         "wires": [
             [
-                "8499a3a47c8f6ca1",
-                "716a0c96ce237fe6"
+                "6c18a0ed4040d1ba",
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "8499a3a47c8f6ca1",
+        "id": "6c18a0ed4040d1ba",
         "type": "ui_write",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "name": "Combined State Machine Control",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "name": "Pv1 State Machine Control",
         "order": 7,
         "width": 8,
         "height": 14,
-        "x": 720,
+        "x": 660,
         "y": 380,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ]
         ]
     },
     {
-        "id": "b9ad88ed14c042d3",
+        "id": "bcee80ec793e5822",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined State Machine Control",
-        "groupid": "891bcd27d91019de",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 State Machine Control",
+        "groupid": "d7bbd18bcdcbef8a",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1520,
+        "x": 1420,
         "y": 440,
         "wires": [
             [],
@@ -747,12 +655,12 @@
         ]
     },
     {
-        "id": "91bfe678d6acd688",
+        "id": "e1ec83602350c48c",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Impedance Control",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Impedance Control",
         "accesspoint": 0,
-        "execonfig": "8e7628a9afa909d2",
+        "execonfig": "5847625b7754309a",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_Ankle.ProsCtrl.eqPoint",
@@ -761,48 +669,48 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889424730,
+        "lastImportedTime": 1752509802388,
         "openStatus": true,
-        "x": 390,
+        "x": 370,
         "y": 440,
         "wires": [
             [
-                "160117aa8afd24fa",
-                "716a0c96ce237fe6"
+                "c530d98a5d9fed3e",
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "160117aa8afd24fa",
+        "id": "c530d98a5d9fed3e",
         "type": "ui_write",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "name": "Combined Impedance Control",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "name": "Pv1 Impedance Control",
         "order": 13,
         "width": 8,
         "height": 5,
-        "x": 710,
+        "x": 650,
         "y": 440,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ]
         ]
     },
     {
-        "id": "e759ace1635387e3",
+        "id": "761bfc06fa309c08",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Impedance Control",
-        "groupid": "4a26219e0861d68d",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Impedance Control",
+        "groupid": "e1ec83602350c48c",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1510,
+        "x": 1410,
         "y": 500,
         "wires": [
             [],
@@ -810,12 +718,12 @@
         ]
     },
     {
-        "id": "ea12f2a953dff0c9",
+        "id": "f8dfd00a9a6dc974",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Thresholds",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Thresholds",
         "accesspoint": 0,
-        "execonfig": "57731d09d094800e",
+        "execonfig": "53d4b2955661aa79",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_footSpeedThreshold",
@@ -824,48 +732,48 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889429922,
+        "lastImportedTime": 1752509817494,
         "openStatus": true,
-        "x": 360,
+        "x": 340,
         "y": 500,
         "wires": [
             [
-                "716a0c96ce237fe6",
-                "b8bb10505b578fa9"
+                "289439b32d79f323",
+                "f5c7b2302892f817"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "b8bb10505b578fa9",
+        "id": "f5c7b2302892f817",
         "type": "ui_write",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "name": "Combined Thresholds",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "name": "Pv1 Thresholds",
         "order": 4,
         "width": 8,
         "height": 4,
-        "x": 680,
+        "x": 620,
         "y": 500,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ]
         ]
     },
     {
-        "id": "6faf88136a31b9d7",
+        "id": "a17b02dd7cfc88f3",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Thresholds",
-        "groupid": "71c5ce6da426f8b0",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Thresholds",
+        "groupid": "f8dfd00a9a6dc974",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1480,
+        "x": 1380,
         "y": 560,
         "wires": [
             [],
@@ -873,28 +781,28 @@
         ]
     },
     {
-        "id": "c093be2d609bfe5e",
+        "id": "7954fc0178406df9",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined LED Code",
-        "groupid": "4f72a3451de98057",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 LED Code",
+        "groupid": "091e5edf7d30e453",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1480,
-        "y": 800,
+        "x": 1380,
+        "y": 660,
         "wires": [
             [
-                "4fbac1f0c562389d"
+                "447c3e88dbe6c0c0"
             ],
             []
         ]
     },
     {
-        "id": "4fbac1f0c562389d",
+        "id": "447c3e88dbe6c0c0",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -903,21 +811,21 @@
                 "type": "str"
             }
         ],
-        "x": 1710,
-        "y": 800,
+        "x": 1610,
+        "y": 660,
         "wires": [
             [
-                "9c78f0d0ec952177",
-                "26a113d586c848df"
+                "1460c284a7c7ac76",
+                "a666f1edd292791d"
             ]
         ]
     },
     {
-        "id": "0ed731bdda660eb0",
+        "id": "80f47398fea25726",
         "type": "ui_led",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "order": 10,
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "width": 3,
         "height": 3,
         "label": "",
@@ -939,14 +847,14 @@
         "shape": "circle",
         "showGlow": true,
         "name": "",
-        "x": 2090,
-        "y": 800,
+        "x": 1970,
+        "y": 660,
         "wires": []
     },
     {
-        "id": "9c78f0d0ec952177",
+        "id": "1460c284a7c7ac76",
         "type": "change",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "rules": [
             {
@@ -962,19 +870,19 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1920,
-        "y": 800,
+        "x": 1800,
+        "y": 660,
         "wires": [
             [
-                "0ed731bdda660eb0"
+                "80f47398fea25726"
             ]
         ]
     },
     {
-        "id": "4f26796ccd9f8c9c",
+        "id": "0c418035b92d399b",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
         "order": 11,
         "width": 8,
         "height": 1,
@@ -987,14 +895,14 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2090,
-        "y": 840,
+        "x": 1970,
+        "y": 700,
         "wires": []
     },
     {
-        "id": "26a113d586c848df",
+        "id": "a666f1edd292791d",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Error Decoder",
         "func": "switch (msg.payload)\n{\n    case 0:\n        msg.payload = \"No Error\";\n        break;\n    case 1:\n        msg.payload = \"Ankle Encoder Init Error\";\n        break;\n    case 2:\n        msg.payload = \"Ankle Motor Controller Init Error\";\n        break;\n    case 3:\n        msg.payload = \"Ankle Motor Controller Fault Error\";\n        break;\n    case 4:\n        msg.payload = \"Ankle Motor Controller Abort Error\";\n        break;\n    case 5:\n        msg.payload = \"Ankle CAN Controller Init Error\";\n        break;\n    case 6:\n        msg.payload = \"Knee Encoder Init Error\";\n        break;\n    case 7:\n        msg.payload = \"Knee Motor Controller Init Error\";\n        break;\n    case 8:\n        msg.payload = \"Knee Motor Controller Fault Error\";\n        break;\n    case 9:\n        msg.payload = \"Knee Motor Controller Abort Error\";\n        break;\n    case 10:\n        msg.payload = \"Knee CAN Controller Abort Error\";\n        break;\n    case 11:\n        msg.payload = \"IMU Init Error\";\n        break;\n}\n\nreturn msg;",
         "outputs": 1,
@@ -1003,21 +911,21 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1920,
-        "y": 840,
+        "x": 1800,
+        "y": 700,
         "wires": [
             [
-                "4f26796ccd9f8c9c"
+                "0c418035b92d399b"
             ]
         ]
     },
     {
-        "id": "9cadc7935b53a1c3",
+        "id": "091e5edf7d30e453",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined LED Code",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 LED Code",
         "accesspoint": 0,
-        "execonfig": "5602406f712ea565",
+        "execonfig": "ef69010f113f53bf",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_ledCode",
@@ -1026,67 +934,26 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889450437,
+        "lastImportedTime": 1752509843601,
         "openStatus": true,
-        "x": 360,
-        "y": 700,
+        "x": 340,
+        "y": 600,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "0d3e3f3e8129ef76",
-        "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
-        "name": "",
-        "env": [
-            {
-                "name": "varfilter",
-                "value": "CM_kneeRawEncoderBias",
-                "type": "str"
-            }
-        ],
-        "x": 1710,
-        "y": 700,
-        "wires": [
-            [
-                "529df190349ba4ef"
-            ]
-        ]
-    },
-    {
-        "id": "529df190349ba4ef",
-        "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "order": 32,
-        "width": 8,
-        "height": 1,
-        "name": "",
-        "label": "Knee Encoder Bias:",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": true,
-        "font": "Arial Black,Arial Black,Gadget,sans-serif",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1920,
-        "y": 700,
-        "wires": []
-    },
-    {
-        "id": "a0d2d29598c662b0",
+        "id": "3f75ddcc59d6045a",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined All Variables",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Variables",
         "accesspoint": 0,
-        "execonfig": "3940c6208dacadb2",
+        "execonfig": "174b93890838ab8e",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_Ankle.EarlyStanceCtrl.eqPoint",
@@ -1095,25 +962,25 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889354825,
+        "lastImportedTime": 1752509725442,
         "openStatus": true,
-        "x": 370,
+        "x": 340,
         "y": 40,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "3c5c7eaba73e0c20",
+        "id": "aa68c1fff7220d91",
         "type": "ui_chartst",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "name": "Combined Joint Torque",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "name": "Pv1 Joint Torque",
         "order": 8,
         "width": 11,
         "height": 6,
@@ -1122,16 +989,16 @@
         "duration": "10",
         "ymin": "",
         "ymax": "",
-        "x": 1830,
+        "x": 1650,
         "y": 220,
         "wires": []
     },
     {
-        "id": "8c757d8c47d5bad3",
+        "id": "9b9cb267411005d8",
         "type": "ui_chartst",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "name": "Combined Joint Angle",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "name": "Pv1 Joint Angle",
         "order": 5,
         "width": 11,
         "height": 6,
@@ -1140,17 +1007,17 @@
         "duration": "10",
         "ymin": "",
         "ymax": "",
-        "x": 1820,
+        "x": 1640,
         "y": 100,
         "wires": []
     },
     {
-        "id": "47f1686ec014fd14",
+        "id": "bba9bb4f52b50107",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Error Register",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Error Register",
         "accesspoint": 0,
-        "execonfig": "8a39cbf5c8889701",
+        "execonfig": "6c5262a80d5582cf",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_epos4_errorReg",
@@ -1159,42 +1026,42 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889461213,
+        "lastImportedTime": 1752509853165,
         "openStatus": true,
-        "x": 370,
-        "y": 760,
+        "x": 350,
+        "y": 660,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "946e112e9b1f15ef",
+        "id": "91ffa632745f8230",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Error Register",
-        "groupid": "6b58b37cdff5e9e9",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Error Register",
+        "groupid": "bba9bb4f52b50107",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1490,
-        "y": 900,
+        "x": 1390,
+        "y": 760,
         "wires": [
             [
-                "978ea8e717743161"
+                "b8e5c0d855ebcf46"
             ],
             []
         ]
     },
     {
-        "id": "978ea8e717743161",
+        "id": "b8e5c0d855ebcf46",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1203,19 +1070,19 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 900,
+        "x": 1610,
+        "y": 760,
         "wires": [
             [
-                "0eb69be05b8e85c3"
+                "0b22ad30c03e5a5c"
             ]
         ]
     },
     {
-        "id": "18c97c8d90b0aa13",
+        "id": "a56f5f26e5621506",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
         "order": 15,
         "width": 8,
         "height": 1,
@@ -1228,14 +1095,14 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2140,
-        "y": 900,
+        "x": 2020,
+        "y": 760,
         "wires": []
     },
     {
-        "id": "0eb69be05b8e85c3",
+        "id": "0b22ad30c03e5a5c",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Bin",
         "func": "msg.payload = msg.payload.toString(2);\nreturn msg;",
         "outputs": 1,
@@ -1244,21 +1111,21 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 900,
+        "x": 1780,
+        "y": 760,
         "wires": [
             [
-                "18c97c8d90b0aa13"
+                "a56f5f26e5621506"
             ]
         ]
     },
     {
-        "id": "efd0938876bf696e",
+        "id": "87cdda9cffe9a715",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Number of Errors",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Number of Errors",
         "accesspoint": 0,
-        "execonfig": "5da93b4525b675b7",
+        "execonfig": "4361051df5167ac9",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_epos4_numOfErrors",
@@ -1267,42 +1134,42 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889466361,
+        "lastImportedTime": 1752509862073,
         "openStatus": true,
-        "x": 380,
-        "y": 820,
+        "x": 360,
+        "y": 720,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "098e182b5f4389ab",
+        "id": "c4a5d39997271bab",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Number of Errors",
-        "groupid": "44601703561a427e",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Number of Errors",
+        "groupid": "87cdda9cffe9a715",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1500,
-        "y": 960,
+        "x": 1400,
+        "y": 820,
         "wires": [
             [
-                "e505a1e1f210ef55"
+                "eb17e7772ef29f94"
             ],
             []
         ]
     },
     {
-        "id": "e505a1e1f210ef55",
+        "id": "eb17e7772ef29f94",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1311,19 +1178,19 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 960,
+        "x": 1610,
+        "y": 820,
         "wires": [
             [
-                "b150353a62f7f1e1"
+                "eb67e5df8b614694"
             ]
         ]
     },
     {
-        "id": "b150353a62f7f1e1",
+        "id": "eb67e5df8b614694",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
         "order": 18,
         "width": 8,
         "height": 1,
@@ -1336,17 +1203,17 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2150,
-        "y": 960,
+        "x": 2030,
+        "y": 820,
         "wires": []
     },
     {
-        "id": "667847aa5f11fbaa",
+        "id": "d430a2904b29a544",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Error History",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Error History",
         "accesspoint": 0,
-        "execonfig": "bee6a31ac8cadf41",
+        "execonfig": "c03ba48e1a65c31c",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_epos4_errorHistory[0]",
@@ -1355,46 +1222,46 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889470759,
+        "lastImportedTime": 1752509872118,
         "openStatus": true,
-        "x": 370,
-        "y": 880,
+        "x": 350,
+        "y": 780,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "d72e054564f40991",
+        "id": "81500764bc11de5c",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Error History",
-        "groupid": "bafe5b6e2251f7cf",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Error History",
+        "groupid": "d430a2904b29a544",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1490,
-        "y": 1020,
+        "x": 1390,
+        "y": 880,
         "wires": [
             [
-                "6ae6f5d13fc0f853",
-                "fc0ec769bb78985f",
-                "699248946f194380",
-                "f037899bb11c6d13",
-                "171155cbdefa8f82"
+                "7c7d9a70a38b041e",
+                "5af4938f1d0d431b",
+                "2f923621d5e66a41",
+                "d78bc02a6d06834c",
+                "961b7154ce0e7832"
             ],
             []
         ]
     },
     {
-        "id": "6ae6f5d13fc0f853",
+        "id": "7c7d9a70a38b041e",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1403,18 +1270,18 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1020,
+        "x": 1610,
+        "y": 880,
         "wires": [
             [
-                "9c0d71e188e4a6b4"
+                "39c9d0e20f5478ac"
             ]
         ]
     },
     {
-        "id": "9c0d71e188e4a6b4",
+        "id": "39c9d0e20f5478ac",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Hex",
         "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
         "outputs": 1,
@@ -1423,19 +1290,19 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 1020,
+        "x": 1780,
+        "y": 880,
         "wires": [
             [
-                "8db1715b3148afa4"
+                "b0b0ec87efe54c52"
             ]
         ]
     },
     {
-        "id": "8db1715b3148afa4",
+        "id": "b0b0ec87efe54c52",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
         "order": 22,
         "width": 8,
         "height": 1,
@@ -1448,14 +1315,14 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2140,
-        "y": 1020,
+        "x": 2020,
+        "y": 880,
         "wires": []
     },
     {
-        "id": "fc0ec769bb78985f",
+        "id": "5af4938f1d0d431b",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1464,18 +1331,18 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1060,
+        "x": 1610,
+        "y": 920,
         "wires": [
             [
-                "53a461a61d03a833"
+                "e269877bb0922225"
             ]
         ]
     },
     {
-        "id": "699248946f194380",
+        "id": "2f923621d5e66a41",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1484,18 +1351,18 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1100,
+        "x": 1610,
+        "y": 960,
         "wires": [
             [
-                "84968ab481961a05"
+                "34623e1a3dcd397b"
             ]
         ]
     },
     {
-        "id": "f037899bb11c6d13",
+        "id": "d78bc02a6d06834c",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1504,18 +1371,18 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1140,
+        "x": 1610,
+        "y": 1000,
         "wires": [
             [
-                "35dffcb325d8645b"
+                "7e47e446794daa83"
             ]
         ]
     },
     {
-        "id": "171155cbdefa8f82",
+        "id": "961b7154ce0e7832",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1524,18 +1391,18 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1180,
+        "x": 1610,
+        "y": 1040,
         "wires": [
             [
-                "ab856ff007144beb"
+                "6d98a7143aabe19c"
             ]
         ]
     },
     {
-        "id": "53a461a61d03a833",
+        "id": "e269877bb0922225",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Hex",
         "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
         "outputs": 1,
@@ -1544,18 +1411,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 1060,
+        "x": 1780,
+        "y": 920,
         "wires": [
             [
-                "a0c1049d8918f7e8"
+                "828cc59e9656deb4"
             ]
         ]
     },
     {
-        "id": "84968ab481961a05",
+        "id": "34623e1a3dcd397b",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Hex",
         "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
         "outputs": 1,
@@ -1564,18 +1431,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 1100,
+        "x": 1780,
+        "y": 960,
         "wires": [
             [
-                "479feaaeaf81a5c3"
+                "dce21bee704641d5"
             ]
         ]
     },
     {
-        "id": "35dffcb325d8645b",
+        "id": "7e47e446794daa83",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Hex",
         "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
         "outputs": 1,
@@ -1584,18 +1451,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 1140,
+        "x": 1780,
+        "y": 1000,
         "wires": [
             [
-                "13bce8604fd0143c"
+                "ca9e981b848f0c9f"
             ]
         ]
     },
     {
-        "id": "ab856ff007144beb",
+        "id": "6d98a7143aabe19c",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Hex",
         "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
         "outputs": 1,
@@ -1604,19 +1471,19 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 1180,
+        "x": 1780,
+        "y": 1040,
         "wires": [
             [
-                "d67c476cb20690d3"
+                "7d71485505a17cc5"
             ]
         ]
     },
     {
-        "id": "a0c1049d8918f7e8",
+        "id": "828cc59e9656deb4",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
         "order": 26,
         "width": 8,
         "height": 1,
@@ -1629,15 +1496,15 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2140,
-        "y": 1060,
+        "x": 2020,
+        "y": 920,
         "wires": []
     },
     {
-        "id": "479feaaeaf81a5c3",
+        "id": "dce21bee704641d5",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
         "order": 30,
         "width": 8,
         "height": 1,
@@ -1650,16 +1517,16 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2140,
-        "y": 1100,
+        "x": 2020,
+        "y": 960,
         "wires": []
     },
     {
-        "id": "13bce8604fd0143c",
+        "id": "ca9e981b848f0c9f",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "order": 35,
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "order": 33,
         "width": 8,
         "height": 1,
         "name": "",
@@ -1671,16 +1538,16 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2140,
-        "y": 1140,
+        "x": 2020,
+        "y": 1000,
         "wires": []
     },
     {
-        "id": "d67c476cb20690d3",
+        "id": "7d71485505a17cc5",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "order": 40,
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "order": 36,
         "width": 8,
         "height": 1,
         "name": "",
@@ -1692,17 +1559,17 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2140,
-        "y": 1180,
+        "x": 2020,
+        "y": 1040,
         "wires": []
     },
     {
-        "id": "908d0816ec08c4da",
+        "id": "50dc56c0586cca03",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Abort Index",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Abort Index",
         "accesspoint": 0,
-        "execonfig": "798bbda907ccb107",
+        "execonfig": "2e08b935afc84837",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_epos4_abortIndex",
@@ -1711,26 +1578,26 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889484037,
+        "lastImportedTime": 1752509885556,
         "openStatus": true,
-        "x": 360,
-        "y": 940,
+        "x": 340,
+        "y": 840,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "9a6f7494133da7c5",
+        "id": "3cd1999ef7355c04",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Abort Subindex",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Abort Subindex",
         "accesspoint": 0,
-        "execonfig": "a8a5d4c22be40d5b",
+        "execonfig": "da91181345b6c7ca",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_epos4_abortSubindex",
@@ -1739,26 +1606,26 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889497102,
+        "lastImportedTime": 1752509897040,
         "openStatus": true,
-        "x": 370,
-        "y": 1000,
+        "x": 350,
+        "y": 900,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "8c01c9dc8bf59692",
+        "id": "970f09706e7db308",
         "type": "variables",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Abort Code",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Abort Code",
         "accesspoint": 0,
-        "execonfig": "90302ce81480bf76",
+        "execonfig": "f13724311c514970",
         "variablelist": [],
         "triggerstartmode": "manual",
         "triggername": "CM_epos4_abortCode",
@@ -1767,80 +1634,80 @@
         "frequencyType": "0",
         "snapshotheader": "",
         "mode": "direct",
-        "lastImportedTime": 1748889505214,
+        "lastImportedTime": 1752509906613,
         "openStatus": true,
-        "x": 360,
-        "y": 1060,
+        "x": 340,
+        "y": 960,
         "wires": [
             [
-                "716a0c96ce237fe6"
+                "289439b32d79f323"
             ],
             [
-                "262b407e5bf3333e"
+                "6dbdfc9a30852d6d"
             ]
         ]
     },
     {
-        "id": "3bdd15ec99c5a73c",
+        "id": "325442722fec1414",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Abort Index",
-        "groupid": "14cee9f97039e931",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Abort Index",
+        "groupid": "50dc56c0586cca03",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1480,
-        "y": 1240,
+        "x": 1380,
+        "y": 1100,
         "wires": [
             [
-                "8cb7b862346c1ab9"
+                "7e55eccd9632e914"
             ],
             []
         ]
     },
     {
-        "id": "b6665e214f46340d",
+        "id": "2da661d4805233bd",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Abort Subindex",
-        "groupid": "3b99e20b248a8191",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Abort Subindex",
+        "groupid": "3cd1999ef7355c04",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1490,
-        "y": 1300,
+        "x": 1390,
+        "y": 1160,
         "wires": [
             [
-                "b1d9c65264aebddb"
+                "17931340ac5e391e"
             ],
             []
         ]
     },
     {
-        "id": "1318f4314e9cd71f",
+        "id": "d10a1f16b2d123d2",
         "type": "processing",
-        "z": "b2a5d7bcba41a83d",
-        "groupname": "Combined Abort Code",
-        "groupid": "50f84df77d8ced5d",
+        "z": "009330923bd21912",
+        "groupname": "Pv1 Abort Code",
+        "groupid": "970f09706e7db308",
         "expressions": [],
         "statistics": [],
         "logmode": "no",
         "logformat": "stcm",
-        "x": 1480,
-        "y": 1360,
+        "x": 1380,
+        "y": 1220,
         "wires": [
             [
-                "b6a8527ff7840fad"
+                "4cce9f019386b87d"
             ],
             []
         ]
     },
     {
-        "id": "8cb7b862346c1ab9",
+        "id": "7e55eccd9632e914",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1849,18 +1716,18 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1240,
+        "x": 1610,
+        "y": 1100,
         "wires": [
             [
-                "0eac74feb430183d"
+                "6971e2831b5d1d2d"
             ]
         ]
     },
     {
-        "id": "0eac74feb430183d",
+        "id": "6971e2831b5d1d2d",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Hex",
         "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
         "outputs": 1,
@@ -1869,20 +1736,20 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 1240,
+        "x": 1780,
+        "y": 1100,
         "wires": [
             [
-                "ead7b51b8964541b"
+                "5092c10ab0675f1d"
             ]
         ]
     },
     {
-        "id": "ead7b51b8964541b",
+        "id": "5092c10ab0675f1d",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "order": 43,
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "order": 39,
         "width": 8,
         "height": 1,
         "name": "",
@@ -1894,14 +1761,14 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2130,
-        "y": 1240,
+        "x": 2010,
+        "y": 1100,
         "wires": []
     },
     {
-        "id": "b1d9c65264aebddb",
+        "id": "17931340ac5e391e",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1910,20 +1777,20 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1300,
+        "x": 1610,
+        "y": 1160,
         "wires": [
             [
-                "9706af1348a8a25f"
+                "5b6c563e1309b799"
             ]
         ]
     },
     {
-        "id": "9706af1348a8a25f",
+        "id": "5b6c563e1309b799",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "order": 46,
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "order": 42,
         "width": 8,
         "height": 1,
         "name": "",
@@ -1935,14 +1802,14 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2140,
-        "y": 1300,
+        "x": 2020,
+        "y": 1160,
         "wires": []
     },
     {
-        "id": "b6a8527ff7840fad",
+        "id": "4cce9f019386b87d",
         "type": "subflow:8381c865.236028",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "",
         "env": [
             {
@@ -1951,18 +1818,18 @@
                 "type": "str"
             }
         ],
-        "x": 1730,
-        "y": 1360,
+        "x": 1610,
+        "y": 1220,
         "wires": [
             [
-                "beb6a2188824f9af"
+                "9cef1cbe0f40f01b"
             ]
         ]
     },
     {
-        "id": "beb6a2188824f9af",
+        "id": "9cef1cbe0f40f01b",
         "type": "function",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "Dec2Hex",
         "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
         "outputs": 1,
@@ -1971,20 +1838,20 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1900,
-        "y": 1360,
+        "x": 1780,
+        "y": 1220,
         "wires": [
             [
-                "b4566b189e3e252f"
+                "ed3bc3b4632b2d19"
             ]
         ]
     },
     {
-        "id": "b4566b189e3e252f",
+        "id": "ed3bc3b4632b2d19",
         "type": "ui_text",
-        "z": "b2a5d7bcba41a83d",
-        "group": "a37572d476a1fbc6",
-        "order": 49,
+        "z": "009330923bd21912",
+        "group": "9015a212bc2eaeba",
+        "order": 45,
         "width": 8,
         "height": 1,
         "name": "",
@@ -1996,272 +1863,252 @@
         "font": "Arial Black,Arial Black,Gadget,sans-serif",
         "fontSize": 16,
         "color": "#000000",
-        "x": 2130,
-        "y": 1360,
+        "x": 2010,
+        "y": 1220,
         "wires": []
     },
     {
-        "id": "19fde969281f59fd",
+        "id": "d8d61f89ceb3c441",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 12,
         "width": 2,
         "height": 1
     },
     {
-        "id": "dac53cb51f68863a",
+        "id": "0d2580229589acc9",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 14,
         "width": 1,
         "height": 1
     },
     {
-        "id": "03e77964199d3d1c",
+        "id": "1a491418f7ab11ab",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 16,
         "width": 2,
         "height": 1
     },
     {
-        "id": "48e63c514a033f22",
+        "id": "2b57cafe2edbee71",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 17,
         "width": 1,
         "height": 1
     },
     {
-        "id": "31c9d83db77ab70d",
+        "id": "9c76633448e79d77",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 19,
         "width": 2,
         "height": 1
     },
     {
-        "id": "e4f0a5734b435f7a",
+        "id": "a467b412f5ee2237",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 20,
         "width": 1,
         "height": 1
     },
     {
-        "id": "0c318adac7fda3c9",
+        "id": "f4d2fecfe9682a9f",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 21,
         "width": 3,
         "height": 1
     },
     {
-        "id": "cee86c552aba63c3",
+        "id": "07ec565471e83632",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 23,
         "width": 2,
         "height": 1
     },
     {
-        "id": "efb20b4d54053863",
+        "id": "dd78370d08a5967a",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 24,
         "width": 1,
         "height": 1
     },
     {
-        "id": "979585a16601223a",
+        "id": "7d34b7b934b7f3f8",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 25,
         "width": 3,
         "height": 1
     },
     {
-        "id": "eefa642e7bc5b683",
+        "id": "34e2f3e928aca79f",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 27,
         "width": 2,
         "height": 1
     },
     {
-        "id": "1bace356dc93e5a9",
+        "id": "3f0e73f8aec21c2f",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 28,
         "width": 1,
         "height": 1
     },
     {
-        "id": "7b22e2cab16d0c6d",
+        "id": "b1010b196d6f4773",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 29,
         "width": 3,
         "height": 1
     },
     {
-        "id": "4f73ce9a69439a14",
+        "id": "7e7cff30d7eba9e0",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 31,
-        "width": 2,
+        "width": 19,
         "height": 1
     },
     {
-        "id": "ccb03f63355c405d",
+        "id": "ebf1aef0840b478d",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 33,
-        "width": 9,
+        "group": "9015a212bc2eaeba",
+        "order": 32,
+        "width": 3,
         "height": 1
     },
     {
-        "id": "ca11d63a5ed8e514",
+        "id": "b8c14ea997f65412",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 34,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "d7b2b79af0ba8151",
+        "type": "ui_spacer",
+        "z": "009330923bd21912",
+        "name": "spacer",
+        "group": "9015a212bc2eaeba",
+        "order": 35,
         "width": 3,
         "height": 1
     },
     {
-        "id": "13d6f7b61533af72",
+        "id": "f94c1c9a94fdef9e",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 36,
-        "width": 2,
+        "group": "9015a212bc2eaeba",
+        "order": 37,
+        "width": 19,
         "height": 1
     },
     {
-        "id": "645755312e80cc70",
+        "id": "98ed98e35efb5b7f",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
         "order": 38,
-        "width": 9,
-        "height": 1
-    },
-    {
-        "id": "2a3910e3dac4ec74",
-        "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
-        "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 39,
         "width": 3,
         "height": 1
     },
     {
-        "id": "e97b5c036180bb75",
+        "id": "10bcde5609dc593f",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
+        "order": 40,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "6dad6068669ccf7e",
+        "type": "ui_spacer",
+        "z": "009330923bd21912",
+        "name": "spacer",
+        "group": "9015a212bc2eaeba",
         "order": 41,
-        "width": 19,
-        "height": 1
-    },
-    {
-        "id": "2e2d56c07fcde372",
-        "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
-        "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 42,
         "width": 3,
         "height": 1
     },
     {
-        "id": "7cc29c872a539f5c",
+        "id": "2e7277df70527983",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
+        "group": "9015a212bc2eaeba",
+        "order": 43,
+        "width": 19,
+        "height": 1
+    },
+    {
+        "id": "d9fac16cf895a69a",
+        "type": "ui_spacer",
+        "z": "009330923bd21912",
+        "name": "spacer",
+        "group": "9015a212bc2eaeba",
         "order": 44,
-        "width": 19,
-        "height": 1
-    },
-    {
-        "id": "05fa9974681a5392",
-        "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
-        "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 45,
         "width": 3,
         "height": 1
     },
     {
-        "id": "d27adfde7dd882ea",
+        "id": "3caa60ba057b6d2c",
         "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
+        "z": "009330923bd21912",
         "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 47,
+        "group": "9015a212bc2eaeba",
+        "order": 46,
         "width": 19,
         "height": 1
     },
     {
-        "id": "7accf42d04a80176",
-        "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
-        "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 48,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "a5eba462f5be1d74",
-        "type": "ui_spacer",
-        "z": "b2a5d7bcba41a83d",
-        "name": "spacer",
-        "group": "a37572d476a1fbc6",
-        "order": 50,
-        "width": 19,
-        "height": 1
-    },
-    {
-        "id": "26b635923eda9b0e",
+        "id": "19e8a4ea9edcb0fc",
         "type": "probe",
         "probeid": "066AFF485370514867131847",
         "probename": "ST-Link v2-1B 066AFF485370514867131847",
@@ -2273,9 +2120,9 @@
         "nickname": "Nucleo Adapter"
     },
     {
-        "id": "dd9a653d08fb4d13",
+        "id": "c9174ceeda794878",
         "type": "exe-config",
-        "name": "CombinedJointAngle",
+        "name": "Pv1JointAngle",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -2285,12 +2132,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -2431,37 +2278,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -2642,11 +2484,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -2688,7 +2525,7 @@
                 "checked": true
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -2773,7 +2610,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -2800,14 +2637,14 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889359345
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509739136
     },
     {
-        "id": "a37572d476a1fbc6",
+        "id": "9015a212bc2eaeba",
         "type": "ui_group",
         "name": "GUI",
-        "tab": "6ca8c5f7eea15fe7",
+        "tab": "a9bf95c7ed4baf4c",
         "order": 1,
         "disp": false,
         "width": "30",
@@ -2815,9 +2652,9 @@
         "className": ""
     },
     {
-        "id": "0407387a715abce4",
+        "id": "ce23b308196ba14b",
         "type": "exe-config",
-        "name": "LoadCells",
+        "name": "Pv1LoadCells",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -2827,12 +2664,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -2972,37 +2809,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -3182,11 +3014,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -3229,7 +3056,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3,
                 "checked": true
@@ -3315,7 +3142,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -3342,13 +3169,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889383749
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509755220
     },
     {
-        "id": "d3f7c69c5d784b98",
+        "id": "a2ec208e77438b93",
         "type": "exe-config",
-        "name": "CombinedJointTorque",
+        "name": "Pv1JointTorque",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -3358,12 +3185,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -3505,37 +3332,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -3717,11 +3539,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -3762,7 +3579,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -3848,7 +3665,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -3875,13 +3692,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889375168
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509768686
     },
     {
-        "id": "9591c330649a2aee",
+        "id": "9d31cb7ea427fa12",
         "type": "exe-config",
-        "name": "CombinedJointAndLimbSpeed",
+        "name": "Pv1JointAndLimbSpeed",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -3891,12 +3708,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -4038,37 +3855,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -4249,11 +4061,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -4294,7 +4101,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -4380,7 +4187,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -4407,13 +4214,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889398035
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509780526
     },
     {
-        "id": "87f721d89752bba8",
+        "id": "0e9cf82d72db4fd8",
         "type": "exe-config",
-        "name": "CombinedEncoderBias",
+        "name": "Pv1StateMachineControl",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -4423,542 +4230,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
-                "name": "APBPrescTable[0]",
-                "type": 1
-            },
-            {
-                "address": "0x200000b0",
-                "name": "CM_Ankle.EarlyStanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000b4",
-                "name": "CM_Ankle.EarlyStanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000b8",
-                "name": "CM_Ankle.EarlyStanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000098",
-                "name": "CM_Ankle.encoderBias",
-                "type": 9
-            },
-            {
-                "address": "0x20000078",
-                "name": "CM_Ankle.jointAngle[0]",
-                "type": 10
-            },
-            {
-                "address": "0x20000088",
-                "name": "CM_Ankle.jointSpeed",
-                "type": 10
-            },
-            {
-                "address": "0x2000009c",
-                "name": "CM_Ankle.jointTargetTorque",
-                "type": 9
-            },
-            {
-                "address": "0x200000a0",
-                "name": "CM_Ankle.jointTorqueActual",
-                "type": 9
-            },
-            {
-                "address": "0x200000c8",
-                "name": "CM_Ankle.LateStanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000cc",
-                "name": "CM_Ankle.LateStanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000d0",
-                "name": "CM_Ankle.LateStanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000090",
-                "name": "CM_Ankle.limbSpeed",
-                "type": 10
-            },
-            {
-                "address": "0x200000bc",
-                "name": "CM_Ankle.MidStanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000c0",
-                "name": "CM_Ankle.MidStanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000c4",
-                "name": "CM_Ankle.MidStanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200000a4",
-                "name": "CM_Ankle.ProsCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000a8",
-                "name": "CM_Ankle.ProsCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000ac",
-                "name": "CM_Ankle.ProsCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200000ec",
-                "name": "CM_Ankle.SwingDescCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000f0",
-                "name": "CM_Ankle.SwingDescCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000f4",
-                "name": "CM_Ankle.SwingDescCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200000e0",
-                "name": "CM_Ankle.SwingExtCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000e4",
-                "name": "CM_Ankle.SwingExtCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000e8",
-                "name": "CM_Ankle.SwingExtCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200000d4",
-                "name": "CM_Ankle.SwingFlexCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x200000d8",
-                "name": "CM_Ankle.SwingFlexCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x200000dc",
-                "name": "CM_Ankle.SwingFlexCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3,
-                "checked": true
-            },
-            {
-                "address": "0x200002bc",
-                "name": "CM_epos4_abortCode",
-                "type": 5
-            },
-            {
-                "address": "0x200002ba",
-                "name": "CM_epos4_abortIndex",
-                "type": 3
-            },
-            {
-                "address": "0x200002b8",
-                "name": "CM_epos4_abortSubindex",
-                "type": 1
-            },
-            {
-                "address": "0x200002c4",
-                "name": "CM_epos4_errorHistory[0]",
-                "type": 5
-            },
-            {
-                "address": "0x200002c0",
-                "name": "CM_epos4_errorReg",
-                "type": 5
-            },
-            {
-                "address": "0x200002d8",
-                "name": "CM_epos4_numOfErrors",
-                "type": 5
-            },
-            {
-                "address": "0x20000070",
-                "name": "CM_footSpeedThreshold",
-                "type": 9
-            },
-            {
-                "address": "0x200001b0",
-                "name": "CM_IMU_Data.array[0]",
-                "type": 10
-            },
-            {
-                "address": "0x200001b0",
-                "name": "CM_IMU_Data.Struct.ax",
-                "type": 10
-            },
-            {
-                "address": "0x200001b8",
-                "name": "CM_IMU_Data.Struct.ay",
-                "type": 10
-            },
-            {
-                "address": "0x200001c0",
-                "name": "CM_IMU_Data.Struct.az",
-                "type": 10
-            },
-            {
-                "address": "0x200001c8",
-                "name": "CM_IMU_Data.Struct.gx",
-                "type": 10
-            },
-            {
-                "address": "0x200001d0",
-                "name": "CM_IMU_Data.Struct.gy",
-                "type": 10
-            },
-            {
-                "address": "0x200001d8",
-                "name": "CM_IMU_Data.Struct.gz",
-                "type": 10
-            },
-            {
-                "address": "0x20000130",
-                "name": "CM_Knee.EarlyStanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000134",
-                "name": "CM_Knee.EarlyStanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000138",
-                "name": "CM_Knee.EarlyStanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000118",
-                "name": "CM_Knee.encoderBias",
-                "type": 9
-            },
-            {
-                "address": "0x200000f8",
-                "name": "CM_Knee.jointAngle[0]",
-                "type": 10
-            },
-            {
-                "address": "0x20000108",
-                "name": "CM_Knee.jointSpeed",
-                "type": 10
-            },
-            {
-                "address": "0x2000011c",
-                "name": "CM_Knee.jointTargetTorque",
-                "type": 9
-            },
-            {
-                "address": "0x20000120",
-                "name": "CM_Knee.jointTorqueActual",
-                "type": 9
-            },
-            {
-                "address": "0x20000148",
-                "name": "CM_Knee.LateStanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x2000014c",
-                "name": "CM_Knee.LateStanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000150",
-                "name": "CM_Knee.LateStanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000110",
-                "name": "CM_Knee.limbSpeed",
-                "type": 10
-            },
-            {
-                "address": "0x2000013c",
-                "name": "CM_Knee.MidStanceCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000140",
-                "name": "CM_Knee.MidStanceCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000144",
-                "name": "CM_Knee.MidStanceCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000124",
-                "name": "CM_Knee.ProsCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000128",
-                "name": "CM_Knee.ProsCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x2000012c",
-                "name": "CM_Knee.ProsCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x2000016c",
-                "name": "CM_Knee.SwingDescCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000170",
-                "name": "CM_Knee.SwingDescCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000174",
-                "name": "CM_Knee.SwingDescCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000160",
-                "name": "CM_Knee.SwingExtCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000164",
-                "name": "CM_Knee.SwingExtCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x20000168",
-                "name": "CM_Knee.SwingExtCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x20000154",
-                "name": "CM_Knee.SwingFlexCtrl.eqPoint",
-                "type": 9
-            },
-            {
-                "address": "0x20000158",
-                "name": "CM_Knee.SwingFlexCtrl.kd",
-                "type": 9
-            },
-            {
-                "address": "0x2000015c",
-                "name": "CM_Knee.SwingFlexCtrl.kp",
-                "type": 9
-            },
-            {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3,
-                "checked": true
-            },
-            {
-                "address": "0x2000002c",
-                "name": "CM_ledCode",
-                "type": 2
-            },
-            {
-                "address": "0x20000190",
-                "name": "CM_LoadCell.Filtered.bot[0]",
-                "type": 9
-            },
-            {
-                "address": "0x2000019c",
-                "name": "CM_LoadCell.Filtered.top[0]",
-                "type": 9
-            },
-            {
-                "address": "0x200001ac",
-                "name": "CM_LoadCell.intoStanceThreshold",
-                "type": 9
-            },
-            {
-                "address": "0x200001a8",
-                "name": "CM_LoadCell.outOfStanceThreshold",
-                "type": 9
-            },
-            {
-                "address": "0x20000178",
-                "name": "CM_LoadCell.Raw.bot[0]",
-                "type": 9
-            },
-            {
-                "address": "0x20000184",
-                "name": "CM_LoadCell.Raw.top[0]",
-                "type": 9
-            },
-            {
-                "address": "0x20000074",
-                "name": "CM_state_angles",
-                "type": 2
-            },
-            {
-                "address": "0x200001e4",
-                "name": "CM_state_loadCells",
-                "type": 3
-            },
-            {
-                "address": "0x20000076",
-                "name": "CM_state_speeds",
-                "type": 4
-            },
-            {
-                "address": "0x20000075",
-                "name": "CM_state_torques",
-                "type": 2
-            },
-            {
-                "address": "0x20000069",
-                "name": "Device.Joint",
-                "type": 2
-            },
-            {
-                "address": "0x20000068",
-                "name": "Device.Side",
-                "type": 2
-            },
-            {
-                "address": "0x2000000c",
-                "name": "gyroSensitivity",
-                "type": 9
-            },
-            {
-                "address": "0x20000038",
-                "name": "IMU_Data.array[0]",
-                "type": 10
-            },
-            {
-                "address": "0x20000038",
-                "name": "IMU_Data.Struct.ax",
-                "type": 10
-            },
-            {
-                "address": "0x20000040",
-                "name": "IMU_Data.Struct.ay",
-                "type": 10
-            },
-            {
-                "address": "0x20000048",
-                "name": "IMU_Data.Struct.az",
-                "type": 10
-            },
-            {
-                "address": "0x20000050",
-                "name": "IMU_Data.Struct.gx",
-                "type": 10
-            },
-            {
-                "address": "0x20000058",
-                "name": "IMU_Data.Struct.gy",
-                "type": 10
-            },
-            {
-                "address": "0x20000060",
-                "name": "IMU_Data.Struct.gz",
-                "type": 10
-            },
-            {
-                "address": "0x20000000",
-                "name": "isFirst",
-                "type": 1
-            },
-            {
-                "address": "0x20000032",
-                "name": "isProsthesisControlRequired",
-                "type": 1
-            },
-            {
-                "address": "0x2000006b",
-                "name": "isSecond",
-                "type": 1
-            },
-            {
-                "address": "0x2000006c",
-                "name": "isTestProgramRequired",
-                "type": 1
-            },
-            {
-                "address": "0x08006aec",
-                "name": "MSIRangeTable[0]",
-                "type": 5
-            },
-            {
-                "address": "0x20000031",
-                "name": "Prosthesis_Init.Joint",
-                "type": 2
-            },
-            {
-                "address": "0x20000030",
-                "name": "Prosthesis_Init.Side",
-                "type": 2
-            },
-            {
-                "address": "0x20000004",
-                "name": "SystemCoreClock",
-                "type": 5
-            },
-            {
-                "address": "0x2000006a",
-                "name": "testProgram",
-                "type": 2
-            }
-        ],
-        "expand": false,
-        "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889445416
-    },
-    {
-        "id": "15ce1d19238a152a",
-        "type": "exe-config",
-        "name": "CombinedStateMachineControl",
-        "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
-        "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
-        "exevariablelist": [
-            {
-                "address": "0x20000008",
-                "name": "accelSensitivity",
-                "type": 9
-            },
-            {
-                "address": "0x08006ad4",
-                "name": "AHBPrescTable[0]",
-                "type": 1
-            },
-            {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -5116,37 +4393,32 @@
                 "checked": true
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -5344,11 +4616,6 @@
                 "checked": true
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -5389,7 +4656,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -5474,7 +4741,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -5501,13 +4768,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889419979
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509790755
     },
     {
-        "id": "8e7628a9afa909d2",
+        "id": "5847625b7754309a",
         "type": "exe-config",
-        "name": "CombinedImpedanceControl",
+        "name": "Pv1ImpedanceControl",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -5517,12 +4784,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -5665,37 +4932,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -5878,11 +5140,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -5923,7 +5180,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -6008,7 +5265,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -6035,13 +5292,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889424373
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509801890
     },
     {
-        "id": "57731d09d094800e",
+        "id": "53d4b2955661aa79",
         "type": "exe-config",
-        "name": "CombinedThresholds",
+        "name": "Pv1Thresholds",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -6051,12 +5308,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -6196,37 +5453,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -6407,11 +5659,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -6454,7 +5701,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -6539,7 +5786,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -6566,13 +5813,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889429564
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509816946
     },
     {
-        "id": "5602406f712ea565",
+        "id": "ef69010f113f53bf",
         "type": "exe-config",
-        "name": "LED_Code",
+        "name": "Pv1LED_Code",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -6582,12 +5829,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -6727,37 +5974,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -6935,11 +6177,6 @@
                 "address": "0x2000015c",
                 "name": "CM_Knee.SwingFlexCtrl.kp",
                 "type": 9
-            },
-            {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
             },
             {
                 "address": "0x2000002c",
@@ -6983,7 +6220,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -7068,7 +6305,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -7095,13 +6332,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889450084
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509843093
     },
     {
-        "id": "3940c6208dacadb2",
+        "id": "174b93890838ab8e",
         "type": "exe-config",
-        "name": "CombinedAllVariables",
+        "name": "Pv1Variables",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -7111,12 +6348,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -7283,43 +6520,37 @@
                 "checked": true
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3,
-                "checked": true
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3,
                 "checked": true
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1,
                 "checked": true
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5,
                 "checked": true
@@ -7535,12 +6766,6 @@
                 "checked": true
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3,
-                "checked": true
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2,
@@ -7589,7 +6814,7 @@
                 "checked": true
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3,
                 "checked": true
@@ -7677,7 +6902,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -7704,13 +6929,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889354397
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509716890
     },
     {
-        "id": "8a39cbf5c8889701",
+        "id": "6c5262a80d5582cf",
         "type": "exe-config",
-        "name": "CombinedErrorRegister",
+        "name": "Pv1ErrorRegister",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -7720,12 +6945,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -7865,38 +7090,33 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -8076,11 +7296,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -8121,7 +7336,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -8206,7 +7421,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -8233,13 +7448,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889460872
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509852671
     },
     {
-        "id": "5da93b4525b675b7",
+        "id": "4361051df5167ac9",
         "type": "exe-config",
-        "name": "CombinedNumberOfErrors",
+        "name": "Pv1NumberOfErrors",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -8249,12 +7464,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -8394,37 +7609,32 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5,
                 "checked": true
@@ -8605,11 +7815,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -8650,7 +7855,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -8735,7 +7940,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -8762,13 +7967,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889466016
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509861568
     },
     {
-        "id": "bee6a31ac8cadf41",
+        "id": "c03ba48e1a65c31c",
         "type": "exe-config",
-        "name": "CombinedErrorHistory",
+        "name": "Pv1ErrorHistory",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -8778,122 +7983,122 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ade",
+                "address": "0x080068a6",
                 "name": "AHBPrescTable[10]",
                 "type": 1
             },
             {
-                "address": "0x08006adf",
+                "address": "0x080068a7",
                 "name": "AHBPrescTable[11]",
                 "type": 1
             },
             {
-                "address": "0x08006ae0",
+                "address": "0x080068a8",
                 "name": "AHBPrescTable[12]",
                 "type": 1
             },
             {
-                "address": "0x08006ae1",
+                "address": "0x080068a9",
                 "name": "AHBPrescTable[13]",
                 "type": 1
             },
             {
-                "address": "0x08006ae2",
+                "address": "0x080068aa",
                 "name": "AHBPrescTable[14]",
                 "type": 1
             },
             {
-                "address": "0x08006ae3",
+                "address": "0x080068ab",
                 "name": "AHBPrescTable[15]",
                 "type": 1
             },
             {
-                "address": "0x08006ad5",
+                "address": "0x0800689d",
                 "name": "AHBPrescTable[1]",
                 "type": 1
             },
             {
-                "address": "0x08006ad6",
+                "address": "0x0800689e",
                 "name": "AHBPrescTable[2]",
                 "type": 1
             },
             {
-                "address": "0x08006ad7",
+                "address": "0x0800689f",
                 "name": "AHBPrescTable[3]",
                 "type": 1
             },
             {
-                "address": "0x08006ad8",
+                "address": "0x080068a0",
                 "name": "AHBPrescTable[4]",
                 "type": 1
             },
             {
-                "address": "0x08006ad9",
+                "address": "0x080068a1",
                 "name": "AHBPrescTable[5]",
                 "type": 1
             },
             {
-                "address": "0x08006ada",
+                "address": "0x080068a2",
                 "name": "AHBPrescTable[6]",
                 "type": 1
             },
             {
-                "address": "0x08006adb",
+                "address": "0x080068a3",
                 "name": "AHBPrescTable[7]",
                 "type": 1
             },
             {
-                "address": "0x08006adc",
+                "address": "0x080068a4",
                 "name": "AHBPrescTable[8]",
                 "type": 1
             },
             {
-                "address": "0x08006add",
+                "address": "0x080068a5",
                 "name": "AHBPrescTable[9]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae5",
+                "address": "0x080068ad",
                 "name": "APBPrescTable[1]",
                 "type": 1
             },
             {
-                "address": "0x08006ae6",
+                "address": "0x080068ae",
                 "name": "APBPrescTable[2]",
                 "type": 1
             },
             {
-                "address": "0x08006ae7",
+                "address": "0x080068af",
                 "name": "APBPrescTable[3]",
                 "type": 1
             },
             {
-                "address": "0x08006ae8",
+                "address": "0x080068b0",
                 "name": "APBPrescTable[4]",
                 "type": 1
             },
             {
-                "address": "0x08006ae9",
+                "address": "0x080068b1",
                 "name": "APBPrescTable[5]",
                 "type": 1
             },
             {
-                "address": "0x08006aea",
+                "address": "0x080068b2",
                 "name": "APBPrescTable[6]",
                 "type": 1
             },
             {
-                "address": "0x08006aeb",
+                "address": "0x080068b3",
                 "name": "APBPrescTable[7]",
                 "type": 1
             },
@@ -9038,62 +8243,57 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002c8",
+                "address": "0x200002b4",
                 "name": "CM_epos4_errorHistory[1]",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002cc",
+                "address": "0x200002b8",
                 "name": "CM_epos4_errorHistory[2]",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002d0",
+                "address": "0x200002bc",
                 "name": "CM_epos4_errorHistory[3]",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002d4",
+                "address": "0x200002c0",
                 "name": "CM_epos4_errorHistory[4]",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -9303,11 +8503,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -9388,7 +8583,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -9498,62 +8693,62 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
             {
-                "address": "0x08006b14",
+                "address": "0x080068dc",
                 "name": "MSIRangeTable[10]",
                 "type": 5
             },
             {
-                "address": "0x08006b18",
+                "address": "0x080068e0",
                 "name": "MSIRangeTable[11]",
                 "type": 5
             },
             {
-                "address": "0x08006af0",
+                "address": "0x080068b8",
                 "name": "MSIRangeTable[1]",
                 "type": 5
             },
             {
-                "address": "0x08006af4",
+                "address": "0x080068bc",
                 "name": "MSIRangeTable[2]",
                 "type": 5
             },
             {
-                "address": "0x08006af8",
+                "address": "0x080068c0",
                 "name": "MSIRangeTable[3]",
                 "type": 5
             },
             {
-                "address": "0x08006afc",
+                "address": "0x080068c4",
                 "name": "MSIRangeTable[4]",
                 "type": 5
             },
             {
-                "address": "0x08006b00",
+                "address": "0x080068c8",
                 "name": "MSIRangeTable[5]",
                 "type": 5
             },
             {
-                "address": "0x08006b04",
+                "address": "0x080068cc",
                 "name": "MSIRangeTable[6]",
                 "type": 5
             },
             {
-                "address": "0x08006b08",
+                "address": "0x080068d0",
                 "name": "MSIRangeTable[7]",
                 "type": 5
             },
             {
-                "address": "0x08006b0c",
+                "address": "0x080068d4",
                 "name": "MSIRangeTable[8]",
                 "type": 5
             },
             {
-                "address": "0x08006b10",
+                "address": "0x080068d8",
                 "name": "MSIRangeTable[9]",
                 "type": 5
             },
@@ -9580,13 +8775,13 @@
         ],
         "expand": true,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889470396
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509871591
     },
     {
-        "id": "798bbda907ccb107",
+        "id": "2e08b935afc84837",
         "type": "exe-config",
-        "name": "CombinedAbortIndex",
+        "name": "Pv1AbortIndex",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -9596,12 +8791,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -9741,38 +8936,33 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3,
                 "checked": true
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -9952,11 +9142,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -9997,7 +9182,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -10082,7 +9267,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -10109,13 +9294,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889483684
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509884926
     },
     {
-        "id": "a8a5d4c22be40d5b",
+        "id": "da91181345b6c7ca",
         "type": "exe-config",
-        "name": "CombinedAbortSubindex",
+        "name": "Pv1AbortSubindex",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -10125,12 +9310,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -10270,38 +9455,33 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1,
                 "checked": true
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -10481,11 +9661,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -10526,7 +9701,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -10611,7 +9786,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -10638,13 +9813,13 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889496754
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509896453
     },
     {
-        "id": "90302ce81480bf76",
+        "id": "f13724311c514970",
         "type": "exe-config",
-        "name": "CombinedAbortCode",
+        "name": "Pv1AbortCode",
         "exefile": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug\\prosthesis_v1.elf",
         "exefolder": "C:\\GitHub_Workspace\\Prosthesis-v1-Firmware\\Firmware\\Debug",
         "exevariablelist": [
@@ -10654,12 +9829,12 @@
                 "type": 9
             },
             {
-                "address": "0x08006ad4",
+                "address": "0x0800689c",
                 "name": "AHBPrescTable[0]",
                 "type": 1
             },
             {
-                "address": "0x08006ae4",
+                "address": "0x080068ac",
                 "name": "APBPrescTable[0]",
                 "type": 1
             },
@@ -10799,38 +9974,33 @@
                 "type": 9
             },
             {
-                "address": "0x200001e0",
-                "name": "CM_ankleRawEncoderBias",
-                "type": 3
-            },
-            {
-                "address": "0x200002bc",
+                "address": "0x200002a8",
                 "name": "CM_epos4_abortCode",
                 "type": 5,
                 "checked": true
             },
             {
-                "address": "0x200002ba",
+                "address": "0x200002a6",
                 "name": "CM_epos4_abortIndex",
                 "type": 3
             },
             {
-                "address": "0x200002b8",
+                "address": "0x200002a4",
                 "name": "CM_epos4_abortSubindex",
                 "type": 1
             },
             {
-                "address": "0x200002c4",
+                "address": "0x200002b0",
                 "name": "CM_epos4_errorHistory[0]",
                 "type": 5
             },
             {
-                "address": "0x200002c0",
+                "address": "0x200002ac",
                 "name": "CM_epos4_errorReg",
                 "type": 5
             },
             {
-                "address": "0x200002d8",
+                "address": "0x200002c4",
                 "name": "CM_epos4_numOfErrors",
                 "type": 5
             },
@@ -11010,11 +10180,6 @@
                 "type": 9
             },
             {
-                "address": "0x200001e2",
-                "name": "CM_kneeRawEncoderBias",
-                "type": 3
-            },
-            {
                 "address": "0x2000002c",
                 "name": "CM_ledCode",
                 "type": 2
@@ -11055,7 +10220,7 @@
                 "type": 2
             },
             {
-                "address": "0x200001e4",
+                "address": "0x200001e0",
                 "name": "CM_state_loadCells",
                 "type": 3
             },
@@ -11140,7 +10305,7 @@
                 "type": 1
             },
             {
-                "address": "0x08006aec",
+                "address": "0x080068b4",
                 "name": "MSIRangeTable[0]",
                 "type": 5
             },
@@ -11167,11 +10332,11 @@
         ],
         "expand": false,
         "filename": "prosthesis_v1.elf",
-        "exeModifiedTime": 1748889323701,
-        "configLastUpdate": 1748889504859
+        "exeModifiedTime": 1752509101372,
+        "configLastUpdate": 1752509906054
     },
     {
-        "id": "6ca8c5f7eea15fe7",
+        "id": "a9bf95c7ed4baf4c",
         "type": "ui_tab",
         "name": "Prosthesis v1",
         "icon": "dashboard",

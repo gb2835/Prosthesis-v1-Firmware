@@ -114,7 +114,6 @@ static int16_t CM_state_speeds;
 static Joint_t CM_Ankle, CM_Knee;
 static LoadCell_t CM_LoadCell;
 static MPU925x_IMU_Data_t CM_IMU_Data;
-static uint16_t CM_ankleRawEncoderBias, CM_kneeRawEncoderBias;
 static uint16_t CM_state_loadCells;
 
 static void GetInputs(void);
@@ -122,7 +121,6 @@ static uint16_t ReadLoadCell(ADC_TypeDef *ADCx);
 static void ProcessInputs(void);
 static void RunStateMachine(void);
 static void RunImpedanceControl(void);
-static void RunTestProgram(void);
 
 
 /*******************************************************************************
@@ -205,9 +203,6 @@ void RunProsthesisControl(void)
 {
 	GetInputs();
 	ProcessInputs();
-
-	if(isTestProgramRequired)
-		RunTestProgram();
 
 	RunStateMachine();
 	RunImpedanceControl();
@@ -516,81 +511,6 @@ static void RunImpedanceControl(void)
 
 			CM_Knee.jointTorqueActual = (float) torqueActual * (TORQUE_CONSTANT * GEAR_RATIO * NOMINAL_CURRENT) / 1000;
 		}
-	}
-}
-
-static void RunTestProgram(void)
-{
-	switch (testProgram)
-	{
-	case None:
-		break;
-
-	case ReadOnly:
-		break;
-
-	case EncoderBias:
-		if((Device.Joint == Ankle) || (Device.Joint == Combined))
-		{
-			static uint32_t sum = 0;
-			static uint16_t count = 0;
-			sum += AS5145B_ReadPosition_Raw(AnkleEncoderIndex);
-			count++;
-			if(count == 10)
-			{
-				CM_ankleRawEncoderBias = sum/count;
-				sum = 0;
-				count = 0;
-			}
-		}
-
-		if((Device.Joint == Knee) || (Device.Joint == Combined))
-		{
-			static uint32_t sum = 0;
-			static uint16_t count = 0;
-			sum += AS5145B_ReadPosition_Raw(KneeEncoderIndex);
-			count++;
-			if(count == 10)
-			{
-				CM_kneeRawEncoderBias = sum/count;
-				sum = 0;
-				count = 0;
-			}
-		}
-
-		break;
-
-	case ImpedanceControl:
-		if(isFirst)
-		{
-			if((Device.Joint == Ankle) || (Device.Joint == Combined))
-			{
-				uint16_t i;
-				float sum = 0.0f;
-				for(i = 0; i < 1000; i++)
-				{
-					float position = AS5145B_ReadPosition(AnkleEncoderIndex);
-					sum += position;
-				}
-
-				CM_Ankle.ProsCtrl.eqPoint = sum / i - CM_Ankle.encoderBias;
-			}
-
-			if((Device.Joint == Knee) || (Device.Joint == Combined))
-			{
-				uint16_t i;
-				float sum = 0.0f;
-				for(i = 0; i < 1000; i++)
-				{
-					float position = AS5145B_ReadPosition(KneeEncoderIndex);
-					sum += position;
-				}
-
-				CM_Knee.ProsCtrl.eqPoint = sum / i - CM_Knee.encoderBias;
-			}
-		}
-
-		break;
 	}
 }
 
