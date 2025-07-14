@@ -4,8 +4,7 @@
 *
 * NOTES
 * 1. IMPORTANT: A new encoder bias position must be found and defined whenever the magnet is reassembled into the device.
-*    A test program is provided to find the bias.
-*    The biases are defined in Prosthesis_Init() below.
+*    The bias can be found by logging data in CubeMonitor and averaging the encoder values.
 * 2. Unless otherwise specified, units are
 * 		- Accelerometer	= g's
 * 		- Angle			= degrees

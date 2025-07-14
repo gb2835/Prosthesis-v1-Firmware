@@ -6,8 +6,7 @@
 *
 * NOTES
 * 1. IMPORTANT: A new encoder bias position must be found and defined whenever the magnet is reassembled into the device.
-*    A test program is provided to find the bias.
-*    See prosthesis_v1.c for more information.
+*    The bias can be found by logging data in CubeMonitor and averaging the encoder values.
 * 2. The below lines can be used to measure PB2 on oscilloscope (#include main.h may need to be added to certain files):
 *		- LL_GPIO_SetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
 *		- LL_GPIO_ResetOutputPin(OSCOPE_GPIO_Port, OSCOPE_Pin);
