@@ -43,7 +43,7 @@ uint8_t isProsthesisControlRequired = 0;
 
 #define CURRENT_LIMIT		29.3f
 #define DT					1 / 512.0										// Sample time
-#define GEAR_RATIO			40.0f
+#define GEAR_RATIO			30.0f
 #define NOMINAL_CURRENT		8.0f
 #define TAU					1.0 / (2 * 3.1416 * 10)							// Time constant for practical differentiator (fc = 10 Hz)
 #define TORQUE_CONSTANT		60.0f / (2 * 3.1416f * 100)						// For Kv = 100 rpm/V
