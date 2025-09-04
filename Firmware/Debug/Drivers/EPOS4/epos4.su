@@ -16,5 +16,5 @@
 ../Drivers/EPOS4/epos4.c:316:22:CheckForFault	24	static
 ../Drivers/EPOS4/epos4.c:336:22:CheckForAbort	16	static
 ../Drivers/EPOS4/epos4.c:350:16:WriteFirstStepObjects	32	static
-../Drivers/EPOS4/epos4.c:432:16:WriteOptionCodes	24	static
-../Drivers/EPOS4/epos4.c:458:16:WriteModeOfOperation	24	static
+../Drivers/EPOS4/epos4.c:433:16:WriteOptionCodes	24	static
+../Drivers/EPOS4/epos4.c:459:16:WriteModeOfOperation	24	static
