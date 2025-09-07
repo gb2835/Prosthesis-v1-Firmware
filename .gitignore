@@ -1,0 +1,5 @@
+*.o
+*.d
+*.su
+/Firmware/Debug/Src
+/Firmware/Debug/Inc
