@@ -64,8 +64,13 @@ all: main-build
 main-build: prosthesis_v1.elf secondary-outputs
 
 # Tool invocations
+<<<<<<< HEAD
 prosthesis_v1.elf prosthesis_v1.map: $(OBJS) $(USER_OBJS) C:\GitHub_Workspace\Prosthesis-v1-Firmware\Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-gcc -o "prosthesis_v1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\GitHub_Workspace\Prosthesis-v1-Firmware\Firmware\STM32L476RGTX_FLASH.ld" -Wl,-Map="prosthesis_v1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+=======
+prosthesis_v1.elf prosthesis_v1.map: $(OBJS) $(USER_OBJS) C:\CubeIDE\ Workspace\Prosthesis-v1-Firmware\Firmware\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "prosthesis_v1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\CubeIDE Workspace\Prosthesis-v1-Firmware\Firmware\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="prosthesis_v1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+>>>>>>> e79d9bd09a3f49f7c0d6104622db924e161926ab
 	@echo 'Finished building target: $@'
 	@echo ' '
 
