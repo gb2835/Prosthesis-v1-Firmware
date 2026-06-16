@@ -164,7 +164,7 @@ void InitProsthesisControl(Prosthesis_Init_t *Device_Init)
 	}
 	if((Device.Joint == Knee) || (Device.Joint == Combined))
 	{
-		CM_Knee.encoderBias = 2244 * AS5145B_RAW2DEG;
+		CM_Knee.encoderBias = 206.238f;
 
 		CM_Knee.EarlyStanceCtrl.eqPoint = 0.0f;
 		CM_Knee.EarlyStanceCtrl.kd = 0.00f;
